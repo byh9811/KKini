@@ -1,32 +1,14 @@
-server:
-  port: 8080    # 백엔드 포트
-
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver    # MySQL 드라이버 클래스 이름 설정
-    url: jdbc:mysql://localhost:3306/kkini?useSSL=false&allowPublicKeyRetrieval=true    # 데이터베이스 URL 설정
-    username: ${kkini_username}    # DB 사용자 이름 설정
-    password: ${kkini_password}    # DB 사용자 암호 설정
-  jpa:
-    hibernate:
-      ddl-auto: create    # 실행할 때 DB 테이블 초기화
-    properties:
-      hibernate:
-        show_sql: true    # SQL 쿼리 확인
-        format_sql: true    # SQL 쿼리 보기 좋게 표시
-
-jwt:
-  secret: ${kkini_jwt_secret_key}    # JWT를 Encoding / Decoding하기 위한 Private Key
-  valid-seconds: 3600    # Access Token 만료시간 (초)
-
-logging:
-  level:
-    root: info    # 스프링 라이브러리의 로그는 info부터 출력
-    com.kkini.core: debug   # 프로젝트 로그는 debug부터 출력
-    org:
-      hibernate:
-        type:
-          descriptor:
-            sql: trace    # SQL에 실제 들어가는 파라미터값 확인
-      springframework:
-        security: debug
+  profiles:
+    active:
+      - local
+    group:
+      local:
+        - db-local
+      dev:
+        - db-dev
+    include:
+      - db
+      - jwt
+      - log
+      - server
