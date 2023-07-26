@@ -1,9 +1,11 @@
 package com.kkini.core.global.response;
 
+import lombok.Getter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.http.HttpStatus;
 
+@Getter
 public class Response<T> {
     private final boolean success;
     private final T response;
