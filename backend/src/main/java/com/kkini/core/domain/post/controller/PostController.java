@@ -1,7 +1,7 @@
 package com.kkini.core.domain.post.controller;
 
-import com.kkini.core.domain.post.dto.response.PostResponseDto;
-import com.kkini.core.domain.post.dto.response.PostResponseDto;
+import com.kkini.core.domain.post.dto.request.PostRegisterRequestDto;
+import com.kkini.core.domain.post.dto.request.PostUpdateRequestDto;
 import com.kkini.core.domain.post.dto.response.PostResponseDto;
 import com.kkini.core.global.response.Response;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,7 +25,7 @@ public class PostController {
     // 작성
     @Operation(summary = "포스트 작성", description = "포스트를 작성한다.")
     @PostMapping
-    public Response<Void> write(PostRequestDto postRequestDto) {
+    public Response<Void> write(PostRegisterRequestDto postRequestDto) {
         // 데이터베이스 조작을 위해 서비스로 전달, 서비스에서 성공여부 반환
         // 성공했을 경우 목록 갱신(목록 조회), 프론트로 목록 반환
         // 작성 완료했을 경우 포스트 목록 갱신, 목록은 최신 순으로 보여주기 때문에 자신이 작성한 포스트를 확인할 수 있다.
@@ -56,7 +56,6 @@ public class PostController {
     @DeleteMapping("/{id}")
     public Response<Void> delete(@PathVariable("id") Long postId) {
         // 포스트를 작성한 사용자에게만 삭제권한 부여, button visible
-
         return OK(null);
     }
 }
