@@ -37,4 +37,12 @@ public class HistoryController {
         return OK(list);
     }
 
+    @Operation(summary = "최근 검색어 삭제", description = "최근 검색어를 삭제하는 API입니다.")
+    @DeleteMapping("/{id}")
+    public Response<Void> removeHistory(@PathVariable("id") Long historyId) {
+        log.debug("removeHistory() Entered");
+        log.debug("{}", historyId);
+        return OK(null);
+    }
+
 }
