@@ -4,6 +4,7 @@ import com.kkini.core.domain.notification.dto.request.NotificationDeleteRequestD
 import com.kkini.core.domain.notification.dto.request.NotificationReadRequestDto;
 import com.kkini.core.domain.notification.dto.response.NotificationListResponseDto;
 import com.kkini.core.global.response.Response;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.util.List;
 @RequestMapping("/noti")
 public class NotificationController {
 
+    @Operation(summary = "알림 리스트", description = "나에게 온 전체 알림 리스트를 확인합니다.")
     @GetMapping("/{memberId}")
     public Response<?> getNotificationList(@PathVariable Long memberId){
 
@@ -28,6 +30,7 @@ public class NotificationController {
         return Response.OK("OK");
     }
 
+    @Operation(summary = "알림 읽음 처리", description = "나에게 온 알림을 읽음 처리합니다.")
     @PostMapping("/read")
     public Response<?> readNotification(@RequestBody NotificationReadRequestDto notificationReadRequestDto){
 
@@ -37,6 +40,7 @@ public class NotificationController {
         return Response.OK("OK");
     }
 
+    @Operation(summary = "알림 삭제 처리", description = "나에게 온 알림을 삭제 처리합니다.")
     @DeleteMapping
     public Response<?> deleteNotification(@RequestBody NotificationDeleteRequestDto notificationDeleteRequestDto){
 
