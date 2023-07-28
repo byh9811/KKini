@@ -20,6 +20,9 @@ public class PostResponseDto {
     @Schema(description = "내용")
     private String contents;
 
+    @Schema(description = "포스트의 소유자가 자신인지 여부")
+    private boolean isMine;
+
     @Schema(description = "레시피")
     private int recipeId;
 
