@@ -1,34 +1,3 @@
-#stages:
-#  - build
-#  - deploy
-#
-#Build:
-#  stage: build
-#  image: openjdk:11-jdk
-#  script:
-#    - ./gradlew bootJar
-#  tags:
-#    - kkini-cicd
-#
-#Deploy:
-#  stage: deploy
-#  image: openjdk:11-jdk
-#  script:
-#    - echo hello
-#  tags:
-#    - kkini-cicd
-#  # artifacts 설정 (bulld를 통해 생성된 파일을 job artifacts에 보관하여 다음에 수행되는 JOB에서 가져다 활용할 수 있게 도와줌)
-#  artifacts:
-#    # 보관이 이루어질 경로 설정
-#    paths:
-#      - target/*.jar
-#    # 유효기간 설정
-#    expire_in: 1 days
-#  # JOB이 수행될 branch 설정 (설정된 branch에 push가 발생될 시 JOB 수행)
-#  only:
-#    - master
-
-
 # 실행될 stage 지정 (위에서 아래로 차례대로 실행)
 stages:
   - build
@@ -114,7 +83,7 @@ fe-package:   # JOB 이름
     - docker login -u $DOCKER_HUB_ID --password $DOCKER_HUB_PW   # Docker Hub에 로그인
   # 실행될 script 설정
   script:
-    - docker build -t $FE_IMAGE_NAME frontend/kkini/.   # fe에 있는 Dockerfile로 build
+    - docker build -t $FE_IMAGE_NAME frontend/.   # fe에 있는 Dockerfile로 build
     - docker push $FE_IMAGE_NAME   # DockerHub에 image push
   # script가 실행된 후 수행 될 script
   after_script:
