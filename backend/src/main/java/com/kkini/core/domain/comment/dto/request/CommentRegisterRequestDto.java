@@ -14,8 +14,8 @@ public class CommentRegisterRequestDto {
     @Schema(description = "포스트")
     private Long postId;
 
-    @Schema(description = "원본 댓글")
-    private Long commentId;
+    @Schema(description = "부모 댓글")
+    private Long parentsId;
 
     @Schema(description = "내용")
     private String contents;

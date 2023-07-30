@@ -14,8 +14,8 @@ public class CommentListResponseDto {
     @Schema(description = "댓글 ID")
     private Long id;
 
-    @Schema(description = "원본 댓글 ID")
-    private Long comment_id;
+    @Schema(description = "부모 댓글 ID")
+    private Long parentsId;
     
     @Schema(description = "작성일")
     private String createDatetime;
