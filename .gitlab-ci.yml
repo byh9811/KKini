@@ -111,11 +111,11 @@ fe-package:   # JOB 이름
     - docker:dind
   # script가 실행 전 수행 될 script
   before_script:
-    - docker login -u $DOCKER_HUB_ID --password-stdin < $DOCKER_HUB_PW   # Docker Hub에 로그인
+    - docker login -u $DOCKER_HUB_ID --password $DOCKER_HUB_PW   # Docker Hub에 로그인
   # 실행될 script 설정
   script:
     - docker build -t $FE_IMAGE_NAME frontend/kkini/.   # fe에 있는 Dockerfile로 build
-    - docker push $FE_IMAGE_NAME   # Container Registry에 image push
+    - docker push $FE_IMAGE_NAME   # DockerHub에 image push
   # script가 실행된 후 수행 될 script
   after_script:
     - docker logout   # DockerHub 로그아웃
@@ -141,11 +141,11 @@ be-package:  # JOB 이름
     - docker:dind
   # script가 실행 전 수행 될 script
   before_script:
-    - docker login -u $DOCKER_HUB_ID --password-stdin < $DOCKER_HUB_PW   # Docker Hub에 로그인
+    - docker login -u $DOCKER_HUB_ID --password $DOCKER_HUB_PW   # Docker Hub에 로그인
   # 실행될 script 설정
   script:
     - docker build -t $BE_IMAGE_NAME backend/.   # be에 있는 Dockerfile로 build
-    - docker push $BE_IMAGE_NAME   # Container Registry에 image push
+    - docker push $BE_IMAGE_NAME   # DockerHub에 image push
   # script가 실행된 후 수행 될 script
   after_script:
     - docker logout   # DockerHub 로그아웃
@@ -167,12 +167,12 @@ fe-deploy:   # JOB 이름
     - kkini-cicd
   # script가 실행 전 수행 될 script
   before_script:
-    - docker login -u $DOCKER_HUB_ID --password-stdin < $DOCKER_HUB_PW   # Docker Hub에 로그인
+    - docker login -u $DOCKER_HUB_ID --password $DOCKER_HUB_PW   # Docker Hub에 로그인
   # 실행될 script 설정
   script:
     - docker rm -f frontend-container || true   # 기존에 존재하던 Container 삭제
     - docker rmi $FE_IMAGE_NAME || true   # 기존에 존재하던 이미지 삭제
-    - docker pull $FE_IMAGE_NAME   # Container Registry에서 이미지 가져오기
+    - docker pull $FE_IMAGE_NAME   # DockerHub에서 이미지 가져오기
     - docker run --name frontend-container -p 80:80 -d $FE_IMAGE_NAME   # Container 생성 및 실행
   # script가 실행된 후 수행 될 script
   after_script:
@@ -194,12 +194,12 @@ be-deploy:   # JOB 이름
     - kkini-cicd
   # script가 실행 전 수행 될 script
   before_script:
-    - docker login -u $DOCKER_HUB_ID --password-stdin < $DOCKER_HUB_PW   # Docker Hub에 로그인
+    - docker login -u $DOCKER_HUB_ID --password $DOCKER_HUB_PW   # Docker Hub에 로그인
   # 실행될 script 설정
   script:
     - docker rm -f backend-container || true   # 기존에 존재하던 Container 삭제
     - docker rmi $BE_IMAGE_NAME || true   # 기존에 존재하던 이미지 삭제
-    - docker pull $BE_IMAGE_NAME   # Container Registry에서 이미지 가져오기
+    - docker pull $BE_IMAGE_NAME   # DockerHub에서 이미지 가져오기
     - docker run --name backend-container -p 8080:8080 -d $BE_IMAGE_NAME   # Container 생성 및 실행
   # script가 실행된 후 수행 될 script
   after_script:
