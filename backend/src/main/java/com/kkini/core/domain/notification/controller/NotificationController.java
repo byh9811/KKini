@@ -31,7 +31,7 @@ public class NotificationController {
     }
 
     @Operation(summary = "알림 읽음 처리", description = "나에게 온 알림을 읽음 처리합니다.")
-    @PostMapping("/read")
+    @PutMapping
     public Response<?> readNotification(@RequestBody NotificationReadRequestDto notificationReadRequestDto){
 
         log.debug("알림 읽음 처리");
