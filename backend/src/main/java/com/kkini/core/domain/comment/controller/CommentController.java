@@ -3,7 +3,6 @@ package com.kkini.core.domain.comment.controller;
 import com.kkini.core.domain.comment.dto.request.CommentRegisterRequestDto;
 import com.kkini.core.domain.comment.dto.request.CommentUpdateRequestDto;
 import com.kkini.core.domain.comment.dto.response.CommentListResponseDto;
-import com.kkini.core.domain.recipe.dto.response.RecipeListResponseDto;
 import com.kkini.core.global.response.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
