@@ -15,13 +15,13 @@ import java.util.List;
 public class CommentListResponseDto {
 
     @Schema(description = "댓글 ID")
-    private int id;
+    private Long id;
 
     @Schema(description = "원본 댓글 ID")
-    private int comment_id;
+    private Long comment_id;
     
     @Schema(description = "작성일")
-    private String createDateTime;
+    private String createDatetime;
 
     @Schema(description = "내용")
     private String contents;

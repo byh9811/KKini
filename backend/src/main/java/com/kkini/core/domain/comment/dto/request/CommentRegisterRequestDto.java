@@ -21,5 +21,5 @@ public class CommentRegisterRequestDto {
     private Long commentId;
 
     @Schema(description = "내용")
-    private int recipeId;
+    private String contents;
 }

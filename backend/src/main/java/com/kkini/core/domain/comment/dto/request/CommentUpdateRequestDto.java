@@ -12,6 +12,9 @@ import java.util.List;
 @AllArgsConstructor
 @Schema(description = "댓글 변경 요청 DTO")
 public class CommentUpdateRequestDto {
+
+    @Schema(description = "댓글 ID")
+    private Long id;
     
     @Schema(description = "내용")
     private String contents;

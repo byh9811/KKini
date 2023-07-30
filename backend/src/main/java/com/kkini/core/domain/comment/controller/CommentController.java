@@ -3,6 +3,7 @@ package com.kkini.core.domain.comment.controller;
 import com.kkini.core.domain.comment.dto.request.CommentRegisterRequestDto;
 import com.kkini.core.domain.comment.dto.request.CommentUpdateRequestDto;
 import com.kkini.core.domain.comment.dto.response.CommentListResponseDto;
+import com.kkini.core.domain.recipe.dto.response.RecipeListResponseDto;
 import com.kkini.core.global.response.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.kkini.core.global.response.Response.*;
@@ -35,9 +37,12 @@ public class CommentController {
     @Operation(summary = "댓글 목록 조회", description = "포스트에 해당하는 댓글을 모두 가져온다.")
     @GetMapping("/{id}")
     public Response<List<CommentListResponseDto>> getCommentList(@PathVariable("id") Long postId) {
+        List<CommentListResponseDto> list = new ArrayList<>();
+        list.add(new CommentListResponseDto());
+        list.add(new CommentListResponseDto());
         log.debug("getCommentList() Entered");
         log.debug("{}", postId);
-        return OK(null);
+        return OK(list);
     }
 
     // 수정
