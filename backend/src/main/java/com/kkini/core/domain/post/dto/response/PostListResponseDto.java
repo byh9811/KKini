@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "포스트 조회 응답 DTO")
-public class PostResponseDto {
+public class PostListResponseDto {
 
     @Schema(description = "포스트 ID")
     private int id;

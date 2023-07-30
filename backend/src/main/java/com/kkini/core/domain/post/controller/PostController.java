@@ -2,7 +2,7 @@ package com.kkini.core.domain.post.controller;
 
 import com.kkini.core.domain.post.dto.request.PostRegisterRequestDto;
 import com.kkini.core.domain.post.dto.request.PostUpdateRequestDto;
-import com.kkini.core.domain.post.dto.response.PostResponseDto;
+import com.kkini.core.domain.post.dto.response.PostListResponseDto;
 import com.kkini.core.global.response.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -35,7 +35,7 @@ public class PostController {
     // 목록 조회
     @Operation(summary = "포스트 목록 조회", description = "포스트를 N개 가져온다.")
     @GetMapping
-    public Response<List<PostResponseDto>> list(Pageable pageable) {
+    public Response<List<PostListResponseDto>> list(Pageable pageable) {
         // PageableDefault 설정 추가
         // 사용자 ID는 별도로 전달되므로 해당 함수에서는 처리하지 않는다.
         return OK(null);
