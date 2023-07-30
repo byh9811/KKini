@@ -40,6 +40,9 @@ fe-build:   # JOB 이름
   image: node:16.20.1
   # stage 설정
   stage: build
+  # tag 설정 (수행이 이루어질 GitLab-Runner tag 등록)
+  tags:
+    - kkini-cicd
   # 실행될 script 설정
   script:
     - cd frontend/kkini
@@ -66,6 +69,9 @@ be-build:  # JOB 이름
   image: gradle:8.1.1
   # stage 설정
   stage: build
+  # tag 설정 (수행이 이루어질 GitLab-Runner tag 등록)
+  tags:
+    - kkini-cicd
   # 실행될 script 설정
   script:
     - cd backend
@@ -97,6 +103,9 @@ fe-package:   # JOB 이름
   image: docker:latest
   # stage 설정
   stage: package
+  # tag 설정 (수행이 이루어질 GitLab-Runner tag 등록)
+  tags:
+    - kkini-cicd
   # service 설정 (설정한 image가 작업이 이루어지는 동안 실행되는 docker 이미지)
   services:
     - docker:dind
@@ -124,6 +133,9 @@ be-package:  # JOB 이름
   image: docker:latest
   # stage 설정
   stage: package
+  # tag 설정 (수행이 이루어질 GitLab-Runner tag 등록)
+  tags:
+    - kkini-cicd
   # service 설정 (설정한 image가 작업이 이루어지는 동안 실행되는 docker 이미지)
   services:
     - docker:dind
