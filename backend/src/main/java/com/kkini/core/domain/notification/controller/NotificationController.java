@@ -1,6 +1,5 @@
 package com.kkini.core.domain.notification.controller;
 
-import com.kkini.core.domain.notification.dto.request.NotificationReadRequestDto;
 import com.kkini.core.domain.notification.dto.response.NotificationListResponseDto;
 import com.kkini.core.global.response.Response;
 import io.swagger.v3.oas.annotations.Operation;
