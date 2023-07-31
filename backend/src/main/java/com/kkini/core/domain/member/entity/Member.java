@@ -4,9 +4,7 @@ import com.kkini.core.global.entity.BaseEntityWithModifiedTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 
 @Entity
 @Getter
