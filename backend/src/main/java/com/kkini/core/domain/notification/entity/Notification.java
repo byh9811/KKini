@@ -17,19 +17,16 @@ public class Notification extends BaseEntityWithCreatedTime {
 
 //    @ManyToOne
 //    @JoinColumn(name = "receiver_id")
-//    private Member member;
+//    private Member receiver;
 //
 //    @ManyToOne
 //    @JoinColumn(name = "sender_id")
-//    private Member member;
+//    private Member sender;
 //
 //    @ManyToOne
 //    @JoinColumn(name = "post_id")
 //    private Post post;
 //
-//    @ManyToOne
-//    @JoinColumn(name = "comment_id")
-//    private Comment comment;
 
     private String category;
 

@@ -11,19 +11,16 @@ public class NotificationListResponseDto {
     private Long id;
 
     @Schema(description = "수신인 식별자")
-    private Long receiverId;
+    private Long receiver;
 
     @Schema(description = "송신인 식별자")
-    private Long senderId;
+    private Long sender;
 
     @Schema(description = "포스트 식별자")
     private Long postId;
 
-    @Schema(description = "댓글 식별자")
-    private Long commentId;
-
     @Schema(description = "알림 생성일")
-    private String createDateTime;
+    private String createDatetime;
 
     @Schema(description = "분류")
     private String category;
