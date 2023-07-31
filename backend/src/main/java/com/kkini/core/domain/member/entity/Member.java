@@ -18,9 +18,9 @@ public class Member extends BaseEntityWithModifiedTime {
 
     private String nickname;
 
-    private String sns_type;
+    private String snsType;
 
-    private String refresh_token;
+    private String refreshToken;
 
     private int level;
 
