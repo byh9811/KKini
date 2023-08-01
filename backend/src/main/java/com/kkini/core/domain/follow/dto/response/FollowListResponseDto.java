@@ -3,11 +3,9 @@ package com.kkini.core.domain.follow.dto.response;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 @Schema(name = "팔로우 관련 응답 리스트 dto", description = "팔로우 관련 리스트를 응답하는 경우 사용하는 dto")
-public class ListResponseDto {
+public class FollowListResponseDto {
 
     @Schema(name = "식별자")
     private Long id;
