@@ -6,6 +6,7 @@ import com.kkini.core.domain.post.dto.response.PostListResponseDto;
 import com.kkini.core.global.response.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +40,7 @@ public class PostController {
         return OK(null);
     }
 
-    // 목록 조회
+    // 조회
     @Operation(summary = "포스트 목록 조회", description = "포스트를 조회한다.")
     @Parameter(description = "페이지 정보")
     @GetMapping
@@ -55,7 +56,10 @@ public class PostController {
 
     // 수정
     @Operation(summary = "포스트 수정", description = "포스트를 수정한다.")
-    @Parameter(description = "포스트 정보, 포스트 식별자")
+    @Parameters({
+            @Parameter(description = "포스트 정보"),
+            @Parameter(description = "포스트 식별자")
+    })
     @PutMapping("/{id}")
     public Response<Void> modifyPost(@RequestBody PostUpdateRequestDto postUpdateRequestDto, @PathVariable("id") Long id) {
         // 포스트를 작성한 사용자에게만 수정권한 부여, button visible
@@ -77,4 +81,5 @@ public class PostController {
         log.debug("{}", id);
         return OK(null);
     }
+
 }
