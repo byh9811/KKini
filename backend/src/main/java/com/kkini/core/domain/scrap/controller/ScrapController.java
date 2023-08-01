@@ -17,7 +17,7 @@ import static com.kkini.core.global.response.Response.OK;
 @Slf4j
 @CrossOrigin("*")
 @RequestMapping("/scrap")
-@Tag(name = "ScrapController", description = "스크랩 관리 API입니다.")
+@Tag(name = "Scrap", description = "스크랩 관리 API")
 public class ScrapController {
 
     @Operation(summary = "스크랩 추가", description = "해당 포스트(postId)를 스크랩에 추가합니다.")
@@ -31,7 +31,7 @@ public class ScrapController {
     }
 
     @Operation(summary = "스크랩 삭제", description = "해당 포스트(postId)를 스크랩에서 삭제합니다.")
-    @Parameter(name = "scrapId", description = "삭제하고 싶은 포스트의 스크랩 식별자(id)")
+    @Parameter(name = "id", description = "삭제하고 싶은 포스트의 스크랩 식별자(id)")
     @DeleteMapping("/{id}")
     public Response<Void> deleteScrap(@PathVariable Long id) {
         log.debug("스크랩 삭제");
