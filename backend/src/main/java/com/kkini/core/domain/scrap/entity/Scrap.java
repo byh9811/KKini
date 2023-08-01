@@ -15,13 +15,12 @@ import javax.persistence.ManyToOne;
 @NoArgsConstructor
 public class Scrap extends BaseEntityWithCreatedTime {
 
-//    @ManyToOne
-//    @JoinColumn(name = "member_id")
-//    private Member member;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "post_id")
-//    private Post post;
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
 
 }

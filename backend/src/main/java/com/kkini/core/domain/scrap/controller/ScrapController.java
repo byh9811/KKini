@@ -1,15 +1,17 @@
 package com.kkini.core.domain.scrap.controller;
 
 import com.kkini.core.domain.scrap.dto.request.AddScrapRequestDto;
-import com.kkini.core.domain.scrap.dto.request.DeleteScrapRequestDto;
 import com.kkini.core.domain.scrap.dto.response.ScrapListResponseDto;
 import com.kkini.core.global.response.Response;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.kkini.core.global.response.Response.OK;
 
 @RestController
 @Slf4j
@@ -19,30 +21,31 @@ import java.util.List;
 public class ScrapController {
 
     @Operation(summary = "스크랩 추가", description = "해당 포스트(postId)를 스크랩에 추가합니다.")
-    @PostMapping
-    public Response<?> addScrap(@RequestBody AddScrapRequestDto addScrapRequestDto) {
+    @Parameter(name = "postId", description = "스크랩에 추가하고 싶은 포스트 식별자(postId)")
+    @PostMapping("/{postId}")
+    public Response<Void> addScrap(@PathVariable Long postId) {
         log.debug("스크랩 추가");
-        log.debug("{}", addScrapRequestDto);
+        log.debug("{}", postId);
 
-        return Response.OK("OK");
+        return OK(null);
     }
 
     @Operation(summary = "스크랩 삭제", description = "해당 포스트(postId)를 스크랩에서 삭제합니다.")
-    @DeleteMapping
-    public Response<?> deleteScrap(@RequestBody DeleteScrapRequestDto deleteScrapRequestDto) {
+    @Parameter(name = "scrapId", description = "삭제하고 싶은 포스트의 스크랩 식별자(id)")
+    @DeleteMapping("/{id}")
+    public Response<Void> deleteScrap(@PathVariable Long id) {
         log.debug("스크랩 삭제");
-        log.debug("{}", deleteScrapRequestDto);
+        log.debug("{}", id);
 
-        return Response.OK("OK");
+        return OK(null);
     }
 
     @Operation(summary = "스크랩 리스트", description = "회원(memberId)의 스크랩 리스트를 응답합니다.")
-    @GetMapping("/{memberId}")
-    public Response<?> scrapList(@PathVariable String memberId) {
+    @GetMapping("/list")
+    public Response<List<ScrapListResponseDto>> scrapList() {
         log.debug("스크랩 리스트");
-        log.debug(memberId);
-        List<ScrapListResponseDto> list;
-        return Response.OK("OK");
+        List<ScrapListResponseDto> list = null;
+        return OK(list);
     }
 
 

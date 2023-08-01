@@ -7,15 +7,10 @@ import lombok.Data;
 @Schema(description = "스크랩 추가 요청 처리 dto")
 public class AddScrapRequestDto {
 
-    @Schema(description = "스크랩 식별자")
-    private Long id;
-
     @Schema(description = "멤버 식별자")
     private Long memberId;
 
     @Schema(description = "포스트 식별자")
     private Long postId;
 
-    @Schema(description = "스크랩 등록일")
-    public String createDateTime;
 }
