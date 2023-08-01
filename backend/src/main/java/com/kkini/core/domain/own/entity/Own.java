@@ -1,6 +1,7 @@
 package com.kkini.core.domain.own.entity;
 
 import com.kkini.core.domain.badge.entity.Badge;
+import com.kkini.core.domain.member.entity.Member;
 import com.kkini.core.global.entity.BaseEntityWithCreatedTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
