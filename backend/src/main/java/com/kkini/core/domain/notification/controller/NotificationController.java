@@ -21,7 +21,6 @@ public class NotificationController {
     @Operation(summary = "알림 리스트", description = "나에게 온 전체 알림 리스트를 확인합니다.")
     @GetMapping("/{memberId}")
     public Response<List<NotificationListResponseDto>> getNotificationList(@PathVariable Long memberId){
-
         log.debug("현재 알림을 불러옵니다.");
         log.debug("{}", memberId);
         List<NotificationListResponseDto> list = null;
@@ -42,9 +41,24 @@ public class NotificationController {
     @Operation(summary = "알림 삭제 처리", description = "나에게 온 알림을 삭제 처리합니다.")
     @DeleteMapping("/{notiId}}")
     public Response<Void> deleteNotification(@PathVariable Long notiId){
-
         log.debug("알림 삭제 처리");
         log.debug("{}", notiId);
+
+        return OK(null);
+    }
+
+    @Operation(summary = "알림 읽음 처리", description = "나에게 온 알림을 전체 읽음 처리합니다.")
+    @PutMapping("/all")
+    public Response<Void> readAllNotification(){
+        log.debug("알림 읽음 처리");
+
+        return OK(null);
+    }
+
+    @Operation(summary = "알림 삭제 처리", description = "나에게 온 알림을 삭제 처리합니다.")
+    @DeleteMapping("/all")
+    public Response<Void> deleteAllNotification(){
+        log.debug("알림 삭제 처리");
 
         return OK(null);
     }
