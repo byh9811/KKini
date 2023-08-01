@@ -16,9 +16,9 @@ import javax.persistence.ManyToOne;
 @SuperBuilder
 public class Comment extends BaseEntityWithCreatedTime {
 
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
+//    @ManyToOne
+//    @JoinColumn(name = "member_id")
+//    private Member member;
 
     @ManyToOne
     @JoinColumn(name = "post_id")

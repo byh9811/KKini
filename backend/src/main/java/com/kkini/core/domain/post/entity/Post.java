@@ -17,9 +17,9 @@ import javax.persistence.OneToOne;
 @SuperBuilder
 public class Post extends BaseEntityWithModifiedTime {
 
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
+//    @ManyToOne
+//    @JoinColumn(name = "member_id")
+//    private Member member;
 
     @OneToOne
     @JoinColumn(name = "recipe_id")

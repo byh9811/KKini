@@ -13,9 +13,9 @@ import javax.persistence.*;
 @SuperBuilder
 public class Recipe extends BaseEntityWithModifiedTime {
 
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
+//    @ManyToOne
+//    @JoinColumn(name = "member_id")
+//    private Member member;
 
 //    추후 활용 예정
 //    @ManyToOne
