@@ -15,7 +15,11 @@ import javax.persistence.ManyToOne;
 @SuperBuilder
 public class Follow extends BaseEntityWithCreatedTime {
 
-//    @ManyToOne
-//    @JoinColumn(name = "member_id")
-//    private Member member;
+    @ManyToOne
+    @JoinColumn(name = "follower_id")
+    private Member followerID;
+
+    @ManyToOne
+    @JoinColumn(name = "follow_id")
+    private Member followId;
 }
