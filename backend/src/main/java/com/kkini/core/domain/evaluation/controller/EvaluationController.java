@@ -18,14 +18,14 @@ import static com.kkini.core.global.response.Response.OK;
 @Tag(name = "Evaluation", description = "포스트 음식 평가 API")
 public class EvaluationController {
 
-    // 수정
+    // 평가 입력
     @Operation(summary = "포스트 음식 평가", description = "포스트 음식의 가치를 금액으로 평가한다.")
     @Parameters({
             @Parameter(name = "id", description = "포스트 식별자"),
             @Parameter(name = "price", description = "금액")
     })
-    @PutMapping("/{id}")
-    public Response<Void> modifyEvaluation(@PathVariable("id") Long id, @RequestBody int price) {
+    @PostMapping("/{id}")
+    public Response<Void> setEvaluation(@PathVariable("id") Long id, @RequestBody int price) {
         log.debug("modifyEvaluation() Entered");
         log.debug("{}", id);
         log.debug("{}", price);
