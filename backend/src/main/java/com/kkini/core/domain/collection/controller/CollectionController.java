@@ -17,7 +17,7 @@ import static com.kkini.core.global.response.Response.OK;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/collection")
+@RequestMapping("/api/collection")
 @Slf4j
 @Tag(name = "Collection", description = "도감 관리 API")
 public class CollectionController {
