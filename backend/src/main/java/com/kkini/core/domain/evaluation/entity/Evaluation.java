@@ -1,5 +1,6 @@
 package com.kkini.core.domain.evaluation.entity;
 
+import com.kkini.core.domain.member.entity.Member;
 import com.kkini.core.domain.post.entity.Post;
 import com.kkini.core.global.entity.BaseEntity;
 import lombok.Getter;

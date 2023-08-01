@@ -17,7 +17,7 @@ import static com.kkini.core.global.response.Response.OK;
 @RestController
 @RequestMapping("/api/follow")
 @CrossOrigin("*")
-@Tag(name = "FollowController", description = "팔로우 관리 API 입니다.")
+@Tag(name = "Follow", description = "팔로우 관리 API")
 @Slf4j
 public class FollowController {
 

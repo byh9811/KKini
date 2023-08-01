@@ -1,5 +1,6 @@
 package com.kkini.core.domain.comment.entity;
 
+import com.kkini.core.domain.member.entity.Member;
 import com.kkini.core.domain.post.entity.Post;
 import com.kkini.core.global.entity.BaseEntityWithCreatedTime;
 import lombok.Getter;
@@ -16,9 +17,9 @@ import javax.persistence.ManyToOne;
 @SuperBuilder
 public class Comment extends BaseEntityWithCreatedTime {
 
-//    @ManyToOne
-//    @JoinColumn(name = "member_id")
-//    private Member member;
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @ManyToOne
     @JoinColumn(name = "post_id")

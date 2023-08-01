@@ -1,5 +1,6 @@
 package com.kkini.core.domain.history.entity;
 
+import com.kkini.core.domain.member.entity.Member;
 import com.kkini.core.global.entity.BaseEntityWithCreatedTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

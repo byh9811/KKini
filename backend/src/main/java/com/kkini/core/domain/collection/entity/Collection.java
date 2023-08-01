@@ -1,5 +1,7 @@
 package com.kkini.core.domain.collection.entity;
 
+import com.kkini.core.domain.member.entity.Member;
+import com.kkini.core.domain.post.entity.Post;
 import com.kkini.core.domain.recipe.entity.Recipe;
 import com.kkini.core.global.entity.BaseEntityWithCreatedTime;
 import lombok.Getter;

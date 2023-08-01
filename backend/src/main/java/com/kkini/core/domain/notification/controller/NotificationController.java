@@ -13,7 +13,7 @@ import static com.kkini.core.global.response.Response.OK;
 
 @RestController
 @CrossOrigin
-@Tag(name = "NoticifationController", description = "알림 관리 API 입니다.")
+@Tag(name = "Noticifation", description = "알림 관리 API")
 @Slf4j
 @RequestMapping("/api/noti")
 public class NotificationController {
@@ -30,7 +30,7 @@ public class NotificationController {
 
     @Operation(summary = "알림 읽음 처리", description = "나에게 온 알림을 읽음 처리합니다.")
     @PutMapping("/{notiId}")
-    public Response<Void> readNotification(@PathVariable Long notiId){
+    public Response<Void> readNotification(@PathVariable("notiId") Long notiId){
         log.debug("알림 읽음 처리");
         log.debug("{}", notiId);
 
@@ -39,7 +39,7 @@ public class NotificationController {
 
     @Operation(summary = "알림 삭제 처리", description = "나에게 온 알림을 삭제 처리합니다.")
     @DeleteMapping("/{notiId}}")
-    public Response<Void> deleteNotification(@PathVariable Long notiId){
+    public Response<Void> deleteNotification(@PathVariable("notiId") Long notiId){
         log.debug("알림 삭제 처리");
         log.debug("{}", notiId);
 

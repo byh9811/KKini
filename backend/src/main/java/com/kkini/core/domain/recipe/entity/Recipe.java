@@ -1,5 +1,7 @@
 package com.kkini.core.domain.recipe.entity;
 
+import com.kkini.core.domain.category.entity.Category;
+import com.kkini.core.domain.member.entity.Member;
 import com.kkini.core.global.entity.BaseEntityWithModifiedTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,14 +15,13 @@ import javax.persistence.*;
 @SuperBuilder
 public class Recipe extends BaseEntityWithModifiedTime {
 
-//    @ManyToOne
-//    @JoinColumn(name = "member_id")
-//    private Member member;
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-//    추후 활용 예정
-//    @ManyToOne
-//    @JoinColumn(name = "category_id")
-//    private Category category;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     private String name;
 

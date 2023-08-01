@@ -1,5 +1,6 @@
 package com.kkini.core.domain.post.entity;
 
+import com.kkini.core.domain.member.entity.Member;
 import com.kkini.core.domain.recipe.entity.Recipe;
 import com.kkini.core.global.entity.BaseEntityWithModifiedTime;
 import lombok.Getter;
@@ -17,9 +18,9 @@ import javax.persistence.OneToOne;
 @SuperBuilder
 public class Post extends BaseEntityWithModifiedTime {
 
-//    @ManyToOne
-//    @JoinColumn(name = "member_id")
-//    private Member member;
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @OneToOne
     @JoinColumn(name = "recipe_id")

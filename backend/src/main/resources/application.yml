@@ -13,3 +13,6 @@ spring:
       - log
       - server
       - swagger
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
