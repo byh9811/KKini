@@ -10,7 +10,7 @@ import N4 from './N4.js'
 import N5 from './N5.js'
 
 function Home({ onLogout }) {
-  const handleLogout = () => {
+  const handleLogout = () => { 
     onLogout();
   };
 

@@ -1,6 +1,11 @@
-// 구현 코드
-import styled from 'styled-components'
-import { useEffect,useRef } from 'react'
+// const clientId = 'cuR5W3G8URwVF2atwAse';
+// const callbackUrl = 'http://localhost:3000';
+
+import axios from 'axios';
+import styled, { css } from 'styled-components';
+import React, { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { withRouter } from 'react-router';
 
 const NaverLogin = ({ setGetToken, setUserInfo }) => {
       
@@ -9,6 +14,12 @@ const NaverLogin = ({ setGetToken, setUserInfo }) => {
     const NAVER_CLIENT_ID = 'cuR5W3G8URwVF2atwAse';// 발급 받은 Client ID 입력 
     const NAVER_CALLBACK_URL = 'http://localhost:3000'; // 작성했던 Callback URL 입력
 
+    // const [data, setData] = useState({
+    //     name: '',
+    //     email: '',
+    //     nickname: '',
+    //     image: ''
+    // });
     const initializeNaverLogin = () => {
         const naverLogin = new naver.LoginWithNaverId({
             clientId: NAVER_CLIENT_ID,
@@ -49,20 +60,38 @@ const NaverLogin = ({ setGetToken, setUserInfo }) => {
             // 우선 아래와 같이 어스코드를 추출 할 수 있으며,
             // 3부에 작성 될 Redirect 페이지를 통해 빠르고, 깨끗하게 처리가 가능하다.
    
-        const userAccessToken = () => {
+    const userAccessToken = () => {
             window.location.href.includes('access_token') && getToken()
     }
-        
-          const getToken = () => {
-        const token = window.location.href.split('=')[1].split('&')[0]
-             // console.log, alert 창을 통해 어스코드가 잘 추출 되는지 확인하자! 
+    
+        const getToken = () => {
+        const token = window.location.href.split('=')[1].split('&')[0];
+        alert(token);
+            // console.log, alert 창을 통해 어스코드가 잘 추출 되는지 확인하자! 
                 
-             // 이후 로컬 스토리지 또는 state에 저장하여 사용하자!   
-                // localStorage.setItem('access_token', token)
-                // setGetToken(token)
-    }
+            // 이후 로컬 스토리지 또는 state에 저장하여 사용하자!   
+                localStorage.setItem('access_token', token);
+                // setGetToken(token);
+
+
+        const header = {
+            Authorization: token,
+        };
+
+        axios.get('http://10.58.2.227:8000/user/naver_auth', {
+            headers: header,
+        })
+            .then((res) => {
+            localStorage.setItem('wtw-token', res.data.token); // 서버로부터 받은 토큰 저장
+            setUserInfo(res.data.user); // 사용자 정보 state 업데이트
+            })
+            .catch((error) => {
+            console.error('Error during token exchange:', error);
+            });
 
         
+    }
+
              // 화면 첫 렌더링이후 바로 실행하기 위해 useEffect 를 사용하였다.
     useEffect(() => {
         initializeNaverLogin()

@@ -1,11 +1,11 @@
 import React from 'react';
 
-function N2() {
+function U2() {
   return (
     <div>
-      n2입니다아아아
+      u2입니다아아아
     </div>
   );
 }
 
-export default N2;
+export default U2;
