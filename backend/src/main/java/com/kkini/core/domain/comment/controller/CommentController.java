@@ -5,6 +5,8 @@ import com.kkini.core.domain.comment.dto.request.CommentUpdateRequestDto;
 import com.kkini.core.domain.comment.dto.response.CommentListResponseDto;
 import com.kkini.core.global.response.Response;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,13 +19,14 @@ import static com.kkini.core.global.response.Response.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/comment")
+@RequestMapping("/api/comment")
 @Slf4j
 @Tag(name = "Comment", description = "Comment API Document")
 public class CommentController {
 
     // 작성
     @Operation(summary = "댓글 작성", description = "댓글을 작성한다.")
+    @Parameter(name = "commentRegisterRequestDto", description = "댓글 정보")
     @PostMapping
     public Response<Void> addComment(@RequestBody CommentRegisterRequestDto commentRegisterRequestDto) {
         // 작성에 성공했을 경우 댓글 목록 갱신
@@ -33,19 +36,24 @@ public class CommentController {
     }
 
     // 목록 조회
-    @Operation(summary = "댓글 목록 조회", description = "포스트에 해당하는 댓글을 모두 가져온다.")
+    @Operation(summary = "댓글 목록 조회", description = "포스트에 해당하는 댓글을 조회한다.")
+    @Parameter(name = "id", description = "포스트 식별자")
     @GetMapping("/{id}")
-    public Response<List<CommentListResponseDto>> getCommentList(@PathVariable("id") Long postId) {
+    public Response<List<CommentListResponseDto>> getCommentList(@PathVariable("id") Long id) {
         List<CommentListResponseDto> list = new ArrayList<>();
         list.add(new CommentListResponseDto());
         list.add(new CommentListResponseDto());
         log.debug("getCommentList() Entered");
-        log.debug("{}", postId);
+        log.debug("{}", id);
         return OK(list);
     }
 
     // 수정
     @Operation(summary = "댓글 수정", description = "댓글을 수정한다.")
+    @Parameters({
+            @Parameter(name = "commentUpdateRequestDto", description = "댓글 정보"),
+            @Parameter(name = "id", description = "포스트 식별자")
+    })
     @PutMapping("/{id}")
     public Response<Void> modifyComment(@PathVariable("id") Long id, @RequestBody CommentUpdateRequestDto commentUpdateRequestDto) {
         // 댓글을 작성한 사용자에게만 수정권한 부여, button visible
@@ -59,6 +67,7 @@ public class CommentController {
 
     // 삭제
     @Operation(summary = "포스트 삭제", description = "포스트를 삭제한다.")
+    @Parameter(name = "id", description = "댓글 식별자")
     @DeleteMapping("/{id}")
     public Response<Void> removeComment(@PathVariable("id") Long id) {
         // 댓글을 작성한 사용자에게만 삭제권한 부여, button visible
