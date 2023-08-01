@@ -15,18 +15,18 @@ import javax.persistence.ManyToOne;
 @SuperBuilder
 public class Notification extends BaseEntityWithCreatedTime {
 
-//    @ManyToOne
-//    @JoinColumn(name = "receiver_id")
-//    private Member receiver;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "sender_id")
-//    private Member sender;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "post_id")
-//    private Post post;
-//
+    @ManyToOne
+    @JoinColumn(name = "receiver_id")
+    private Member receiver;
+
+    @ManyToOne
+    @JoinColumn(name = "sender_id")
+    private Member sender;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
+
 
     private String category;
 

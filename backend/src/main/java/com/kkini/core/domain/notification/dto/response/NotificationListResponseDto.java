@@ -16,6 +16,9 @@ public class NotificationListResponseDto {
     @Schema(description = "송신인 식별자")
     private Long sender;
 
+    @Schema(description = "송신인 닉네임")
+    private Long senderNickname;
+
     @Schema(description = "포스트 식별자")
     private Long postId;
 
