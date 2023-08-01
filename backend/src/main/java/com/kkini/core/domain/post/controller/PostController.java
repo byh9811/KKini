@@ -22,14 +22,14 @@ import static com.kkini.core.global.response.Response.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/post")
+@RequestMapping("/api/post")
 @Slf4j
 @Tag(name = "Post", description = "Post API Document")
 public class PostController {
 
     // 작성
     @Operation(summary = "포스트 작성", description = "포스트를 작성한다.")
-    @Parameter(description = "포스트 정보")
+    @Parameter(name = "postRequestDto", description = "포스트 정보")
     @PostMapping
     public Response<Void> addPost(@RequestBody PostRegisterRequestDto postRequestDto) {
         // 데이터베이스 조작을 위해 서비스로 전달, 서비스에서 성공여부 반환
@@ -42,7 +42,7 @@ public class PostController {
 
     // 조회
     @Operation(summary = "포스트 목록 조회", description = "포스트를 조회한다.")
-    @Parameter(description = "페이지 정보")
+    @Parameter(name = "pageable", description = "페이지 정보")
     @GetMapping
     public Response<List<PostListResponseDto>> getPostList(@PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
         // 사용자 ID는 별도로 전달되므로 해당 함수에서는 처리하지 않는다.
@@ -57,8 +57,8 @@ public class PostController {
     // 수정
     @Operation(summary = "포스트 수정", description = "포스트를 수정한다.")
     @Parameters({
-            @Parameter(description = "포스트 정보"),
-            @Parameter(description = "포스트 식별자")
+            @Parameter(name = "postUpdateRequestDto", description = "포스트 정보"),
+            @Parameter(name = "id", description = "포스트 식별자")
     })
     @PutMapping("/{id}")
     public Response<Void> modifyPost(@RequestBody PostUpdateRequestDto postUpdateRequestDto, @PathVariable("id") Long id) {
@@ -73,7 +73,7 @@ public class PostController {
 
     // 삭제
     @Operation(summary = "포스트 삭제", description = "포스트를 삭제한다.")
-    @Parameter(description = "포스트 식별자")
+    @Parameter(name = "id", description = "포스트 식별자")
     @DeleteMapping("/{id}")
     public Response<Void> removePost(@PathVariable("id") Long id) {
         // 포스트를 작성한 사용자에게만 삭제권한 부여, button visible
