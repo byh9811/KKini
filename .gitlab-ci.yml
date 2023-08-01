@@ -106,8 +106,8 @@ be-package:  # JOB 이름
   tags:
     - kkini-cicd
   # service 설정 (설정한 image가 작업이 이루어지는 동안 실행되는 docker 이미지)
-  services:
-    - docker:dind
+#  services:
+#    - docker:dind
   # script가 실행 전 수행 될 script
   before_script:
     - docker login -u $DOCKER_HUB_ID --password $DOCKER_HUB_PW   # Docker Hub에 로그인
