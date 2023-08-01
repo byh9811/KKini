@@ -15,7 +15,7 @@ import static com.kkini.core.global.response.Response.OK;
 @RequiredArgsConstructor
 @RequestMapping("/api/reaction")
 @Slf4j
-@Tag(name = "Reaction", description = "Reaction API Document")
+@Tag(name = "Reaction", description = "Reaction 관리 API")
 public class ReactionController {
 
     // 수정
