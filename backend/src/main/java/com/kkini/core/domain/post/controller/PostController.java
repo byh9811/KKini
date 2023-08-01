@@ -3,6 +3,8 @@ package com.kkini.core.domain.post.controller;
 import com.kkini.core.domain.post.dto.request.PostRegisterRequestDto;
 import com.kkini.core.domain.post.dto.request.PostUpdateRequestDto;
 import com.kkini.core.domain.post.dto.response.PostListResponseDto;
+import com.kkini.core.domain.post.dto.response.SearchDetailResponseDto;
+import com.kkini.core.domain.post.dto.response.SearchListResponseDto;
 import com.kkini.core.global.response.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -10,11 +12,11 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +29,6 @@ import static com.kkini.core.global.response.Response.*;
 @Tag(name = "Post", description = "Post API Document")
 public class PostController {
 
-    // 작성
     @Operation(summary = "포스트 작성", description = "포스트를 작성한다.")
     @Parameter(name = "postRequestDto", description = "포스트 정보")
     @PostMapping
@@ -40,7 +41,6 @@ public class PostController {
         return OK(null);
     }
 
-    // 조회
     @Operation(summary = "포스트 목록 조회", description = "포스트를 조회한다.")
     @Parameter(name = "pageable", description = "페이지 정보")
     @GetMapping
@@ -51,10 +51,9 @@ public class PostController {
         list.add(new PostListResponseDto());
         log.debug("getPostList() Entered");
         log.debug("{}", pageable);
-        return OK(null);
+        return OK(list);
     }
 
-    // 수정
     @Operation(summary = "포스트 수정", description = "포스트를 수정한다.")
     @Parameters({
             @Parameter(name = "postUpdateRequestDto", description = "포스트 정보"),
@@ -71,7 +70,6 @@ public class PostController {
         return OK(null);
     }
 
-    // 삭제
     @Operation(summary = "포스트 삭제", description = "포스트를 삭제한다.")
     @Parameter(name = "id", description = "포스트 식별자")
     @DeleteMapping("/{id}")
@@ -80,6 +78,32 @@ public class PostController {
         log.debug("removePost() Entered");
         log.debug("{}", id);
         return OK(null);
+    }
+
+    @Operation(summary = "검색 조회", description = "검색 또는 추천 포스트를 조회한다.")
+    @Parameters({
+            @Parameter(name = "pageable", description = "페이지 정보"),
+            @Parameter(name = "search", description = "검색어")
+    })
+    @GetMapping("/search")
+    public Response<List<SearchListResponseDto>> getSearchList(@PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable, @RequestBody String search) {
+        List<SearchListResponseDto> list = new ArrayList<>();
+        list.add(new SearchListResponseDto());
+        list.add(new SearchListResponseDto());
+        log.debug("getSearchList() Entered");
+        log.debug("{}", pageable);
+        log.debug("{}", search);
+        return OK(list);
+    }
+
+    @Operation(summary = "검색 상세 조회", description = "검색 또는 추천 포스트의 상세내용을 조회한다.")
+    @Parameter(name = "id", description = "포스트 식별자")
+    @GetMapping("/search/{id}")
+    public Response<SearchDetailResponseDto> getSearchDetail(@PathVariable("id") Long id) {
+        SearchDetailResponseDto searchDetailResponseDto = new SearchDetailResponseDto();
+        log.debug("getSearchDetail() Entered");
+        log.debug("{}", id);
+        return OK(searchDetailResponseDto);
     }
 
 }
