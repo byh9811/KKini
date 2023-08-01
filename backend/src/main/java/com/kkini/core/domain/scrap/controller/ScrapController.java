@@ -16,7 +16,7 @@ import static com.kkini.core.global.response.Response.OK;
 @RestController
 @Slf4j
 @CrossOrigin("*")
-@RequestMapping("/scrap")
+@RequestMapping("/api/scrap")
 @Tag(name = "Scrap", description = "스크랩 관리 API")
 public class ScrapController {
 
