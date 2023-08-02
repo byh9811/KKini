@@ -36,6 +36,6 @@ spring:
         format_sql: false    # SQL 쿼리 보기 좋게 표시 X
         show_sql: false    # SQL 쿼리 확인 X
   datasource:
-    url: mysql://stg-yswa-kr-practice-db-master.mariadb.database.azure.com:3306/S09P12C210?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+    url: mysql://stg-yswa-kr-practice-db-master.mariadb.database.azure.com:3306/S09P12C210
     username: ${DB_ID}
     password: ${DB_PW}
