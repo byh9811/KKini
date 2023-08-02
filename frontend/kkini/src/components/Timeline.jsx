@@ -55,9 +55,9 @@ function Timeline() {
         for (let i = 0; i < 1; i++) {
           newPosts.push({
               user:"T발씨병욱",
-              postImage:"https://newsimg.sedaily.com/2023/04/04/29O67TZ4DD_1.jpg",
+              postImage:"https://i.namu.wiki/i/YIFgu56EdKbIZhjloRMQTkOn-PzfvyKhuvNkW3OgmSLVFCedvmyUk9HTtFHs0XnD0fcB49kHEgi6TnYACh2jFJ1fEHEv-_rpvvX161atfoxBq4SryJps1foRUiVXMEVHqg60llEZmdMEQMuA1b8UKA.webp",
               likes:"18",
-              timestamp:"2d",
+              timestamp:"18s",
           });
         }
       setPosts((current) => [...current, ...newPosts]);
