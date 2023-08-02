@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 import { Avatar } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -7,9 +7,9 @@ import ChatBubbleOutlineRoundedIcon from '@mui/icons-material/ChatBubbleOutlineR
 import LocalAtmRoundedIcon from '@mui/icons-material/LocalAtmRounded';
 import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded';
 
-function Post({ user, postImage, likes, timestamp }) {
+const Post = forwardRef(({ user, postImage, likes, timestamp }, ref) => {
   return (
-    <PostContainer>
+    <PostContainer ref={ref}>
       <PostHeader>
         <PostHeaderAuthor>
           <Avatar></Avatar>
@@ -45,7 +45,7 @@ function Post({ user, postImage, likes, timestamp }) {
       <div>{likes}명이 좋아합니다.</div>
     </PostContainer>
   );
-}
+});
 
 export default Post;
 
