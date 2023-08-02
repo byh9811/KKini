@@ -4,13 +4,17 @@
 import axios from 'axios';
 import styled, { css } from 'styled-components';
 import React, { useEffect, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { withRouter } from 'react-router';
 
 const NaverLogin = ({ setGetToken, setUserInfo }) => {
       
-    const naverRef = useRef()
-    const { naver } = window
+    const naverRef = useRef();
+    const { naver } = window;
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
     const NAVER_CLIENT_ID = 'cuR5W3G8URwVF2atwAse';// 발급 받은 Client ID 입력 
     const NAVER_CALLBACK_URL = 'http://localhost:3000'; // 작성했던 Callback URL 입력
 
@@ -53,9 +57,7 @@ const NaverLogin = ({ setGetToken, setUserInfo }) => {
     //     })     
             // 요기!
     }
-    
-    
-    
+
             // 네이버 소셜 로그인 (네아로) 는 URL 에 엑세스 어스코드가 붙어서 전달된다.
             // 우선 아래와 같이 어스코드를 추출 할 수 있으며,
             // 3부에 작성 될 Redirect 페이지를 통해 빠르고, 깨끗하게 처리가 가능하다.
@@ -66,14 +68,14 @@ const NaverLogin = ({ setGetToken, setUserInfo }) => {
     
         const getToken = () => {
         const token = window.location.href.split('=')[1].split('&')[0];
-        alert(token);
+        console.log(token);
             // console.log, alert 창을 통해 어스코드가 잘 추출 되는지 확인하자! 
                 
             // 이후 로컬 스토리지 또는 state에 저장하여 사용하자!   
                 localStorage.setItem('access_token', token);
                 // setGetToken(token);
 
-
+        setLoading(true);
         const header = {
             Authorization: token,
         };
@@ -84,33 +86,41 @@ const NaverLogin = ({ setGetToken, setUserInfo }) => {
             .then((res) => {
             localStorage.setItem('wtw-token', res.data.token); // 서버로부터 받은 토큰 저장
             setUserInfo(res.data.user); // 사용자 정보 state 업데이트
-            })
+            navigate.push('/n1');  //  redirect to the main page
+        })
             .catch((error) => {
-            console.error('Error during token exchange:', error);
-            });
+                setError('T발씨 병욱');
+                console.error('Error during token exchange:', error);
+            })
 
-        
-    }
+            .finally(()=>{
+                setLoading(false);
+            });  
+    };
 
              // 화면 첫 렌더링이후 바로 실행하기 위해 useEffect 를 사용하였다.
     useEffect(() => {
         initializeNaverLogin()
         userAccessToken()
-    }, [])
+    }, []);
 
      // handleClick 함수 onClick 이벤트 발생 시 useRef 를 통해 지정한 naverRef 항목이 클릭 된다.
        // current 를 통해 아래 div 태그의 ref={} 속성을 줄 수 있다. ( 자세한 내용은 공식문서를 확인하자. )
     const handleNaverLogin = () => {
-        naverRef.current.children[0].click()
+        if (!loading) {
+            naverRef.current.children[0].click();
+        }
+        
     }    
 
     return (
         <>
             <NaverIdLogin ref={naverRef} id="naverIdLogin" />
-            <NaverLoginBtn onClick={handleNaverLogin}>
+            <NaverLoginBtn onClick={handleNaverLogin} disabled={loading}>
                 <NaverIcon alt="navericon" />
                 <NaverLoginTitle>네이버로 로그인</NaverLoginTitle>
             </NaverLoginBtn>
+            {error && <ErrorMessage>{error}</ErrorMessage>}
          {/* // 구현할 위치에 아래와 같이 코드를 입력해주어야 한다. 
          // 태그에 id="naverIdLogin" 를 해주지 않으면 오류가 발생한다!
             <div id="naverIdLogin" /> </div> */}
@@ -149,3 +159,11 @@ const NaverLoginTitle = styled.span`
     font-size: 14px;
     line-height: 24px;
     `
+
+const ErrorMessage = styled.div`
+    align-items: center;
+    width: 360px;
+    height: 56px;
+    background-color: red;
+    border-radius: 6px;
+`
