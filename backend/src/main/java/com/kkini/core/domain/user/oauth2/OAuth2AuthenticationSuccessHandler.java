@@ -24,7 +24,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    @Value("${NAVER_REDIRECT_URI}")
+    @Value("${AUTH_REDIRECT_URI}")
     private String redirectUri;
     private final JwtTokenProvider jwtTokenProvider;
     private final CookieAuthorizationRequestRepository cookieAuthorizationRequestRepository;
@@ -32,7 +32,11 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+        log.debug("{}", request);
+        log.debug("{}", response);
+        log.debug("{}", authentication);
         String targetUrl = determineTargetUrl(request, response, authentication);
+        log.debug("{}", targetUrl);
 
         if (response.isCommitted()) {
             log.debug("Response has already been committed.");
@@ -43,9 +47,13 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     }
 
     protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+        log.debug("{}", request);
+        log.debug("{}", response);
+        log.debug("{}", authentication);
         Optional<String> redirectUri = CookieUtils.getCookie(request, CookieAuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME)
                 .map(Cookie::getValue);
 
+        log.debug("{}", redirectUri);
         if (redirectUri.isPresent() && !isAuthorizedRedirectUri(redirectUri.get())) {
             throw new RuntimeException("redirect URIs are not matched.");
         }
@@ -65,8 +73,11 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     }
 
     private boolean isAuthorizedRedirectUri(String uri) {
+        log.debug("{}", uri);
         URI clientRedirectUri = URI.create(uri);
+        log.debug("{}",redirectUri);
         URI authorizedUri = URI.create(redirectUri);
+        log.debug("{}", authorizedUri);
 
         if (authorizedUri.getHost().equalsIgnoreCase(clientRedirectUri.getHost())
                 && authorizedUri.getPort() == clientRedirectUri.getPort()) {
