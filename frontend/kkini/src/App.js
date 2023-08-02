@@ -34,10 +34,10 @@ import React from 'react';
 import './App.css';
 
 import { useState } from 'react';
-import Login from './routes/Login.js';
-import Home from './routes/Home.js';
+import Login from './routes/Login.jsx';
+import Home from './routes/Home.jsx';
 
-import NaverLogin from './routes/NaverLogin.js';
+import NaverLogin from './routes/NaverLogin.jsx';
 
 function App() {
 
@@ -54,7 +54,6 @@ function App() {
   return (
     <div className="App">
       <NaverLogin></NaverLogin>
-
       {!isLoggedIn
       ? <Login onLogin={handleLogin} />
       : <Home onLogout={handleLogout} />

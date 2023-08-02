@@ -20,7 +20,7 @@ function Login({ onLogin }) {
   };
 
   return (
-    <div>
+    <div style={ {margin: '0 auto'} }>
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <div>

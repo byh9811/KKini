@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Post from './Post.js';
+import Post from './Post.jsx';
 
 function Timeline() {
   const [posts, setPosts] = useState([

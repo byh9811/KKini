@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 
-import NavigationBar from '../components/NavigationBar.js';
+import NavigationBar from '../components/NavigationBar.jsx';
 
-import N1 from './N1.js'
-import N2 from './N2.js'
-import N3 from './N3.js'
-import N4 from './N4.js'
-import N5 from './N5.js'
+import N1 from './N1.jsx'
+import N2 from './N2.jsx'
+import N3 from './N3.jsx'
+import N4 from './N4.jsx'
+import N5 from './N5.jsx'
 
 function Home({ onLogout }) {
   const handleLogout = () => { 
@@ -21,7 +21,7 @@ function Home({ onLogout }) {
   }, []);
 
   return (
-    <div>
+    <div style={ {margin: '0 auto'} }>
       <h2>Main Page</h2>
       <p>메인 페이지에 오신 것을 환영합니다!</p>
       <button onClick={handleLogout}>로그아웃</button>
