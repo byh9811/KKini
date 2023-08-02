@@ -14,6 +14,9 @@ public class RecipeDetailResponseDto {
     @Schema(description = "카테고리 ID")
     private Long categoryId;
 
+    @Schema(description = "카테고리 이름")
+    private String categoryName;
+
     @Schema(description = "작성자 ID")
     private Long writerId;
 
