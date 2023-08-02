@@ -5,12 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -35,5 +33,9 @@ public class S3Controller {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(s3Service.deleteFile(uploadFilePath, uuidFileName));
+    }
+    @GetMapping("/{downloadFilePath}")
+    public ResponseEntity<byte[]> downloadFile(@PathVariable String downloadFilePath) throws IOException {
+        return s3Service.downloadFile(downloadFilePath);
     }
 }
