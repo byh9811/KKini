@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,7 +49,7 @@ public class RecipeController {
 
     @Operation(summary = "레시피 상세 조회", description = "레시피 상세를 조회하는 API입니다.")
     @Parameters({
-            @Parameter(name = "recipeId", description = "레시피 ID")
+            @Parameter(name = "id", description = "레시피 ID")
     })
     @GetMapping("/{id}")
     public Response<RecipeDetailResponseDto> getRecipeDetail(@PathVariable("id") Long recipeId) {
