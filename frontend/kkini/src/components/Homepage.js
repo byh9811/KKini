@@ -1,8 +1,8 @@
 import React from 'react'
-import "../components/Homepage.css"
-import Timeline from '../components/Timeline'
+import "./Homepage.css"
+import Timeline from './Timeline'
 
-function N1() {
+function Homepage() {
   return (
     <div className='homepage'>
       <div className='homepage__timeline'>
@@ -12,4 +12,4 @@ function N1() {
   )
 }
 
-export default N1;
+export default Homepage;
