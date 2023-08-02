@@ -7,6 +7,48 @@ import ChatBubbleOutlineRoundedIcon from '@mui/icons-material/ChatBubbleOutlineR
 import LocalAtmRoundedIcon from '@mui/icons-material/LocalAtmRounded';
 import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded';
 
+function Post({ user, postImage, likes, timestamp }) {
+  return (
+    <PostContainer>
+      <PostHeader>
+        <PostHeaderAuthor>
+          <Avatar></Avatar>
+          {user} • <span>{timestamp}</span>
+        </PostHeaderAuthor>
+      </PostHeader>
+      <PostImage>
+        <img src={postImage} alt="" />
+      </PostImage>
+      <PostFooter></PostFooter>
+      <PostFooterIcons>
+        <div className='post__iconsMain'>
+          <PostIcon>
+            <FavoriteBorderIcon />
+          </PostIcon>
+          <PostIcon>
+            <ThumbDownOffAltRoundedIcon />
+          </PostIcon>
+          <PostIcon>
+            <ChatBubbleOutlineRoundedIcon />
+          </PostIcon>
+        </div>
+        <div className='post__iconSave'>
+          <PostIcon>
+            <LocalAtmRoundedIcon />
+          </PostIcon>
+          <PostIcon>
+            <BookmarkBorderRoundedIcon />
+          </PostIcon>
+        </div>
+      </PostFooterIcons>
+
+      <div>{likes}명이 좋아합니다.</div>
+    </PostContainer>
+  );
+}
+
+export default Post;
+
 const PostContainer = styled.div`
   width: 550px;
   margin: 30px 40px 50px 40px;
@@ -60,46 +102,3 @@ const PostIcon = styled.div`
     cursor: pointer;
   }
 `;
-
-
-function Post({ user, postImage, likes, timestamp }) {
-  return (
-    <PostContainer>
-      <PostHeader>
-        <PostHeaderAuthor>
-          <Avatar></Avatar>
-          {user} • <span>{timestamp}</span>
-        </PostHeaderAuthor>
-      </PostHeader>
-      <PostImage>
-        <img src={postImage} alt="" />
-      </PostImage>
-      <PostFooter></PostFooter>
-      <PostFooterIcons>
-        <div className='post__iconsMain'>
-          <PostIcon>
-            <FavoriteBorderIcon />
-          </PostIcon>
-          <PostIcon>
-            <ThumbDownOffAltRoundedIcon />
-          </PostIcon>
-          <PostIcon>
-            <ChatBubbleOutlineRoundedIcon />
-          </PostIcon>
-        </div>
-        <div className='post__iconSave'>
-          <PostIcon>
-            <LocalAtmRoundedIcon />
-          </PostIcon>
-          <PostIcon>
-            <BookmarkBorderRoundedIcon />
-          </PostIcon>
-        </div>
-      </PostFooterIcons>
-
-      <div>{likes}명이 좋아합니다.</div>
-    </PostContainer>
-  );
-}
-
-export default Post;

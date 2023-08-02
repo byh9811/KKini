@@ -1,7 +1,6 @@
 import React from 'react'
 import "./Homepage.css"
-import Timeline from './timeline/Timeline';
-
+import Timeline from './Timeline'
 
 function Homepage() {
   return (
@@ -13,4 +12,4 @@ function Homepage() {
   )
 }
 
-export default Homepage
+export default Homepage;

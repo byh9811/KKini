@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-
-import Post from './Post';
+import Post from './Post.js';
 
 function Timeline() {
   const [posts, setPosts] = useState([
@@ -41,6 +40,7 @@ function Timeline() {
       timestamp:"2d",
     },
   ]);
+
   return (
     <div className='timeline'>
       <div className='timeline_posts'>
@@ -50,10 +50,10 @@ function Timeline() {
            postImage={post.postImage} 
            likes={post.likes} 
            timestamp={post.timestamp} />
-)};
+        )}
       </div>
     </div>
   )
 }
 
-export default Timeline
+export default Timeline;
