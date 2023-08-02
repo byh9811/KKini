@@ -25,7 +25,7 @@ public class Recipe extends BaseEntityWithModifiedTime {
 
     private String name;
 
-    private String time;
+    private int time;
 
     private int difficulty;
 
