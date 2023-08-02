@@ -24,7 +24,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    @Value("${oauth.authorizedRedirectUri}")
+    @Value("${NAVER_REDIRECT_URI}")
     private String redirectUri;
     private final JwtTokenProvider jwtTokenProvider;
     private final CookieAuthorizationRequestRepository cookieAuthorizationRequestRepository;

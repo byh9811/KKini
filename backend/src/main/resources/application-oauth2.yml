@@ -6,7 +6,7 @@ spring:
           naver:
             client-id: cuR5W3G8URwVF2atwAse
             client-secret: YdTTKtPthV
-            redirect-uri: http://loclahost:8080/login/oauth2/code/naver
+            redirect-uri: ${NAVER_REDIRECT_URI}
             authorization-grant-type: authorization_code
             scope:
               - name
