@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 
-import U1 from './U1.js'
-import U2 from './U2.js'
+import U1 from './U1.jsx'
+import U2 from './U2.jsx'
 
 function N3() {
 

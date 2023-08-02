@@ -50,7 +50,7 @@ function Post({ user, postImage, likes, timestamp }) {
 export default Post;
 
 const PostContainer = styled.div`
-  width: 550px;
+  // width: 550px;
   margin: 30px 40px 50px 40px;
 `;
 

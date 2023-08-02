@@ -141,6 +141,7 @@ const NaverLoginBtn = styled.button`
     height: 56px;
     background-color: #03c75a;
     border-radius: 6px;
+    margin: 0 auto;
 `
 
 // 로그인 버튼 사용가이드 링크를 들어가면 이미지를 받아 이렇게 적용이 가능하다 ! 
@@ -166,4 +167,5 @@ const ErrorMessage = styled.div`
     height: 56px;
     background-color: red;
     border-radius: 6px;
+    margin: 0 auto;
 `
