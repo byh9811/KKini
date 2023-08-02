@@ -44,4 +44,17 @@ public class RecipeDetailResponseDto {
     @Schema(description = "조리 과정")
     private List<String> steps;
 
+    public RecipeDetailResponseDto(Long recipeId, Long categoryId, String categoryName, Long writerId, String writerImage, String writerName, String name, int time, int difficulty, String ingredient, String image) {
+        this.recipeId = recipeId;
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
+        this.writerId = writerId;
+        this.writerImage = writerImage;
+        this.writerName = writerName;
+        this.name = name;
+        this.time = time;
+        this.difficulty = difficulty;
+        this.ingredient = ingredient;
+        this.image = image;
+    }
 }
