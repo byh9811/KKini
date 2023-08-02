@@ -53,7 +53,7 @@ function App() {
 
   return (
     <div className="App">
-      {/* <NaverLogin></NaverLogin> */}
+      <NaverLogin></NaverLogin>
 
       {!isLoggedIn
       ? <Login onLogin={handleLogin} />
