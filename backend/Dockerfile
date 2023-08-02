@@ -7,4 +7,4 @@ ARG JAR_FILE=build/libs/*.jar
 COPY ${JAR_FILE} core.jar
 
 #CMD ["java", "-jar", "-Dspring.profiles.active=dev core.jar"]
-ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} -jar -Dspring.profiles.active=dev /app.jar"]
+ENTRYPOINT ["sh", "-c", "java -jar -Dspring.profiles.active=dev core.jar"]
