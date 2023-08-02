@@ -27,7 +27,6 @@ public class S3Service {
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
 
-    // 문제없음
     private final AmazonS3Client amazonS3Client;
 
     /**
@@ -122,9 +121,11 @@ public class S3Service {
         return str.replace("-", "/");
     }
 
-    public ResponseEntity<byte[]> downloadFile(String downloadFilePath) throws IOException{
+    /**
+     * S3로 파일 다운로드
+     */
+    public byte[] downloadFile(String downloadFilePath) throws IOException{
         System.out.println(downloadFilePath);
-        downloadFilePath = "tgetemp/2023/08/02/2923f714-52e4-4cbf-a60c-a527ada65771.png";
         S3Object s3Object = amazonS3Client.getObject(new GetObjectRequest(bucketName, downloadFilePath));
         S3ObjectInputStream objectInputStream = s3Object.getObjectContent();
         byte[] bytes = IOUtils.toByteArray(objectInputStream);
@@ -137,11 +138,14 @@ public class S3Service {
         String fileName = URLEncoder.encode(type, "UTF-8").replaceAll("\\+", "%20");
         httpHeaders.setContentDispositionFormData("attachment", fileName);
 
-        return new ResponseEntity<>(bytes, httpHeaders, HttpStatus.OK);
+        return bytes;
     }
 
-    private MediaType contentType(String keyname) {
-        String[] arr = keyname.split("\\.");
+    /**
+     * 파일 확장자 반환
+     */
+    private MediaType contentType(String name) {
+        String[] arr = name.split("\\.");
         String type = arr[arr.length - 1];
         switch(type) {
             case "png":
