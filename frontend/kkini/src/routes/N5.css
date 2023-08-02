@@ -10,73 +10,653 @@
     position: relative;
     margin: 0 auto; */
   }
-  
-  .div-css .header {
-    align-items: center;
+
+  .screen {
     background-color: #ffffff;
     display: flex;
-    flex: 0 0 auto;
-    justify-content: space-between;
-    max-width: 500px;
-    mix-blend-mode: normal;
-    padding: 16px 20px;
-    position: relative;
-    width: 500px;
-    z-index: 1;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
   }
   
-  .div-css .link-SVG {
-    height: 24px;
-    position: relative;
-    width: 131px;
+  .screen .overlap-wrapper {
+    background-color: #ffffff;
+    border: 1px none;
+    /* height: 812px; */
+    overflow: hidden;
+    /* width: 375px; */
   }
   
-  .div-css .div-css-mmlq {
-    align-items: flex-start;
-    display: flex;
-    flex: 1;
-    flex-grow: 1;
-    justify-content: flex-end;
-    padding: 0px 0px 0px 261px;
+  .screen .overlap {
+    height: 821px;
+    left: 7px;
     position: relative;
+    top: 14px;
+    width: 378px;
   }
   
-  .div-css .img {
-    flex: 0 0 auto;
-    position: relative;
-  }
-  
-  .div-css .div-css-oegnej {
-    height: 24px;
-    position: relative;
-    width: 24px;
-  }
-  
-  .div-css .div-css-pgrxd {
-    height: 15px;
-    left: 2px;
-    position: relative;
-    top: 4px;
-    width: 20px;
-  }
-  
-  .div-css .div-css-rdto {
-    background-color: #000000;
-    border-radius: 2px;
-    height: 2px;
+  .screen .group {
+    height: 821px;
     left: 0;
     position: absolute;
     top: 0;
-    width: 20px;
+    width: 360px;
   }
   
-  .div-css .div-css-ilb {
-    background-color: #000000;
-    border-radius: 2px;
-    height: 2px;
+  .screen .img {
+    height: 14px;
+    left: 346px;
+    position: absolute;
+    top: 3px;
+    width: 3px;
+  }
+  
+  .screen .group-2 {
+    height: 20px;
+    left: 7px;
+    position: absolute;
+    top: 0;
+    width: 10px;
+  }
+  
+  .screen .link {
+    background-color: #f5f5f5;
+    border-radius: 6px;
+    height: 158px;
+    left: 12px;
+    overflow: hidden;
+    position: absolute;
+    top: 259px;
+    width: 160px;
+  }
+  
+  .screen .overlap-group {
+    background-image: url();
+    background-size: 100% 100%;
+    height: 158px;
+    position: relative;
+  }
+  
+  .screen .SVG {
+    height: 18px;
+    left: 130px;
+    position: absolute;
+    top: 12px;
+    width: 18px;
+  }
+  
+  .screen .overlap-group-wrapper {
+    background-color: #f5f5f5;
+    border-radius: 6px;
+    height: 158px;
+    left: 192px;
+    overflow: hidden;
+    position: absolute;
+    top: 259px;
+    width: 160px;
+  }
+  
+  .screen .SVG-wrapper {
+    background-image: url();
+    background-size: 100% 100%;
+    height: 158px;
+    position: relative;
+  }
+  
+  .screen .div {
+    background-color: #f5f5f5;
+    border-radius: 6px;
+    height: 158px;
+    left: 12px;
+    overflow: hidden;
+    position: absolute;
+    top: 439px;
+    width: 160px;
+  }
+  
+  .screen .img-wrapper {
+    background-image: url();
+    background-size: 100% 100%;
+    height: 158px;
+    position: relative;
+  }
+  
+  .screen .div-wrapper {
+    background-color: #f5f5f5;
+    border-radius: 6px;
+    height: 158px;
+    left: 192px;
+    overflow: hidden;
+    position: absolute;
+    top: 439px;
+    width: 160px;
+  }
+  
+  .screen .overlap-2 {
+    height: 160px;
+    position: relative;
+    top: -1px;
+  }
+  
+  .screen .element {
+    height: 158px;
     left: 0;
     position: absolute;
-    top: 13px;
-    width: 20px;
+    top: 1px;
+    width: 160px;
+  }
+  
+  .screen .div-css {
+    align-items: center;
+    background-color: #00000066;
+    display: flex;
+    justify-content: center;
+    left: 0;
+    padding: 64px 56.64px 66px 50.36px;
+    position: absolute;
+    top: 0;
+    width: 160px;
+  }
+  
+  .screen .text-wrapper {
+    color: #ffffff;
+    font-family: "Noto Sans KR-Bold", Helvetica;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    line-height: 30px;
+    margin-top: -1px;
+    position: relative;
+    white-space: nowrap;
+    width: fit-content;
+  }
+  
+  .screen .frame {
+    align-items: center;
+    display: flex;
+    height: 16px;
+    justify-content: space-between;
+    left: 12px;
+    position: absolute;
+    top: 235px;
+    width: 336px;
+  }
+  
+  .screen .heading {
+    align-items: flex-start;
+    display: inline-flex;
+    flex: 0 0 auto;
+    gap: 6.28px;
+    margin-bottom: -1px;
+    margin-top: -1px;
+    padding: 0px 1.39px 0px 0px;
+    position: relative;
+  }
+  
+  .screen .text-wrapper-2 {
+    color: #000000;
+    font-family: "Noto Sans KR-Bold", Helvetica;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    line-height: 18px;
+    margin-top: -1px;
+    position: relative;
+    white-space: nowrap;
+    width: fit-content;
+  }
+  
+  .screen .text-wrapper-3 {
+    color: #999999;
+    font-family: "Noto Sans KR-Bold", Helvetica;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    line-height: 18px;
+    margin-top: -1px;
+    position: relative;
+    white-space: nowrap;
+    width: fit-content;
+  }
+  
+  .screen .div-css-vxghs {
+    align-items: flex-start;
+    display: inline-flex;
+    flex: 0 0 auto;
+    padding: 2px 13.25px 0px 10px;
+    position: relative;
+  }
+  
+  .screen .link-2 {
+    color: #999999;
+    font-family: "Noto Sans KR-Bold", Helvetica;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    line-height: 13px;
+    margin-top: -1px;
+    position: relative;
+    white-space: nowrap;
+    width: fit-content;
+  }
+  
+  .screen .frame-2 {
+    align-items: center;
+    display: flex;
+    height: 16px;
+    justify-content: space-between;
+    left: 16px;
+    position: absolute;
+    top: 619px;
+    width: 336px;
+  }
+  
+  .screen .div-css-jvf {
+    align-items: flex-start;
+    display: flex;
+    height: 178px;
+    left: 0;
+    padding: 0px 10px 20px;
+    position: absolute;
+    top: 643px;
+    width: 180px;
+  }
+  
+  .screen .link-3 {
+    background-color: #f5f5f5;
+    border-radius: 6px;
+    height: 160px;
+    margin-bottom: -2px;
+    overflow: hidden;
+    position: relative;
+    width: 160px;
+  }
+  
+  .screen .overlap-group-2 {
+    background-image: url();
+    background-size: 100% 100%;
+    height: 155px;
+    position: relative;
+  }
+  
+  .screen .link-wrapper {
+    align-items: flex-start;
+    display: flex;
+    height: 178px;
+    left: 180px;
+    padding: 0px 10px 20px;
+    position: absolute;
+    top: 643px;
+    width: 180px;
+  }
+  
+  .screen .overlap-group-3 {
+    background-image: url();
+    background-size: 100% 100%;
+    height: 155px;
+    position: relative;
+  }
+  
+  .screen .group-3 {
+    height: 50px;
+    left: 3px;
+    position: absolute;
+    top: 748px;
+    width: 375px;
+  }
+  
+  .screen .overlap-3 {
+    height: 50px;
+    position: relative;
+  }
+  
+  .screen .home-bottom-menu {
+    height: 50px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 375px;
+  }
+  
+  .screen .bottom-nav {
+    background-color: #ffffff;
+    height: 50px;
+    position: relative;
+  }
+  
+  .screen .group-4 {
+    height: 22px;
+    left: 101px;
+    position: absolute;
+    top: 14px;
+    width: 22px;
+  }
+  
+  .screen .vector {
+    height: 22px;
+    left: 25px;
+    position: absolute;
+    top: 14px;
+    width: 22px;
+  }
+  
+  .screen .user {
+    background-image: url();
+    background-size: 100% 100%;
+    height: 22px;
+    left: 328px;
+    position: absolute;
+    top: 14px;
+    width: 22px;
+  }
+  
+  .screen .ellipse {
+    border: 1.5px solid;
+    border-color: #000000;
+    border-radius: 4.71px;
+    height: 9px;
+    left: 6px;
+    position: relative;
+    top: 4px;
+    width: 9px;
+  }
+  
+  .screen .line {
+    height: 1px;
+    left: 0;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    width: 365px;
+  }
+  
+  .screen .image {
+    height: 26px;
+    left: 252px;
+    object-fit: cover;
+    position: absolute;
+    top: 12px;
+    width: 26px;
+  }
+  
+  .screen .image-2 {
+    height: 28px;
+    left: 173px;
+    object-fit: cover;
+    position: absolute;
+    top: 11px;
+    width: 28px;
+  }
+  
+  .screen .div-css-wrapper {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    left: 37px;
+    position: absolute;
+    top: 200px;
+    width: 115px;
+  }
+  
+  .screen .div-css-oycmd {
+    align-items: center;
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    gap: 13px;
+    margin-left: -3.5px;
+    margin-right: -3.5px;
+    position: relative;
+    width: 122px;
+  }
+  
+  .screen .descriptions {
+    height: 19px;
+    margin-left: -6px;
+    margin-right: -6px;
+    position: relative;
+    width: 134px;
+  }
+  
+  .screen .term {
+    color: #828c94;
+    font-family: "Noto Sans KR-DemiLight", Helvetica;
+    font-size: 12px;
+    font-weight: 300;
+    height: 19px;
+    left: 4px;
+    letter-spacing: -0.4px;
+    line-height: 19px;
+    position: absolute;
+    text-align: center;
+    top: -1px;
+    white-space: nowrap;
+  }
+  
+  .screen .details {
+    align-items: center;
+    display: inline-flex;
+    gap: 10.4px;
+    justify-content: center;
+    left: 43px;
+    padding: 0px 0.01px 0px 0px;
+    position: absolute;
+    top: 0;
+  }
+  
+  .screen .link-4 {
+    color: #525b61;
+    font-family: "Noto Sans KR-Bold", Helvetica;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    line-height: 19px;
+    margin-top: -1px;
+    position: relative;
+    text-align: center;
+    white-space: nowrap;
+    width: fit-content;
+  }
+  
+  .screen .pseudo {
+    background-color: #dadce0;
+    height: 9px;
+    position: relative;
+    width: 1px;
+  }
+  
+  .screen .term-2 {
+    color: #828c94;
+    font-family: "Noto Sans KR-DemiLight", Helvetica;
+    font-size: 12px;
+    font-weight: 300;
+    height: 19px;
+    left: 73px;
+    letter-spacing: -0.4px;
+    line-height: 19px;
+    position: absolute;
+    text-align: center;
+    top: -1px;
+    white-space: nowrap;
+  }
+  
+  .screen .details-link {
+    color: #525b61;
+    font-family: "Noto Sans KR-Bold", Helvetica;
+    font-size: 13px;
+    font-weight: 700;
+    height: 19px;
+    left: 112px;
+    letter-spacing: -0.4px;
+    line-height: 19px;
+    position: absolute;
+    text-align: center;
+    top: -1px;
+    white-space: nowrap;
+  }
+  
+  .screen .frame-wrapper {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10.89px;
+    height: 30px;
+    left: 53px;
+    position: absolute;
+    top: 23px;
+    width: 82px;
+  }
+  
+  .screen .frame-3 {
+    align-items: center;
+    display: inline-flex;
+    flex: 0 0 auto;
+    position: relative;
+  }
+  
+  .screen .text-wrapper-4 {
+    color: #292929;
+    font-family: "Noto Sans KR-Bold", Helvetica;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    line-height: 29.9px;
+    margin-top: -1px;
+    position: relative;
+    text-align: center;
+    white-space: nowrap;
+    width: fit-content;
+  }
+  
+  .screen .tvdd {
+    height: 29px;
+    object-fit: cover;
+    position: relative;
+    width: 14px;
+  }
+  
+  .screen .group-5 {
+    height: 18px;
+    left: 139px;
+    position: absolute;
+    top: 29px;
+    width: 192px;
+  }
+  
+  .screen .overlap-4 {
+    height: 23px;
+    position: relative;
+    width: 190px;
+  }
+  
+  .screen .rectangle {
+    background: linear-gradient(180deg, rgb(217, 217, 217) 0%, rgb(217, 217, 217) 100%);
+    border-radius: 15px;
+    height: 18px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 190px;
+  }
+  
+  .screen .rectangle-2 {
+    background: linear-gradient(180deg, rgb(0, 0, 0) 0%, rgb(217, 217, 217) 100%);
+    border-radius: 15px;
+    height: 15px;
+    left: 3px;
+    position: absolute;
+    top: 2px;
+    width: 148px;
+  }
+  
+  .screen .text-wrapper-5 {
+    color: #000000;
+    font-family: "Lato-Medium", Helvetica;
+    font-size: 8px;
+    font-weight: 500;
+    left: 64px;
+    letter-spacing: 0.16px;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 4px;
+    width: 30px;
+  }
+  
+  .screen .image-3 {
+    height: 20px;
+    left: 46px;
+    object-fit: cover;
+    position: absolute;
+    top: 3px;
+    width: 22px;
+  }
+  
+  .screen .div-css-uebeg {
+    background-color: #ededed;
+    border-radius: 120px;
+    height: 113px;
+    left: 33px;
+    overflow: hidden;
+    position: absolute;
+    top: 77px;
+    width: 114px;
+  }
+  
+  .screen .overlap-5 {
+    background-image: url();
+    background-position: 50% 50%;
+    background-size: cover;
+    border: 1px solid;
+    border-color: #00000012;
+    border-radius: 120px;
+    height: 113px;
+    left: -1px;
+    position: relative;
+    top: -1px;
+  }
+  
+  .screen .removebg-preview {
+    height: 135px;
+    left: 201px;
+    object-fit: cover;
+    position: absolute;
+    top: 65px;
+    width: 126px;
+  }
+  
+  .screen .button {
+    align-items: flex-start;
+    background-color: #000000;
+    border: 1px solid;
+    border-color: #35c5f0;
+    border-radius: 4px;
+    display: flex;
+    height: 18px;
+    justify-content: center;
+    left: 156px;
+    padding: 9px 49.7px 11px 48.3px;
+    position: absolute;
+    top: 201px;
+    width: 40px;
+  }
+  
+  .screen .text-wrapper-6 {
+    color: #ffffff;
+    font-family: "Noto Sans KR-Bold", Helvetica;
+    font-size: 8px;
+    font-weight: 700;
+    height: 1px;
+    letter-spacing: 0;
+    line-height: 20px;
+    margin-bottom: -2px;
+    margin-left: -43px;
+    margin-right: -43px;
+    margin-top: -1px;
+    position: relative;
+    text-align: center;
+    white-space: nowrap;
+    width: 28px;
   }
   
