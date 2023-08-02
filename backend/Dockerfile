@@ -11,6 +11,16 @@ ARG db_id
 ENV DB_ID $db_id
 ARG db_pw
 ENV DB_PW $db_pw
+ARG acs_key
+ENV AWS_ACCESS_KEY $acs_key
+ARG scr_key
+ENV AWS_SECRET_KEY $scr_key
+ARG jwt_key
+ENV JWT_SECRET_KEY $jwt_key
+ARG nav_id
+ENV NAVER_CLIENT_ID $nav_id
+ARG nav_key
+ENV NAVER_CLIENT_SECRET $nav_key
 
 #CMD ["java", "-jar", "-Dspring.profiles.active=dev core.jar"]
 ENTRYPOINT ["sh", "-c", "java -jar -Dspring.profiles.active=dev core.jar"]
