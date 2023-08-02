@@ -6,4 +6,4 @@ WORKDIR /root
 ARG JAR_FILE=build/libs/*.jar
 COPY ${JAR_FILE} core.jar
 
-CMD ["java", "-jar", "-Dspring.profiles.active=dev /core.jar"]
+CMD ["java", "-jar", "-Dspring.profiles.active=dev core.jar"]
