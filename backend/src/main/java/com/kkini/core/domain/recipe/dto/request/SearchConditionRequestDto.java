@@ -8,7 +8,7 @@ import lombok.Data;
 public class SearchConditionRequestDto {
 
     @Schema(description = "difficulty")
-    private int difficulty;
+    private Integer difficulty;
 
     @Schema(description = "레시피 제목")
     private String name;
