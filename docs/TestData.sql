@@ -10,6 +10,8 @@ insert into category values (2, '중식', 'image67890');
 
 # recipe 더미 데이터
 insert into recipe values (1, now(),now(), 1, 1, 'image124578', '양파, 갈비', '갈비찜', 180, 1, 1);
+insert into recipe values (2, now(),now(), 0, 2, 'image124578', '양파, 갈비', '갈비찜', 180, 2, 2);
+insert into recipe values (3, now(),now(), 0, 1, 'image124578', '양파, 갈비', '갈비찜', 180, 1, 2);
 
 # step 더미 데이터
 insert into step values (1, '1. 양파를 준비한다.', 1);
