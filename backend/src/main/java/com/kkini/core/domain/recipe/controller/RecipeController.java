@@ -5,6 +5,7 @@ import com.kkini.core.domain.recipe.dto.request.SearchConditionRequestDto;
 import com.kkini.core.domain.recipe.dto.response.RecipeDetailResponseDto;
 import com.kkini.core.domain.recipe.dto.response.RecipeListResponseDto;
 import com.kkini.core.domain.recipe.service.RecipeQueryService;
+import com.kkini.core.domain.recipe.service.RecipeService;
 import com.kkini.core.global.response.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -30,6 +31,7 @@ import static com.kkini.core.global.response.Response.OK;
 public class RecipeController {
 
     private final RecipeQueryService recipeQueryService;
+    private final RecipeService recipeService;
 
     @Operation(summary = "레시피 리스트 조회", description = "레시피 리스트를 조회하는 API입니다. page 기본값은 0, size 기본값은 10, sort 기본값은 'modifyDateTime, desc'입니다.")
     @Parameters({
@@ -53,8 +55,6 @@ public class RecipeController {
     })
     @GetMapping("/{id}")
     public Response<RecipeDetailResponseDto> getRecipeDetail(@PathVariable("id") Long recipeId) {
-        log.debug("getRecipeDetail() Entered");
-        log.debug("{}", recipeId);
         return OK(recipeQueryService.getRecipeDetail(recipeId));
     }
 
@@ -64,8 +64,7 @@ public class RecipeController {
     })
     @PostMapping
     public Response<Void> addRecipe(@RequestBody RecipeRegisterRequestDto recipeRegisterRequestDto) {
-        log.debug("addRecipe() Entered");
-        log.debug("{}", recipeRegisterRequestDto);
+        recipeService.saveRecipe(recipeRegisterRequestDto, 1L);
         return OK(null);
     }
 
