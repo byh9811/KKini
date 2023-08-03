@@ -26,13 +26,14 @@ import static com.kkini.core.global.response.Response.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/post")
 @Slf4j
-@Tag(name = "Post", description = "Post API Document")
+@Tag(name = "Post", description = "포스트 관리 API")
 public class PostController {
 
     @Operation(summary = "포스트 작성", description = "포스트를 작성한다.")
     @Parameter(name = "postRequestDto", description = "포스트 정보")
     @PostMapping
-    public Response<Void> addPost(@RequestBody PostRegisterRequestDto postRequestDto) {
+    public Response<Void> addPost(
+            @RequestBody PostRegisterRequestDto postRequestDto) {
         // 데이터베이스 조작을 위해 서비스로 전달, 서비스에서 성공여부 반환
         // 성공했을 경우 목록 갱신(목록 조회), 프론트로 목록 반환
         // 작성 완료했을 경우 포스트 목록 갱신, 목록은 최신 순으로 보여주기 때문에 자신이 작성한 포스트를 확인할 수 있다.
@@ -44,7 +45,8 @@ public class PostController {
     @Operation(summary = "포스트 목록 조회", description = "포스트를 조회한다.")
     @Parameter(name = "pageable", description = "페이지 정보")
     @GetMapping
-    public Response<List<PostListResponseDto>> getPostList(@PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
+    public Response<List<PostListResponseDto>> getPostList(
+            @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
         // 사용자 ID는 별도로 전달되므로 해당 함수에서는 처리하지 않는다.
         List<PostListResponseDto> list = new ArrayList<>();
         list.add(new PostListResponseDto());
@@ -60,7 +62,9 @@ public class PostController {
             @Parameter(name = "id", description = "포스트 식별자")
     })
     @PutMapping("/{id}")
-    public Response<Void> modifyPost(@RequestBody PostUpdateRequestDto postUpdateRequestDto, @PathVariable("id") Long id) {
+    public Response<Void> modifyPost(
+            @RequestBody PostUpdateRequestDto postUpdateRequestDto,
+            @PathVariable("id") Long id) {
         // 포스트를 작성한 사용자에게만 수정권한 부여, button visible
         // 프론트는 수정 폼에서 이미지 삭제/추가, 내용 수정 후 데이터 전달, 백에게 승인 요청
         // 수정 완료했을 경우 포스트 목록 갱신, 자신이 작성한 글은 최근 수정 순으로 보여주어야 한다.
@@ -86,7 +90,9 @@ public class PostController {
             @Parameter(name = "search", description = "검색어")
     })
     @GetMapping("/search")
-    public Response<List<SearchListResponseDto>> getSearchList(@PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable, @RequestBody String search) {
+    public Response<List<SearchListResponseDto>> getSearchList(
+            @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable,
+            @RequestBody String search) {
         List<SearchListResponseDto> list = new ArrayList<>();
         list.add(new SearchListResponseDto());
         list.add(new SearchListResponseDto());
@@ -99,7 +105,8 @@ public class PostController {
     @Operation(summary = "검색 상세 조회", description = "검색 또는 추천 포스트의 상세내용을 조회한다.")
     @Parameter(name = "id", description = "포스트 식별자")
     @GetMapping("/search/{id}")
-    public Response<SearchDetailResponseDto> getSearchDetail(@PathVariable("id") Long id) {
+    public Response<SearchDetailResponseDto> getSearchDetail(
+            @PathVariable("id") Long id) {
         SearchDetailResponseDto searchDetailResponseDto = new SearchDetailResponseDto();
         log.debug("getSearchDetail() Entered");
         log.debug("{}", id);
