@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -31,7 +32,7 @@ public class WebSecurityConfigure {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         log.debug("filterChain => ");
-      log.debug("   {}", http);
+        log.debug("   {}", http);
         //httpBasic, csrf, formLogin, rememberMe, logout, session disable
         http
                 .cors()
@@ -42,19 +43,20 @@ public class WebSecurityConfigure {
                 .rememberMe().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
+
         //요청에 대한 권한 설정
         http.authorizeRequests()
-                .antMatchers("/oauth2/**").permitAll()
+                .antMatchers("/api/swagger-ui/index.html").permitAll()
                 .anyRequest().authenticated();
 
         //oauth2Login
         http.oauth2Login()
                 .authorizationEndpoint()
-                .baseUri("/oauth2/authorize")  // 소셜 로그인 url
+                .baseUri("/api/oauth2/authorize")  // 소셜 로그인 url
                 .authorizationRequestRepository(cookieAuthorizationRequestRepository)  // 인증 요청을 cookie 에 저장
                 .and()
                 .redirectionEndpoint()
-                .baseUri("/oauth2/callback/*")  // 소셜 인증 후 redirect url
+                .baseUri("/api/oauth2/callback/*")  // 소셜 인증 후 redirect url
                 .and()
                 .userInfoEndpoint()
                 .userService(customOAuth2UserService)  // 회원 정보 처리
@@ -64,6 +66,7 @@ public class WebSecurityConfigure {
                 .failureHandler(oAuth2AuthenticationFailureHandler);
 
         http.logout()
+                .logoutUrl("/api/logout")
                 .clearAuthentication(true)
                 .deleteCookies("JSESSIONID");
 

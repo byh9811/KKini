@@ -68,11 +68,13 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
                 .build().toUriString();
     }
 
+    // 권한 정보 삭제
     protected void clearAuthenticationAttributes(HttpServletRequest request, HttpServletResponse response) {
         super.clearAuthenticationAttributes(request);
         cookieAuthorizationRequestRepository.removeAuthorizationRequestCookies(request, response);
     }
 
+    // uri 검증
     private boolean isAuthorizedRedirectUri(String uri) {
         log.debug("{}", uri);
         URI clientRedirectUri = URI.create(uri);

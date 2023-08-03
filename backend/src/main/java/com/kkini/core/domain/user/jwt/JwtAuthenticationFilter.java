@@ -21,14 +21,14 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        log.debug("doFilter =>");
-        log.debug("=> servletRequest : {}", servletRequest);
-        log.debug("=> servletResponse : {}", servletResponse);
-        log.debug("=> filterChain : {}", filterChain);
+        log.info("＃# 필러팅 시작");
+        log.debug(" => servletRequest : {}", servletRequest);
+        log.debug(" => servletResponse : {}", servletResponse);
+        log.debug(" => filterChain : {}", filterChain);
 
         //1. Request Header 에서 JWT Token 추출
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) servletRequest);
-        log.debug("=> token : {}", token);
+        log.info("## 토큰 생성 완료 : {}", token);
 
         //2. validateToken 메서드로 토큰 유효성 검사
         if (token != null && jwtTokenProvider.validateToken(token)) {

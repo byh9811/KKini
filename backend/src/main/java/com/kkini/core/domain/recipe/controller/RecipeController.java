@@ -15,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -35,7 +37,9 @@ public class RecipeController {
             @Parameter(name = "pageable", description = "페이지네이션 정보")
     })
     @GetMapping
-    public Response<List<RecipeListResponseDto>> getRecipeList(@ModelAttribute SearchConditionRequestDto searchConditionRequestDto, @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
+    public Response<List<RecipeListResponseDto>> getRecipeList(@AuthenticationPrincipal User user, @ModelAttribute SearchConditionRequestDto searchConditionRequestDto, @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
+        String username = user.getUsername();
+        log.warn(username);
         List<RecipeListResponseDto> list = new ArrayList<>();
         list.add(new RecipeListResponseDto());
         list.add(new RecipeListResponseDto());
