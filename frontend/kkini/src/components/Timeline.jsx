@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useInView } from "react-intersection-observer";
+
 import Post from './Post.jsx';
 
 function Timeline() {
@@ -38,19 +40,49 @@ function Timeline() {
       postImage: "https://newsimg.sedaily.com/2023/04/04/29O67TZ4DD_1.jpg",
       likes: 31,
       timestamp:"2d",
-    },
+    }
   ]);
+  const { ref, inView } = useInView({
+    threshold: 0,
+  });
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (inView && !loading) {
+      setLoading(true);
+      const addItems = () => {
+        const newPosts = [];
+        for (let i = 0; i < 1; i++) {
+          newPosts.push({
+              user:"T발씨병욱",
+              postImage:"https://i.namu.wiki/i/YIFgu56EdKbIZhjloRMQTkOn-PzfvyKhuvNkW3OgmSLVFCedvmyUk9HTtFHs0XnD0fcB49kHEgi6TnYACh2jFJ1fEHEv-_rpvvX161atfoxBq4SryJps1foRUiVXMEVHqg60llEZmdMEQMuA1b8UKA.webp",
+              likes:"18",
+              timestamp:"18s",
+          });
+        }
+      setPosts((current) => [...current, ...newPosts]);
+      setLoading(false);
+    };
+      console.log("무한 스크롤링 요청!");
+      addItems();
+    }
+  }, [inView]);
 
   return (
     <div className='timeline'>
       <div className='timeline_posts'>
-        {posts.map((post) => 
+      {posts.map((post,index) => {
+        return (
           <Post
-           user={post.user} 
-           postImage={post.postImage} 
-           likes={post.likes} 
-           timestamp={post.timestamp} />
-        )}
+              key={index}
+              user={post.user}
+              postImage={post.postImage}
+              likes={post.likes}
+              timestamp={post.timestamp}
+            />
+        );
+      })}
+      <Post ref={ref}/>
       </div>
     </div>
   )
