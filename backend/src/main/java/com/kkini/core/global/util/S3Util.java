@@ -1,29 +1,24 @@
-package com.kkini.core.domain.s3.service;
+package com.kkini.core.global.util;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
-import com.amazonaws.util.IOUtils;
-import com.kkini.core.domain.s3.dto.S3FileDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class S3Service {
+public class S3Util {
+
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
 
@@ -36,9 +31,9 @@ public class S3Service {
      * fileType : 파일 폴더 구분(ex. post, recipe, badge, member)
      * multipartFiles : 이미지 리스트(image1.png, image2.jpg, ...)
      */
-    public List<S3FileDto> uploadFiles(String fileType, List<MultipartFile> multipartFiles) {
+    public List<String> uploadFiles(String fileType, List<MultipartFile> multipartFiles) {
 
-        List<S3FileDto> s3files = new ArrayList<>();
+        List<String> filePaths = new ArrayList<>();
 
         // 포스트와 레시피만 폴더에 날짜를 붙인다.
         String uploadFilePath;
@@ -62,11 +57,11 @@ public class S3Service {
 
             try (InputStream inputStream = multipartFile.getInputStream()) {
                 // ex) 구분(/년/월/일)/파일.확장자
-                String keyName = uploadFilePath + "/" + uploadFileName;
+                String filePath = uploadFilePath + "/" + uploadFileName;
 
                 // S3에 폴더 및 파일 업로드
                 amazonS3Client.putObject(
-                        new PutObjectRequest(bucketName, keyName, inputStream, objectMetadata)
+                        new PutObjectRequest(bucketName, filePath, inputStream, objectMetadata)
                 );
 
                 // TODO : 외부에 공개하는 파일인 경우 Public Read 권한을 추가, ACL 확인
@@ -75,40 +70,33 @@ public class S3Service {
                 // .withCannedAcl(CannedAccessControlList.PublicRead));
 
                 // S3에 업로드한 폴더 및 파일 URL
-                uploadFileUrl = amazonS3Client.getUrl(bucketName, keyName).toString();
+                uploadFileUrl = amazonS3Client.getUrl(bucketName, filePath).toString();
             } catch (IOException e) {
                 e.printStackTrace();
                 log.error("Filed upload failed", e);
             }
 
             // 저장된 파일 정보 반환
-            s3files.add(
-                S3FileDto.builder()
-                    .originalFileName(originalFileName)
-                    .uploadFileName(uploadFileName)
-                    .uploadFilePath(uploadFilePath)
-                    .uploadFileUrl(uploadFileUrl)
-                    .build()
-            );
+            filePaths.add(uploadFilePath + "/" + uploadFileName);
         }
 
-        return s3files;
+        return filePaths;
     }
 
     /**
      * S3 : 파일 삭제
      */
-    public List<String> deleteFile(List<String> fileNames) {
+    public List<String> deleteFile(List<String> filePaths) {
 
         List<String> result = new ArrayList<>();
 
-        for(String fileName : fileNames) {
+        for(String filePath : filePaths) {
             String state = "success";
 
             try {
-                boolean isObjectExist = amazonS3Client.doesObjectExist(bucketName, fileName);
+                boolean isObjectExist = amazonS3Client.doesObjectExist(bucketName, filePath);
                 if (isObjectExist) {
-                    amazonS3Client.deleteObject(bucketName, fileName);
+                    amazonS3Client.deleteObject(bucketName, filePath);
                 } else {
                     state = "file not found";
                 }
@@ -124,8 +112,8 @@ public class S3Service {
     }
 
     /**
-     * S3 : 파일 다운로드
-     */
+     * S3 : 파일 다운로드(폐기)
+
     public List<byte[]> downloadFile(List<String> downloadFilePaths) throws IOException{
         List<byte[]> result = new ArrayList<>();
 
@@ -139,6 +127,24 @@ public class S3Service {
         }
 
         return result;
+    }
+     */
+
+    /**
+     * S3 : 이미지 url 조합
+     */
+    public List<String> getImageUrl(List<String> filePaths) {
+        List<String> urlList = new ArrayList<>();
+
+        for(String filePath : filePaths) {
+            try {
+                urlList.add(amazonS3Client.getUrl(bucketName, filePath).toString());
+            } catch (Exception e) {
+                log.debug("file not found", e);
+            }
+        }
+
+        return urlList;
     }
 
     /**
@@ -162,8 +168,8 @@ public class S3Service {
     /**
      * 파일 확장자 반환
      */
-    private MediaType contentType(String keyname) {
-        String[] arr = keyname.split("\\.");
+    private MediaType contentType(String fileName) {
+        String[] arr = fileName.split("\\.");
         String type = arr[arr.length - 1];
         switch(type) {
             case "png":
@@ -174,4 +180,5 @@ public class S3Service {
                 return MediaType.APPLICATION_OCTET_STREAM;
         }
     }
+
 }

@@ -1,4 +1,4 @@
-package com.kkini.core.domain.s3.config;
+package com.kkini.core.global.config;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
