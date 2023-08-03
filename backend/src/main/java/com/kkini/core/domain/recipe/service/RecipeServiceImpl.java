@@ -1,6 +1,5 @@
 package com.kkini.core.domain.recipe.service;
 
-import com.kkini.core.domain.recipe.dto.response.RecipeDetailResponseDto;
 import com.kkini.core.domain.recipe.entity.Recipe;
 import com.kkini.core.domain.recipe.repository.RecipeRepository;
 import com.kkini.core.global.exception.NotFoundException;
@@ -18,4 +17,9 @@ public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
 
+    @Override
+    public void removeRecipe(Long recipeId) {
+        Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(() -> new NotFoundException(Recipe.class, recipeId));
+        recipe.deleteRecipe();
+    }
 }
