@@ -26,7 +26,7 @@ public class EvaluationController {
     })
     @PostMapping("/{id}")
     public Response<Void> setEvaluation(@PathVariable("id") Long id, @RequestBody int price) {
-        log.debug("modifyEvaluation() Entered");
+        log.debug("setEvaluation() Entered");
         log.debug("{}", id);
         log.debug("{}", price);
         return OK(null);
