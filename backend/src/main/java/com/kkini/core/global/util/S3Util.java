@@ -5,7 +5,6 @@ import com.amazonaws.services.s3.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,9 +26,7 @@ public class S3Util {
 
     /**
      * S3 : 파일 업로드
-     * ----- 입력 -----
      * fileType : 파일 폴더 구분(ex. post, recipe, badge, member)
-     * multipartFiles : 이미지 리스트(image1.png, image2.jpg, ...)
      */
     public List<String> uploadFiles(String fileType, List<MultipartFile> multipartFiles) {
 
@@ -112,25 +109,6 @@ public class S3Util {
     }
 
     /**
-     * S3 : 파일 다운로드(폐기)
-
-    public List<byte[]> downloadFile(List<String> downloadFilePaths) throws IOException{
-        List<byte[]> result = new ArrayList<>();
-
-        for(String downloadFilePath : downloadFilePaths) {
-            // AWS 파일 다운로드
-            S3Object s3Object = amazonS3Client.getObject(new GetObjectRequest(bucketName, downloadFilePath));
-            S3ObjectInputStream objectInputStream = s3Object.getObjectContent();
-            byte[] bytes = IOUtils.toByteArray(objectInputStream);
-
-            result.add(bytes);
-        }
-
-        return result;
-    }
-     */
-
-    /**
      * S3 : 이미지 url 조합
      */
     public List<String> getImageUrl(List<String> filePaths) {
@@ -163,22 +141,6 @@ public class S3Util {
         Date date = new Date();
         String str = sdf.format(date);
         return str.replace("-", "/");
-    }
-
-    /**
-     * 파일 확장자 반환
-     */
-    private MediaType contentType(String fileName) {
-        String[] arr = fileName.split("\\.");
-        String type = arr[arr.length - 1];
-        switch(type) {
-            case "png":
-                return MediaType.IMAGE_PNG;
-            case "jpg":
-                return MediaType.IMAGE_JPEG;
-            default:
-                return MediaType.APPLICATION_OCTET_STREAM;
-        }
     }
 
 }
