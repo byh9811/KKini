@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, Outlet } from 'react-router-dom';
 import NavigationBar from '../components/NavigationBar.jsx';
 import N1 from './N1.jsx'
 import N2 from './N2.jsx'
 import N3 from './N3.jsx'
 import N4 from './N4.jsx'
 import N5 from './N5.jsx'
+import CommentsPage from '../components/CommentPage.jsx'
 
 function Home({ onLogout }) {
   const handleLogout = () => { 
@@ -30,6 +31,7 @@ function Home({ onLogout }) {
         <Route path="/n3" element={<N3 />} />
         <Route path="/n4" element={<N4 />} />
         <Route path="/n5" element={<N5 />} />
+        <Route path="/comments" element={<CommentsPage />} />
       </Routes>
       
       <NavigationBar></NavigationBar>

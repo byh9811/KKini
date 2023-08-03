@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useState } from 'react';
 import styled from 'styled-components';
 import { Avatar } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -6,10 +6,40 @@ import ThumbDownOffAltRoundedIcon from '@mui/icons-material/ThumbDownOffAltRound
 import ChatBubbleOutlineRoundedIcon from '@mui/icons-material/ChatBubbleOutlineRounded';
 import LocalAtmRoundedIcon from '@mui/icons-material/LocalAtmRounded';
 import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+
+import Drawer from './Drawer'; // Drawer 컴포넌트를 가져옵니다
 
 const Post = forwardRef(({ user, postImage, likes, timestamp }, ref) => {
+  
+  const [show, setShow] = useState(false);
+  const [amount, setAmount] = useState('');
+  const [amounts, setAmounts] = useState([]);
+  const [averageAmount, setAverageAmount] = useState(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const handleClose = () => {
+    setShow(false);
+    setAmount('');
+  };
+  const handleShow = () => setShow(true);
+
+  const handleSave = () => {
+    const newAmounts = [...amounts, parseFloat(amount)];
+    setAmounts(newAmounts);
+
+    const totalAmount = newAmounts.reduce((a, b) => a + b, 0);
+    const avgAmount = (totalAmount / newAmounts.length).toFixed(0);
+    setAverageAmount(avgAmount);
+
+    handleClose();
+  };
+
+  
   return (
     <PostContainer ref={ref}>
+      <Drawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
       <PostHeader>
         <PostHeaderAuthor>
           <Avatar></Avatar>
@@ -29,11 +59,11 @@ const Post = forwardRef(({ user, postImage, likes, timestamp }, ref) => {
             <ThumbDownOffAltRoundedIcon />
           </PostIcon>
           <PostIcon>
-            <ChatBubbleOutlineRoundedIcon />
+            <ChatBubbleOutlineRoundedIcon onClick={() => setIsDrawerOpen(true)} />
           </PostIcon>
         </div>
         <div className='post__iconSave'>
-          <PostIcon>
+          <PostIcon onClick={handleShow}>
             <LocalAtmRoundedIcon />
           </PostIcon>
           <PostIcon>
@@ -43,6 +73,35 @@ const Post = forwardRef(({ user, postImage, likes, timestamp }, ref) => {
       </PostFooterIcons>
 
       <div>{likes}명이 좋아합니다.</div>
+      {averageAmount && <div>평가된 금액의 평균: {averageAmount}원</div>}
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton style={{ textAlign: 'center' }}>
+          <Modal.Title>금액 평가창</Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{ textAlign: 'center' }}>
+          이 음식이 얼마처럼 보이나요???
+          <img src={postImage} alt="" style={{ maxWidth: '100%', borderRadius: '6px' }} />
+          <div>
+            <input
+              type="number"
+              value={amount}
+              placeholder="금액을 입력하세요"
+              onChange={(e) => setAmount(e.target.value)}
+              style={{ textAlign: 'center', width: '100%', padding: '10px', margin: '10px 0' }}
+            />
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            닫기
+          </Button>
+          <Button variant="primary" onClick={handleSave}>
+            금액 평가 완료
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
     </PostContainer>
   );
 });
