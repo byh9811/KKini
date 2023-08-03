@@ -58,6 +58,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         log.debug(" {}", user);
         //이미 가입된 경우
         if (user != null) {
+            log.warn("이미 가입된 경우!!");
             if (!user.getAuthProvider().equals(authProvider)) {
                 throw new RuntimeException("Email already signed up.");
             }
@@ -89,6 +90,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         log.debug("updateUser =>");
         log.debug(" {}", user);
         log.debug(" {}", oAuth2UserInfo);
-        return userRepository.save(user.update(oAuth2UserInfo));
+        return user.update(oAuth2UserInfo);
     }
 }
