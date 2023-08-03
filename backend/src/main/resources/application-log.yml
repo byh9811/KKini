@@ -1,3 +1,19 @@
+# 공통 설정
+logging:
+  file:
+    path: ./logs    # 로그 폴더명
+    name: kkini.log   # 로그 파일명
+  logback:
+    rollingpolicy:
+      max-file-size: 3GB    # 로그 파일 최대 크기
+      max-history: 14   # 2주동안 보관
+
+--- # local 설정
+spring:
+  config:
+    activate:
+      on-profile: "log-local"
+
 logging:
   level:
     root: info    # 스프링 라이브러리의 로그는 info부터 출력
@@ -9,3 +25,18 @@ logging:
             sql: trace    # SQL에 실제 들어가는 파라미터값 확인
       springframework:
         security: warn   # Security 관련 로그는 warn부터 출력
+
+--- # dev 설정
+spring:
+  config:
+    activate:
+      on-profile: "log-dev"
+
+logging:
+  level:
+    root: warn    # 스프링 라이브러리의 로그는 info부터 출력
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace    # SQL에 실제 들어가는 파라미터값 확인
