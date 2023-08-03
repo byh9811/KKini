@@ -31,31 +31,43 @@ public class S3Service {
     private final AmazonS3Client amazonS3Client;
 
     /**
-     * S3로 파일 업로드
+     * S3 : 파일 업로드
+     * ----- 입력 -----
+     * fileType : 파일 폴더 구분(ex. post, recipe, badge, member)
+     * multipartFiles : 이미지 리스트(image1.png, image2.jpg, ...)
      */
     public List<S3FileDto> uploadFiles(String fileType, List<MultipartFile> multipartFiles) {
 
         List<S3FileDto> s3files = new ArrayList<>();
 
-        String uploadFilePath = fileType + "/" + getFolderName();
+        // 포스트와 레시피만 폴더에 날짜를 붙인다.
+        String uploadFilePath;
+        if(fileType.equals("post") || fileType.equals("recipe")) {
+            uploadFilePath = fileType + "/" + getFolderName();
+        } else {
+            uploadFilePath = fileType;
+        }
 
         for (MultipartFile multipartFile : multipartFiles) {
-
             String originalFileName = multipartFile.getOriginalFilename();
+
+            // 파일이름변경
             String uploadFileName = getUuidFileName(originalFileName);
             String uploadFileUrl = "";
 
+            // 메타데이터 생성
             ObjectMetadata objectMetadata = new ObjectMetadata();
             objectMetadata.setContentLength(multipartFile.getSize());
             objectMetadata.setContentType(multipartFile.getContentType());
 
             try (InputStream inputStream = multipartFile.getInputStream()) {
-
-                String keyName = uploadFilePath + "/" + uploadFileName; // ex) 구분/년/월/일/파일.확장자
+                // ex) 구분(/년/월/일)/파일.확장자
+                String keyName = uploadFilePath + "/" + uploadFileName;
 
                 // S3에 폴더 및 파일 업로드
                 amazonS3Client.putObject(
-                        new PutObjectRequest(bucketName, keyName, inputStream, objectMetadata));
+                        new PutObjectRequest(bucketName, keyName, inputStream, objectMetadata)
+                );
 
                 // TODO : 외부에 공개하는 파일인 경우 Public Read 권한을 추가, ACL 확인
                 // amazonS3Client.putObject(
@@ -64,41 +76,66 @@ public class S3Service {
 
                 // S3에 업로드한 폴더 및 파일 URL
                 uploadFileUrl = amazonS3Client.getUrl(bucketName, keyName).toString();
-
             } catch (IOException e) {
                 e.printStackTrace();
                 log.error("Filed upload failed", e);
             }
 
+            // 저장된 파일 정보 반환
             s3files.add(
                 S3FileDto.builder()
                     .originalFileName(originalFileName)
                     .uploadFileName(uploadFileName)
                     .uploadFilePath(uploadFilePath)
                     .uploadFileUrl(uploadFileUrl)
-                    .build());
+                    .build()
+            );
         }
 
         return s3files;
     }
 
     /**
-     * S3에 업로드된 파일 삭제
+     * S3 : 파일 삭제
      */
-    public String deleteFile(String uploadFilePath, String uuidFileName) {
+    public List<String> deleteFile(List<String> fileNames) {
 
-        String result = "success";
+        List<String> result = new ArrayList<>();
 
-        try {
-            String keyName = uploadFilePath + "/" + uuidFileName; // ex) 구분/년/월/일/파일.확장자
-            boolean isObjectExist = amazonS3Client.doesObjectExist(bucketName, keyName);
-            if (isObjectExist) {
-                amazonS3Client.deleteObject(bucketName, keyName);
-            } else {
-                result = "file not found";
+        for(String fileName : fileNames) {
+            String state = "success";
+
+            try {
+                boolean isObjectExist = amazonS3Client.doesObjectExist(bucketName, fileName);
+                if (isObjectExist) {
+                    amazonS3Client.deleteObject(bucketName, fileName);
+                } else {
+                    state = "file not found";
+                }
+            } catch (Exception e) {
+                state = "failed";
+                log.debug("Delete File failed", e);
             }
-        } catch (Exception e) {
-            log.debug("Delete File failed", e);
+
+            result.add(state);
+        }
+
+        return result;
+    }
+
+    /**
+     * S3 : 파일 다운로드
+     */
+    public List<byte[]> downloadFile(List<String> downloadFilePaths) throws IOException{
+        List<byte[]> result = new ArrayList<>();
+
+        for(String downloadFilePath : downloadFilePaths) {
+            // AWS 파일 다운로드
+            S3Object s3Object = amazonS3Client.getObject(new GetObjectRequest(bucketName, downloadFilePath));
+            S3ObjectInputStream objectInputStream = s3Object.getObjectContent();
+            byte[] bytes = IOUtils.toByteArray(objectInputStream);
+
+            result.add(bytes);
         }
 
         return result;
@@ -122,24 +159,9 @@ public class S3Service {
         return str.replace("-", "/");
     }
 
-    public ResponseEntity<byte[]> downloadFile(String downloadFilePath) throws IOException{
-        System.out.println(downloadFilePath);
-        downloadFilePath = "tgetemp/2023/08/02/2923f714-52e4-4cbf-a60c-a527ada65771.png";
-        S3Object s3Object = amazonS3Client.getObject(new GetObjectRequest(bucketName, downloadFilePath));
-        S3ObjectInputStream objectInputStream = s3Object.getObjectContent();
-        byte[] bytes = IOUtils.toByteArray(objectInputStream);
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(contentType(downloadFilePath));
-        httpHeaders.setContentLength(bytes.length);
-        String[] arr = downloadFilePath.split("/");
-        String type = arr[arr.length - 1];
-        String fileName = URLEncoder.encode(type, "UTF-8").replaceAll("\\+", "%20");
-        httpHeaders.setContentDispositionFormData("attachment", fileName);
-
-        return new ResponseEntity<>(bytes, httpHeaders, HttpStatus.OK);
-    }
-
+    /**
+     * 파일 확장자 반환
+     */
     private MediaType contentType(String keyname) {
         String[] arr = keyname.split("\\.");
         String type = arr[arr.length - 1];
