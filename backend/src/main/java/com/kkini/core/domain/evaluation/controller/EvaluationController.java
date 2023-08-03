@@ -15,7 +15,7 @@ import static com.kkini.core.global.response.Response.OK;
 @RequiredArgsConstructor
 @RequestMapping("/api/evaluation")
 @Slf4j
-@Tag(name = "Evaluation", description = "포스트 음식 평가 API")
+@Tag(name = "Evaluation", description = "평가 관리 API")
 public class EvaluationController {
 
     // 평가 입력
