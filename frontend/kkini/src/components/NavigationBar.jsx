@@ -1,24 +1,39 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import RestoreIcon from '@mui/icons-material/Restore';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ArchiveIcon from '@mui/icons-material/Archive';
 
 function NavigationBar() {
 
-  let navigate = useNavigate();
+  const navigate = useNavigate();
+
+  const ref = useRef(null);
+  const [value, setValue] = useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  }
+
 
   return (
+    <BottomNavigation
+        sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, width: 500, margin: '0 auto' }}
+        ref={ref}
+        value={value}
+        onChange={handleChange}
+      >
+        <BottomNavigationAction onClick={() => {navigate('/n1')}} label="Recents" icon={<RestoreIcon />} />
+        <BottomNavigationAction onClick={() => {navigate('/n2')}} label="Favorites" icon={<FavoriteIcon />} />
+        <BottomNavigationAction onClick={() => {navigate('/n3')}} label="Recents" icon={<RestoreIcon />} />
+        <BottomNavigationAction onClick={() => {navigate('/n4')}} label="Archive" icon={<ArchiveIcon />} />
+        <BottomNavigationAction onClick={() => {navigate('/n5')}} label="Recents" icon={<RestoreIcon />} />
+      </BottomNavigation>
 
-    <Navbar className="justify-content-center">
-      <Container>
-        <Nav className="mx-auto">
-          <Nav.Link onClick={() => {navigate('/n1')}}>n1</Nav.Link>
-          <Nav.Link onClick={() => {navigate('/n2')}}>n2</Nav.Link>
-          <Nav.Link onClick={() => {navigate('/n3')}}>n3</Nav.Link>
-          <Nav.Link onClick={() => {navigate('/n4')}}>n4</Nav.Link>
-          <Nav.Link onClick={() => {navigate('/n5')}}>n5</Nav.Link>
-        </Nav>
-      </Container>
-    </Navbar>
+
   );
 }
 
