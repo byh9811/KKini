@@ -17,7 +17,7 @@ public class S3Controller {
 
     private final S3Service s3Service;
 
-    @PostMapping
+    @PostMapping("/uploads")
     public ResponseEntity<Object> uploadFiles(
             @RequestParam(value = "fileType") String fileType,
             @RequestPart(value = "files") List<MultipartFile> multipartFiles) {
@@ -26,7 +26,7 @@ public class S3Controller {
                 .body(s3Service.uploadFiles(fileType, multipartFiles));
     }
 
-    @DeleteMapping
+    @DeleteMapping("/delete")
     public ResponseEntity<Object> deleteFile(
             @RequestParam(value = "uploadFilePath") String uploadFilePath,
             @RequestParam(value = "uuidFileName") String uuidFileName) {
@@ -34,13 +34,8 @@ public class S3Controller {
                 .status(HttpStatus.OK)
                 .body(s3Service.deleteFile(uploadFilePath, uuidFileName));
     }
-
     @GetMapping("/{downloadFilePath}")
-    public ResponseEntity<byte[]> downloadFile(
-            @PathVariable String downloadFilePath
-    ) throws IOException {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(s3Service.downloadFile(downloadFilePath));
+    public ResponseEntity<byte[]> downloadFile(@PathVariable String downloadFilePath) throws IOException {
+        return s3Service.downloadFile(downloadFilePath);
     }
 }
