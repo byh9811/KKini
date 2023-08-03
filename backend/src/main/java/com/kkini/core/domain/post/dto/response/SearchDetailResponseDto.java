@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class SearchDetailResponseDto {
     private int recipeId;
 
     @Schema(description = "이미지")
-    private List<MultipartFile> images;
+    private List<String> images;
 
     @Schema(description = "생성일")
     private String createDateTime;

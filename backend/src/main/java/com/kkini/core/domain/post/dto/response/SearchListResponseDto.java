@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -18,6 +17,6 @@ public class SearchListResponseDto {
     private int id;
 
     @Schema(description = "이미지")
-    private List<MultipartFile> images;
+    private List<String> images;
 
 }
