@@ -32,6 +32,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+        log.debug("성공적으로 인증 수행 완료!!!!!!");
         log.debug("{}", request);
         log.debug("{}", response);
         log.debug("{}", authentication);

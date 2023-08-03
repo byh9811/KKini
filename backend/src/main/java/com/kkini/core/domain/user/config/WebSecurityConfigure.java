@@ -50,7 +50,7 @@ public class WebSecurityConfigure {
         //oauth2Login
         http.oauth2Login()
                 .authorizationEndpoint()
-                .baseUri("/oauth2/authoriz")  // 소셜 로그인 url
+                .baseUri("/oauth2/authorize")  // 소셜 로그인 url
                 .authorizationRequestRepository(cookieAuthorizationRequestRepository)  // 인증 요청을 cookie 에 저장
                 .and()
                 .redirectionEndpoint()

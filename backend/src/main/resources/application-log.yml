@@ -9,3 +9,5 @@ logging:
             sql: trace    # SQL에 실제 들어가는 파라미터값 확인
       springframework:
         security: warn   # Security 관련 로그는 warn부터 출력
+  file:
+    name: ./logs/app-local
