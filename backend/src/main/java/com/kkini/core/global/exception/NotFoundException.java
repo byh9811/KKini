@@ -2,7 +2,10 @@ package com.kkini.core.global.exception;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class NotFoundException extends ServiceRuntimeException {
+/**
+ * 존재하지 않는 엔티티를 조회할때 발생하는 예외
+ */
+public class NotFoundException extends InvalidException {
 
     static final String MESSAGE_KEY = "ERROR.NOT_FOUND";
 
