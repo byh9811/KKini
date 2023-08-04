@@ -17,6 +17,6 @@ public class SearchListResponseDto {
     private int id;
 
     @Schema(description = "이미지")
-    private List<String> images;
+    private String images;
 
 }
