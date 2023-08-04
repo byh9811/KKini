@@ -28,6 +28,12 @@ public class RecipeServiceImpl implements RecipeService {
     private final CategoryRepository categoryRepository;
 
     @Override
+    public void removeRecipe(Long recipeId) {
+        Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(() -> new NotFoundException(Recipe.class, recipeId));
+        recipe.deleteRecipe();
+    }
+
+    @Override
     public void saveRecipe(RecipeRegisterRequestDto dto, Long memberId) {
 
         Member writer = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException(Member.class, memberId));
@@ -52,5 +58,4 @@ public class RecipeServiceImpl implements RecipeService {
                             .build());
         }
 
-    }
 }

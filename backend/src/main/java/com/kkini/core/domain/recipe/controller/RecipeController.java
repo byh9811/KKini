@@ -70,12 +70,11 @@ public class RecipeController {
 
     @Operation(summary = "레시피 삭제", description = "레시피를 삭제하는 API입니다.")
     @Parameters({
-            @Parameter(name = "recipeId", description = "레시피 ID")
+            @Parameter(name = "id", description = "레시피 ID")
     })
     @DeleteMapping("/{id}")
     public Response<Void> removeRecipe(@PathVariable("id") Long recipeId) {
-        log.debug("removeRecipe() Entered");
-        log.debug("{}", recipeId);
+        recipeService.removeRecipe(recipeId);
         return OK(null);
     }
 
