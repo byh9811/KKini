@@ -16,6 +16,7 @@ spring:
       - server
       - swagger
       - s3
+      - oauth2
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
