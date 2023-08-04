@@ -2,6 +2,11 @@
 logging:
   file:
     name: ./logs/kkini.log
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
 
 --- # local 설정
 spring:

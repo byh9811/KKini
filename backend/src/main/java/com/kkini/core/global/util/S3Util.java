@@ -21,7 +21,7 @@ public class S3Util {
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
 
-    // 문제없음
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     private final AmazonS3Client amazonS3Client;
 
     /**
