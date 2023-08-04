@@ -17,17 +17,13 @@ import javax.persistence.*;
 @Entity
 public class Member extends BaseEntityWithModifiedTime {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     private String email;
 
     private String name;
 
     private String nickname;
 
-    private String refresh_token;
+    private String refreshToken;
 
     @ColumnDefault("1")
     private int level;
@@ -52,6 +48,6 @@ public class Member extends BaseEntityWithModifiedTime {
     }
 
     public void updateRefreshToken(String token) {
-        this.refresh_token = token;
+        this.refreshToken = token;
     }
 }
