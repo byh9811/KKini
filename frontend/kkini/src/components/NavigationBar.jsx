@@ -8,7 +8,6 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ArchiveIcon from '@mui/icons-material/Archive';
 
 function NavigationBar() {
-  const navigate = useNavigate();
 
   const navigate = useNavigate();
 
