@@ -40,7 +40,8 @@ public class RecipeQueryRepository {
                 .from(recipe)
                 .join(member).on(recipe.member.id.eq(member.id))
                 .join(category).on(recipe.category.id.eq(category.id))
-                .where(recipe.id.eq(recipeId))
+                .where(recipe.id.eq(recipeId)
+                        .and(recipe.deleted.eq(false)))
                 .fetchOne());
     }
 }
