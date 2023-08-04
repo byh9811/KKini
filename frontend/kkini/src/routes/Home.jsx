@@ -20,7 +20,7 @@ function Home({ onLogout }) {
   }, []);
 
   return (
-    <div style={ {margin: '0 auto'} }>
+    <div style={{ margin: '0 auto' }}>
       <h2>Main Page</h2>
       <p>메인 페이지에 오신 것을 환영합니다!</p>
       <button onClick={handleLogout}>로그아웃</button>

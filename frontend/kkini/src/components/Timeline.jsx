@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { useInView } from "react-intersection-observer";
-
 import Post from './Post.jsx';
 
 function Timeline() {
@@ -42,9 +41,11 @@ function Timeline() {
       timestamp:"2d",
     }
   ]);
+  
   const { ref, inView } = useInView({
     threshold: 0,
   });
+  
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -71,18 +72,20 @@ function Timeline() {
   return (
     <div className='timeline'>
       <div className='timeline_posts'>
-      {posts.map((post,index) => {
-        return (
-          <Post
+        {
+          posts.map((post, index) => {
+            return (
+              <Post
               key={index}
               user={post.user}
               postImage={post.postImage}
               likes={post.likes}
               timestamp={post.timestamp}
-            />
-        );
-      })}
-      <Post ref={ref}/>
+              ></Post>              
+            )
+          })
+        }
+        <Post ref={ref}></Post>
       </div>
     </div>
   )
