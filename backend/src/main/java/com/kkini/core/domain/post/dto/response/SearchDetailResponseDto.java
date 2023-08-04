@@ -10,8 +10,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "포스트 조회 응답 DTO")
-public class PostListResponseDto {
+@Schema(description = "검색 상세조회 응답 DTO")
+public class SearchDetailResponseDto {
 
     @Schema(description = "포스트 ID")
     private int id;
