@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -39,14 +40,8 @@ public class RecipeController {
             @Parameter(name = "pageable", description = "페이지네이션 정보")
     })
     @GetMapping
-    public Response<List<RecipeListResponseDto>> getRecipeList(@ModelAttribute SearchConditionRequestDto searchConditionRequestDto, @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
-        List<RecipeListResponseDto> list = new ArrayList<>();
-        list.add(new RecipeListResponseDto());
-        list.add(new RecipeListResponseDto());
-        log.debug("getRecipeList() Entered");
-        log.debug("{}", searchConditionRequestDto);
-        log.debug("{}", pageable.getSort());
-        return OK(list);
+    public Response<Page<RecipeListResponseDto>> getRecipeList(@ModelAttribute SearchConditionRequestDto searchConditionRequestDto, @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
+        return OK(recipeQueryService.getRecipeList(searchConditionRequestDto, pageable));
     }
 
     @Operation(summary = "레시피 상세 조회", description = "레시피 상세를 조회하는 API입니다.")
