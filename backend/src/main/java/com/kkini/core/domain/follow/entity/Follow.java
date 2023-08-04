@@ -18,9 +18,9 @@ public class Follow extends BaseEntityWithCreatedTime {
 
     @ManyToOne
     @JoinColumn(name = "follower_id")
-    private Member followerID;
+    private Member follower;
 
     @ManyToOne
     @JoinColumn(name = "follow_id")
-    private Member followId;
+    private Member followee;
 }
