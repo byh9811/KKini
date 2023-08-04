@@ -1,31 +1,40 @@
 package com.kkini.core.domain.member.entity;
 
+import com.kkini.core.domain.oauth2.enums.AuthProvider;
+import com.kkini.core.domain.oauth2.enums.Role;
+import com.kkini.core.domain.oauth2.userinfo.OAuth2UserInfo;
 import com.kkini.core.global.entity.BaseEntityWithModifiedTime;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
-import javax.persistence.Entity;
+import lombok.*;
 
-@Entity
+import javax.persistence.*;
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@NoArgsConstructor
-@SuperBuilder
+@Entity
 public class Member extends BaseEntityWithModifiedTime {
 
-    private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String email;
 
-    private String nickname;
+    private String name;
 
-    private String snsType;
+    private String oauth2Id;
 
-    private String refreshToken;
+    @Enumerated(EnumType.STRING)
+    private AuthProvider authProvider;
 
-    private int level;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
-    private int star;
+    public Member update(OAuth2UserInfo oAuth2UserInfo) {
+        this.name = oAuth2UserInfo.getName();
+        this.oauth2Id = oAuth2UserInfo.getOAuth2Id();
 
-    private String image;
-
+        return this;
+    }
 }
