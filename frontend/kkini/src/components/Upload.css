@@ -30,8 +30,7 @@
     z-index: 1;
   }
   
-  .uploader-wrapper .file-container .file-wrapper img,
-  .uploader-wrapper .file-container .file-wrapper video {
+  .uploader-wrapper .file-container .file-wrapper img {
     width: 100%;
     height: 100%;
     object-fit: cover;
