@@ -1,12 +1,15 @@
 import React, { useRef, useState } from 'react';
+import { Container, Nav, Navbar } from 'react-bootstrap';
+import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import RestoreIcon from '@mui/icons-material/Restore';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ArchiveIcon from '@mui/icons-material/Archive';
-import { useNavigate } from 'react-router-dom';
 
 function NavigationBar() {
+  const navigate = useNavigate();
+
   const navigate = useNavigate();
 
   const ref = useRef(null);
@@ -16,8 +19,9 @@ function NavigationBar() {
     setValue(newValue);
   }
 
+
   return (
-      <BottomNavigation
+    <BottomNavigation
         sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, width: 500, margin: '0 auto' }}
         ref={ref}
         value={value}
@@ -29,6 +33,8 @@ function NavigationBar() {
         <BottomNavigationAction onClick={() => {navigate('/n4')}} label="Archive" icon={<ArchiveIcon />} />
         <BottomNavigationAction onClick={() => {navigate('/n5')}} label="Recents" icon={<RestoreIcon />} />
       </BottomNavigation>
+
+
   );
 }
 
