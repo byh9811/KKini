@@ -7,13 +7,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import static com.kkini.core.global.response.Response.ERROR;
 
 @RestControllerAdvice
 @Slf4j
-public class ExceptionHandler {
+public class ExceptionAdvice {
 
     private ResponseEntity<Response<?>> newResponse(Throwable throwable, HttpStatus status) {
         HttpHeaders headers = new HttpHeaders();
@@ -21,13 +22,13 @@ public class ExceptionHandler {
         return new ResponseEntity<>(ERROR(throwable, status), headers, status);
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(InvalidException.class)
-    public ResponseEntity<?> handleInvalidException(ServiceRuntimeException e) {
+    @ExceptionHandler(InvalidException.class)
+    public ResponseEntity<?> handleInvalidException(InvalidException e) {
         log.error("Unexpected service exception occurred: {}", e.getMessage(), e);
         return newResponse(e, HttpStatus.NOT_FOUND);
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(ServiceRuntimeException.class)
+    @ExceptionHandler(ServiceRuntimeException.class)
     public ResponseEntity<?> handleServiceRuntimeException(ServiceRuntimeException e) {
         log.error("Unexpected service exception occurred: {}", e.getMessage(), e);
         return newResponse(e, HttpStatus.INTERNAL_SERVER_ERROR);
