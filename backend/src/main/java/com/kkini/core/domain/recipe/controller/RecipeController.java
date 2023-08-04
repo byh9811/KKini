@@ -55,8 +55,6 @@ public class RecipeController {
     })
     @GetMapping("/{id}")
     public Response<RecipeDetailResponseDto> getRecipeDetail(@PathVariable("id") Long recipeId) {
-        log.debug("getRecipeDetail() Entered");
-        log.debug("{}", recipeId);
         return OK(recipeQueryService.getRecipeDetail(recipeId));
     }
 
@@ -66,8 +64,7 @@ public class RecipeController {
     })
     @PostMapping
     public Response<Void> addRecipe(@RequestBody RecipeRegisterRequestDto recipeRegisterRequestDto) {
-        log.debug("addRecipe() Entered");
-        log.debug("{}", recipeRegisterRequestDto);
+        recipeService.saveRecipe(recipeRegisterRequestDto, 1L);
         return OK(null);
     }
 
