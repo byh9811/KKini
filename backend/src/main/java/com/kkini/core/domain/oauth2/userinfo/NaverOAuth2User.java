@@ -22,4 +22,14 @@ public class NaverOAuth2User extends OAuth2UserInfo {
     public String getName() {
         return (String) attributes.get("name");
     }
+
+    @Override
+    public String getNickname() {
+        return (String) attributes.get("nickname");
+    }
+
+    @Override
+    public String profile_imgae() {
+        return (String) attributes.get("profile_image");
+    }
 }

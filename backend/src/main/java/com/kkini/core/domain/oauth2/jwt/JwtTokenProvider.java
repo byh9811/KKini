@@ -1,12 +1,16 @@
 package com.kkini.core.domain.oauth2.jwt;
 
+import com.kkini.core.domain.member.entity.Member;
+import com.kkini.core.domain.member.repository.MemberRepository;
 import com.kkini.core.global.config.security.ExpireTime;
 import com.kkini.core.domain.oauth2.dto.UserResponseDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,12 +26,14 @@ import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Component
 public class JwtTokenProvider {
 
+    private final MemberRepository memberRepository;
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "Bearer";
@@ -39,9 +45,10 @@ public class JwtTokenProvider {
     //The specified key byte array is 248 bits which is not secure enough for any JWT HMAC-SHA algorithm.
     // The JWT JWA Specification (RFC 7518, Section 3.2) states that keys used with HMAC-SHA algorithms MUST have a size >= 256 bits (the key size must be greater than or equal to the hash output size).
     // Consider using the io.jsonwebtoken.security.Keys#secretKeyFor(SignatureAlgorithm) method to create a key guaranteed to be secure enough for your preferred HMAC-SHA algorithm.
-    public JwtTokenProvider(@Value("${JWT_SECRET_KEY}") String secretKey) {
+    public JwtTokenProvider(@Value("${JWT_SECRET_KEY}") String secretKey, @Autowired MemberRepository memberRepository) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
+        this.memberRepository = memberRepository;
     }
 
     //Authentication 을 가지고 AccessToken, RefreshToken 을 생성하는 메서드
@@ -51,6 +58,8 @@ public class JwtTokenProvider {
 
     //name, authorities 를 가지고 AccessToken, RefreshToken 을 생성하는 메서드
     public UserResponseDto.TokenInfo generateToken(String name, Collection<? extends GrantedAuthority> inputAuthorities) {
+        log.debug("{}",inputAuthorities);
+        log.debug(name);
         //권한 가져오기
         String authorities = inputAuthorities.stream()
                 .map(GrantedAuthority::getAuthority)
@@ -75,6 +84,11 @@ public class JwtTokenProvider {
                 .setExpiration(new Date(now.getTime() + ExpireTime.REFRESH_TOKEN_EXPIRE_TIME)) //토큰 만료 시간 설정
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
+
+        Member member = memberRepository.findByEmail(name).get();
+        member.updateRefreshToken(refreshToken);
+
+        memberRepository.save(member);
 
         return UserResponseDto.TokenInfo.builder()
                 .grantType(BEARER_TYPE)

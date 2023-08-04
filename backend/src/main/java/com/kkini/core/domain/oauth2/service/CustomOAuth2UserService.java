@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import java.util.Map;
+
 @RequiredArgsConstructor
 @Service
 @Slf4j
@@ -45,7 +47,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         AuthProvider authProvider = AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId().toUpperCase());
         OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(authProvider, oAuth2User.getAttributes());
         log.debug(" {}", authProvider);
-        log.debug(" {}", oAuth2UserInfo);
+        log.debug("유저 정보 : {}", oAuth2UserInfo.getAttributes());
 
         if (!StringUtils.hasText(oAuth2UserInfo.getEmail())) {
             throw new RuntimeException("Email not found from OAuth2 provider");
@@ -70,15 +72,20 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     }
 
     private Member registerUser(AuthProvider authProvider, OAuth2UserInfo oAuth2UserInfo) {
+        log.debug("{}", oAuth2UserInfo.getAttributes());
+
         Member member = Member.builder()
+                .level(1)
                 .email(oAuth2UserInfo.getEmail())
+                .image(oAuth2UserInfo.profile_imgae())
                 .name(oAuth2UserInfo.getName())
+                .nickname(oAuth2UserInfo.getNickname())
                 .oauth2Id(oAuth2UserInfo.getOAuth2Id())
                 .authProvider(authProvider)
                 .role(Role.ROLE_USER)
                 .build();
         log.debug("registerUser =>");
-        log.debug(" {}", member);
+        log.debug(" {}", member.getLevel());
 
         return memberRepository.save(member);
     }
