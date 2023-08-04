@@ -53,9 +53,9 @@ public class RecipeServiceImpl implements RecipeService {
         // TODO: 현재 @GeneratedValue(strategy = GenerationType.IDENTITY)이기 때문에 쓰기지연 동작 X
         for (String step : dto.getSteps()) {
             stepRepository.save(Step.builder()
-                            .recipe(recipe)
-                            .content(step)
-                            .build());
+                    .recipe(recipe)
+                    .content(step)
+                    .build());
         }
-
+    }
 }
