@@ -6,6 +6,7 @@ import com.kkini.core.domain.recipe.dto.response.RecipeListResponseDto;
 import com.kkini.core.domain.recipe.entity.Recipe;
 import com.kkini.core.domain.recipe.repository.RecipeQueryRepository;
 import com.kkini.core.domain.step.repository.StepQueryRepository;
+import com.kkini.core.global.exception.InvalidException;
 import com.kkini.core.global.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,7 @@ public class RecipeQueryServiceImpl implements RecipeQueryService {
 
     @Override
     public RecipeDetailResponseDto getRecipeDetail(Long recipeId) {
-        RecipeDetailResponseDto recipeDetailResponseDto = recipeQueryRepository.findRecipeDetailById(recipeId).orElseThrow(() -> new NotFoundException(Recipe.class, recipeId));
+        RecipeDetailResponseDto recipeDetailResponseDto = recipeQueryRepository.findRecipeDetailById(recipeId).orElseThrow(() -> new InvalidException(Recipe.class, recipeId));
         recipeDetailResponseDto.setSteps(stepQueryRepository.findStepListByRecipeId(recipeId));
         return recipeDetailResponseDto;
     }
@@ -35,4 +36,5 @@ public class RecipeQueryServiceImpl implements RecipeQueryService {
     public Page<RecipeListResponseDto> getRecipeList(SearchConditionRequestDto searchConditionRequestDto, Pageable pageable) {
         return recipeQueryRepository.findRecipeList(searchConditionRequestDto, pageable);
     }
+    
 }
