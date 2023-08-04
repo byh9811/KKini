@@ -8,6 +8,7 @@ import java.util.List;
 @Data
 @Schema(description = "레시피 등록 필드")
 public class RecipeRegisterRequestDto {
+
     @Schema(description = "카테고리 ID")
     private Long categoryId;
 

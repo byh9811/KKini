@@ -25,7 +25,7 @@ public class Recipe extends BaseEntityWithModifiedTime {
 
     private String name;
 
-    private String time;
+    private int time;
 
     private int difficulty;
 
@@ -36,4 +36,7 @@ public class Recipe extends BaseEntityWithModifiedTime {
     private Boolean deleted;
 
     // 비즈니스 로직 (추후 생성 예정)
+    public void deleteRecipe() {
+        this.deleted = true;
+    }
 }
