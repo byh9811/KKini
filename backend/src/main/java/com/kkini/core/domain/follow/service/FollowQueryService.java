@@ -1,4 +1,4 @@
-package com.kkini.core.domain.follow.repository;
+package com.kkini.core.domain.follow.service;
 
 import com.kkini.core.domain.follow.dto.response.FollowListResponseDto;
 
