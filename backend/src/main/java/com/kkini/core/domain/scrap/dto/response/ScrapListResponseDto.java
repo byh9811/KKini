@@ -10,6 +10,6 @@ public class ScrapListResponseDto {
     @Schema(description = "포스트 식별자")
     private Long postId;
 
-    @Schema(description = "이미지 파일")
+    @Schema(description = "이미지")
     private String image;
 }
