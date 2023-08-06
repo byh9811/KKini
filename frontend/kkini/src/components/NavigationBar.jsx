@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Container, Nav, Navbar } from 'react-bootstrap';
-import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import RestoreIcon from '@mui/icons-material/Restore';
@@ -32,7 +31,6 @@ function NavigationBar() {
         <BottomNavigationAction onClick={() => {navigate('/n4')}} label="Archive" icon={<ArchiveIcon />} />
         <BottomNavigationAction onClick={() => {navigate('/n5')}} label="Recents" icon={<RestoreIcon />} />
       </BottomNavigation>
-
 
   );
 }

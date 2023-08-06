@@ -1,9 +1,10 @@
 import React from 'react';
+import Upload from '../components/Upload';
 
 function U2() {
   return (
     <div>
-      u2입니다아아아
+      <Upload u2={true} textFieldDefaultValue="라면 먹고 갈래?"></Upload>
     </div>
   );
 }

@@ -4,9 +4,7 @@ import Upload from '../components/Upload';
 function U1() {
   return (
     <div>
-      u1입니다아아아
-
-      <Upload></Upload>
+      <Upload u1={true} textFieldDefaultValue="A"></Upload>
     </div>
   );
 }

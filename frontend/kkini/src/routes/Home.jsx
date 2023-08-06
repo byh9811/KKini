@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Routes, Route, useNavigate, Outlet } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import NavigationBar from '../components/NavigationBar.jsx';
 import N1 from './N1.jsx'
 import N2 from './N2.jsx'

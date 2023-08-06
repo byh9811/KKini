@@ -4,7 +4,13 @@ import { Button } from "@mui/material";
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import axios from 'axios';
 
-function Upload() {
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+
+import RecipesSearch from './RecipesSearch';
+import RecipesTitle from './RecipesTitle';
+
+function Upload(props) {
   const [fileList, setFileList] = useState([]);
   let inputRef;
 
@@ -96,7 +102,33 @@ function Upload() {
         </div>
       )}
 
-      {/* Additional Button */}
+      <br />
+
+      {props.u1 && <RecipesSearch></RecipesSearch>}
+      {props.u2 && <RecipesTitle></RecipesTitle>}
+
+      <br />
+
+      <Box
+      component="form"
+      sx={{
+        '& .MuiTextField-root': { m: 1, width: '25ch' },
+      }}
+      noValidate
+      autoComplete="off"
+      >
+        <div>
+          <TextField
+            id="outlined-multiline-static"
+            label="Multiline"
+            multiline
+            rows={4}
+            defaultValue={props.textFieldDefaultValue}
+          />
+        </div>
+      </Box>
+
+      {/* 이미지 파일 to 이미지 서버 */}
       <div className="additional-button">
         <Button variant="contained" color="primary" onClick={handleFileUpload}>
           Additional Button
