@@ -2,6 +2,7 @@ package com.kkini.core.domain.history.controller;
 
 import com.kkini.core.domain.history.dto.response.HistoryResponseDto;
 import com.kkini.core.domain.history.service.HistoryService;
+import com.kkini.core.domain.oauth2.UserPrincipal;
 import com.kkini.core.domain.recipe.dto.request.RecipeRegisterRequestDto;
 import com.kkini.core.domain.recipe.dto.request.SearchConditionRequestDto;
 import com.kkini.core.domain.recipe.dto.response.RecipeDetailResponseDto;
@@ -16,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -51,6 +53,15 @@ public class HistoryController {
     @DeleteMapping("/{id}")
     public Response<Void> removeHistory(@PathVariable("id") Long historyId) {
         historyService.removeOne(historyId);
+        return OK(null);
+    }
+
+    @Operation(summary = "최근 검색어 일괄 삭제", description = "최근 검색어 전체를 삭제하는 API입니다.")
+    @Parameters({
+    })
+    @DeleteMapping()
+    public Response<Void> removeAllHistory(@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal) {
+        historyService.removeAll(userPrincipal.getId());
         return OK(null);
     }
 
