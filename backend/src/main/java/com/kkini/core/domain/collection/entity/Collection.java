@@ -23,13 +23,9 @@ public class Collection extends BaseEntityWithCreatedTime {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
-
-    @OneToOne
-    @JoinColumn(name = "post_id")
-    private Post post;
 
     // 비즈니스 로직 (추후 생성 예정)
 }
