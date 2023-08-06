@@ -2,12 +2,11 @@ package com.kkini.core.domain.follow.controller;
 
 import com.kkini.core.domain.follow.dto.request.FollowRequestDto;
 import com.kkini.core.domain.follow.dto.response.FollowListResponseDto;
-import com.kkini.core.domain.follow.repository.FollowQueryService;
+import com.kkini.core.domain.follow.service.FollowQueryService;
 import com.kkini.core.domain.follow.service.FollowService;
 import com.kkini.core.global.response.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
