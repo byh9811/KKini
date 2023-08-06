@@ -1,6 +1,7 @@
 package com.kkini.core.domain.history.controller;
 
 import com.kkini.core.domain.history.dto.response.HistoryResponseDto;
+import com.kkini.core.domain.history.service.HistoryService;
 import com.kkini.core.domain.recipe.dto.request.RecipeRegisterRequestDto;
 import com.kkini.core.domain.recipe.dto.request.SearchConditionRequestDto;
 import com.kkini.core.domain.recipe.dto.response.RecipeDetailResponseDto;
@@ -29,6 +30,8 @@ import static com.kkini.core.global.response.Response.OK;
 @Tag(name = "History", description = "History 관리 API")
 public class HistoryController {
 
+    private final HistoryService historyService;
+
     @Operation(summary = "내 최근 검색어 리스트 조회", description = "내 최근 검색어 리스트를 조회하는 API입니다. 최근에 검색했던 검색 단어 10개를 보내줍니다.")
     @Parameters({
     })
@@ -41,14 +44,13 @@ public class HistoryController {
         return OK(list);
     }
 
-    @Operation(summary = "최근 검색어 삭제", description = "최근 검색어를 삭제하는 API입니다.")
+    @Operation(summary = "최근 검색어 삭제", description = "최근 검색어 하나를 삭제하는 API입니다.")
     @Parameters({
-            @Parameter(name = "historyId", description = "검색어 ID")
+            @Parameter(name = "id", description = "검색어 ID")
     })
     @DeleteMapping("/{id}")
     public Response<Void> removeHistory(@PathVariable("id") Long historyId) {
-        log.debug("removeHistory() Entered");
-        log.debug("{}", historyId);
+        historyService.removeOne(historyId);
         return OK(null);
     }
 
