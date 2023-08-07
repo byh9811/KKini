@@ -71,4 +71,9 @@ public class PostQueryRepository {
         return new OrderSpecifier<>(Order.DESC, recipe.modifyDateTime);
     }
 
+//    public List<PostListResponseDto> getImages(Long postId){
+//
+//        return
+//    }
+
 }

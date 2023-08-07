@@ -28,7 +28,6 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
     private final RecipeRepository recipeRepository;
-    private final ImageRepository imageRepository;
     private final S3Util s3Util;
 
     // 포스트 작성
