@@ -10,4 +10,9 @@ public interface FollowService {
     // 팔로우 삭제
     void deleteFollow(Long id);
 
+    // 팔로우 수 조회
+    int countFollows(Long id);
+
+    // 팔로워 수 조회
+    int countFollowers(Long id);
 }

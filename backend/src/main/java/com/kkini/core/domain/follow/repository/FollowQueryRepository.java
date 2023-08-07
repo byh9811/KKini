@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static com.kkini.core.domain.follow.entity.QFollow.follow;
-import static com.kkini.core.domain.member.entity.QMember.member;
 
 @Repository
 @RequiredArgsConstructor
@@ -29,14 +28,13 @@ public class FollowQueryRepository {
         return jpaQueryFactory
                 .select(Projections.constructor(FollowListResponseDto.class,
                         follow.id,
-                        follow.follower.id,
-                        follow.follower.nickname,
-                        follow.follower.image
+                        follow.me.id,
+                        follow.me.nickname,
+                        follow.me.image
                         ))
                 .from(follow)
-                .join(member).on(follow.follower.id.eq(member.id))
                 .where(
-                        follow.followee.id.eq(id)
+                        follow.target.id.eq(id)
                 )
                 .fetch();
         
@@ -52,14 +50,14 @@ public class FollowQueryRepository {
         return jpaQueryFactory
                 .select(Projections.constructor(FollowListResponseDto.class,
                         follow.id,
-                        follow.followee.id,
-                        follow.followee.nickname,
-                        follow.followee.image
+                        follow.target.id,
+                        follow.target.nickname,
+                        follow.target.image
                 ))
                 .from(follow)
-                .join(member).on(follow.followee.id.eq(member.id))
+//                .join(member).on(follow.followee.id.eq(member.id))
                 .where(
-                        follow.follower.id.eq(id)
+                        follow.me.id.eq(id)
                 )
                 .fetch();
     }
@@ -69,12 +67,12 @@ public class FollowQueryRepository {
      * @param id (조회를 원하는 멤버 식별자)
      * @return 팔로워 수
      */
-    public int countFollwers(long id){
+    public int countFollowers(long id){
         return jpaQueryFactory
                 .select(follow.count())
                 .from(follow)
                 .where(
-                        follow.followee.id.eq(id)
+                        follow.target.id.eq(id)
                 )
                 .fetch().size();
     }
@@ -89,7 +87,7 @@ public class FollowQueryRepository {
                 .select(follow.count())
                 .from(follow)
                 .where(
-                        follow.follower.id.eq(id)
+                        follow.me.id.eq(id)
                 )
                 .fetch().size();
     }

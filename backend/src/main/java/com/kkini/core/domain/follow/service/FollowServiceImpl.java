@@ -23,17 +23,29 @@ public class FollowServiceImpl implements FollowService{
 
     @Override
     public void addFollow(FollowRequestDto followRequestDto) {
-        Member follower = memberRepository.findById(followRequestDto.getMemberId()).orElseThrow(() -> new NotFoundException(Member.class, followRequestDto.getMemberId()));
-        Member followee = memberRepository.findById(followRequestDto.getTargetMemberId()).orElseThrow(() -> new NotFoundException(Member.class, followRequestDto.getMemberId()));
-        Follow follow = followRepository.save(Follow.builder()
-                .follower(follower)
-                .followee(followee)
+        Member me = memberRepository.findById(followRequestDto.getMemberId()).orElseThrow(() -> new NotFoundException(Member.class, followRequestDto.getMemberId()));
+        Member target = memberRepository.findById(followRequestDto.getTargetMemberId()).orElseThrow(() -> new NotFoundException(Member.class, followRequestDto.getMemberId()));
+        followRepository.save(Follow.builder()
+                .me(me)
+                .target(target)
                 .build());
     }
 
     @Override
     public void deleteFollow(Long id) {
         Follow follow = followRepository.findById(id).orElseThrow(() -> new NotFoundException(Follow.class));
-        Follow deleteFollow = followRepository.deleteById(follow);
+        followRepository.delete(follow);
+    }
+
+    @Override
+    public int countFollows(Long id) {
+        memberRepository.findById(id).orElseThrow(() -> new NotFoundException(Member.class, id));
+        return followRepository.countByMeId(id);
+    }
+
+    @Override
+    public int countFollowers(Long id) {
+        memberRepository.findById(id).orElseThrow(() -> new NotFoundException(Member.class, id));
+        return followRepository.countByTargetId(id);
     }
 }
