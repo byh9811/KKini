@@ -20,6 +20,6 @@ public class PostRegisterRequestDto {
     @Schema(description = "레시피")
     private Long recipeId;
 
-    @Schema(description = "이미지")
-    private List<MultipartFile> images;
+//    @Schema(description = "이미지")
+//    private List<MultipartFile> images;
 }

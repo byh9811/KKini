@@ -14,6 +14,7 @@ import com.kkini.core.global.util.S3Util;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -32,7 +33,7 @@ public class PostServiceImpl implements PostService {
 
     // 포스트 작성
     @Override
-    public void savePost(PostRegisterRequestDto dto, Long memberId) {
+    public void savePost(PostRegisterRequestDto dto, List<MultipartFile> img, Long memberId) {
         Member writer = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException(Member.class, memberId));
         Recipe recipe = recipeRepository.findById(dto.getRecipeId()).orElseThrow(() -> new NotFoundException(Recipe.class, dto.getRecipeId()));
 
@@ -44,7 +45,7 @@ public class PostServiceImpl implements PostService {
         );
 
         // S3에 이미지 저장
-        List<String> images = s3Util.uploadFiles("post", dto.getImages());
+        List<String> images = s3Util.uploadFiles("post", img);
 
         // 이미지 테이블 저장
         for(String image : images) {
