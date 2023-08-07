@@ -1,22 +1,32 @@
 package com.kkini.core.global.exception;
 
+
+import org.apache.commons.lang3.StringUtils;
+
 public abstract class ServiceRuntimeException extends RuntimeException {
 
-    private String messageKey;
+    private final String errorType;
 
-    private Object[] params;
+    private final String cause;
 
-    public ServiceRuntimeException(String messageKey, Object[] params) {
-        this.messageKey = messageKey;
+    private final Object[] params;
+
+    public ServiceRuntimeException(String errorType, String cause, Object... params) {
+        this.errorType = errorType;
+        this.cause = cause;
         this.params = params;
     }
 
-    public String getMessageKey() {
-        return messageKey;
+    @Override
+    public String getMessage() {
+        return new StringBuilder().append("ErrorType: ").append(errorType)
+                .append("\nCaused By: ").append(cause)
+                .append("\nParam: ").append(StringUtils.join(params, ",")).toString();
     }
 
-    public Object[] getParams() {
-        return params;
+    @Override
+    public String toString() {
+        return getMessage();
     }
 
 }

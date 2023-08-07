@@ -17,10 +17,10 @@ import javax.persistence.ManyToOne;
 public class Follow extends BaseEntityWithCreatedTime {
 
     @ManyToOne
-    @JoinColumn(name = "follower_id")
-    private Member followerID;
+    @JoinColumn(name = "me_id")
+    private Member me;
 
     @ManyToOne
-    @JoinColumn(name = "follow_id")
-    private Member followId;
+    @JoinColumn(name = "target_id")
+    private Member target;
 }

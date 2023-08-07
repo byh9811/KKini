@@ -5,14 +5,18 @@ spring:
     group:
       local:
         - db-local
+        - log-local
       dev:
         - db-dev
+        - log-dev
     include:
       - db
       - jwt
       - log
       - server
       - swagger
+      - s3
+      - oauth2
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher

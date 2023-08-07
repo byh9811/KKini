@@ -1,6 +1,7 @@
 package com.kkini.core.domain.collection.controller;
 
 import com.kkini.core.domain.collection.dto.response.CollectionListResponseDto;
+import com.kkini.core.domain.collection.service.CollectionQueryService;
 import com.kkini.core.global.response.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -22,18 +23,15 @@ import static com.kkini.core.global.response.Response.OK;
 @Tag(name = "Collection", description = "도감 관리 API")
 public class CollectionController {
 
+    private final CollectionQueryService collectionQueryService;
+
     @Operation(summary = "내 도감 리스트 조회", description = "내 도감 리스트를 조회하는 API입니다.")
     @Parameters({
             @Parameter(name = "difficulty", description = "난이도 정보")
     })
     @GetMapping
-    public Response<List<CollectionListResponseDto>> getMyCollectionList(@RequestParam(required = false) int difficulty) {
-        List<CollectionListResponseDto> list = new ArrayList<>();
-        list.add(new CollectionListResponseDto());
-        list.add(new CollectionListResponseDto());
-        log.debug("getMyCollectionList() Entered");
-        log.debug("{}", difficulty);
-        return OK(list);
+    public Response<List<CollectionListResponseDto>> getMyCollectionList(@RequestParam(required = false) Integer difficulty) {
+        return OK(collectionQueryService.getMyCollectionList(1L, difficulty));
     }
 
 }
