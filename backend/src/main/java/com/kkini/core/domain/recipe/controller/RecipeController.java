@@ -1,5 +1,6 @@
 package com.kkini.core.domain.recipe.controller;
 
+import com.kkini.core.domain.oauth2.UserPrincipal;
 import com.kkini.core.domain.recipe.dto.request.RecipeRegisterRequestDto;
 import com.kkini.core.domain.recipe.dto.request.SearchConditionRequestDto;
 import com.kkini.core.domain.recipe.dto.response.RecipeDetailResponseDto;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -58,8 +60,8 @@ public class RecipeController {
             @Parameter(name = "recipeRegisterRequestDto", description = "레시피 등록 필드")
     })
     @PostMapping
-    public Response<Void> addRecipe(@RequestBody RecipeRegisterRequestDto recipeRegisterRequestDto) {
-        recipeService.saveRecipe(recipeRegisterRequestDto, 1L);
+    public Response<Void> addRecipe(@RequestBody RecipeRegisterRequestDto recipeRegisterRequestDto, @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal) {
+        recipeService.saveRecipe(recipeRegisterRequestDto, userPrincipal.getId());
         return OK(null);
     }
 
