@@ -21,9 +21,10 @@ fe-build:   # JOB 이름
   artifacts:
     # 보관이 이루어질 경로 설정
     paths:
-      - build/
+      - frontend/kkini/node_modules
     # 유효기간 설정
     expire_in: 1 days
+    max_size: 100MB
   # JOB 수행 조건 설정
   only:
     # JOB이 수행 될 branch 설정
