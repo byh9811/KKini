@@ -1,6 +1,8 @@
 package com.kkini.core.domain.scrap.service;
 
 import com.kkini.core.domain.scrap.dto.response.ScrapListResponseDto;
+import com.kkini.core.domain.scrap.repository.ScrapQueryRepository;
+import com.kkini.core.domain.scrap.repository.ScrapRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,10 +16,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScrapQueryServiceImpl implements ScrapQueryService{
 
-    private final ScrapQueryService scrapQueryService;
+    private final ScrapQueryRepository scrapQueryRepository;
 
     @Override
     public List<ScrapListResponseDto> getScrapList(Long memberId) {
-        return scrapQueryService.getScrapList(memberId);
+        return scrapQueryRepository.getScrapList(memberId);
     }
 }

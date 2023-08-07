@@ -3,6 +3,7 @@ package com.kkini.core.domain.scrap.service;
 import com.kkini.core.domain.member.entity.Member;
 import com.kkini.core.domain.member.repository.MemberRepository;
 import com.kkini.core.domain.post.entity.Post;
+import com.kkini.core.domain.post.repository.PostRepository;
 import com.kkini.core.domain.scrap.dto.request.AddScrapRequestDto;
 import com.kkini.core.domain.scrap.entity.Scrap;
 import com.kkini.core.domain.scrap.repository.ScrapRepository;
@@ -15,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Timestamp;
 
 @Service
-@Transactional(readOnly = true)
 @Slf4j
 @RequiredArgsConstructor
 public class ScrapServiceImpl implements ScrapService{
@@ -30,7 +30,7 @@ public class ScrapServiceImpl implements ScrapService{
                 () -> new NotFoundException(Member.class, addScrapRequestDto.getMemberId()));
         Post post = postRepository.findById(addScrapRequestDto.getPostId()).orElseThrow(
                 () -> new NotFoundException(Member.class, addScrapRequestDto.getPostId()));
-        Scrap scrap = scrapRepository.save(Scrap.builder()
+        scrapRepository.save(Scrap.builder()
                 .member(member)
                 .post(post)
                 .build());
@@ -39,6 +39,6 @@ public class ScrapServiceImpl implements ScrapService{
     @Override
     public void deleteScrap(Long id) {
         Scrap scrap = scrapRepository.findById(id).orElseThrow(() -> new NotFoundException(Scrap.class, id));
-        Scrap deleteScrap = scrapRepository.deleteById(scrap);
+        scrapRepository.delete(scrap);
     }
 }
