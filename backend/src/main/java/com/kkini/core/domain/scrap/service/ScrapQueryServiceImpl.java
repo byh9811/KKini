@@ -5,6 +5,8 @@ import com.kkini.core.domain.scrap.repository.ScrapQueryRepository;
 import com.kkini.core.domain.scrap.repository.ScrapRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,8 +20,9 @@ public class ScrapQueryServiceImpl implements ScrapQueryService{
 
     private final ScrapQueryRepository scrapQueryRepository;
 
+
     @Override
-    public List<ScrapListResponseDto> getScrapList(Long memberId) {
-        return scrapQueryRepository.getScrapList(memberId);
+    public Page<ScrapListResponseDto> getScrapList(Long memberId, Pageable pageable) {
+        return scrapQueryRepository.getScrapList(memberId, pageable);
     }
 }
