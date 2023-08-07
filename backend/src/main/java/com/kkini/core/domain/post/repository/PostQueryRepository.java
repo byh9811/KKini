@@ -1,9 +1,11 @@
 package com.kkini.core.domain.post.repository;
 
 import com.kkini.core.domain.post.dto.response.PostListResponseDto;
+import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,10 +15,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import static com.kkini.core.domain.comment.entity.QComment.comment;
 import static com.kkini.core.domain.post.entity.QPost.post;
+import static com.kkini.core.domain.postimage.entity.QPostImage.postImage;
+import static com.kkini.core.domain.reaction.entity.QReaction.reaction;
 import static com.kkini.core.domain.recipe.entity.QRecipe.recipe;
+import static com.kkini.core.domain.scrap.entity.QScrap.scrap;
+import static java.util.Collections.list;
 
 @Repository
 @RequiredArgsConstructor
@@ -24,28 +33,43 @@ import static com.kkini.core.domain.recipe.entity.QRecipe.recipe;
 public class PostQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
+    private int x = 1;
 
-    public Page<PostListResponseDto> findPostList(Pageable pageable) {
+
+
+    public Page<PostListResponseDto> findPostList(Pageable pageable, Long memberId) {
+
+
+        List<String> test = new ArrayList<>();
+        PostListResponseDto dto = new PostListResponseDto();
+        dto.set
+
         List<PostListResponseDto> postList = jpaQueryFactory
                 .select(Projections.constructor(PostListResponseDto.class,
                         post.id,
                         post.contents,
-                        null,   // 작성자가 자신인지 여부
+                        post.member.id.eq(memberId),
                         recipe.id,
-                        null,   // 이미지 리스트
+                        ,
                         post.createDateTime,
                         post.likes,
                         post.dislikes,
-                        null,   // 자신의 포스트 반응
-                        null,   // 댓글 수
+                        reaction.state,
+                        comment.id.count(),
                         post.price,
-                        null   // 스크랩 여부
-                ))
+                        scrap.count().when(0L).then(false).otherwise(true)
+                        ))
                 .from(post)
+                .leftJoin(comment).on(post.id.eq(comment.post.id))
+                .groupBy(post.id)
+                .leftJoin(reaction).on(post.id.eq(reaction.post.id))
+                .leftJoin(scrap).on(post.id.eq(scrap.post.id).and(post.member.id.eq(scrap.member.id)))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(postSort(pageable))
                 .fetch();
+
+        log.debug("!!!!!!!!!!!!!!!!!!!!");
 
         long count = jpaQueryFactory
                 .select(post.count())
@@ -70,10 +94,5 @@ public class PostQueryRepository {
 
         return new OrderSpecifier<>(Order.DESC, recipe.modifyDateTime);
     }
-
-//    public List<PostListResponseDto> getImages(Long postId){
-//
-//        return
-//    }
 
 }

@@ -63,10 +63,11 @@ public class PostController {
     @Parameter(name = "pageable", description = "페이지 정보")
     @GetMapping
     public Response<Page<PostListResponseDto>> getPostList(
-            @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable,
-            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal) {
+            @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable
+//            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
+    ) {
 
-        return OK(postQueryService.getPostList(pageable));
+        return OK(postQueryService.getPostList(pageable, 1L));
     }
 
     @Operation(summary = "포스트 수정", description = "포스트를 수정한다.")

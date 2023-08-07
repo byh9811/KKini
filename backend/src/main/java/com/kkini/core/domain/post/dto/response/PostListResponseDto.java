@@ -8,13 +8,12 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "포스트 조회 응답 DTO")
 public class PostListResponseDto {
 
     @Schema(description = "포스트 ID")
-    private int id;
+    private Long id;
 
     @Schema(description = "내용")
     private String contents;
@@ -23,7 +22,7 @@ public class PostListResponseDto {
     private boolean isMine;
 
     @Schema(description = "레시피")
-    private int recipeId;
+    private Long recipeId;
 
     @Schema(description = "이미지")
     private List<String> images;
