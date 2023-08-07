@@ -1,10 +1,12 @@
 package com.kkini.core.domain.post.controller;
 
+import com.kkini.core.domain.oauth2.UserPrincipal;
 import com.kkini.core.domain.post.dto.request.PostRegisterRequestDto;
 import com.kkini.core.domain.post.dto.request.PostUpdateRequestDto;
 import com.kkini.core.domain.post.dto.response.PostListResponseDto;
 import com.kkini.core.domain.post.dto.response.SearchDetailResponseDto;
 import com.kkini.core.domain.post.dto.response.SearchListResponseDto;
+import com.kkini.core.domain.post.service.PostQueryService;
 import com.kkini.core.domain.post.service.PostService;
 import com.kkini.core.global.response.Response;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,10 +15,12 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,6 +37,7 @@ import static com.kkini.core.global.response.Response.*;
 public class PostController {
 
     private final PostService postService;
+    private final PostQueryService postQueryService;
 
     @Operation(summary = "포스트 작성", description = "포스트를 작성한다.")
     @Parameters({
@@ -42,15 +47,14 @@ public class PostController {
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public Response<Void> addPost(
             @RequestPart PostRegisterRequestDto postRegisterRequestDto,
-//            @RequestParam(value = "fileType") String fileType,
-            @RequestPart(value = "files") List<MultipartFile> multipartFiles) {
+            @RequestPart(value = "files") List<MultipartFile> multipartFiles,
+            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal) {
+
         // 데이터베이스 조작을 위해 서비스로 전달, 서비스에서 성공여부 반환
-        // 성공했을 경우 목록 갱신(목록 조회), 프론트로 목록 반환
-        // 작성 완료했을 경우 포스트 목록 갱신, 목록은 최신 순으로 보여주기 때문에 자신이 작성한 포스트를 확인할 수 있다.
         log.debug("addPost() Entered");
         log.debug("{}", postRegisterRequestDto);
 
-        postService.savePost(postRegisterRequestDto, multipartFiles, 1L);
+        postService.savePost(postRegisterRequestDto, multipartFiles, userPrincipal.getId());
 
         return OK(null);
     }
@@ -58,15 +62,11 @@ public class PostController {
     @Operation(summary = "포스트 목록 조회", description = "포스트를 조회한다.")
     @Parameter(name = "pageable", description = "페이지 정보")
     @GetMapping
-    public Response<List<PostListResponseDto>> getPostList(
-            @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
-        // 사용자 ID는 별도로 전달되므로 해당 함수에서는 처리하지 않는다.
-        List<PostListResponseDto> list = new ArrayList<>();
-        list.add(new PostListResponseDto());
-        list.add(new PostListResponseDto());
-        log.debug("getPostList() Entered");
-        log.debug("{}", pageable);
-        return OK(list);
+    public Response<Page<PostListResponseDto>> getPostList(
+            @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable,
+            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal) {
+
+        return OK(postQueryService.getPostList(pageable));
     }
 
     @Operation(summary = "포스트 수정", description = "포스트를 수정한다.")

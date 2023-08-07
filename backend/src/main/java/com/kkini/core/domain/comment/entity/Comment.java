@@ -25,9 +25,9 @@ public class Comment extends BaseEntityWithCreatedTime {
     @JoinColumn(name = "post_id")
     private Post post;
 
-    @ManyToOne
-    @JoinColumn(name = "parents_id")
-    private Comment comment;
+//    @ManyToOne
+//    @JoinColumn(name = "parents_id")
+    private int parentsId;
 
     private String contents;
 
