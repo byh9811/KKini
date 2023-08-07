@@ -24,8 +24,20 @@ public class S3Controller {
 
     // 테스트 코드
     @PostMapping("/test")
-    public Response<String> uploadFiles() {
-        return OK("hello!");
+    public Response<String> postTest() {
+        return OK("post");
+    }
+    @GetMapping("/test")
+    public Response<String> getTest() {
+        return OK("get");
+    }
+    @DeleteMapping("/test")
+    public Response<String> deleteTest() {
+        return OK("delete");
+    }
+    @PutMapping("/test")
+    public Response<String> putTest() {
+        return OK("put");
     }
 
     @PostMapping
