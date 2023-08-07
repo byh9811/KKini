@@ -25,4 +25,9 @@ public class Own extends BaseEntityWithCreatedTime {
     @JoinColumn(name = "badge_id")
     private Badge badge;
 
+    private Boolean selected;
+
+    public void changeSelected() {
+        this.selected = !this.selected;
+    }
 }
