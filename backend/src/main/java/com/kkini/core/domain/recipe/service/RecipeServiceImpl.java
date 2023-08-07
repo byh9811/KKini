@@ -10,6 +10,7 @@ import com.kkini.core.domain.recipe.repository.RecipeRepository;
 import com.kkini.core.domain.step.entity.Step;
 import com.kkini.core.domain.step.repository.StepRepository;
 import com.kkini.core.global.exception.NotFoundException;
+import com.kkini.core.global.util.LevelUpUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class RecipeServiceImpl implements RecipeService {
     private final StepRepository stepRepository;
     private final MemberRepository memberRepository;
     private final CategoryRepository categoryRepository;
+    private final LevelUpUtil levelUpUtil;
 
     @Override
     public void removeRecipe(Long recipeId) {
@@ -57,5 +59,8 @@ public class RecipeServiceImpl implements RecipeService {
                     .content(step)
                     .build());
         }
+
+        writer.addStars(1);
+        levelUpUtil.checkLevelUp(memberId);
     }
 }

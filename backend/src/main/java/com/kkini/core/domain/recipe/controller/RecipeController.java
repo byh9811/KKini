@@ -60,8 +60,8 @@ public class RecipeController {
             @Parameter(name = "recipeRegisterRequestDto", description = "레시피 등록 필드")
     })
     @PostMapping
-    public Response<Void> addRecipe(@RequestBody RecipeRegisterRequestDto recipeRegisterRequestDto, @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal) {
-        recipeService.saveRecipe(recipeRegisterRequestDto, userPrincipal.getId());
+    public Response<Void> addRecipe(@RequestBody RecipeRegisterRequestDto recipeRegisterRequestDto) {
+        recipeService.saveRecipe(recipeRegisterRequestDto, 1L);
         return OK(null);
     }
 
