@@ -1,5 +1,6 @@
 package com.kkini.core.domain.scrap.controller;
 
+import com.kkini.core.domain.oauth2.UserPrincipal;
 import com.kkini.core.domain.scrap.dto.request.AddScrapRequestDto;
 import com.kkini.core.domain.scrap.dto.response.ScrapListResponseDto;
 import com.kkini.core.domain.scrap.service.ScrapQueryService;
@@ -31,11 +32,12 @@ public class ScrapController {
     @Operation(summary = "스크랩 추가", description = "해당 포스트(postId)를 스크랩에 추가합니다.")
     @Parameter(name = "postId", description = "스크랩에 추가하고 싶은 포스트 식별자(postId)")
     @PostMapping("/{postId}")
-    public Response<Void> addScrap(@PathVariable Long postId, @AuthenticationPrincipal User user) {
+    public Response<Void> addScrap(@PathVariable Long postId, @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal) {
         log.debug("## 스크랩을 추가합니다.");
         log.debug("추가할 포스트 식별자 : {}", postId);
         AddScrapRequestDto addScrapRequestDto = new AddScrapRequestDto();
-        addScrapRequestDto.setMemberId(1L); // 해당 부분은 추후에 user.getMemberId()로 교체할 예정
+//        addScrapRequestDto.setMemberId(1L); // 해당 부분은 추후에 user.getMemberId()로 교체할 예정
+        addScrapRequestDto.setMemberId(userPrincipal.getId()); // 해당 부분은 추후에 user.getMemberId()로 교체할 예정
         addScrapRequestDto.setPostId(postId);
         scrapService.addScrap(addScrapRequestDto);
 
