@@ -6,6 +6,9 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,19 +28,30 @@ public class ScrapQueryRepository {
      * @param memberId (조회를 원하는 멤버 식별자)
      * @return 스크랩 리스트
      */
-    public List<ScrapListResponseDto> getScrapList(Long memberId){
+    public Page<ScrapListResponseDto> getScrapList(Long memberId, Pageable pageable){
 
-        return jpaQueryFactory
+        List<ScrapListResponseDto> list = jpaQueryFactory
                 .select(Projections.constructor(ScrapListResponseDto.class,
-                                scrap.id,
-                                scrap.post.id,
-                                postImage.image
+                        scrap.id,
+                        scrap.post.id,
+                        postImage.image
                 ))
                 .from(scrap)
-                .join(postImage).on(postImage.post.id.eq(scrap.post.id))
+                .leftJoin(postImage).on(postImage.post.id.eq(scrap.post.id))
                 .where(
                         scrap.member.id.eq(memberId)
                 )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(scrap.id.desc())
                 .fetch();
+
+        int count = jpaQueryFactory
+                .select(scrap.count())
+                .from(scrap)
+                .fetch().size();
+
+        return new PageImpl<>(list, pageable, count);
     }
+
 }

@@ -11,6 +11,9 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
@@ -36,8 +39,8 @@ public class ScrapController {
         log.debug("## 스크랩을 추가합니다.");
         log.debug("추가할 포스트 식별자 : {}", postId);
         AddScrapRequestDto addScrapRequestDto = new AddScrapRequestDto();
-//        addScrapRequestDto.setMemberId(1L); // 해당 부분은 추후에 user.getMemberId()로 교체할 예정
-        addScrapRequestDto.setMemberId(userPrincipal.getId()); // 해당 부분은 추후에 user.getMemberId()로 교체할 예정
+        addScrapRequestDto.setMemberId(1L); // 해당 부분은 추후에 user.getMemberId()로 교체할 예정
+//        addScrapRequestDto.setMemberId(userPrincipal.getId()); // 해당 부분은 추후에 user.getMemberId()로 교체할 예정
         addScrapRequestDto.setPostId(postId);
         scrapService.addScrap(addScrapRequestDto);
 
@@ -56,13 +59,23 @@ public class ScrapController {
     }
 
     @Operation(summary = "스크랩 리스트", description = "회원(memberId)의 스크랩 리스트를 응답합니다.")
+    @Parameter(name = "memberId", description = "조회를 원하는 회원 식별자")
     @GetMapping("/list/{memberId}")
-    public Response<List<ScrapListResponseDto>> scrapList(@PathVariable long memberId) {
+    public Response<Page<ScrapListResponseDto>> scrapList(@PathVariable long memberId, @PageableDefault(size = 20) Pageable pageable) {
         log.debug("## 스크랩 리스트를 조회합니다.");
         log.debug("조회할 멤버 식별자 : {}",memberId);
-        List<ScrapListResponseDto> list = scrapQueryService.getScrapList(memberId);
+        Page<ScrapListResponseDto> list = scrapQueryService.getScrapList(memberId,pageable);
 
         return OK(list);
+    }
+
+    @Operation(summary = "스크랩 개수 조회", description = "스크랩 개수를 조회합니다.")
+    @GetMapping("/count")
+    public Response<Integer> countScrapList(@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal){
+        log.debug("## 스크랩 개수를 조회합니다.");
+        log.debug("조회할 멤버 식별자 : {}", userPrincipal.getId());
+        int count = scrapService.countScrapList(userPrincipal.getId());
+        return OK(count);
     }
 
 
