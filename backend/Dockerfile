@@ -21,6 +21,10 @@ ARG nav_id
 ENV NAVER_CLIENT_ID $nav_id
 ARG nav_key
 ENV NAVER_CLIENT_SECRET $nav_key
+ARG nav_uri
+ENV NAVER_REDIRECT_URI $nav_uri
+ARG auth_uri
+ENV AUTH_REDIRECT_URI $auth_uri
 
 #CMD ["java", "-jar", "-Dspring.profiles.active=dev core.jar"]
 ENTRYPOINT ["sh", "-c", "java -jar -Dspring.profiles.active=dev core.jar"]
