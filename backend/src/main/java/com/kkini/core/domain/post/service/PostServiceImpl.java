@@ -1,5 +1,7 @@
 package com.kkini.core.domain.post.service;
 
+import com.kkini.core.domain.image.entity.Image;
+import com.kkini.core.domain.image.repository.ImageRepository;
 import com.kkini.core.domain.member.entity.Member;
 import com.kkini.core.domain.member.repository.MemberRepository;
 import com.kkini.core.domain.post.dto.request.PostRegisterRequestDto;
@@ -14,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -24,6 +27,7 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
     private final RecipeRepository recipeRepository;
+    private final ImageRepository imageRepository;
     private final S3Util s3Util;
 
     // 포스트 작성
@@ -39,9 +43,16 @@ public class PostServiceImpl implements PostService {
                 .build()
         );
 
-        // 이미지 저장
-        s3Util.uploadFiles("post", dto.getImages());
+        // S3에 이미지 저장
+        List<String> images = s3Util.uploadFiles("post", dto.getImages());
 
+        // 이미지 테이블 저장
+        for(String image : images) {
+            imageRepository.save(Image.builder()
+                    .post(post)
+                    .image(image)
+                    .build());
+        }
     }
     
     // 포스트 삭제
