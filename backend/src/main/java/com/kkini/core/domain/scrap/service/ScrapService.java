@@ -9,4 +9,7 @@ public interface ScrapService {
     
     // 스크랩 삭제
     void deleteScrap(Long id);
+
+    // 스크랩 리스트 개수 조회
+    int countScrapList(Long memberId);
 }
