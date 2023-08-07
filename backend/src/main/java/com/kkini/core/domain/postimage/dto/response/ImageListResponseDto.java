@@ -1,4 +1,4 @@
-package com.kkini.core.domain.image.dto.response;
+package com.kkini.core.domain.postimage.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -17,6 +17,7 @@ public class ImageListResponseDto {
     private int id;
 
     @Schema(description = "이미지")
-    private List<String> images;
+    private String image;
 
 }
+

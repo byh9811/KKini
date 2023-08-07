@@ -19,6 +19,21 @@ public class PostQueryServiceImpl implements PostQueryService {
 
     @Override
     public Page<PostListResponseDto> getPostList(Pageable pageable) {
-        return postQueryRepository.findPostList(pageable);
+        // 포스트 가져오기
+        Page<PostListResponseDto> posts = postQueryRepository.findPostList(pageable);
+
+        // 이미지 리스트 가져오기
+
+        // 스크랩 여부 가져오기
+
+        // 댓글 수 가져오기(조인)
+
+        // 조립
+//        for() {
+//            // 자신의 포스트인지 체크
+//            // 자신의 포스트 반응
+//        }
+
+        return posts;
     }
 }
