@@ -5,6 +5,8 @@ import Feedname from '../components/Feedname';
 import SearchBar from '../components/SearchBar';
 
 function N2() {
+  window.scrollTo(0, 0);
+  
   let [탭, 탭변경] = useState(0);
   let [showResults, setShowResults] = useState(false);
 

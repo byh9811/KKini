@@ -5,6 +5,7 @@ import U1 from './U1.jsx'
 import U2 from './U2.jsx'
 
 function N3() {
+  window.scrollTo(0, 0);
 
   let [tab, setTab] = useState(0)
 

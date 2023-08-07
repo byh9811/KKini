@@ -1,6 +1,7 @@
 import './App.css'
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import styled from 'styled-components';
 import Naver from "./routes/Naver.jsx"
 import Home from './routes/Home.jsx';
 import Redirect from './routes/Redirect.jsx';
@@ -15,6 +16,8 @@ import N5 from './routes/N5.jsx'
 function App() {
   return (
     <div className="App">
+      <Logo src="img/logo.png" alt="로고" />
+      <h2 style={{ margin: '0 auto' }}>끼니에 어서오세요!</h2>
       <Naver></Naver>
       <div className="App">
         <Routes>
@@ -34,3 +37,9 @@ function App() {
 }
 
 export default App;
+
+const Logo = styled.img`
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+    `
