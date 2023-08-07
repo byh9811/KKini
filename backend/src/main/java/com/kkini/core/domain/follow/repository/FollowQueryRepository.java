@@ -5,6 +5,9 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,9 +26,9 @@ public class FollowQueryRepository {
      * @param id (조회를 원하는 회원의 식별자)
      * @return 팔로워 리스트
      */
-    public List<FollowListResponseDto> getFollowerList(long id){
+    public Page<FollowListResponseDto> getFollowerList(long id, Pageable pageable){
 
-        return jpaQueryFactory
+        List<FollowListResponseDto> list = jpaQueryFactory
                 .select(Projections.constructor(FollowListResponseDto.class,
                         follow.id,
                         follow.me.id,
@@ -36,7 +39,17 @@ public class FollowQueryRepository {
                 .where(
                         follow.target.id.eq(id)
                 )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(follow.id.desc())
                 .fetch();
+
+        int count = jpaQueryFactory
+                .select(follow.count())
+                .from(follow)
+                .fetch().size();
+
+        return new PageImpl<>(list, pageable, count);
         
     }
 
@@ -45,9 +58,9 @@ public class FollowQueryRepository {
      * @param id (조회를 원하는 멤버 식별자)
      * @return 팔로우 리스트
      */
-    public List<FollowListResponseDto> getFollowList(long id){
+    public Page<FollowListResponseDto> getFollowList(long id, Pageable pageable){
 
-        return jpaQueryFactory
+         List<FollowListResponseDto> list = jpaQueryFactory
                 .select(Projections.constructor(FollowListResponseDto.class,
                         follow.id,
                         follow.target.id,
@@ -55,11 +68,20 @@ public class FollowQueryRepository {
                         follow.target.image
                 ))
                 .from(follow)
-//                .join(member).on(follow.followee.id.eq(member.id))
                 .where(
                         follow.me.id.eq(id)
                 )
+                 .offset(pageable.getOffset())
+                 .limit(pageable.getPageSize())
+                 .orderBy(follow.id.desc())
                 .fetch();
+
+         int count = jpaQueryFactory
+                 .select(follow.count())
+                 .from(follow)
+                 .fetch().size();
+
+        return new PageImpl<>(list, pageable, count);
     }
 
     /**
