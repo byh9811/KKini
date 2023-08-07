@@ -24,7 +24,6 @@ fe-build:   # JOB 이름
       - frontend/kkini/node_modules
     # 유효기간 설정
     expire_in: 1 days
-    max_size: 100MB
   # JOB 수행 조건 설정
   only:
     # JOB이 수행 될 branch 설정
