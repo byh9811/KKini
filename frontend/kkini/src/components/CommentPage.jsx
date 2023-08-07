@@ -50,6 +50,10 @@ function CommentsPage() {
       newComments.splice(commentIndex, 1);
     }
     setComments(newComments);
+    // 만약 대댓글을 작성 중이었던 댓글이 삭제되었다면, 대댓글 작성 상태를 초기화합니다.
+    if (replyToIndex === commentIndex) {
+      setReplyToIndex(null);
+    }
   };
 
   const handleReplyClick = (index) => {
