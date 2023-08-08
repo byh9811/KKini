@@ -50,10 +50,6 @@ public class PostController {
             @RequestPart(value = "files") List<MultipartFile> multipartFiles,
             @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal) {
 
-        // 데이터베이스 조작을 위해 서비스로 전달, 서비스에서 성공여부 반환
-        log.debug("addPost() Entered");
-        log.debug("{}", postRegisterRequestDto);
-
         postService.savePost(postRegisterRequestDto, multipartFiles, userPrincipal.getId());
 
         return OK(null);
@@ -66,7 +62,6 @@ public class PostController {
             @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable
 //            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
-
         return OK(postQueryService.getPostList(pageable, 1L));
     }
 

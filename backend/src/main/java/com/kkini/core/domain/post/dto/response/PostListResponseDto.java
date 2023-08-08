@@ -19,7 +19,7 @@ public class PostListResponseDto {
     private String contents;
 
     @Schema(description = "포스트의 소유자가 자신인지 여부")
-    private boolean isMine;
+    private Boolean isMine;
 
     @Schema(description = "레시피")
     private Long recipeId;
@@ -27,8 +27,8 @@ public class PostListResponseDto {
     @Schema(description = "이미지")
     private List<String> images;
 
-    @Schema(description = "생성일")
-    private String createDateTime;
+//    @Schema(description = "생성일")
+//    private String createDateTime;
 
     @Schema(description = "좋아요 수")
     private int likeCnt;
@@ -46,6 +46,18 @@ public class PostListResponseDto {
     private int avgPrice;
 
     @Schema(description = "스크랩 여부")
-    private boolean isScrap;
+    private Boolean isScrap;
+
+    public PostListResponseDto(Long id, String contents, Boolean isMine, Long recipeId, int likeCnt, int hateCnt, Boolean reaction, int avgPrice, Boolean isScrap) {
+        this.id = id;
+        this.contents = contents;
+        this.isMine = isMine;
+        this.recipeId = recipeId;
+        this.likeCnt = likeCnt;
+        this.hateCnt = hateCnt;
+        this.reaction = reaction;
+        this.avgPrice = avgPrice;
+        this.isScrap = isScrap;
+    }
 
 }
