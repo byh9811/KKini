@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -32,7 +33,10 @@ public class BadgeController {
     })
     @GetMapping("/list")
     public Response<List<BadgeListResponseDto>> getMyBadgeList(@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal) {
-        return OK(badgeQueryService.getMyBadgeList(userPrincipal.getId()));
+        log.warn("1{}", userPrincipal.getUsername());
+        log.warn("2{}", userPrincipal);
+        log.warn("3{}", userPrincipal.getAuthorities());
+        return OK(badgeQueryService.getMyBadgeList(1L));
     }
 
 }
