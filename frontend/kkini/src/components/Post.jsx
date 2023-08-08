@@ -8,10 +8,9 @@ import LocalAtmRoundedIcon from '@mui/icons-material/LocalAtmRounded';
 import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-
 import Drawer from './Drawer'; // Drawer 컴포넌트를 가져옵니다
 
-const Post = forwardRef(({ user, postImage, likes, timestamp }, ref) => {
+const Post = forwardRef(({ user, postImage, likes, timestamp, contents, hatecnt, commentcnt, avgprice, reaction }, ref) => {
   
   const [show, setShow] = useState(false);
   const [amount, setAmount] = useState('');
@@ -49,11 +48,12 @@ const Post = forwardRef(({ user, postImage, likes, timestamp }, ref) => {
       <PostImage>
         <img src={postImage} alt="" />
       </PostImage>
-      <PostFooter></PostFooter>
-      <PostFooterIcons>
+      <PostFooter>
+      </PostFooter>
+      <PostFooterIcons >
         <div className='post__iconsMain'>
           <PostIcon>
-            <FavoriteBorderIcon />
+            <FavoriteBorderIcon style={{ color: reaction ? 'red' : 'gray'}}/>
           </PostIcon>
           <PostIcon>
             <ThumbDownOffAltRoundedIcon />
@@ -71,6 +71,10 @@ const Post = forwardRef(({ user, postImage, likes, timestamp }, ref) => {
           </PostIcon>
         </div>
       </PostFooterIcons>
+        <div><b>작성글</b>{contents}</div>
+        <div><b>싫어요</b>{hatecnt}</div>
+        <div><b>댓글갯수</b>{commentcnt}</div>
+        <div><b>평균값</b>{avgprice}</div>
 
       <div>{likes}명이 좋아합니다.</div>
       {averageAmount && <div>평가된 금액의 평균: {averageAmount}원</div>}
