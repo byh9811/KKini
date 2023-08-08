@@ -11,15 +11,19 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "포스트 생성 요청 DTO")
+@Schema(description = "포스트 수정 요청 DTO")
 public class PostUpdateRequestDto {
-    
+
+    @Schema(description = "포스트")
+    private Long postId;
+
     @Schema(description = "내용")
     private String contents;
 
     @Schema(description = "레시피")
-    private int recipeId;
+    private Long recipeId;
 
     @Schema(description = "삭제 이미지 목록")
-    private List<Integer> imageNumbers;
+    private List<Long> imageList;
+
 }

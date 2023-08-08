@@ -55,39 +55,53 @@ public class PostController {
         return OK(null);
     }
 
-    @Operation(summary = "포스트 목록 조회", description = "포스트를 조회한다.")
+    @Operation(summary = "포스트 목록 조회 : 피드", description = "피드의 포스트를 조회한다.")
     @Parameter(name = "pageable", description = "페이지 정보")
     @GetMapping
     public Response<Page<PostListResponseDto>> getPostList(
             @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable
-//            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
+            //@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
         return OK(postQueryService.getPostList(pageable, 1L));
     }
 
-    @Operation(summary = "포스트 수정", description = "포스트를 수정한다.")
-    @Parameters({
-            @Parameter(name = "postUpdateRequestDto", description = "포스트 정보"),
-            @Parameter(name = "id", description = "포스트 식별자")
-    })
-    @PutMapping("/{id}")
-    public Response<Void> modifyPost(
-            @RequestBody PostUpdateRequestDto postUpdateRequestDto,
-            @PathVariable("id") Long id) {
-        // 포스트를 작성한 사용자에게만 수정권한 부여, button visible
-        // 프론트는 수정 폼에서 이미지 삭제/추가, 내용 수정 후 데이터 전달, 백에게 승인 요청
-        // 수정 완료했을 경우 포스트 목록 갱신, 자신이 작성한 글은 최근 수정 순으로 보여주어야 한다.
-        log.debug("modifyPost() Entered");
-        log.debug("{}", postUpdateRequestDto);
-        log.debug("{}", id);
-        return OK(null);
+    @Operation(summary = "포스트 목록 조회 : 마이 페이지", description = "마이페이지의 포스트를 조회한다.")
+    @Parameter(name = "pageable", description = "페이지 정보")
+    @GetMapping("/mypage")
+    public Response<Page<PostListResponseDto>> getMyPagePostList(
+            @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable
+            //@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
+    ) {
+        return OK(postQueryService.getMyPagePostList(pageable, 1L));
     }
+
+//    @Operation(summary = "포스트 수정", description = "포스트를 수정한다.")
+//    @Parameters({
+//            @Parameter(name = "postUpdateRequestDto", description = "포스트 정보"),
+//            @Parameter(name = "id", description = "포스트 식별자")
+//    })
+//    @PutMapping("/{id}")
+//    public Response<Void> modifyPost(
+//            @RequestBody PostUpdateRequestDto postUpdateRequestDto,
+//            @PathVariable("id") Long id
+//    ) {
+//        // 포스트를 작성한 사용자에게만 수정권한 부여, button visible
+//        // 프론트는 수정 폼에서 이미지 삭제/추가, 내용 수정 후 데이터 전달, 백에게 승인 요청
+//        // 수정 완료했을 경우 포스트 목록 갱신, 자신이 작성한 글은 최근 수정 순으로 보여주어야 한다.
+//        log.debug("modifyPost() Entered");
+//        log.debug("{}", postUpdateRequestDto);
+//        log.debug("{}", id);
+//        return OK(null);
+//    }
 
     @Operation(summary = "포스트 삭제", description = "포스트를 삭제한다.")
     @Parameter(name = "id", description = "포스트 식별자")
     @DeleteMapping("/{id}")
-    public Response<Void> removePost(@PathVariable("id") Long id) {
-        postService.removePost(id);
+    public Response<Void> removePost(
+            @PathVariable("id") Long id
+            //@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
+    ) {
+        postService.removePost(id, 1L);
         log.debug("removePost() Entered");
         log.debug("{}", id);
         return OK(null);
