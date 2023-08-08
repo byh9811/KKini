@@ -11,6 +11,9 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +41,7 @@ public class FollowController {
         FollowRequestDto followRequestDto = new FollowRequestDto();
         followRequestDto.setTargetMemberId(targetMemberId);
         followRequestDto.setMemberId(userPrincipal.getId()); // 추후에 User의 아이디를 가져올 것
+//        followRequestDto.setMemberId(1L); // 추후에 User의 아이디를 가져올 것
         followService.addFollow(followRequestDto);
         return OK(null);
     }
@@ -56,14 +60,16 @@ public class FollowController {
     @Operation(summary = "팔로우 리스트", description = "회원(memberId)의 팔로우 리스트를 확인할 수 있습니다.")
     @Parameter(name = "memberId", description = "팔로우 리스트를 보고 싶은 회원(memberId)")
     @GetMapping("/followList/{memberId}")
-    public Response<List<FollowListResponseDto>> followList(@PathVariable Long memberId, @Parameter(hidden = true)@AuthenticationPrincipal UserPrincipal userPrincipal){
+    public Response<Page<FollowListResponseDto>> followList
+            (@PathVariable Long memberId, @Parameter(hidden = true)@AuthenticationPrincipal UserPrincipal userPrincipal,
+             @PageableDefault(size = 50)Pageable pageable){
         log.debug("## 팔로우 리스트를 조회합니다.");
         log.debug("조회할 멤버 식별자 : {}", memberId);
-        List<FollowListResponseDto> followList = null;
+        Page<FollowListResponseDto> followList = null;
         if (memberId == null){
-            followList = followQueryService.getFollowList(userPrincipal.getId());
+            followList = followQueryService.getFollowList(userPrincipal.getId(), pageable);
         } else{
-            followList = followQueryService.getFollowList(memberId);
+            followList = followQueryService.getFollowList(memberId, pageable);
         }
 
         log.debug("팔로우 리스트 : {}",followList);
@@ -74,14 +80,16 @@ public class FollowController {
     @Operation(summary = "팔로워 리스트", description = "회원(memberId)의 팔로워 리스트를 확인할 수 있습니다.")
     @Parameter(name = "memberId", description = "팔로워 리스트를 보고 싶은 회원(memberId)")
     @GetMapping("/followerList/{memberId}")
-    public Response<List<FollowListResponseDto>> followerList(@PathVariable Long memberId, @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal){
+    public Response<Page<FollowListResponseDto>> followerList(
+            @PathVariable Long memberId, @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PageableDefault(size = 50) Pageable pageable){
         log.debug("## 팔로워 리스트를 조회합니다.");
         log.debug("조회할 멤버 식별자 : {}", memberId);
-        List<FollowListResponseDto> followerList = null;
+        Page<FollowListResponseDto> followerList = null;
         if (memberId == null){
-            followerList = followQueryService.getFollowerList(userPrincipal.getId());
+            followerList = followQueryService.getFollowerList(userPrincipal.getId(), pageable);
         } else {
-            followerList = followQueryService.getFollowerList(memberId);
+            followerList = followQueryService.getFollowerList(memberId, pageable);
         }
         log.debug("팔로워 리스트 : {}", followerList);
         return OK(followerList);
