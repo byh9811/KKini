@@ -11,7 +11,7 @@ function N1() {
       <div>
         <p>Hello, World!</p>
         <button onClick={()=>{
-          axios.put('http://localhost:8080/api/s3/test')
+          axios.put('http://127.17.0.1/api/s3/test')
           .then((response)=>{
             console.log(response.data)
           })
