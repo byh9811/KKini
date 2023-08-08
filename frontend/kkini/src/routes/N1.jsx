@@ -1,5 +1,4 @@
 import React from 'react'
-import "../components/Homepage.css"
 import Timeline from '../components/Timeline'
 import axios from 'axios'
 
