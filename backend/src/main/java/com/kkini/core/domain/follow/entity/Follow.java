@@ -23,4 +23,5 @@ public class Follow extends BaseEntityWithCreatedTime {
     @ManyToOne
     @JoinColumn(name = "target_id")
     private Member target;
+
 }

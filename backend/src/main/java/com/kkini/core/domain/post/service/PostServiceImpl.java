@@ -6,7 +6,7 @@ import com.kkini.core.domain.post.dto.request.PostRegisterRequestDto;
 import com.kkini.core.domain.post.entity.Post;
 import com.kkini.core.domain.post.repository.PostRepository;
 import com.kkini.core.domain.postimage.entity.PostImage;
-import com.kkini.core.domain.postimage.repository.ImageRepository;
+import com.kkini.core.domain.postimage.repository.PostImageRepository;
 import com.kkini.core.domain.recipe.entity.Recipe;
 import com.kkini.core.domain.recipe.repository.RecipeRepository;
 import com.kkini.core.global.exception.NotFoundException;
@@ -25,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
 
-    private final ImageRepository imageRepository;
+    private final PostImageRepository postImageRepository;
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
     private final RecipeRepository recipeRepository;
@@ -49,7 +49,7 @@ public class PostServiceImpl implements PostService {
 
         // 이미지 테이블 저장
         for(String image : images) {
-            imageRepository.save(PostImage.builder()
+            postImageRepository.save(PostImage.builder()
                     .post(post)
                     .image(image)
                     .build());
