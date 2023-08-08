@@ -58,7 +58,10 @@ public class PostServiceImpl implements PostService {
     
     // 포스트 삭제
     public void removePost(Long postId) {
+        // 포스트를 작성한 사용자에게만 삭제권한 부여, button visible
+        Post post = postRepository.findById(postId).orElseThrow(() -> new NotFoundException(Post.class, postId));
 
+        postRepository.delete(post);
     }
 
     // 포스트 수정

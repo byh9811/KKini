@@ -34,5 +34,4 @@ public class Post extends BaseEntityWithModifiedTime {
 
     private int dislikes;
 
-    // 비즈니스 로직 (추후 생성 예정)
 }

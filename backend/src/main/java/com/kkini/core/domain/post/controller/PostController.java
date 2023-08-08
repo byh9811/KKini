@@ -87,7 +87,7 @@ public class PostController {
     @Parameter(name = "id", description = "포스트 식별자")
     @DeleteMapping("/{id}")
     public Response<Void> removePost(@PathVariable("id") Long id) {
-        // 포스트를 작성한 사용자에게만 삭제권한 부여, button visible
+        postService.removePost(id);
         log.debug("removePost() Entered");
         log.debug("{}", id);
         return OK(null);
