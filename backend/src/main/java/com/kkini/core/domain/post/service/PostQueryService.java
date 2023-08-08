@@ -5,5 +5,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface PostQueryService {
+
     Page<PostListResponseDto> getPostList(Pageable pageable, Long memberId);
+
+    Page<PostListResponseDto> getMyPagePostList(Pageable pageable, Long memberId);
+
 }

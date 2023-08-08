@@ -3,6 +3,7 @@ package com.kkini.core.domain.post.service;
 import com.kkini.core.domain.member.entity.Member;
 import com.kkini.core.domain.member.repository.MemberRepository;
 import com.kkini.core.domain.post.dto.request.PostRegisterRequestDto;
+import com.kkini.core.domain.post.dto.request.PostUpdateRequestDto;
 import com.kkini.core.domain.post.entity.Post;
 import com.kkini.core.domain.post.repository.PostRepository;
 import com.kkini.core.domain.postimage.entity.PostImage;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -57,13 +59,27 @@ public class PostServiceImpl implements PostService {
     }
     
     // 포스트 삭제
-    public void removePost(Long postId) {
-        // 포스트를 작성한 사용자에게만 삭제권한 부여, button visible
+    @Override
+    public void removePost(Long postId, Long memberId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NotFoundException(Post.class, postId));
 
-        postRepository.delete(post);
+        // 자신이 작성한 글만 삭제할 수 있다.
+        if(post.getMember().getId().equals(memberId)) {
+            postRepository.delete(post);
+        }
     }
 
     // 포스트 수정
+//    @Override
+//    public void modifyPost(PostUpdateRequestDto postUpdateRequestDto) {
+//        Post post = postRepository.findById(postUpdateRequestDto.getPostId()).orElseThrow(() -> new NotFoundException(Post.class, postUpdateRequestDto.getPostId()));
+//        post.setContents(postUpdateRequestDto.getContents());
+//
+//        for(Long id : postUpdateRequestDto.getImageList()) {
+//            postImageRepository.deleteById(id);
+//        }
+//
+//        postRepository.save(post);
+//    }
 
 }

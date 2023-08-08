@@ -17,24 +17,20 @@ public class PostQueryServiceImpl implements PostQueryService {
 
     private final PostQueryRepository postQueryRepository;
 
+    // 피드 조회
     @Override
     public Page<PostListResponseDto> getPostList(Pageable pageable, Long memberId) {
-        // 포스트 가져오기
         Page<PostListResponseDto> postList = postQueryRepository.findPostList(pageable, memberId);
-
-        // 이미지 리스트 가져오기
-
-
-        // 스크랩 여부 가져오기
-
-        // 댓글 수 가져오기(조인)
-
-        // 조립
-//        for() {
-//            // 자신의 포스트인지 체크
-//            // 자신의 포스트 반응
-//        }
 
         return postList;
     }
+
+    // 마이 페이지 조회
+    @Override
+    public Page<PostListResponseDto> getMyPagePostList(Pageable pageable, Long memberId) {
+        Page<PostListResponseDto> myPagePostList = postQueryRepository.findMyPagePostList(pageable, memberId);
+
+        return myPagePostList;
+    }
+
 }

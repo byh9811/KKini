@@ -30,8 +30,18 @@ public class Post extends BaseEntityWithModifiedTime {
 
     private int price;
 
-    private int likes;
+    private int likeCnt;
 
-    private int dislikes;
+    private int disLikeCnt;
+
+    // 내용 수정
+    public void setContents(String contents) {
+        this.contents = contents;
+    }
+
+    // 레시피 변경
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
+    }
 
 }
