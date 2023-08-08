@@ -8,7 +8,7 @@ import lombok.Data;
 public class AddScrapRequestDto {
 
     @Schema(description = "멤버 식별자")
-    private Long memberId;
+    private String email;
 
     @Schema(description = "포스트 식별자")
     private Long postId;
