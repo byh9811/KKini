@@ -52,7 +52,7 @@ function Upload() {
       formData.append("files", fileList[i].fileObject);
     }
 
-    axios.post('http://127.17.0.1:8080/api/s3', formData, {
+    axios.post('http://127.17.0.5:8080/api/s3', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
