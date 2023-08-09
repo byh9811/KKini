@@ -26,8 +26,8 @@ public class ScrapServiceImpl implements ScrapService{
 
     @Override
     public void addScrap(AddScrapRequestDto addScrapRequestDto) {
-        Member member = memberRepository.findByEmail(addScrapRequestDto.getEmail()).orElseThrow(
-                () -> new NotFoundException(Member.class, addScrapRequestDto.getEmail()));
+        Member member = memberRepository.findById(addScrapRequestDto.getMemberId()).orElseThrow(
+                () -> new NotFoundException(Member.class, addScrapRequestDto.getMemberId()));
         Post post = postRepository.findById(addScrapRequestDto.getPostId()).orElseThrow(
                 () -> new NotFoundException(Member.class, addScrapRequestDto.getPostId()));
         scrapRepository.save(Scrap.builder()
