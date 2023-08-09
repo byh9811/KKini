@@ -10,6 +10,7 @@ import com.kkini.core.domain.oauth2.service.CustomOAuth2UserService;
 import com.kkini.core.domain.oauth2.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -33,6 +34,9 @@ public class WebSecurityConfigure {
     private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
     private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
     private final CustomUserDetailsService customUserDetailsService;
+
+    @Value("${url.frontend}")
+    private String FRONTEND_BASE_URL;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -75,7 +79,7 @@ public class WebSecurityConfigure {
                 .deleteCookies("JSESSIONID")
                 .clearAuthentication(true)
                 .logoutSuccessHandler((request, response, authentication) ->
-                        response.sendRedirect("http://localhost:3000")
+                        response.sendRedirect(FRONTEND_BASE_URL)
                 );
 
 

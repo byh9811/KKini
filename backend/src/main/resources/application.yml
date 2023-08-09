@@ -6,9 +6,13 @@ spring:
       local:
         - db-local
         - log-local
+        - oauth2-local
+        - value-local
       dev:
         - db-dev
         - log-dev
+        - oauth2-dev
+        - value-dev
     include:
       - db
       - jwt
