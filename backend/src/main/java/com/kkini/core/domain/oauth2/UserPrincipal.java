@@ -34,14 +34,19 @@ public class UserPrincipal implements OAuth2User, UserDetails {
         this.authorities = authorities;
     }
 
+    public static UserPrincipal create(Member member) {
+        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(Role.ROLE_USER.name()));
+        return new UserPrincipal(
+                member.getId(),
+                member.getEmail(),
+                authorities
+        );
+    }
+
     public static UserPrincipal create(Member member, Map<String, Object> attributes) {
-        log.debug("＠＠＠＠＠＠＠＠＠＠＠＠{}",member.getId());
-        log.debug("＠＠＠＠＠＠＠＠＠＠＠＠＠{}",member.getEmail());
         List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(Role.ROLE_USER.name()));
         UserPrincipal userPrincipal = new UserPrincipal(member.getId(), member.getEmail(), authorities);
-        log.debug("＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠{}", userPrincipal.getId());
         userPrincipal.setAttributes(attributes);
-        log.debug("＠＠＠＠＠＠＠＠＠＠＠＠＠{}", userPrincipal.getAttributes());
         // 이 부분에서 setter로 설정하는 부분에서 set이 되지 않아서 get이 null입니다.
         // 오류는 발생하지 않습니다.
         return userPrincipal;

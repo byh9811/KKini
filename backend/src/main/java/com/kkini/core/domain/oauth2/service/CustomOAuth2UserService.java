@@ -67,14 +67,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         else {
             member = registerUser(authProvider, oAuth2UserInfo);
         }
-        UserPrincipal userPrincipal = UserPrincipal.create(member, oAuth2UserInfo.getAttributes());
-        log.debug("여기다 !!!!!!!!!!!!!!{}", UserPrincipal.create(member, oAuth2UserInfo.getAttributes()));
-        log.debug("여기다 !!!!!!!!!!!!!!{}", userPrincipal.getAttributes());
-        log.debug("여기다 !!!!!!!!!!!!!!{}", userPrincipal.getAttributes());
-        log.debug("여기다 !!!!!!!!!!!!!!{}", userPrincipal.getAttributes());
-        log.debug("여기다 !!!!!!!!!!!!!!{}", userPrincipal.getAttributes());
-        log.debug("여기다 !!!!!!!!!!!!!!{}", userPrincipal.getAttributes());
-        log.debug("여기다 !!!!!!!!!!!!!!{}", userPrincipal.getAttributes());
+
         return UserPrincipal.create(member, oAuth2UserInfo.getAttributes());
     }
 
