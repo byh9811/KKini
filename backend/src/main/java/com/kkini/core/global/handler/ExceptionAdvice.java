@@ -8,7 +8,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import static com.kkini.core.global.response.Response.ERROR;
 
@@ -33,5 +36,11 @@ public class ExceptionAdvice {
         log.error("Unexpected service exception occurred: {}", e.getMessage(), e);
         return newResponse(e, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @GetMapping("/error")
+    public ResponseEntity<?> notFoundException(NoHandlerFoundException e){
+        return newResponse(e, HttpStatus.NOT_FOUND);
+    }
+
 
 }
