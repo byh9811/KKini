@@ -1,8 +1,10 @@
 package com.kkini.core.domain.recipe.controller;
 
+import com.kkini.core.domain.oauth2.UserPrincipal;
 import com.kkini.core.domain.recipe.dto.request.RecipeRegisterRequestDto;
 import com.kkini.core.domain.recipe.dto.request.SearchConditionRequestDto;
 import com.kkini.core.domain.recipe.dto.response.RecipeDetailResponseDto;
+import com.kkini.core.domain.recipe.dto.response.RecipeListMypageResponseDto;
 import com.kkini.core.domain.recipe.dto.response.RecipeListResponseDto;
 import com.kkini.core.domain.recipe.service.RecipeQueryService;
 import com.kkini.core.domain.recipe.service.RecipeService;
@@ -17,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -42,6 +45,15 @@ public class RecipeController {
     @GetMapping
     public Response<Page<RecipeListResponseDto>> getRecipeList(@ModelAttribute SearchConditionRequestDto searchConditionRequestDto, @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
         return OK(recipeQueryService.getRecipeList(searchConditionRequestDto, pageable));
+    }
+
+    @Operation(summary = "내가 작성한 레시피 리스트 조회", description = "내가 작성한 레시피 리스트를 조회하는 API입니다. page 기본값은 0, size 기본값은 10, sort 기본값은 'modifyDateTime, desc'입니다.")
+    @Parameters({
+            @Parameter(name = "pageable", description = "페이지네이션 정보")
+    })
+    @GetMapping("/mypage")
+    public Response<Page<RecipeListMypageResponseDto>> getRecipeList(@PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable, @AuthenticationPrincipal UserPrincipal userPrincipal) {
+        return OK(recipeQueryService.getMyRecipeList(userPrincipal.getId(), pageable));
     }
 
     @Operation(summary = "레시피 상세 조회", description = "레시피 상세를 조회하는 API입니다.")
