@@ -74,10 +74,11 @@ public class CommentController {
     @Parameter(name = "id", description = "댓글 식별자")
     @DeleteMapping("/{id}")
     public Response<Void> removeComment(
-            @PathVariable("id") Long id
+            @PathVariable("id") Long commentId
+            //@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
-        log.debug("removeComment() Entered");
-        log.debug("{}", id);
+        commentService.removeComment(commentId, 1L);
+
         return OK(null);
     }
 

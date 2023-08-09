@@ -9,4 +9,6 @@ public interface CommentService {
 
     void modifyComment(CommentUpdateRequestDto commentUpdateRequestDto, Long memberId);
 
+    void removeComment(Long commentId, Long memberId);
+
 }

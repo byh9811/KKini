@@ -56,4 +56,13 @@ public class CommentServiceImpl implements CommentService {
         }
     }
 
+    @Override
+    public void removeComment(Long commentId, Long memberId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NotFoundException(Comment.class, commentId));
+
+        if(comment.getMember().getId().equals(memberId)) {
+            commentRepository.delete(comment);
+        }
+    }
+
 }
