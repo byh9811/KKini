@@ -26,41 +26,6 @@ public class CommentQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public Page<CommentCountResponseDto> findCommentCount(Pageable pageable) {
-        List<CommentCountResponseDto> commentList = jpaQueryFactory
-                .select(Projections.constructor(CommentCountResponseDto.class,
-                        comment.post.id,
-                        comment.count()))
-                .from(comment)
-                .groupBy(comment.post.id)
-
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .orderBy(postSort(pageable))
-                .fetch();
-
-        long count = jpaQueryFactory
-                .select(comment.count())
-                .from(comment)
-                .fetch().size();
-
-        return new PageImpl<>(commentList, pageable, count);
-    }
-
-    private OrderSpecifier<?> postSort(Pageable page) {
-        if (!page.getSort().isEmpty()) {
-            for (Sort.Order order : page.getSort()) {
-                Order direction = order.getDirection().isAscending() ? Order.ASC : Order.DESC;
-                switch (order.getProperty()){
-                    case "id":
-                        return new OrderSpecifier<>(direction, post.id);
-                    case "name":
-                        return new OrderSpecifier<>(direction, recipe.name);
-                }
-            }
-        }
-
-        return new OrderSpecifier<>(Order.DESC, recipe.modifyDateTime);
-    }
+//    public List<>
 
 }
