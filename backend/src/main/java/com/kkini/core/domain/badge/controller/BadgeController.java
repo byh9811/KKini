@@ -33,10 +33,7 @@ public class BadgeController {
     })
     @GetMapping("/list")
     public Response<List<BadgeListResponseDto>> getMyBadgeList(@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal) {
-        log.warn("1{}", userPrincipal.getUsername());
-        log.warn("2{}", userPrincipal);
-        log.warn("3{}", userPrincipal.getAuthorities());
-        return OK(badgeQueryService.getMyBadgeList(1L));
+        return OK(badgeQueryService.getMyBadgeList(userPrincipal.getId()));
     }
 
 }

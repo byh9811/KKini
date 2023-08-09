@@ -25,21 +25,6 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        log.info("＃# 필러팅 시작");
-        log.debug(" => servletRequest : {}", servletRequest);
-        log.debug(" => servletResponse : {}", servletResponse);
-        log.debug(" => filterChain : {}", filterChain);
-
-
-
-//        Long userId = tokenProvider.getUserIdFromToken(jwt);
-//
-//        UserDetails userDetails = customUserDetailsService.loadUserById(userId);
-//        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-//        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-//
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-
 
         //1. Request Header 에서 JWT Token 추출
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) servletRequest);
