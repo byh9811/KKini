@@ -9,6 +9,7 @@ import com.kkini.core.domain.recipe.dto.response.RecipeListResponseDto;
 import com.kkini.core.domain.recipe.service.RecipeQueryService;
 import com.kkini.core.domain.recipe.service.RecipeService;
 import com.kkini.core.global.response.Response;
+import com.kkini.core.global.util.S3Util;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -19,8 +20,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,11 +72,14 @@ public class RecipeController {
 
     @Operation(summary = "레시피 등록", description = "레시피를 등록하는 API입니다.")
     @Parameters({
-            @Parameter(name = "recipeRegisterRequestDto", description = "레시피 등록 필드")
+            @Parameter(name = "recipeRegisterRequestDto", description = "레시피 등록 필드"),
+            @Parameter(name = "files", description = "레시피 등록 필드")
     })
-    @PostMapping
-    public Response<Void> addRecipe(@RequestBody RecipeRegisterRequestDto recipeRegisterRequestDto) {
-        recipeService.saveRecipe(recipeRegisterRequestDto, 1L);
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public Response<Void> addRecipe(@RequestPart(value = "data") RecipeRegisterRequestDto recipeRegisterRequestDto,
+                                    @RequestPart(value = "file") MultipartFile recipeImageFile,
+                                    @AuthenticationPrincipal UserPrincipal userPrincipal) {
+        recipeService.saveRecipe(recipeRegisterRequestDto, recipeImageFile, userPrincipal.getId());
         return OK(null);
     }
 

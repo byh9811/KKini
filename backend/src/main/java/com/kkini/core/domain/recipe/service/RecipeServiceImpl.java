@@ -10,11 +10,15 @@ import com.kkini.core.domain.recipe.repository.RecipeRepository;
 import com.kkini.core.domain.step.entity.Step;
 import com.kkini.core.domain.step.repository.StepRepository;
 import com.kkini.core.global.exception.NotFoundException;
+import com.kkini.core.global.util.S3Util;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Service
 @Transactional
@@ -26,15 +30,19 @@ public class RecipeServiceImpl implements RecipeService {
     private final StepRepository stepRepository;
     private final MemberRepository memberRepository;
     private final CategoryRepository categoryRepository;
+    private final S3Util s3Util;
 
     @Override
     public void removeRecipe(Long recipeId) {
         Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(() -> new NotFoundException(Recipe.class, recipeId));
+        ArrayList<String> list = new ArrayList<>();
+        list.add(recipe.getImage());
+        s3Util.deleteFile(list);
         recipe.deleteRecipe();
     }
 
     @Override
-    public void saveRecipe(RecipeRegisterRequestDto dto, Long memberId) {
+    public void saveRecipe(RecipeRegisterRequestDto dto, MultipartFile multipartFile, Long memberId) {
 
         Member writer = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException(Member.class, memberId));
         Category category = categoryRepository.findById(dto.getCategoryId()).orElseThrow(() -> new NotFoundException(Category.class, dto.getCategoryId()));
@@ -46,8 +54,11 @@ public class RecipeServiceImpl implements RecipeService {
                 .time(dto.getTime())
                 .difficulty(dto.getDifficulty())
                 .ingredient(dto.getIngredient())
-                .image(dto.getImage())
                 .build());
+
+        ArrayList<MultipartFile> multipartFiles = new ArrayList<>();
+        multipartFiles.add(multipartFile);
+        s3Util.uploadFiles("recipe", multipartFiles);
 
         // TODO: 벌크 연산으로 INSERT문을 한번에 쿼리하면 ?
         // TODO: 현재 @GeneratedValue(strategy = GenerationType.IDENTITY)이기 때문에 쓰기지연 동작 X
