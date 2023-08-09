@@ -3,6 +3,8 @@ package com.kkini.core.domain.comment.controller;
 import com.kkini.core.domain.comment.dto.request.CommentRegisterRequestDto;
 import com.kkini.core.domain.comment.dto.request.CommentUpdateRequestDto;
 import com.kkini.core.domain.comment.dto.response.CommentListResponseDto;
+import com.kkini.core.domain.comment.dto.response.CommentListUpResponseDto;
+import com.kkini.core.domain.comment.service.CommentQueryService;
 import com.kkini.core.domain.comment.service.CommentService;
 import com.kkini.core.global.response.Response;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,6 +28,7 @@ import static com.kkini.core.global.response.Response.*;
 public class CommentController {
 
     private final CommentService commentService;
+    private final CommentQueryService commentQueryService;
 
     // 작성
     @Operation(summary = "댓글 작성", description = "댓글을 작성한다.")
@@ -47,13 +50,13 @@ public class CommentController {
     @Operation(summary = "댓글 목록 조회", description = "포스트에 해당하는 댓글을 조회한다.")
     @Parameter(name = "id", description = "포스트 식별자")
     @GetMapping("/{id}")
-    public Response<List<CommentListResponseDto>> getCommentList(@PathVariable("id") Long id) {
-        List<CommentListResponseDto> list = new ArrayList<>();
-        list.add(new CommentListResponseDto());
-        list.add(new CommentListResponseDto());
-        log.debug("getCommentList() Entered");
-        log.debug("{}", id);
-        return OK(list);
+    public Response<List<CommentListUpResponseDto>> getCommentList(
+            @PathVariable("id") Long postId
+            //@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
+    ) {
+        List<CommentListUpResponseDto> commentList = commentQueryService.getCommentList(postId);
+
+        return OK(commentList);
     }
 
     // 수정
@@ -83,4 +86,5 @@ public class CommentController {
         log.debug("{}", id);
         return OK(null);
     }
+
 }
