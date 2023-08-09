@@ -18,6 +18,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 import static com.kkini.core.global.response.Response.OK;
@@ -35,13 +36,23 @@ public class ScrapController {
     @Operation(summary = "스크랩 추가", description = "해당 포스트(postId)를 스크랩에 추가합니다.")
     @Parameter(name = "postId", description = "스크랩에 추가하고 싶은 포스트 식별자(postId)")
     @PostMapping("/{postId}")
-    public Response<Void> addScrap(@PathVariable Long postId, @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal) {
+    public Response<Void> addScrap(@PathVariable Long postId, @AuthenticationPrincipal UserPrincipal userPrincipal
+    , Principal principal) {
+        log.debug("{}", userPrincipal);
+        log.debug("{}", principal.toString());
         log.debug("## 스크랩을 추가합니다.");
         log.debug("추가할 포스트 식별자 : {}", postId);
         AddScrapRequestDto addScrapRequestDto = new AddScrapRequestDto();
 //        addScrapRequestDto.setMemberId(1L); // 해당 부분은 추후에 user.getMemberId()로 교체할 예정
-        addScrapRequestDto.setMemberId(userPrincipal.getId()); // 해당 부분은 추후에 user.getMemberId()로 교체할 예정
+        log.debug("현재 접근 멤버 : {}",userPrincipal.getUsername()); // 시큐리티의 User를 사용할 때는 이부분을 사용하고
+//        log.debug("{}", userPrincipal.getUerId);
+        // 아닐때는 아래의 getId를 주석해제하고 사용해야합니다.
+//        log.debug("현재 접근 멤버 : {}", userPrincipal.getId()); // 이 부분이 제가 선언한 UserPrincipal을 사용하는 부분인데
+        // 여기서 nullpoint가 발생합니다.
+
+//        addScrapRequestDto.setMemberId(userPrincipal.getUsername()); // 해당 부분은 추후에 user.getMemberId()로 교체할 예정
         addScrapRequestDto.setPostId(postId);
+        addScrapRequestDto.setEmail(userPrincipal.getUsername());
         scrapService.addScrap(addScrapRequestDto);
 
         return OK(null);
@@ -75,6 +86,7 @@ public class ScrapController {
         log.debug("## 스크랩 개수를 조회합니다.");
         log.debug("조회할 멤버 식별자 : {}", userPrincipal.getId());
         int count = scrapService.countScrapList(userPrincipal.getId());
+//        int count = scrapService.countScrapList(1L);
         return OK(count);
     }
 

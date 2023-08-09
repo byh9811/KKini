@@ -7,6 +7,7 @@ import com.kkini.core.domain.oauth2.handler.OAuth2AuthenticationSuccessHandler;
 import com.kkini.core.domain.oauth2.lib.CookieAuthorizationRequestRepository;
 import com.kkini.core.domain.oauth2.lib.CookieUtils;
 import com.kkini.core.domain.oauth2.service.CustomOAuth2UserService;
+import com.kkini.core.domain.oauth2.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,6 +33,8 @@ public class WebSecurityConfigure {
     private final CookieAuthorizationRequestRepository cookieAuthorizationRequestRepository;
     private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
     private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+    private final CustomUserDetailsService customUserDetailsService;
+
     @Value("${url.frontend}")
     private String FRONTEND_BASE_URL;
 
@@ -81,7 +84,7 @@ public class WebSecurityConfigure {
 
 
         //jwt filter 설정
-        http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, customUserDetailsService), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
