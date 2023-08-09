@@ -3,8 +3,8 @@ import React from "react";
 import styled, { css } from 'styled-components';
 
 const Naver = () => {
-  const NAVER_CLIENT_ID = "cuR5W3G8URwVF2atwAse";
-  const NAVER_CALLBACK_URL = "http://localhost:8080/oauth2/callback/naver"; // 콜백 URL 수정
+  const NAVER_CLIENT_ID = process.env.REACT_APP_NAVER_API_KEY;
+  const NAVER_CALLBACK_URL = process.env.REACT_APP_NAVER_CALLBACK_URL; // 콜백 URL 수정
   const STATE = "false";
   const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&STATE=${STATE}&redirect_uri=${NAVER_CALLBACK_URL}`;
 
@@ -13,20 +13,18 @@ const Naver = () => {
   };
 
   return (
-    <>
+    <div style={{ margin: '0 auto' }}>
+      <div style={{ margin: '0 auto' }}>
+        <Logo src="img/logo.png" alt="로고" />
+        <h2 style={{ margin: '0 auto' }}>끼니에 어서오세요!</h2>
+      </div>
             <NaverLoginBtn onClick={NaverLogin}>
                 <NaverIcon alt="navericon" />
                 <NaverLoginTitle>네이버로 로그인</NaverLoginTitle>
             </NaverLoginBtn>
-
-         {/* // 구현할 위치에 아래와 같이 코드를 입력해주어야 한다. 
-         // 태그에 id="naverIdLogin" 를 해주지 않으면 오류가 발생한다!
-            <div id="naverIdLogin" /> </div> */}
-        </>
-
+    </div>
   )
   // <button onClick={NaverLogin}>네이버 로그인</button>;
-  
 };
 
 export default Naver;
@@ -57,3 +55,9 @@ const NaverLoginTitle = styled.span`
     font-size: 14px;
     line-height: 24px;
     `
+
+const Logo = styled.img`
+width: 300px;
+height: 300px;
+margin: 0 auto;
+`
