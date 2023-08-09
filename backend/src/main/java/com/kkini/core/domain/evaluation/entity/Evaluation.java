@@ -30,5 +30,7 @@ public class Evaluation extends BaseEntity {
 
     private int price;
 
-    // 비즈니스 로직 (추후 생성 예정)
+    // 금액 변경
+    public void setPrice(int price) { this.price = price; }
+
 }
