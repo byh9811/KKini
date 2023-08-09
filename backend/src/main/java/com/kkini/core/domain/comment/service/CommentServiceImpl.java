@@ -1,6 +1,7 @@
 package com.kkini.core.domain.comment.service;
 
 import com.kkini.core.domain.comment.dto.request.CommentRegisterRequestDto;
+import com.kkini.core.domain.comment.dto.request.CommentUpdateRequestDto;
 import com.kkini.core.domain.comment.entity.Comment;
 import com.kkini.core.domain.comment.repository.CommentRepository;
 import com.kkini.core.domain.member.entity.Member;
@@ -41,6 +42,18 @@ public class CommentServiceImpl implements CommentService {
                 .contents(dto.getContents())
                 .build()
         );
+    }
+
+    @Override
+    public void modifyComment(CommentUpdateRequestDto dto, Long memberId) {
+        Comment comment = commentRepository.findById(dto.getCommentId()).orElseThrow(() -> new NotFoundException(Comment.class, dto.getCommentId()));
+
+        // 댓글을 작성한 사용자만 삭제 가능
+        if(comment.getMember().getId().equals(memberId)) {
+            comment.setContents(dto.getContents());
+
+            commentRepository.save(comment);
+        }
     }
 
 }
