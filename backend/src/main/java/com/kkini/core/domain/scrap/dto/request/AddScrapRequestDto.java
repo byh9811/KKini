@@ -13,4 +13,5 @@ public class AddScrapRequestDto {
     @Schema(description = "포스트 식별자")
     private Long postId;
 
+
 }

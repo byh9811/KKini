@@ -1,8 +1,8 @@
 package com.kkini.core.domain.post.repository;
 
 import com.kkini.core.domain.post.dto.response.PostListResponseDto;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.*;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,7 @@ public class PostQueryRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     // 피드
-    public Page<PostListResponseDto> findPostList(Pageable pageable, Long memberId) {
+    public Page<PostListResponseDto> findPostList(Pageable pageable, Long memberId, Boolean isFeed) {
         List<Long> followList = jpaQueryFactory
                 .select(follow.target.id)
                 .from(follow)
@@ -57,10 +57,7 @@ public class PostQueryRepository {
                 .leftJoin(recipe).on(post.recipe.id.eq(recipe.id))
                 .leftJoin(reaction).on(post.id.eq(reaction.post.id).and(post.member.id.eq(reaction.member.id)))
                 .leftJoin(scrap).on(post.id.eq(scrap.post.id).and(post.member.id.eq(scrap.member.id)))
-                .where(
-                        post.member.id.eq(memberId)
-                                .or(post.member.id.in(followList))
-                )
+                .where(searchCondition(memberId, followList, isFeed))
                 .orderBy(postSort(pageable))
                 .fetch();
 
@@ -92,64 +89,17 @@ public class PostQueryRepository {
         return new PageImpl<>(postList.subList(start, end), pageable, postList.size());
     }
 
-//    private BooleanExpression mypageCondition(boolean isMine) {
-//        return isMine ? recipe.difficulty.eq(difficulty) : null;
-//    }
+    private BooleanBuilder searchCondition(Long memberId, List<Long> followList, Boolean isFeed) {
+        BooleanBuilder builder = new BooleanBuilder();
 
-    // 마이 페이지
-    public Page<PostListResponseDto> findMyPagePostList(Pageable pageable, Long memberId) {
-        List<PostListResponseDto> postList = jpaQueryFactory
-                .select(Projections.constructor(PostListResponseDto.class,
-                        post.id,
-                        post.contents,
-                        post.createDateTime,
-                        post.likeCnt,
-                        post.disLikeCnt,
-                        post.price,
-                        post.member.id.eq(memberId).as("isMine"),
-                        post.member.id,
-                        post.member.name,
-                        recipe.id,
-                        recipe.name,
-                        reaction.state,
-                        scrap.id.isNotNull()
-                ))
-                .from(post)
-                .leftJoin(recipe).on(post.recipe.id.eq(recipe.id))
-                .leftJoin(reaction).on(post.id.eq(reaction.post.id).and(post.member.id.eq(reaction.member.id)))
-                .leftJoin(scrap).on(post.id.eq(scrap.post.id).and(post.member.id.eq(scrap.member.id)))
-                .where(
-                        post.member.id.eq(memberId)
-                )
-                .orderBy(postSort(pageable))
-                .fetch();
+        builder.or(post.member.id.eq(memberId));
 
-        for(int i=0; i<postList.size(); i++) {
-            List<String> imageList = jpaQueryFactory
-                    .select(postImage.image)
-                    .from(postImage)
-                    .where(postImage.post.id.eq(postList.get(i).getId()))
-                    .fetch();
-
-            List<Long> imageIndexList = jpaQueryFactory
-                    .select(postImage.id)
-                    .from(postImage)
-                    .where(postImage.post.id.eq(postList.get(i).getId()))
-                    .fetch();
-
-            Long commentCnt = jpaQueryFactory
-                    .selectFrom(comment)
-                    .where(comment.post.id.eq(postList.get(i).getId()))
-                    .fetchCount();
-
-            postList.get(i).setImageList(imageList);
-            postList.get(i).setImageIndexList(imageIndexList);
-            postList.get(i).setCommentCnt(commentCnt.intValue());
+        // Feed 요청이면, 팔로워 목록이 존재할때 팔로워가 작성한 포스트도 가져온다.
+        if(!isFeed && followList != null && !followList.isEmpty()) {
+            builder.or(post.member.id.in(followList));
         }
 
-        int start = (int) pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), postList.size());
-        return new PageImpl<>(postList.subList(start, end), pageable, postList.size());
+        return builder;
     }
 
     private OrderSpecifier<?> postSort(Pageable page) {
