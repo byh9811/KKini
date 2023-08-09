@@ -51,10 +51,6 @@ public class UserPrincipal implements OAuth2User, UserDetails {
         // 오류는 발생하지 않습니다.
         return userPrincipal;
     }
-
-    public Long getUserId(){
-        return id;
-    }
     @Override
     public String getUsername() {
         return email;

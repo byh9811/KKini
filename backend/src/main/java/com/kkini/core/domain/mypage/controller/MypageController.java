@@ -65,10 +65,10 @@ public class MypageController {
 
     @Operation(summary = "회원 탈퇴", description = "회원 탈퇴를 진행합니다.")
     @DeleteMapping("/withdrawal")
-    public Response<Void> withDrawalMembership(@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal, Principal principal){
+    public Response<Void> withDrawalMembership(@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal){
         log.debug("## 회원 탈퇴를 진행합니다.");
-        log.debug("탈퇴를 진행할 회원 : {}", principal.getName());
-        mypageService.withDrawalMembership(principal.getName());
+        log.debug("탈퇴를 진행할 회원 : {}", userPrincipal.getId());
+        mypageService.withDrawalMembership(userPrincipal.getId());
         return OK(null);
     }
 

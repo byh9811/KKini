@@ -18,20 +18,12 @@ import javax.transaction.Transactional;
 public class MypageServiceImpl implements MypageService {
 
     private final MemberRepository memberRepository;
-    private final MypageRepository mypageRepository;
-    @Override
-    public String getProfileImage(Long memberId) {
-        memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException(Member.class, memberId));
-        return mypageRepository.findImageById(memberId);
-    }
 
     @Override
-    public void withDrawalMembership(String email) {
-        log.debug(email);
-        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NotFoundException(Member.class, email));
+    public void withDrawalMembership(Long memberId) {
+        log.debug("회원 탈퇴를 진행할 회원 : {}", memberId);
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException(Member.class, memberId));
         log.debug("{}", member);
-        log.debug("{}", member.getEmail());
-//        if (member != null) log.debug("회원 탈퇴를 정상적으로 진행합니다. {}", member);
         memberRepository.delete(member);
     }
 }
