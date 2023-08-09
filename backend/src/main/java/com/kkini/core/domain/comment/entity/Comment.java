@@ -28,7 +28,9 @@ public class Comment extends BaseEntityWithCreatedTime {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Post post;
 
-    private Long parentsId;
+    @ManyToOne
+    @JoinColumn(name = "parents_id")
+    private Comment parents;
 
     private String contents;
 

@@ -3,6 +3,7 @@ package com.kkini.core.domain.comment.controller;
 import com.kkini.core.domain.comment.dto.request.CommentRegisterRequestDto;
 import com.kkini.core.domain.comment.dto.request.CommentUpdateRequestDto;
 import com.kkini.core.domain.comment.dto.response.CommentListResponseDto;
+import com.kkini.core.domain.comment.service.CommentService;
 import com.kkini.core.global.response.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -24,14 +25,21 @@ import static com.kkini.core.global.response.Response.*;
 @Tag(name = "Comment", description = "Comment API Document")
 public class CommentController {
 
+    private final CommentService commentService;
+
     // 작성
     @Operation(summary = "댓글 작성", description = "댓글을 작성한다.")
     @Parameter(name = "commentRegisterRequestDto", description = "댓글 정보")
     @PostMapping
-    public Response<Void> addComment(@RequestBody CommentRegisterRequestDto commentRegisterRequestDto) {
-        // 작성에 성공했을 경우 댓글 목록 갱신
+    public Response<Void> addComment(
+            @RequestBody CommentRegisterRequestDto commentRegisterRequestDto
+            //@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
+    ) {
         log.debug("addComment() Entered");
         log.debug("{}", commentRegisterRequestDto);
+
+        commentService.saveComment(commentRegisterRequestDto, 1L);
+
         return OK(null);
     }
 
