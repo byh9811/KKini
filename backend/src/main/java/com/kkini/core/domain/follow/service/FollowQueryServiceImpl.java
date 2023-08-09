@@ -2,13 +2,8 @@ package com.kkini.core.domain.follow.service;
 
 import com.kkini.core.domain.follow.dto.response.FollowListResponseDto;
 import com.kkini.core.domain.follow.repository.FollowQueryRepository;
-import com.kkini.core.domain.member.entity.Member;
-import com.kkini.core.domain.member.repository.MemberRepository;
-import com.kkini.core.global.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,18 +17,15 @@ import java.util.List;
 public class FollowQueryServiceImpl implements FollowQueryService{
 
     private final FollowQueryRepository followQueryRepository;
-    private final MemberRepository memberRepository;
 
     @Override
-    public Page<FollowListResponseDto> getFollowerList(Long id, Pageable pageable) {
-        memberRepository.findById(id).orElseThrow(() -> new NotFoundException(Member.class, id));
-        return followQueryRepository.getFollowerList(id, pageable);
+    public List<FollowListResponseDto> getFollowerList(Long id) {
+        return followQueryRepository.getFollowerList(id);
     }
 
     @Override
-    public Page<FollowListResponseDto> getFollowList(Long id, Pageable pageable) {
-        memberRepository.findById(id).orElseThrow(() -> new NotFoundException(Member.class, id));
-        return followQueryRepository.getFollowList(id, pageable);
+    public List<FollowListResponseDto> getFollowList(Long id) {
+        return followQueryRepository.getFollowList(id);
     }
 
     @Override
