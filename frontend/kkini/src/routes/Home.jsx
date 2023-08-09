@@ -7,13 +7,14 @@ import N3 from './N3.jsx'
 import N4 from './N4.jsx'
 import N5 from './N5.jsx'
 import CommentsPage from '../components/CommentPage.jsx'
-import Scrap from '../routes/Scrap.jsx';
-import Alert from '../routes/Alert.jsx';
 import Withdrawal from '../routes/Withdrawal.jsx';
 import Logout from '../routes/Logout.jsx';
 import Book from '../routes/Book.jsx';
+import FollowList from '../components/FollowList.jsx'
 
 function Home({ onLogout }) {
+
+  //persisted state
   const handleLogout = () => { 
     onLogout();
   };
@@ -21,7 +22,7 @@ function Home({ onLogout }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate('/n1');
+    navigate('/home/n1');
   }, []);
 
   return (
@@ -35,11 +36,10 @@ function Home({ onLogout }) {
         <Route path="/n4" element={<N4 />} />
         <Route path="/n5" element={<N5 />} />
         <Route path="/comments" element={<CommentsPage />} />
-        <Route path="scrap" element={<Scrap />} />
-        <Route path="alert" element={<Alert />} />
         <Route path="withdrawal" element={<Withdrawal />} />
         <Route path="book" element={<Book />} />
         <Route path="logout" element={<Logout />} />
+        <Route path="followlist" element={<FollowList />} />
       </Routes>
       
       <NavigationBar></NavigationBar>
