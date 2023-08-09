@@ -27,7 +27,6 @@ import java.util.Collection;
 public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
-    private final StepRepository stepRepository;
     private final MemberRepository memberRepository;
     private final CategoryRepository categoryRepository;
     private final S3Util s3Util;
@@ -45,28 +44,31 @@ public class RecipeServiceImpl implements RecipeService {
     public void saveRecipe(RecipeRegisterRequestDto dto, MultipartFile multipartFile, Long memberId) {
 
         Member writer = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException(Member.class, memberId));
+
+        log.warn("{}", dto.toString());
         Category category = categoryRepository.findById(dto.getCategoryId()).orElseThrow(() -> new NotFoundException(Category.class, dto.getCategoryId()));
 
-        Recipe recipe = recipeRepository.save(Recipe.builder()
+        recipeRepository.save(Recipe.builder()
                 .member(writer)
                 .category(category)
                 .name(dto.getName())
                 .time(dto.getTime())
-                .difficulty(dto.getDifficulty())
+                .difficulty(0)      // 사용 안하게 된 필드 0
                 .ingredient(dto.getIngredient())
+                .steps(dto.getSteps())
                 .build());
 
         ArrayList<MultipartFile> multipartFiles = new ArrayList<>();
         multipartFiles.add(multipartFile);
         s3Util.uploadFiles("recipe", multipartFiles);
 
-        // TODO: 벌크 연산으로 INSERT문을 한번에 쿼리하면 ?
-        // TODO: 현재 @GeneratedValue(strategy = GenerationType.IDENTITY)이기 때문에 쓰기지연 동작 X
-        for (String step : dto.getSteps()) {
-            stepRepository.save(Step.builder()
-                    .recipe(recipe)
-                    .content(step)
-                    .build());
-        }
+//        // TODO: 벌크 연산으로 INSERT문을 한번에 쿼리하면 ?
+//        // TODO: 현재 @GeneratedValue(strategy = GenerationType.IDENTITY)이기 때문에 쓰기지연 동작 X
+//        for (String step : dto.getSteps()) {
+//            stepRepository.save(Step.builder()
+//                    .recipe(recipe)
+//                    .content(step)
+//                    .build());
+//        }
     }
 }

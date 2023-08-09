@@ -1,6 +1,7 @@
 package com.kkini.core.domain.recipe.repository;
 
 import com.kkini.core.domain.recipe.dto.request.SearchConditionRequestDto;
+import com.kkini.core.domain.recipe.dto.response.RecipeAllListResponseDto;
 import com.kkini.core.domain.recipe.dto.response.RecipeDetailResponseDto;
 import com.kkini.core.domain.recipe.dto.response.RecipeListMypageResponseDto;
 import com.kkini.core.domain.recipe.dto.response.RecipeListResponseDto;
@@ -103,6 +104,19 @@ public class RecipeQueryRepository {
                 .fetch().size();
 
         return new PageImpl<>(recipeList, pageable, count);
+    }
+
+    /**
+     * 레시피 전체 리스트를 조회하는 로직
+     */
+    public List<RecipeAllListResponseDto> findAllRecipe() {
+        return jpaQueryFactory
+                .select(Projections.constructor(RecipeAllListResponseDto.class,
+                        recipe.id,
+                        recipe.name
+                ))
+                .from(recipe)
+                .fetch();
     }
 
     /**

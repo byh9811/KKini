@@ -19,13 +19,10 @@ public class RecipeRegisterRequestDto {
     @Schema(description = "소요시간")
     private int time;
 
-    @Schema(description = "난이도")
-    private int difficulty;
-
     @Schema(description = "재료")
     private String ingredient;
 
     @Schema(description = "조리 과정")
-    private List<String> steps;
+    private String steps;
 
 }
