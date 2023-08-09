@@ -33,6 +33,8 @@ public class Recipe extends BaseEntityWithModifiedTime {
 
     private String image;
 
+    private String steps;
+
     private Boolean deleted;
 
     // 비즈니스 로직 (추후 생성 예정)

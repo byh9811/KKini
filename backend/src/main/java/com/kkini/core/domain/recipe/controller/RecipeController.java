@@ -3,6 +3,7 @@ package com.kkini.core.domain.recipe.controller;
 import com.kkini.core.domain.oauth2.UserPrincipal;
 import com.kkini.core.domain.recipe.dto.request.RecipeRegisterRequestDto;
 import com.kkini.core.domain.recipe.dto.request.SearchConditionRequestDto;
+import com.kkini.core.domain.recipe.dto.response.RecipeAllListResponseDto;
 import com.kkini.core.domain.recipe.dto.response.RecipeDetailResponseDto;
 import com.kkini.core.domain.recipe.dto.response.RecipeListMypageResponseDto;
 import com.kkini.core.domain.recipe.dto.response.RecipeListResponseDto;
@@ -42,12 +43,12 @@ public class RecipeController {
     private final RecipeQueryService recipeQueryService;
     private final RecipeService recipeService;
 
-    @Operation(summary = "레시피 리스트 조회", description = "레시피 리스트를 조회하는 API입니다. page 기본값은 0, size 기본값은 10, sort 기본값은 'modifyDateTime, desc'입니다.")
+    @Operation(summary = "레시피 리스트 검색", description = "레시피 리스트를 검색하는 API입니다. page 기본값은 0, size 기본값은 10, sort 기본값은 'modifyDateTime, desc'입니다.")
     @Parameters({
             @Parameter(name = "searchConditionRequestDto", description = "검색 조건 필드"),
             @Parameter(name = "pageable", description = "페이지네이션 정보")
     })
-    @GetMapping
+    @GetMapping("/search")
     public Response<Page<RecipeListResponseDto>> getRecipeList(@ModelAttribute SearchConditionRequestDto searchConditionRequestDto, @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
         return OK(recipeQueryService.getRecipeList(searchConditionRequestDto, pageable));
     }
@@ -59,6 +60,14 @@ public class RecipeController {
     @GetMapping("/mypage")
     public Response<Page<RecipeListMypageResponseDto>> getRecipeList(@PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable, @AuthenticationPrincipal UserPrincipal userPrincipal) {
         return OK(recipeQueryService.getMyRecipeList(userPrincipal.getId(), pageable));
+    }
+
+    @Operation(summary = "레시피 리스트 조회", description = "전체 레시피 리스트를 조회하는 API입니다.")
+    @Parameters({
+    })
+    @GetMapping
+    public Response<List<RecipeAllListResponseDto>> getAllRecipeList() {
+        return OK(recipeQueryService.getAllRecipeList());
     }
 
     @Operation(summary = "레시피 상세 조회", description = "레시피 상세를 조회하는 API입니다.")
@@ -73,7 +82,7 @@ public class RecipeController {
     @Operation(summary = "레시피 등록", description = "레시피를 등록하는 API입니다.")
     @Parameters({
             @Parameter(name = "recipeRegisterRequestDto", description = "레시피 등록 필드"),
-            @Parameter(name = "files", description = "레시피 등록 필드")
+            @Parameter(name = "file", description = "레시피 등록 필드")
     })
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public Response<Void> addRecipe(@RequestPart(value = "data") RecipeRegisterRequestDto recipeRegisterRequestDto,
