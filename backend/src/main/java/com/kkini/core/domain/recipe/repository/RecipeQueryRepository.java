@@ -116,6 +116,9 @@ public class RecipeQueryRepository {
                         recipe.name
                 ))
                 .from(recipe)
+                .where(
+                        notDeleted()
+                )
                 .fetch();
     }
 

@@ -12,6 +12,6 @@ public class RecipeAllListResponseDto {
     private Long recipeId;
 
     @Schema(description = "레시피 이름")
-    private String recipeName;
+    private String label;
 
 }
