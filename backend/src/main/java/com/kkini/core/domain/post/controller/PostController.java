@@ -47,10 +47,10 @@ public class PostController {
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public Response<Void> addPost(
             @RequestPart PostRegisterRequestDto postRegisterRequestDto,
-            @RequestPart(value = "files") List<MultipartFile> multipartFiles,
-            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal) {
-
-        postService.savePost(postRegisterRequestDto, multipartFiles, userPrincipal.getId());
+            @RequestPart(value = "files") List<MultipartFile> multipartFiles
+            //@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
+    ) {
+        postService.savePost(postRegisterRequestDto, multipartFiles, 1L);
 
         return OK(null);
     }
