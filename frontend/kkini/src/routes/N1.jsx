@@ -8,8 +8,7 @@ function N1() {
   return (
     <div className='homepage'>
       <div>
-        <p>Hello, World!</p>
-        <button onClick={()=>{
+        {/* <button onClick={()=>{
           axios.put('http://localhost:8080/api/s3/test')
           .then((response)=>{
             console.log(response.data)
@@ -17,7 +16,7 @@ function N1() {
           .catch(()=>{
             console.log('실패애애')
           })
-        }}>버튼</button>
+        }}>버튼</button> */}
       </div>
 
       <div className='homepage__timeline'>
