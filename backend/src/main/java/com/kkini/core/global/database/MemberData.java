@@ -1,18 +1,13 @@
 package com.kkini.core.global.database;
 
-import org.springframework.boot.CommandLineRunner;
+import java.io.*;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-
-public class DummyData {
+public class MemberData {
 
     public static void main(String[] args) {
-        System.out.println("hello");
 
         String tableName = "member";
-        String columns = "create_date_time, auth_provider, email, image, level, name, nickname, oauth2id, refresh_token, role";
+        String columns = "create_date_time, modify_date_time, auth_provider, email, image, level, name, nickname, oauth2id, refresh_token, role, stars";
         String create = "now(), ";
         String modify = "now(), ";
         String auth_provider = "'NAVER', ";
@@ -26,16 +21,15 @@ public class DummyData {
         String role = "'ROLE_USER', ";
         String name = "김싸피";
 
-//        String sqlQuery = "INSERT INTO " + tableName + " (" + columns + ") VALUES (" + values + ");";
-
-        String filePath = "C:\\data\\member.txt";
 
         try{
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath));
+            File file = new File("C:\\data\\member.sql");
+            FileOutputStream fos = new FileOutputStream(file);
+            OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8");
+            BufferedWriter bufferedWriter = new BufferedWriter(osw);
             StringBuilder sb = new StringBuilder();
             for (int i = 1; i < 10000; i++) {
-                sb.append("INSERT INTO ").append(tableName).append(" VALUE (")
-                        .append(Integer.toString(i)+", ")
+                sb.append("INSERT INTO ").append(tableName).append("(").append(columns).append(") VALUES (")
                         .append(create)
                         .append(modify)
                         .append(auth_provider)
