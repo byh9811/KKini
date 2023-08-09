@@ -8,6 +8,7 @@ import com.kkini.core.domain.member.entity.Member;
 import com.kkini.core.domain.member.repository.MemberRepository;
 import com.kkini.core.domain.post.entity.Post;
 import com.kkini.core.domain.post.repository.PostRepository;
+import com.kkini.core.global.exception.InvalidException;
 import com.kkini.core.global.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -60,9 +61,11 @@ public class CommentServiceImpl implements CommentService {
     public void removeComment(Long commentId, Long memberId) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NotFoundException(Comment.class, commentId));
 
-        if(comment.getMember().getId().equals(memberId)) {
-            commentRepository.delete(comment);
+        if(!comment.getMember().getId().equals(memberId)) {
+            throw new InvalidException(Comment.class, commentId);
         }
+
+        commentRepository.delete(comment);
     }
 
 }
