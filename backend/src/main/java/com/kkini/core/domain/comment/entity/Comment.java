@@ -34,5 +34,8 @@ public class Comment extends BaseEntityWithCreatedTime {
 
     private String contents;
 
-    // 비즈니스 로직 (추후 생성 예정)
+    public void setContents(String contents) {
+        this.contents = contents;
+    }
+
 }
