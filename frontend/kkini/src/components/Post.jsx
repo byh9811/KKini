@@ -201,6 +201,7 @@ const PostHeaderAuthor = styled.div`
 `;
 
 
+
 const PostImage = styled.div`
   img {
     width: 95%;
