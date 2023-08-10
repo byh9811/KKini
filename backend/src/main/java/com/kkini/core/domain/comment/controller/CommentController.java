@@ -5,12 +5,14 @@ import com.kkini.core.domain.comment.dto.request.CommentUpdateRequestDto;
 import com.kkini.core.domain.comment.dto.response.CommentListStructureResponseDto;
 import com.kkini.core.domain.comment.service.CommentQueryService;
 import com.kkini.core.domain.comment.service.CommentService;
+import com.kkini.core.domain.oauth2.UserPrincipal;
 import com.kkini.core.global.response.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,10 +34,10 @@ public class CommentController {
     @Parameter(name = "commentRegisterRequestDto", description = "댓글 정보")
     @PostMapping
     public Response<Void> addComment(
-            @RequestBody CommentRegisterRequestDto commentRegisterRequestDto
-            //@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
+            @RequestBody CommentRegisterRequestDto commentRegisterRequestDto,
+            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
-        commentService.saveComment(commentRegisterRequestDto, 1L);
+        commentService.saveComment(commentRegisterRequestDto, userPrincipal.getId());
 
         return OK(null);
     }
@@ -46,7 +48,6 @@ public class CommentController {
     @GetMapping("/{id}")
     public Response<List<CommentListStructureResponseDto>> getCommentList(
             @PathVariable("id") Long postId
-            //@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
         List<CommentListStructureResponseDto> commentList = commentQueryService.getCommentListStructure(postId);
 
@@ -58,10 +59,10 @@ public class CommentController {
     @Parameter(name = "commentUpdateRequestDto", description = "댓글 정보")
     @PutMapping
     public Response<Void> modifyComment(
-            @RequestBody CommentUpdateRequestDto commentUpdateRequestDto
-            //@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
+            @RequestBody CommentUpdateRequestDto commentUpdateRequestDto,
+            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
-        commentService.modifyComment(commentUpdateRequestDto, 1L);
+        commentService.modifyComment(commentUpdateRequestDto, userPrincipal.getId());
 
         return OK(null);
     }
@@ -71,10 +72,10 @@ public class CommentController {
     @Parameter(name = "id", description = "댓글 식별자")
     @DeleteMapping("/{id}")
     public Response<Void> removeComment(
-            @PathVariable("id") Long commentId
-            //@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
+            @PathVariable("id") Long commentId,
+            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
-        commentService.removeComment(commentId, 1L);
+        commentService.removeComment(commentId, userPrincipal.getId());
 
         return OK(null);
     }
