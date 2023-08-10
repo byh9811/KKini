@@ -97,8 +97,8 @@ public class RecipeController {
             @Parameter(name = "id", description = "레시피 ID")
     })
     @DeleteMapping("/{id}")
-    public Response<Void> removeRecipe(@PathVariable("id") Long recipeId) {
-        recipeService.removeRecipe(recipeId);
+    public Response<Void> removeRecipe(@PathVariable("id") Long recipeId, @AuthenticationPrincipal UserPrincipal userPrincipal) {
+        recipeService.removeRecipe(recipeId, userPrincipal.getId());
         return OK(null);
     }
 

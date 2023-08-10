@@ -7,8 +7,7 @@ import com.kkini.core.domain.member.repository.MemberRepository;
 import com.kkini.core.domain.recipe.dto.request.RecipeRegisterRequestDto;
 import com.kkini.core.domain.recipe.entity.Recipe;
 import com.kkini.core.domain.recipe.repository.RecipeRepository;
-import com.kkini.core.domain.step.entity.Step;
-import com.kkini.core.domain.step.repository.StepRepository;
+import com.kkini.core.global.exception.InvalidException;
 import com.kkini.core.global.exception.NotFoundException;
 import com.kkini.core.global.util.LevelUpUtil;
 import com.kkini.core.global.util.S3Util;
@@ -19,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Collection;
 
 @Service
 @Transactional
@@ -34,11 +32,17 @@ public class RecipeServiceImpl implements RecipeService {
     private final S3Util s3Util;
 
     @Override
-    public void removeRecipe(Long recipeId) {
+    public void removeRecipe(Long recipeId, Long memberId) {
         Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(() -> new NotFoundException(Recipe.class, recipeId));
+        Member writer = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException(Member.class, memberId));
+        if (recipe.getMember()!=writer) {
+            throw new InvalidException(Member.class, memberId);
+        }
+
         ArrayList<String> list = new ArrayList<>();
         list.add(recipe.getImage());
         s3Util.deleteFile(list);
+
         recipe.deleteRecipe();
     }
 
