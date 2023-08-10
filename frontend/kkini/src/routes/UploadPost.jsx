@@ -13,7 +13,6 @@ function UploadPost() {
   const navigate = useNavigate();
   let inputRef;
 
-  // 추가
   const [selectedRecipeId, setSelectedRecipeId] = useState(null);
   const [content, setContent] = useState("");
 
@@ -52,34 +51,16 @@ function UploadPost() {
   }
 
   const [data, setData] = useState([]);
-  console.log(data)
-
-  useEffect(() => {
-    const setRecipes = () => {
-      fileList?.forEach((item) => {
-        URL.revokeObjectURL(item.preview_URL);
-      })
-
-      axios.get('http://localhost:8080/api/recipe')
-      .then((response) => {
-        setData(response.data.response)
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error)
-      });
-    };
-  setRecipes();
-  }, []);
-
   const handleFileUpload = () => {
     if (fileList.length > 0) {
       const formData = new FormData();
 
+      // 이미지
       for (let i = 0; i < fileList.length; i++) {
         formData.append("files", fileList[i].fileObject);
       }
 
-      // 추가
+      // 문자열
       formData.append('post', new Blob([JSON.stringify(jsonData)], {
         type: "application/json"
       }));
@@ -100,6 +81,24 @@ function UploadPost() {
       alert('이미지를 업로드하세요');
     }
   }
+
+  useEffect(() => {
+    const setRecipes = () => {
+      fileList?.forEach((item) => {
+        URL.revokeObjectURL(item.preview_URL);
+      })
+
+      axios.get('http://localhost:8080/api/recipe')
+      .then((response) => {
+        console.log(response)
+        setData(response.data.response)
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error)
+      });
+    };
+  setRecipes();
+  }, []);
 
   return (
     <div className="uploader-wrapper">
@@ -138,11 +137,11 @@ function UploadPost() {
       </div>
 
       <div>
-        <label for="combo-box-demo">참고 음식</label>
+        <label>참고 음식</label>
         <Autocomplete
           styled ={{width: '500px'}}
           disablePortal
-          id="combo-box-demo"
+          // id="combo-box-demo"
           options={data}
           sx={{ width: 300 }}
           value={data.find(item => item.recipeId === selectedRecipeId) || null}
@@ -155,10 +154,8 @@ function UploadPost() {
           )}
           onChange={(event, newValue) => {
             if (newValue) {
-              console.log(newValue);
               setSelectedRecipeId(newValue.recipeId);
             } else {
-              console.log('으아아악');
               setSelectedRecipeId(null);
             }
           }}
@@ -167,9 +164,12 @@ function UploadPost() {
       <br />
 
       <div>
-        <label for="content">내용 입력</label>
+        <label>내용 입력</label>
         <br />
-        <textarea name="" id="content" cols="30" rows="10" onChange={(e) => setContent(e.target.value)}></textarea>
+        <textarea
+          name="" id="" cols="30" rows="5"
+          onChange={(e) => setContent(e.target.value)}
+        ></textarea>
       </div>
       <br />
 

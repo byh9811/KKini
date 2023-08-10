@@ -7,8 +7,6 @@ import { useNavigate } from 'react-router-dom';
 function UploadRecipes() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState("카테고리 선택");
-  const [categoryId, setCategoryId] = useState(null);
   const navigate = useNavigate();
 
   const saveImage = (e) => {
@@ -34,55 +32,59 @@ function UploadRecipes() {
     }
   }, [previewUrl]);
 
+  const [selectedCategory, setSelectedCategory] = useState(null)
+
+  const categoryOptions = [
+    { id: 0, label: '선택' },
+    { id: 1, label: '한식' },
+    { id: 2, label: '중식' },
+    { id: 3, label: '일식' },
+    { id: 4, label: '양식' },
+    { id: 5, label: '기타' },
+  ];
+  console.log(selectedCategory)
+
+  const [title, setTitle] = useState('');
+  console.log(title)
+  const [timeValue, setTimeValue] = useState('');
+  console.log(timeValue)
+  const [materialValue, setMaterialValue] = useState('');
+  console.log(materialValue)
+  const [contentValue, setContentValue] = useState('');
+  console.log(contentValue)
+
+  const jsonData = {
+    categoryId: selectedCategory,
+    name: title,
+    time: timeValue,
+    ingredient: materialValue,
+    steps: contentValue,
+  };
+
   const handleFileUpload = () => {
     if (selectedImage) {
       const formData = new FormData();
-      formData.append("fileType", "post");
-      formData.append("files", selectedImage);
 
-      axios
-        .post('http://localhost:8080/api/s3', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        })
-        .then((response) => {
-          console.log('업로드 성공:', response.data);
-          navigate('/n4');
-        })
-        .catch((error) => {
-          console.error('업로드 실패:', error);
-        });
+      formData.append("file", selectedImage);
+
+      formData.append('data', new Blob([JSON.stringify(jsonData)], {
+        type: "application/json"
+      }));
+
+      axios.post('http://localhost:8080/api/recipe', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then((response) => {
+        console.log('업로드 성공:', response.data);
+        navigate('/home/n4');
+      })
+      .catch((error) => {
+        console.error('업로드 실패:', error);
+      });
     } else {
       alert('이미지를 업로드하세요');
-    }
-  };
-
-  const handleCategorySelect = (key) => {
-    switch (key) {
-      case '1':
-        setSelectedCategory("한식");
-        setCategoryId(1);
-        break;
-      case '2':
-        setSelectedCategory("중식");
-        setCategoryId(2);
-        break;
-      case '3':
-        setSelectedCategory("일식");
-        setCategoryId(3);
-        break;
-      case '4':
-        setSelectedCategory("양식");
-        setCategoryId(4);
-        break;
-      case '5':
-        setSelectedCategory("기타");
-        setCategoryId(5);
-        break;
-      default:
-        setSelectedCategory("카테고리 선택");
-        setCategoryId(null);
     }
   };
 
@@ -96,7 +98,6 @@ function UploadRecipes() {
           onClick={(e) => e.target.value = null}
           style={{ display: "none" }}
         />
-
         <button onClick={(e) => e.target.previousSibling.click()}>
           사진 업로드
         </button>
@@ -116,14 +117,15 @@ function UploadRecipes() {
       </div>
 
       <div>
-        <labe>범주 구분</labe>
+        <label>카테고리</label>
         <br />
-        <select value={selectedCategory} onChange={(e) => handleCategorySelect(e.target.value)}>
-          <option value="1">한식</option>
-          <option value="2">중식</option>
-          <option value="3">일식</option>
-          <option value="4">양식</option>
-          <option value="5">기타</option>
+        <select
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(Number(e.target.value))}
+        >
+          {categoryOptions.map(option => (
+            <option key={option.id} value={option.id}>{option.label}</option>
+          ))}
         </select>
       </div>
       <br />
@@ -131,14 +133,46 @@ function UploadRecipes() {
       <div>
         <label>제목</label>
         <br />
-        <input type="text" name="" id="" />
+        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+      </div>
+      <br />
+
+      <div>
+        <label>소요 시간</label>
+        <br />
+        <input
+          type="text"
+          value={timeValue}
+          onChange={(e) => {
+            const inputValue = e.target.value;
+            // 입력 값 유효성 검사: 0으로 시작하지 않는 숫자만 허용
+            if (/^[1-9][0-9]*$/.test(inputValue) || inputValue === '') {
+              setTimeValue(inputValue);
+            }
+          }}
+        />
+      </div>
+      <br />
+
+      <div>
+        <label>필요 재료</label>
+        <br />
+        <textarea
+          name="" id="" cols="30" rows="5"
+          value={materialValue}
+          onChange={(e) => setMaterialValue(e.target.value)}
+        ></textarea>
       </div>
       <br />
 
       <div>
         <label>내용 입력</label>
         <br />
-        <textarea name="" id="" cols="30" rows="10"></textarea>
+        <textarea
+          name="" id="" cols="30" rows="5"
+          value={contentValue}
+          onChange={(e) => setContentValue(e.target.value)}
+        ></textarea>
       </div>
       <br />
 
