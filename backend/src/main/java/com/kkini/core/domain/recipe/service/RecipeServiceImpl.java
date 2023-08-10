@@ -54,38 +54,22 @@ public class RecipeServiceImpl implements RecipeService {
         log.warn("{}", dto.toString());
         Category category = categoryRepository.findById(dto.getCategoryId()).orElseThrow(() -> new NotFoundException(Category.class, dto.getCategoryId()));
 
+        writer.addStars(1);
+        levelUpUtil.checkLevelUp(memberId);
+        ArrayList<MultipartFile> multipartFiles = new ArrayList<>();
+        multipartFiles.add(multipartFile);
+        String recipe = s3Util.uploadFiles("recipe", multipartFiles).get(0);
+
         recipeRepository.save(Recipe.builder()
                 .member(writer)
                 .category(category)
                 .name(dto.getName())
                 .time(dto.getTime())
                 .difficulty(0)      // 사용 안하게 된 필드 0
+                .image(recipe)
                 .ingredient(dto.getIngredient())
                 .steps(dto.getSteps())
                 .build());
 
-        // TODO: 벌크 연산으로 INSERT문을 한번에 쿼리하면 ?
-        // TODO: 현재 @GeneratedValue(strategy = GenerationType.IDENTITY)이기 때문에 쓰기지연 동작 X
-        for (String step : dto.getSteps()) {
-            stepRepository.save(Step.builder()
-                    .recipe(recipe)
-                    .content(step)
-                    .build());
-        }
-
-        writer.addStars(1);
-        levelUpUtil.checkLevelUp(memberId);
-        ArrayList<MultipartFile> multipartFiles = new ArrayList<>();
-        multipartFiles.add(multipartFile);
-        s3Util.uploadFiles("recipe", multipartFiles);
-
-//        // TODO: 벌크 연산으로 INSERT문을 한번에 쿼리하면 ?
-//        // TODO: 현재 @GeneratedValue(strategy = GenerationType.IDENTITY)이기 때문에 쓰기지연 동작 X
-//        for (String step : dto.getSteps()) {
-//            stepRepository.save(Step.builder()
-//                    .recipe(recipe)
-//                    .content(step)
-//                    .build());
-//        }
     }
 }
