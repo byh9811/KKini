@@ -20,15 +20,17 @@ import javax.persistence.ManyToOne;
 public class Reaction extends BaseEntity {
 
     @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @ManyToOne
     @JoinColumn(name = "post_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Post post;
 
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
-
     private Boolean state;
 
-    // 비즈니스 로직 (추후 생성 예정)
+    // 평가 변경
+    public void setState(Boolean state) { this.state = state; }
+
 }

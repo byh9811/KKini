@@ -26,7 +26,6 @@ public class EvaluationServiceImpl implements EvaluationService {
 
     @Override
     public void saveEvaluation(EvaluationRegisterRequestDto dto, Long memberId) {
-
         Member writer = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException(Evaluation.class, memberId));
         Post post = postRepository.findById(dto.getPostId()).orElseThrow(() -> new NotFoundException(Post.class, dto.getPostId()));
         Evaluation evaluation = evaluationRepository.findByMemberIdAndPostId(memberId, dto.getPostId());
@@ -43,7 +42,6 @@ public class EvaluationServiceImpl implements EvaluationService {
 
             evaluationRepository.save(evaluation);
         }
-
     }
 
 }
