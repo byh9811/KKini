@@ -24,10 +24,10 @@ public class ReactionController {
 
     private final ReactionService reactionService;
 
-    @Operation(summary = "포스트 반응", description = "포스트에 반응(좋아요/싫어요/없음)을 한다.")
+    @Operation(summary = "포스트 반응", description = "포스트에 반응을 한다.")
     @Parameters({
             @Parameter(name = "id", description = "포스트 식별자"),
-            @Parameter(name = "state", description = "상태(좋아요/싫어요/없음)")
+            @Parameter(name = "state", description = "상태(좋아요:true/싫어요:false/없음:null)")
     })
     @PostMapping
     public Response<Void> modifyReaction(
