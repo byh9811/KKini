@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface MypageQueryService {
 
-    List<MypageInfoResponseListDto> getMypageInfo(Long memberId);
+    MypageInfoResponseListDto getMypageInfo(Long memberId);
     String getProfileImage(Long memberId);
 }
