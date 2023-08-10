@@ -26,7 +26,7 @@ const N2 = () => {
         </div>
       )}
       <div>
-        {검색어.trim() !== "" && 탭 === 0 ? <FeedComponent 검색어={검색어} 카테고리={''}/> : null}
+        {검색어.trim() !== "" && 탭 === 0 ? <FeedComponent 검색어={검색어} 카테고리={''} 분류={0}/> : null}
         {검색어.trim() !== "" && 탭 === 1 ? <AccountComponent 검색어={검색어} /> : null}
       </div>
     </div>
