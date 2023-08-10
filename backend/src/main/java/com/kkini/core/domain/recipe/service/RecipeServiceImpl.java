@@ -48,10 +48,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public void saveRecipe(RecipeRegisterRequestDto dto, MultipartFile multipartFile, Long memberId) {
-
         Member writer = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException(Member.class, memberId));
-
-        log.warn("{}", dto.toString());
         Category category = categoryRepository.findById(dto.getCategoryId()).orElseThrow(() -> new NotFoundException(Category.class, dto.getCategoryId()));
 
         writer.addStars(1);
