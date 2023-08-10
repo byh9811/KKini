@@ -1,10 +1,8 @@
 package com.kkini.core.domain.post.service;
 
-import com.kkini.core.domain.comment.entity.Comment;
 import com.kkini.core.domain.member.entity.Member;
 import com.kkini.core.domain.member.repository.MemberRepository;
 import com.kkini.core.domain.post.dto.request.PostRegisterRequestDto;
-import com.kkini.core.domain.post.dto.request.PostUpdateRequestDto;
 import com.kkini.core.domain.post.entity.Post;
 import com.kkini.core.domain.post.repository.PostRepository;
 import com.kkini.core.domain.postimage.entity.PostImage;
@@ -20,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 

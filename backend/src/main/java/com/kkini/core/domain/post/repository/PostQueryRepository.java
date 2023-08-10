@@ -29,8 +29,8 @@ public class PostQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    // 피드
-    public Page<PostListResponseDto> findPostList(Pageable pageable, Long memberId, Boolean isFeed) {
+    // 조회
+    public Page<PostListResponseDto> findPostList(Pageable pageable, Long memberId, Boolean isFeed, String search) {
         List<Long> followList = jpaQueryFactory
                 .select(follow.target.id)
                 .from(follow)
@@ -58,7 +58,7 @@ public class PostQueryRepository {
                 .leftJoin(recipe).on(post.recipe.id.eq(recipe.id))
                 .leftJoin(reaction).on(post.id.eq(reaction.post.id).and(post.member.id.eq(reaction.member.id)))
                 .leftJoin(scrap).on(post.id.eq(scrap.post.id).and(post.member.id.eq(scrap.member.id)))
-                .where(searchCondition(memberId, followList, isFeed))
+                .where(searchCondition(memberId, followList, isFeed, search))
                 .orderBy(postSort(pageable))
                 .fetch();
 
@@ -90,14 +90,18 @@ public class PostQueryRepository {
         return new PageImpl<>(postList.subList(start, end), pageable, postList.size());
     }
 
-    private BooleanBuilder searchCondition(Long memberId, List<Long> followList, Boolean isFeed) {
+    private BooleanBuilder searchCondition(Long memberId, List<Long> followList, Boolean isFeed, String search) {
         BooleanBuilder builder = new BooleanBuilder();
 
-        builder.or(post.member.id.eq(memberId));
+        if(search == null) {
+            builder.or(post.member.id.eq(memberId));
 
-        // Feed 요청이면, 팔로워 목록이 존재할때 팔로워가 작성한 포스트도 가져온다.
-        if(!isFeed && followList != null && !followList.isEmpty()) {
-            builder.or(post.member.id.in(followList));
+            // Feed 요청이면, 팔로워 목록이 존재할때 팔로워가 작성한 포스트도 가져온다.
+            if(!isFeed && followList != null && !followList.isEmpty()) {
+                builder.or(post.member.id.in(followList));
+            }
+        } else {
+            builder.or(post.contents.like(search));
         }
 
         return builder;
