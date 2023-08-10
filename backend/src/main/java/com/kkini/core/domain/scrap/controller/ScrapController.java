@@ -39,7 +39,6 @@ public class ScrapController {
         log.debug("## 스크랩을 추가합니다.");
         log.debug("추가할 포스트 식별자 : {}", postId);
         AddScrapRequestDto addScrapRequestDto = new AddScrapRequestDto();
-//        addScrapRequestDto.setMemberId(1L); // 해당 부분은 추후에 user.getMemberId()로 교체할 예정
         addScrapRequestDto.setMemberId(userPrincipal.getId()); // 해당 부분은 추후에 user.getMemberId()로 교체할 예정
         addScrapRequestDto.setPostId(postId);
         scrapService.addScrap(addScrapRequestDto);
@@ -50,10 +49,10 @@ public class ScrapController {
     @Operation(summary = "스크랩 삭제", description = "해당 포스트(postId)를 스크랩에서 삭제합니다.")
     @Parameter(name = "id", description = "삭제하고 싶은 포스트의 스크랩 식별자(id)")
     @DeleteMapping("/{id}")
-    public Response<Void> deleteScrap(@PathVariable Long id) {
+    public Response<Void> deleteScrap(@PathVariable Long id, @AuthenticationPrincipal UserPrincipal userPrincipal) {
         log.debug("## 스크랩을 삭제합니다.");
         log.debug("## 삭제할 스크랩 식별자 : {}", id);
-        scrapService.deleteScrap(id);
+        scrapService.deleteScrap(id, userPrincipal.getId());
 
         return OK(null);
     }
