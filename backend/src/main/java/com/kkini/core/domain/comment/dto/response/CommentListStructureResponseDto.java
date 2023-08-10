@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @Schema(description = "댓글 조회 응답 DTO")
-public class CommentListUpResponseDto {
+public class CommentListStructureResponseDto {
     
     @Schema(description = "부모 댓글")
     private CommentListResponseDto parents;

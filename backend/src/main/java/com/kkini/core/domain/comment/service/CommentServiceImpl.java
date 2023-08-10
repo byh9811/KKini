@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
+import static com.kkini.core.domain.comment.entity.QComment.comment;
+
 @Service
 @Transactional
 @Slf4j
@@ -47,25 +49,25 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void modifyComment(CommentUpdateRequestDto dto, Long memberId) {
-        Comment comment = commentRepository.findById(dto.getCommentId()).orElseThrow(() -> new NotFoundException(Comment.class, dto.getCommentId()));
-
-        // 댓글을 작성한 사용자만 삭제 가능
-        if(comment.getMember().getId().equals(memberId)) {
-            comment.setContents(dto.getContents());
-
-            commentRepository.save(comment);
-        }
+        Comment comment = checkAuthority(dto.getCommentId(), memberId);
+        comment.setContents(dto.getContents());
+        commentRepository.save(comment);
     }
 
     @Override
     public void removeComment(Long commentId, Long memberId) {
+        Comment comment = checkAuthority(commentId, memberId);
+        commentRepository.delete(comment);
+    }
+
+    private Comment checkAuthority(Long commentId, Long memberId) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NotFoundException(Comment.class, commentId));
 
         if(!comment.getMember().getId().equals(memberId)) {
             throw new InvalidException(Comment.class, commentId);
         }
 
-        commentRepository.delete(comment);
+        return comment;
     }
 
 }
