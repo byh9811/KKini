@@ -4,6 +4,7 @@ import axios from 'axios';
 
 function N1() {
   const [posts, setPosts] = useState([]);
+  window.scrollTo(0, 0);
 
   useEffect(() => {
     axios.get('http://172.17.0.1:8080/api/post?page=0&size=1&sort=string')
@@ -17,16 +18,8 @@ function N1() {
       });
   }, []);
 
- 
-
-  window.scrollTo(0, 0);
-
-
   return (
     <div className='homepage'>
-      <div>
-        <p>Hello, World!</p>
-      </div>
       <div className='homepage__timeline'>
         <Timeline posts={posts} />
       </div>

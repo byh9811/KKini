@@ -89,14 +89,15 @@ function Timeline() {
         const newPosts = [];
         for (let i = 0; i < 1; i++) {
           newPosts.push({
-              user:"T발씨병욱",
-              postImage:"https://i.namu.wiki/i/Fyh_vPFIbzkztGRXmAmT2UQGfQtaYANxjGPXhLhzOysKa0_b-XKj7AHzGyCxJ8lJRiZj4SMZcCJNRYK5d2Ztaefe4G9gE1ZkMzpI-aQj-61fNkElRMV-AnlB9mqlWDfd2UQbrd8pUpDjpXAH1LODyw.webp",
-              likeCnt:"18",
+              user: "T발씨병욱",
+              postImage: "https://i.namu.wiki/i/Fyh_vPFIbzkztGRXmAmT2UQGfQtaYANxjGPXhLhzOysKa0_b-XKj7AHzGyCxJ8lJRiZj4SMZcCJNRYK5d2Ztaefe4G9gE1ZkMzpI-aQj-61fNkElRMV-AnlB9mqlWDfd2UQbrd8pUpDjpXAH1LODyw.webp",
+              likeCnt: 18,
               disLikeCnt:13,
               createDateTime:"18s",
               contents: "안녕안녕",
-              avgPrice:1234,
-          });
+              avgPrice:463463,
+              commentcnt: 2,
+            });
         }
       setPosts((current) => [...current, ...newPosts]);
       setLoading(false);
