@@ -11,6 +11,4 @@ public interface PostService {
 
     void removePost(Long postId, Long memberId);
 
-//    void modifyPost(PostUpdateRequestDto postUpdateRequestDto);
-
 }
