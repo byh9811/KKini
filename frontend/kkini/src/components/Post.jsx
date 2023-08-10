@@ -85,8 +85,11 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
             <Drawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
             <PostHeader>
                 <PostHeaderAuthor>
-                    <Avatar />
-                    {user} • <span>{createDateTime} </span>
+                    <Avatar className='m-2'/>
+                    <div className="userInfo">
+            <div>{user}</div>
+            <span>{createDateTime}</span>
+          </div>
                 </PostHeaderAuthor>
             </PostHeader>
             <Contentstext>{contents}<b> #{recipeName}</b></Contentstext>
@@ -162,7 +165,8 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
 export default Post;
 
 const PostContainer = styled.div`
-    margin: 30px 40px 50px 40px;
+  // width: 550px;
+  margin: 0px 40px 50px 40px;
 `;
 
 const PostHeader = styled.div`
@@ -173,25 +177,38 @@ const PostHeader = styled.div`
     margin-bottom: 10px;
 `;
 
-const PostHeaderAuthor = styled.span`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    font-weight: bolder;
+const PostHeaderAuthor = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-weight: bolder;
+
+  > .userInfo {
+    margin-left: 5px;
+    
+    > div {
+      color: black;
+      font-size: 13px;
+      margin: 0;
+    }
 
     > span {
-        color: gray;
-        font-size: 15px;
-        margin-left: 10px;
+      color: gray;
+      font-size: 10px;
+      margin: 0;
     }
+  }
 `;
 
+
+
 const PostImage = styled.div`
-    img {
-        width: 100%;
-        border-radius: 6px;
-        border: 0.6px solid rgba(128, 128, 128, 0.516);
-    }
+  img {
+    width: 95%;
+    border-radius: 6px;
+    border: 0.6px solid rgba(128, 128, 128, 0.516);
+    margin: 0 auto;
+  }
 `;
 
 const PostFooterIcons = styled.div`
@@ -202,10 +219,10 @@ const PostFooterIcons = styled.div`
 `;
 
 const PostIcon = styled.div`
-    display: inline-block;
-    padding: 7px;
-    font-size: 30px;
-    margin-right: 10px;
+  display: inline-block; 
+  padding: 7px;
+  font-size: 30px;
+  margin: 0px 10px auto;
 
     &:hover {
         cursor: pointer;

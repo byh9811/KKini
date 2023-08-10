@@ -22,16 +22,8 @@ function N1() {
       });
   }, []);
 
- 
-
-  window.scrollTo(0, 0);
-
-
   return (
     <div className='homepage'>
-      <div>
-        <p>Hello, World!</p>
-      </div>
       <div className='homepage__timeline'>
         <Timeline posts={posts} />
       </div>
