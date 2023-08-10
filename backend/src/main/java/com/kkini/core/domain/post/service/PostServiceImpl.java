@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -37,7 +38,10 @@ public class PostServiceImpl implements PostService {
     @Override
     public void savePost(PostRegisterRequestDto dto, List<MultipartFile> img, Long memberId) {
         Member writer = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException(Member.class, memberId));
-        Recipe recipe = recipeRepository.findById(dto.getRecipeId()).orElseThrow(() -> new NotFoundException(Recipe.class, dto.getRecipeId()));
+        Recipe recipe = null;
+        if (dto.getRecipeId() != null) {
+            recipe = recipeRepository.findById(dto.getRecipeId()).orElseThrow(() -> new NotFoundException(Recipe.class, dto.getRecipeId()));
+        }
 
         Post post = postRepository.save(Post.builder()
                 .member(writer)
