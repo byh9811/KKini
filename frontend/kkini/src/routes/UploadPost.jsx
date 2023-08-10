@@ -13,6 +13,15 @@ function UploadPost() {
   const navigate = useNavigate();
   let inputRef;
 
+  // 추가
+  const [selectedRecipeId, setSelectedRecipeId] = useState(null);
+  const [content, setContent] = useState("");
+
+  const jsonData = {
+    recipeId: selectedRecipeId,
+    contents: content,
+  };
+
   const saveImage = (e) => {
     e.preventDefault();
     const tmpFileList = [];
@@ -42,11 +51,11 @@ function UploadPost() {
     setFileList(tmpFileList);
   }
 
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   console.log(data)
 
   useEffect(() => {
-    return () => {
+    const setRecipes = () => {
       fileList?.forEach((item) => {
         URL.revokeObjectURL(item.preview_URL);
       })
@@ -58,7 +67,8 @@ function UploadPost() {
       .catch((error) => {
         console.error('Error fetching data:', error)
       });
-    }
+    };
+  setRecipes();
   }, []);
 
   const handleFileUpload = () => {
@@ -66,18 +76,22 @@ function UploadPost() {
       const formData = new FormData();
 
       for (let i = 0; i < fileList.length; i++) {
-        formData.append("fileType", "json");
         formData.append("files", fileList[i].fileObject);
       }
 
-      axios.post('http://localhost:8080/api/s3', formData, {
+      // 추가
+      formData.append('post', new Blob([JSON.stringify(jsonData)], {
+        type: "application/json"
+      }));
+
+      axios.post('http://localhost:8080/api/post', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       })
       .then((response) => {
         console.log('업로드 성공:', response.data);
-        navigate('/n1')
+        navigate('/home/n1')
       })
       .catch((error) => {
         console.error('업로드 실패:', error);
@@ -126,12 +140,28 @@ function UploadPost() {
       <div>
         <label for="combo-box-demo">참고 음식</label>
         <Autocomplete
-        styled ={{width: '500px'}}
-        disablePortal
-        id="combo-box-demo"
-        options={data.recipeName}
-        sx={{ width: 300 }}
-        renderInput={(params) => <TextField {...params} label="Recipes" />}
+          styled ={{width: '500px'}}
+          disablePortal
+          id="combo-box-demo"
+          options={data}
+          sx={{ width: 300 }}
+          value={data.find(item => item.recipeId === selectedRecipeId) || null}
+          getOptionLabel={(option) => option.label} // 이 부분을 수정함
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Recipes"
+            />
+          )}
+          onChange={(event, newValue) => {
+            if (newValue) {
+              console.log(newValue);
+              setSelectedRecipeId(newValue.recipeId);
+            } else {
+              console.log('으아아악');
+              setSelectedRecipeId(null);
+            }
+          }}
         />
       </div>
       <br />
@@ -139,7 +169,7 @@ function UploadPost() {
       <div>
         <label for="content">내용 입력</label>
         <br />
-        <textarea name="" id="content" cols="30" rows="10"></textarea>
+        <textarea name="" id="content" cols="30" rows="10" onChange={(e) => setContent(e.target.value)}></textarea>
       </div>
       <br />
 
