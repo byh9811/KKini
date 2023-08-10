@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { Avatar } from '@mui/material';
 
 function CommentsPage() {
   const [comments, setComments] = useState([]);
@@ -50,7 +51,6 @@ function CommentsPage() {
       newComments.splice(commentIndex, 1);
     }
     setComments(newComments);
-    // 만약 대댓글을 작성 중이었던 댓글이 삭제되었다면, 대댓글 작성 상태를 초기화합니다.
     if (replyToIndex === commentIndex) {
       setReplyToIndex(null);
     }
@@ -71,13 +71,19 @@ function CommentsPage() {
       <CommentsList>
         {comments.map((item, index) => (
           <Comment key={index}>
-            {item.text}
+            <CommentContent>
+              <Avatar />
+              {item.text}
+            </CommentContent>
             <button onClick={() => handleReplyClick(index)}>답글 달기</button>
             <button onClick={() => handleEditClick(index)}>수정</button>
             <button onClick={() => handleDeleteClick(index)}>삭제</button>
             {item.replies.map((reply, replyIndex) => (
               <Reply key={replyIndex}>
-                {reply}
+                <CommentContent>
+                  <Avatar />
+                  {reply}
+                </CommentContent>
                 <button onClick={() => handleEditClick(replyIndex, index)}>수정</button>
                 <button onClick={() => handleDeleteClick(replyIndex, index)}>삭제</button>
               </Reply>
@@ -119,6 +125,16 @@ const Comment = styled.div`
   border-bottom: 1px solid #f0f0f0;
 `;
 
+const CommentContent = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+
+  > Avatar {
+    margin-right: 10px;
+  }
+`;
+
 const Reply = styled.div`
   padding: 10px;
   margin-left: 20px;
@@ -145,7 +161,6 @@ const CommentButton = styled.button`
   border: none;
   border-radius: 5px;
   cursor: pointer;
-
   &:hover {
     background-color: #0056b3;
   }
