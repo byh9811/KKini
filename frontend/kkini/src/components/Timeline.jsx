@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useInView } from "react-intersection-observer";
 import Post from './Post.jsx';
-import Scrap from './../routes/Scrap';
+import Slider from "react-slick";
 
 function Timeline() {
   const [posts, setPosts] = useState([
@@ -21,7 +21,10 @@ function Timeline() {
     },
     {
       user: "이승태",
-      postImage: "https://newsimg.sedaily.com/2023/04/04/29O67TZ4DD_1.jpg",
+      postImage: [
+        "https://newsimg.sedaily.com/2023/04/04/29O67TZ4DD_1.jpg",
+        "https://newsimg.sedaily.com/2023/04/04/29O67TZ4DD_1.jpg"
+      ],
       likeCnt: 23,
       disLikeCnt:13,
       createDateTime:"2d",
@@ -151,6 +154,26 @@ function Timeline() {
         </div>
     </div>
 )
+}
+
+function ImageSlider({ images }) {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+
+  return (
+    <Slider {...settings}>
+      {images.map((image, index) => (
+        <div key={index}>
+          <img src={image} alt={`postImage-${index}`} />
+        </div>
+      ))}
+    </Slider>
+  );
 }
 
 export default Timeline;
