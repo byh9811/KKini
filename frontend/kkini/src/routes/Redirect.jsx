@@ -20,7 +20,7 @@ const Redirect = ({ setIsLogIn }) => {
       dispatch(changeToken(token));
       navigate('/home'); // 메인 페이지로 이동
     } else {
-      // navigate('/home'); // 로그인 페이지로 이동
+      navigate('/naver'); // 로그인 페이지로 이동
     }
   }, [token]);
 

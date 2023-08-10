@@ -40,20 +40,27 @@ const Post = forwardRef(({ user, postImage, likes, timestamp }, ref) => {
   return (
     <PostContainer ref={ref}>
       <Drawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
+      
       <PostHeader>
         <PostHeaderAuthor>
-          <Avatar></Avatar>
-          {user} • <span>{timestamp}</span>
+          <Avatar className='m-2'></Avatar>
+          <div className="userInfo">
+            <div>{user}</div>
+            <span>{timestamp}</span>
+          </div>
         </PostHeaderAuthor>
       </PostHeader>
+
       <PostImage>
         <img src={postImage} alt="" />
       </PostImage>
+
       <PostFooter></PostFooter>
       <PostFooterIcons>
         <div className='post__iconsMain'>
           <PostIcon>
             <FavoriteBorderIcon />
+            {likes}
           </PostIcon>
           <PostIcon>
             <ThumbDownOffAltRoundedIcon />
@@ -110,7 +117,7 @@ export default Post;
 
 const PostContainer = styled.div`
   // width: 550px;
-  margin: 30px 40px 50px 40px;
+  margin: 0px 40px 50px 40px;
 `;
 
 const PostHeader = styled.div`
@@ -121,24 +128,36 @@ const PostHeader = styled.div`
   margin-bottom: 10px;
 `;
 
-const PostHeaderAuthor = styled.span`
+const PostHeaderAuthor = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   font-weight: bolder;
 
-  > span {
-    color: gray;
-    font-size: 15px;
-    margin-left: 10px;
+  > .userInfo {
+    margin-left: 5px;
+    
+    > div {
+      color: black;
+      font-size: 13px;
+      margin: 0;
+    }
+
+    > span {
+      color: gray;
+      font-size: 10px;
+      margin: 0;
+    }
   }
 `;
 
+
 const PostImage = styled.div`
   img {
-    width: 100%;
+    width: 95%;
     border-radius: 6px;
     border: 0.6px solid rgba(128, 128, 128, 0.516);
+    margin: 0 auto;
   }
 `;
 
@@ -155,7 +174,7 @@ const PostIcon = styled.div`
   display: inline-block; 
   padding: 7px;
   font-size: 30px;
-  margin-right: 10px;
+  margin: 0px 10px auto;
 
   &:hover {
     cursor: pointer;
