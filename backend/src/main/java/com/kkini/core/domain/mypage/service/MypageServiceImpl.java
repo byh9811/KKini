@@ -23,7 +23,7 @@ public class MypageServiceImpl implements MypageService {
     public void withDrawalMembership(Long memberId) {
         log.debug("회원 탈퇴를 진행할 회원 : {}", memberId);
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException(Member.class, memberId));
-        log.debug("{}", member);
+        log.debug("{}", member.toString());
         memberRepository.delete(member);
     }
 }
