@@ -39,9 +39,8 @@ public class FollowController {
         log.debug("## 팔로우를 추가합니다.");
         log.debug("대상 회원 : {}", targetMemberId);
         FollowRequestDto followRequestDto = new FollowRequestDto();
-        followRequestDto.setTargetMemberId(targetMemberId);
         followRequestDto.setMemberId(userPrincipal.getId()); // 추후에 User의 아이디를 가져올 것
-//        followRequestDto.setMemberId(1L); // 추후에 User의 아이디를 가져올 것
+        followRequestDto.setTargetMemberId(targetMemberId);
         followService.addFollow(followRequestDto);
         return OK(null);
     }
@@ -49,10 +48,10 @@ public class FollowController {
     @Operation(summary = "팔로우 삭제", description = "본인(memberId)이 팔로우(targetMemberId)를 삭제합니다.")
     @Parameter(name = "id", description = "팔로우 삭제를 하려는 팔로우 식별자")
     @DeleteMapping("/{id}")
-    public Response<Void> deleteFollow(@PathVariable Long id){
+    public Response<Void> deleteFollow(@PathVariable Long id, @AuthenticationPrincipal UserPrincipal userPrincipal){
         log.debug("## 팔로우를 삭제합니다.");
         log.debug("삭제할 팔로우 식별자 : {}", id);
-        followService.deleteFollow(id);
+        followService.deleteFollow(id, userPrincipal.getId());
         return OK(null);
     }
 

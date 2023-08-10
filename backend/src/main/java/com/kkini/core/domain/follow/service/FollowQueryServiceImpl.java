@@ -36,13 +36,13 @@ public class FollowQueryServiceImpl implements FollowQueryService{
         return followQueryRepository.getFollowList(id, pageable);
     }
 
-    @Override
-    public int countFollowers(Long id) {
-        return followQueryRepository.countFollowers(id);
-    }
-
-    @Override
-    public int countFollows(Long id) {
-        return followQueryRepository.countFollows(id);
-    }
+//    @Override
+//    public int countFollowers(Long id) {
+//        return followQueryRepository.countFollowers(id);
+//    }
+//
+//    @Override
+//    public int countFollows(Long id) {
+//        return followQueryRepository.countFollows(id);
+//    }
 }
