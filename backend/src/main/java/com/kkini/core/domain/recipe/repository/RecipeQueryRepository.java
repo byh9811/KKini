@@ -69,7 +69,7 @@ public class RecipeQueryRepository {
                         nameLike(searchCondition.getName()),
                         notDeleted()
                 )
-                .fetch().size();
+                .fetchFirst();
 
         return new PageImpl<>(recipeList, pageable, count);
     }

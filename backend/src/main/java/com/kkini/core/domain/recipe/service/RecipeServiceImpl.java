@@ -10,6 +10,7 @@ import com.kkini.core.domain.recipe.repository.RecipeRepository;
 import com.kkini.core.domain.step.entity.Step;
 import com.kkini.core.domain.step.repository.StepRepository;
 import com.kkini.core.global.exception.NotFoundException;
+import com.kkini.core.global.util.LevelUpUtil;
 import com.kkini.core.global.util.S3Util;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,7 @@ public class RecipeServiceImpl implements RecipeService {
     private final RecipeRepository recipeRepository;
     private final MemberRepository memberRepository;
     private final CategoryRepository categoryRepository;
+    private final LevelUpUtil levelUpUtil;
     private final S3Util s3Util;
 
     @Override
@@ -58,6 +60,17 @@ public class RecipeServiceImpl implements RecipeService {
                 .steps(dto.getSteps())
                 .build());
 
+        // TODO: 벌크 연산으로 INSERT문을 한번에 쿼리하면 ?
+        // TODO: 현재 @GeneratedValue(strategy = GenerationType.IDENTITY)이기 때문에 쓰기지연 동작 X
+        for (String step : dto.getSteps()) {
+            stepRepository.save(Step.builder()
+                    .recipe(recipe)
+                    .content(step)
+                    .build());
+        }
+
+        writer.addStars(1);
+        levelUpUtil.checkLevelUp(memberId);
         ArrayList<MultipartFile> multipartFiles = new ArrayList<>();
         multipartFiles.add(multipartFile);
         s3Util.uploadFiles("recipe", multipartFiles);
