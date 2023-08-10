@@ -1,5 +1,6 @@
 package com.kkini.core.domain.post.service;
 
+import com.kkini.core.domain.comment.entity.Comment;
 import com.kkini.core.domain.member.entity.Member;
 import com.kkini.core.domain.member.repository.MemberRepository;
 import com.kkini.core.domain.post.dto.request.PostRegisterRequestDto;
@@ -10,6 +11,7 @@ import com.kkini.core.domain.postimage.entity.PostImage;
 import com.kkini.core.domain.postimage.repository.PostImageRepository;
 import com.kkini.core.domain.recipe.entity.Recipe;
 import com.kkini.core.domain.recipe.repository.RecipeRepository;
+import com.kkini.core.global.exception.InvalidException;
 import com.kkini.core.global.exception.NotFoundException;
 import com.kkini.core.global.util.S3Util;
 import lombok.RequiredArgsConstructor;
@@ -65,25 +67,19 @@ public class PostServiceImpl implements PostService {
     // 포스트 삭제
     @Override
     public void removePost(Long postId, Long memberId) {
-        Post post = postRepository.findById(postId).orElseThrow(() -> new NotFoundException(Post.class, postId));
+        Post post = checkAuthority(postId, memberId);
 
-        // 자신이 작성한 글만 삭제할 수 있다.
-        if(post.getMember().getId().equals(memberId)) {
-            postRepository.delete(post);
-        }
+        postRepository.delete(post);
     }
 
-    // 포스트 수정
-//    @Override
-//    public void modifyPost(PostUpdateRequestDto postUpdateRequestDto) {
-//        Post post = postRepository.findById(postUpdateRequestDto.getPostId()).orElseThrow(() -> new NotFoundException(Post.class, postUpdateRequestDto.getPostId()));
-//        post.setContents(postUpdateRequestDto.getContents());
-//
-//        for(Long id : postUpdateRequestDto.getImageList()) {
-//            postImageRepository.deleteById(id);
-//        }
-//
-//        postRepository.save(post);
-//    }
+    private Post checkAuthority(Long postId, Long memberId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new NotFoundException(Post.class, postId));
+
+        if(!post.getMember().getId().equals(memberId)) {
+            throw new InvalidException(Post.class, postId);
+        }
+
+        return post;
+    }
 
 }

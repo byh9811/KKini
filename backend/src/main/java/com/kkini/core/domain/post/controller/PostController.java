@@ -46,11 +46,11 @@ public class PostController {
     })
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public Response<Void> addPost(
-            @RequestPart PostRegisterRequestDto postRegisterRequestDto,
-            @RequestPart(value = "files") List<MultipartFile> multipartFiles
-            //@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
+            @RequestPart(value = "data") PostRegisterRequestDto postRegisterRequestDto,
+            @RequestPart(value = "files") List<MultipartFile> multipartFiles,
+            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
-        postService.savePost(postRegisterRequestDto, multipartFiles, 1L);
+        postService.savePost(postRegisterRequestDto, multipartFiles, userPrincipal.getId());
 
         return OK(null);
     }
@@ -59,32 +59,31 @@ public class PostController {
     @Parameter(name = "pageable", description = "페이지 정보")
     @GetMapping
     public Response<Page<PostListResponseDto>> getPostList(
-            @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable
-            //@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
+            @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable,
+            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
-        return OK(postQueryService.getPostList(pageable, 1L));
+        return OK(postQueryService.getPostList(pageable, userPrincipal.getId()));
     }
 
     @Operation(summary = "포스트 목록 조회 : 마이 페이지", description = "마이페이지의 포스트를 조회한다.")
     @Parameter(name = "pageable", description = "페이지 정보")
     @GetMapping("/mypage")
     public Response<Page<PostListResponseDto>> getMyPagePostList(
-            @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable
-            //@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
+            @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable,
+            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
-        return OK(postQueryService.getMyPagePostList(pageable, 1L));
+        return OK(postQueryService.getMyPagePostList(pageable, userPrincipal.getId()));
     }
 
     @Operation(summary = "포스트 삭제", description = "포스트를 삭제한다.")
     @Parameter(name = "id", description = "포스트 식별자")
     @DeleteMapping("/{id}")
     public Response<Void> removePost(
-            @PathVariable("id") Long id
-            //@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
+            @PathVariable("id") Long id,
+            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
-        postService.removePost(id, 1L);
-        log.debug("removePost() Entered");
-        log.debug("{}", id);
+        postService.removePost(id, userPrincipal.getId());
+
         return OK(null);
     }
 
