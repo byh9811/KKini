@@ -8,7 +8,7 @@ public interface ScrapService {
     void addScrap(AddScrapRequestDto addScrapRequestDto);
     
     // 스크랩 삭제
-    void deleteScrap(Long id);
+    void deleteScrap(Long id, Long memberId);
 
     // 스크랩 리스트 개수 조회
     int countScrapList(Long memberId);

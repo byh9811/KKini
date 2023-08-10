@@ -1,6 +1,7 @@
 package com.kkini.core.domain.follow.service;
 
 import com.kkini.core.domain.follow.dto.request.FollowRequestDto;
+import com.kkini.core.domain.oauth2.UserPrincipal;
 
 public interface FollowService {
 
@@ -8,7 +9,7 @@ public interface FollowService {
     void addFollow(FollowRequestDto followRequestDto);
 
     // 팔로우 삭제
-    void deleteFollow(Long id);
+    void deleteFollow(Long id, Long memberId);
 
     // 팔로우 수 조회
     int countFollows(Long id);

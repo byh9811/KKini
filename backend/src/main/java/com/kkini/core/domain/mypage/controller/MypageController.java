@@ -33,12 +33,13 @@ public class MypageController {
     @GetMapping("/info/{memberId}")
     public Response<List<MypageInfoResponseListDto>> getMypageInfo(@PathVariable Long memberId, @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal){
         log.debug("## 마이페이지 정보를 보여줍니다.");
-        log.debug("조회할 멤버 식별자 : {}",memberId);
 
         List<MypageInfoResponseListDto> list = null;
         if (memberId == null){
+            log.debug("조회할 멤버 식별자 : {}", userPrincipal.getId());
             list = mypageQueryService.getMypageInfo(userPrincipal.getId());
         }else{
+            log.debug("조회할 멤버 식별자 : {}",memberId);
             list = mypageQueryService.getMypageInfo(memberId);
         }
         return OK(list);

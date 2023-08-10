@@ -13,7 +13,7 @@ public interface FollowQueryService {
     // 팔로우 리스트
     Page<FollowListResponseDto> getFollowList(Long id, Pageable pageable);
     // 팔로워 수
-    int countFollowers(Long id);
+//    int countFollowers(Long id);
     // 팔로우 수
-    int countFollows(Long id);
+//    int countFollows(Long id);
 }

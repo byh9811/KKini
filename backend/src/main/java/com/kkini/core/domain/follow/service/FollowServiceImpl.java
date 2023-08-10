@@ -5,9 +5,11 @@ import com.kkini.core.domain.follow.entity.Follow;
 import com.kkini.core.domain.follow.repository.FollowRepository;
 import com.kkini.core.domain.member.entity.Member;
 import com.kkini.core.domain.member.repository.MemberRepository;
+import com.kkini.core.domain.oauth2.UserPrincipal;
 import com.kkini.core.global.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -32,9 +34,13 @@ public class FollowServiceImpl implements FollowService{
     }
 
     @Override
-    public void deleteFollow(Long id) {
-        Follow follow = followRepository.findById(id).orElseThrow(() -> new NotFoundException(Follow.class));
-        followRepository.delete(follow);
+    public void deleteFollow(Long id, Long memberId) {
+        Follow follow = followRepository.findById(id).orElseThrow(() -> new NotFoundException(Follow.class ,id));
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException(Member.class, memberId));
+
+        if (follow.getMe().equals(member)){
+            followRepository.delete(follow);
+        }
     }
 
     @Override
