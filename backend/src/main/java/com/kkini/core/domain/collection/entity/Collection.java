@@ -8,10 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -19,11 +16,11 @@ import javax.persistence.OneToOne;
 @SuperBuilder
 public class Collection extends BaseEntityWithCreatedTime {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
