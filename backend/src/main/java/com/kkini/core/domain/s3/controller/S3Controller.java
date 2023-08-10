@@ -1,5 +1,6 @@
 package com.kkini.core.domain.s3.controller;
 
+import com.kkini.core.global.response.Response;
 import com.kkini.core.global.util.S3Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,12 +13,32 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.kkini.core.global.response.Response.OK;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/s3")
 public class S3Controller {
 
     private final S3Util s3Util;
+
+    // 테스트 코드
+    @PostMapping("/test")
+    public Response<String> postTest() {
+        return OK("post");
+    }
+    @GetMapping("/test")
+    public Response<String> getTest() {
+        return OK("get");
+    }
+    @DeleteMapping("/test")
+    public Response<String> deleteTest() {
+        return OK("delete");
+    }
+    @PutMapping("/test")
+    public Response<String> putTest() {
+        return OK("put");
+    }
 
     @PostMapping
     public ResponseEntity<Object> uploadFiles(

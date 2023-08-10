@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -16,11 +17,11 @@ import javax.persistence.ManyToOne;
 @SuperBuilder
 public class Follow extends BaseEntityWithCreatedTime {
 
-    @ManyToOne
-    @JoinColumn(name = "follower_id")
-    private Member followerID;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "me_id")
+    private Member me;
 
-    @ManyToOne
-    @JoinColumn(name = "follow_id")
-    private Member followId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "target_id")
+    private Member target;
 }

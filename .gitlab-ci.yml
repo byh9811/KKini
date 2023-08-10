@@ -83,7 +83,7 @@ fe-package:   # JOB 이름
     - docker login -u $DOCKER_HUB_ID --password $DOCKER_HUB_PW   # Docker Hub에 로그인
   # 실행될 script 설정
   script:
-    - docker build -t $FE_IMAGE_NAME frontend/kkini/.   # fe에 있는 Dockerfile로 build
+    - docker build -t $FE_IMAGE_NAME --build-arg nav_key=$REACT_APP_NAVER_API_KEY frontend/kkini/.   # fe에 있는 Dockerfile로 build
     - docker push $FE_IMAGE_NAME   # DockerHub에 image push
   # script가 실행된 후 수행 될 script
   after_script:
@@ -113,7 +113,7 @@ be-package:  # JOB 이름
     - docker login -u $DOCKER_HUB_ID --password $DOCKER_HUB_PW   # Docker Hub에 로그인
   # 실행될 script 설정
   script:
-    - docker build -t $BE_IMAGE_NAME --build-arg db_id=$DB_ID --build-arg db_pw=$DB_PW --build-arg acs_key=$AWS_ACCESS_KEY --build-arg scr_key=$AWS_SECRET_KEY --build-arg jwt_key=$JWT_SECRET_KEY --build-arg nav_id=$NAVER_CLIENT_ID --build-arg nav_key=$NAVER_CLIENT_SECRET backend/.   # be에 있는 Dockerfile로 build
+    - docker build -t $BE_IMAGE_NAME --build-arg db_id=$DB_ID --build-arg db_pw=$DB_PW --build-arg acs_key=$AWS_ACCESS_KEY --build-arg scr_key=$AWS_SECRET_KEY --build-arg jwt_key=$JWT_SECRET_KEY --build-arg nav_id=$NAVER_CLIENT_ID --build-arg nav_key=$NAVER_CLIENT_SECRET --build-arg nav_uri=$NAVER_REDIRECT_URI --build-arg auth_uri=$AUTH_REDIRECT_URI backend/.   # be에 있는 Dockerfile로 build
     - docker push $BE_IMAGE_NAME   # DockerHub에 image push
   # script가 실행된 후 수행 될 script
   after_script:

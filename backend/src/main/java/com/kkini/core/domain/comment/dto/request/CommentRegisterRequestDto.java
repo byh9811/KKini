@@ -19,4 +19,5 @@ public class CommentRegisterRequestDto {
 
     @Schema(description = "내용")
     private String contents;
+
 }
