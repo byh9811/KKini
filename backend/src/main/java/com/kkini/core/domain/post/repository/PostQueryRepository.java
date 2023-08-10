@@ -48,6 +48,7 @@ public class PostQueryRepository {
                         post.member.id.eq(memberId).as("isMine"),
                         post.member.id,
                         post.member.name,
+                        post.member.image,
                         recipe.id,
                         recipe.name,
                         reaction.state,
