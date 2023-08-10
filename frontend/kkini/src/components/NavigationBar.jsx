@@ -2,9 +2,12 @@ import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ArchiveIcon from '@mui/icons-material/Archive';
+
+import HomeIcon from '@mui/icons-material/Home';
+import SearchIcon from '@mui/icons-material/Search';
+import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
+import RestaurantMenuTwoToneIcon from '@mui/icons-material/RestaurantMenuTwoTone';
+import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 
 function NavigationBar() {
 
@@ -24,11 +27,11 @@ function NavigationBar() {
         value={value}
         onChange={handleChange}
       >
-        <BottomNavigationAction onClick={() => {navigate('/home/n1')}} label="Recents" icon={<RestoreIcon />} />
-        <BottomNavigationAction onClick={() => {navigate('/home/n2')}} label="Favorites" icon={<FavoriteIcon />} />
-        <BottomNavigationAction onClick={() => {navigate('/home/n3')}} label="Recents" icon={<RestoreIcon />} />
-        <BottomNavigationAction onClick={() => {navigate('/home/n4')}} label="Archive" icon={<ArchiveIcon />} />
-        <BottomNavigationAction onClick={() => {navigate('/home/n5')}} label="Recents" icon={<RestoreIcon />} />
+        <BottomNavigationAction onClick={() => {navigate('/home/n1')}} icon={<HomeIcon />} />
+        <BottomNavigationAction onClick={() => {navigate('/home/n2')}} icon={<SearchIcon />} />
+        <BottomNavigationAction onClick={() => {navigate('/home/n3')}} icon={<AddTwoToneIcon />} />
+        <BottomNavigationAction onClick={() => {navigate('/home/n4')}} icon={<RestaurantMenuTwoToneIcon />} />
+        <BottomNavigationAction onClick={() => {navigate('/home/n5')}} icon={<PermIdentityOutlinedIcon />} />
       </BottomNavigation>
   );
 }
