@@ -5,15 +5,15 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ThumbDownOffAltRoundedIcon from '@mui/icons-material/ThumbDownOffAltRounded';
 import ChatBubbleOutlineRoundedIcon from '@mui/icons-material/ChatBubbleOutlineRounded';
 import LocalAtmRoundedIcon from '@mui/icons-material/LocalAtmRounded';
-import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded';//북마크전
-import BookmarkIcon from '@mui/icons-material/Bookmark';//북마크 후
+import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Drawer from './Drawer';
+// import ImageSlider from './ImageSlider.jsx';  // 여기서 'path_to_imageslider.jsx'는 실제 ImageSlider 컴포넌트가 있는 경로로 대체해야 합니다.
 
 
-
-const Post = forwardRef(({ user, index, postImage,createDateTime, likeCnt, contents, disLikeCnt, commentcnt, avgPrice,recipeName }, ref) => {
+const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: initialLikeCnt, contents, disLikeCnt: initialdisLikeCnt, commentcnt, avgPrice, recipeName }, ref) => {
     const [show, setShow] = useState(false);
     const [amount, setAmount] = useState('');
     const [amounts, setAmounts] = useState([]);
@@ -21,8 +21,34 @@ const Post = forwardRef(({ user, index, postImage,createDateTime, likeCnt, conte
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [reaction, setReaction] = useState(null);
     const [isBookmarked, setIsBookmarked] = useState(false);
+    const [likeCnt, setLikeCnt] = useState(initialLikeCnt); 
+    const [disLikeCnt, setdisLikeCnt] = useState(initialdisLikeCnt);
 
- 
+    const handleIconClick = (type) => {
+        setReaction(prev => {
+            // 좋아요 아이콘을 위한 로직
+            if (type === 'like') {
+                if (prev === true) {
+                    setLikeCnt(likeCnt - 1);
+                    return null;
+                } else {
+                    setLikeCnt(likeCnt + 1);
+                    return true;
+                }
+            }
+            // 싫어요 아이콘을 위한 로직
+            else if (type === 'dislike') {
+            if (prev === false) {
+                setdisLikeCnt(disLikeCnt - 1);
+                return null;
+            } else {
+                setdisLikeCnt(disLikeCnt + 1);
+                return false;
+            }
+            }
+        });
+    }
+
 
     const handleClose = () => {
         setShow(false);
@@ -42,74 +68,61 @@ const Post = forwardRef(({ user, index, postImage,createDateTime, likeCnt, conte
         handleClose();
     };
 
-    
-
-
     return (
         <PostContainer ref={ref}>
             <Drawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
             <PostHeader>
                 <PostHeaderAuthor>
-                    <Avatar></Avatar>
+                    <Avatar />
                     {user} • <span>{createDateTime} </span>
                 </PostHeaderAuthor>
             </PostHeader>
             <Contentstext>{contents}<b> #{recipeName}</b></Contentstext>
-            
-    
             <PostImage>
                 <img src={postImage} alt="" />
             </PostImage>
+            {/* <PostImage>
+    <ImageSlider images={Array.isArray(postImage) ? postImage : [postImage]} />
+</PostImage> */}
+
             <PostFooterIcons>
                 <div className='post__iconsMain'>
                     <PostIcon>
-    <FavoriteBorderIcon 
-        style={{ color: reaction === true ? 'red' : 'gray' }}
-        onClick={() => setReaction(prev => (prev === true ? null : true))}
-    />
-</PostIcon>
-<PostIcon>
-    <ThumbDownOffAltRoundedIcon 
-        style={{ color: reaction === false ? 'blue' : 'gray' }}
-        onClick={() => setReaction(prev => (prev === false ? null : false))}
-    />
-</PostIcon>
+                    <FavoriteBorderIcon 
+    style={{ color: reaction === true ? 'red' : 'gray' }}
+    onClick={() => handleIconClick('like')}
+/>
+                    </PostIcon>
+                    <PostIcon>
+                    <ThumbDownOffAltRoundedIcon 
+    style={{ color: reaction === false ? 'blue' : 'gray' }}
+    onClick={() => handleIconClick('dislike')}
+/>
+                    </PostIcon>
                     <PostIcon>
                         <ChatBubbleOutlineRoundedIcon onClick={() => setIsDrawerOpen(true)} />
                     </PostIcon>
-                    {/* <div><b>{user}</b>  {contents}</div> */}
                     <div><CountText><b>{likeCnt}</b>좋아요  <b>{disLikeCnt}</b>싫어요  <b>{commentcnt}</b>개의 댓글</CountText></div>
                 </div>
-                
-                
-                
                 <div className='post__iconSave'>
                     <PostIcon onClick={handleShow}>
                         <LocalAtmRoundedIcon />
-                        <div><CountText>{avgPrice}</ CountText></div>
+                        <div><CountText>{avgPrice}</CountText></div>
                     </PostIcon>
                     <PostIcon>
-                    { isBookmarked ? 
-    <BookmarkIcon onClick={() => setIsBookmarked(false)} /> 
-    : 
-    <BookmarkBorderRoundedIcon onClick={() => setIsBookmarked(true)} />
-}
-
+                        {isBookmarked ? 
+                            <BookmarkIcon onClick={() => setIsBookmarked(false)} /> 
+                            : 
+                            <BookmarkBorderRoundedIcon onClick={() => setIsBookmarked(true)} />
+                        }
                     </PostIcon>
                 </div>
-                
-                
             </PostFooterIcons>
-            
-            
 
-            
             {averageAmount && <div>평가된 금액의 평균: {averageAmount}원</div>}
 
             <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeBut
-                
-                en style={{ textAlign: 'center' }}>
+                <Modal.Header closeButton style={{ textAlign: 'center' }}>
                     <Modal.Title>금액 평가창</Modal.Title>
                 </Modal.Header>
                 <Modal.Body style={{ textAlign: 'center' }}>
@@ -126,12 +139,8 @@ const Post = forwardRef(({ user, index, postImage,createDateTime, likeCnt, conte
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        닫기
-                    </Button>
-                    <Button variant="primary" onClick={handleSave}>
-                        금액 평가 완료
-                    </Button>
+                    <Button variant="secondary" onClick={handleClose}>닫기</Button>
+                    <Button variant="primary" onClick={handleSave}>금액 평가 완료</Button>
                 </Modal.Footer>
             </Modal>
         </PostContainer>
@@ -209,3 +218,4 @@ const Recipetext = styled.span`
     font-size: 15px; 
     color: #4545b1
 `;
+
