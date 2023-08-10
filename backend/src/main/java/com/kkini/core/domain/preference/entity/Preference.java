@@ -28,11 +28,12 @@ public class Preference extends BaseEntity {
 
     private int weight;
 
-    public void increaseWeight() {
-        this.weight += 1;
-    }
+    public void increaseWeightByEval() { this.weight++; }
 
-    public void decreaseWeight() {
-        this.weight -= 1;
-    }
+    public void decreaseWeightByEval() { this.weight--; }
+
+    public void increaseWeightByLike() { this.weight += 3; }
+
+    public void decreaseWeightByLike() { this.weight -= 3; }
+
 }

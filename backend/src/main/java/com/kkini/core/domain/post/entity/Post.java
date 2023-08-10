@@ -34,4 +34,12 @@ public class Post extends BaseEntityWithModifiedTime {
 
     private int disLikeCnt;
 
+    public void increaseLikeCnt() { this.likeCnt++; };
+
+    public void decreaseLikeCnt() { this.likeCnt--; };
+
+    public void increaseDisLikeCnt() { this.disLikeCnt++; };
+
+    public void decreaseDisLikeCnt() { this.disLikeCnt--; };
+
 }
