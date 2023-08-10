@@ -31,7 +31,7 @@ const N4 = () => {
         </div>
       )}
       <div>
-        {검색어.trim() !== "" ? <FeedComponent 검색어={검색어} 카테고리={카테고리}/> : null}
+        {검색어.trim() !== "" ? <FeedComponent 검색어={검색어} 카테고리={카테고리} 분류={1}/> : null}
         <div className='flex flex-wrap'>
             {[1, 1, 1, 1, 1, 1].map((item)=><ReqUserPostCard></ReqUserPostCard>)}
         </div>

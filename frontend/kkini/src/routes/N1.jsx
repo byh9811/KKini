@@ -4,12 +4,16 @@ import axios from 'axios';
 
 function N1() {
   const [posts, setPosts] = useState([]);
-  window.scrollTo(0, 0);
+  
+
 
   useEffect(() => {
-    axios.get('http://172.17.0.1:8080/api/post?page=0&size=1&sort=string')
-      .then(response => {
+    axios.get('http://localhost:8080/api/post?page=0&size=5&sort=string')
+      .then((response) => {
         if (response.data.success) {
+          console.log(response.data.response);
+
+
           setPosts(response.data.response);
         }
       })
