@@ -25,29 +25,41 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
     const [disLikeCnt, setdisLikeCnt] = useState(initialdisLikeCnt);
 
     const handleIconClick = (type) => {
-        setReaction(prev => {
-            // 좋아요 아이콘을 위한 로직
-            if (type === 'like') {
-                if (prev === true) {
-                    setLikeCnt(likeCnt - 1);
-                    return null;
-                } else {
-                    setLikeCnt(likeCnt + 1);
-                    return true;
-                }
-            }
-            // 싫어요 아이콘을 위한 로직
-            else if (type === 'dislike') {
-            if (prev === false) {
-                setdisLikeCnt(disLikeCnt - 1);
-                return null;
+        // 좋아요 아이콘을 위한 로직
+        if (type === 'like') {
+            if (reaction === true) {
+                // 이미 좋아요가 눌러져 있을 때 좋아요 아이콘을 다시 누르면 좋아요 개수 -1
+                setLikeCnt(prevLikeCnt => prevLikeCnt - 1);
+                setReaction(null);
             } else {
-                setdisLikeCnt(disLikeCnt + 1);
-                return false;
+                // 좋아요가 안 눌러져 있을 때 좋아요 아이콘을 누르면 좋아요 개수 +1
+                // 만약 이전에 싫어요가 눌러져 있었다면 싫어요 개수 -1
+                setLikeCnt(prevLikeCnt => prevLikeCnt + 1);
+                if (reaction === false) {
+                    setdisLikeCnt(prevDislikeCnt => prevDislikeCnt - 1);
+                }
+                setReaction(true);
             }
+        }
+        // 싫어요 아이콘을 위한 로직
+        else if (type === 'dislike') {
+            if (reaction === false) {
+                // 이미 싫어요가 눌러져 있을 때 싫어요 아이콘을 다시 누르면 싫어요 개수 -1
+                setdisLikeCnt(prevDislikeCnt => prevDislikeCnt - 1);
+                setReaction(null);
+            } else {
+                // 싫어요가 안 눌러져 있을 때 싫어요 아이콘을 누르면 싫어요 개수 +1
+                // 만약 이전에 좋아요가 눌러져 있었다면 좋아요 개수 -1
+                setdisLikeCnt(prevDislikeCnt => prevDislikeCnt + 1);
+                if (reaction === true) {
+                    setLikeCnt(prevLikeCnt => prevLikeCnt - 1);
+                }
+                setReaction(false);
             }
-        });
+        }
     }
+    
+
 
 
     const handleClose = () => {
