@@ -82,7 +82,7 @@ public class PostController {
     @GetMapping("/search")
     public Response<List<PostListResponseDto>> getSearchList(
             @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable,
-            @RequestParam String search,
+            @RequestParam(value = "search") String search,
             @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
         List<PostListResponseDto> list = new ArrayList<>();

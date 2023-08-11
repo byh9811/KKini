@@ -44,7 +44,7 @@ public class PostQueryRepository {
                         post.createDateTime,
                         post.likeCnt,
                         post.disLikeCnt,
-                        post.price,
+                        post.avgPrice,
                         post.member.id.eq(memberId).as("isMine"),
                         post.member.id,
                         post.member.name,
