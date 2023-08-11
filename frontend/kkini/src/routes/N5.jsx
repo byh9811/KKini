@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { ProfileUserDetails } from '../components/ProfileUserDetails';
 import ReqUserPostPart from '../components/ReqUserPostPart';
 
@@ -13,7 +12,7 @@ function N5() {
       {/* 프로필 */}
       <div className='w-full'>
         <div className=''>        
-          <ProfileUserDetails></ProfileUserDetails>
+          <ProfileUserDetails 내것 = {1}></ProfileUserDetails>
         </div>
         <div>
           <ReqUserPostPart></ReqUserPostPart>

@@ -10,11 +10,12 @@ import N4 from './routes/N4.jsx'
 import N5 from './routes/N5.jsx'
 import "tailwindcss/tailwind.css";
 import Naver from './routes/Naver';
+import OtherProfile from './routes/OtherProfile';
+import Withdrawal from './routes/Withdrawal';
 
 // App.js
 function App() {
   const [isLogIn, setIsLogIn ] = useState(false);
-  console.log(isLogIn)
   return (
     <div className="App">
       <div style={{ margin: '0 auto' }}>
@@ -23,12 +24,14 @@ function App() {
       <Route path="/" element={isLogIn ? <Home/> : <Navigate to="/naver" />} />
         <Route path="/redirect" element={<Redirect  setIsLogIn={setIsLogIn}/>} />
         <Route path="/naver" element={<Naver/>} />
+        <Route path="/withdrawal" element={<Withdrawal />} />
         <Route path="/home" element={<Home />}>
           <Route path="n1" element={<N1 />} />
           <Route path="n2" element={<N2 />} />
           <Route path="n3" element={<N3 />} />
           <Route path="n4" element={<N4 />} />
           <Route path="n5" element={<N5 />} />
+          <Route path="mypage" element={<OtherProfile/>}/>
         </Route>
       </Routes>
     </div>

@@ -5,8 +5,6 @@ import axios from 'axios';
 function N1() {
   const [posts, setPosts] = useState([]);
   
-
-
   useEffect(() => {
     axios.get('http://localhost:8080/api/post?page=0&size=5&sort=string')
       .then((response) => {
