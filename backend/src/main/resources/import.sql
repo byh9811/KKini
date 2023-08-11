@@ -21,11 +21,19 @@ INSERT INTO Recipe (member_id, category_id, name, time, difficulty, ingredient, 
 INSERT INTO Recipe (member_id, category_id, name, time, difficulty, ingredient, image, steps, deleted) VALUES (2, 2, '클래식 마르게리따 피자', 20, 2, '피자 반죽 1개, 토마토 소스 1/2컵, 모짜렐라 치즈 1 1/2컵, ...', 'https://example.com/margherita-pizza.jpg', '1. 반죽 펴기...\n2. 소스 바르기...\n3. 치즈와 토핑 추가하기...\n4. 예열한 오븐에서 굽기...', false);
 
 # post 더미 데이터
-INSERT INTO Post (member_id, recipe_id, contents, price, like_cnt, dis_like_cnt) VALUES (1, 1, '맛있는 초콜릿 케이크를 만들었어요!', 10000, 15, 2);
-INSERT INTO Post (member_id, recipe_id, contents, price, like_cnt, dis_like_cnt) VALUES (2, 2, '오늘 치킨 알프레도를 시도해보았는데 정말 맛있었어요.', 15000, 23, 1);
-INSERT INTO Post (member_id, recipe_id, contents, price, like_cnt, dis_like_cnt) VALUES (3, 3, '소고기 타코 완성! 매콤하고 고소해요~', 8000, 10, 3);
-INSERT INTO Post (member_id, recipe_id, contents, price, like_cnt, dis_like_cnt) VALUES (1, 4, '가든 샐러드를 간단하게 만들었어요.', 5000, 8, 0);
-INSERT INTO Post (member_id, recipe_id, contents, price, like_cnt, dis_like_cnt) VALUES (2, 5, '클래식 마르게리따 피자 퍼펙트!', 12000, 18, 2);
+INSERT INTO Post (member_id, recipe_id, contents, avg_price, avg_price_cnt, like_cnt, dis_like_cnt) VALUES (1, 1, '맛있는 초콜릿 케이크를 만들었어요!', 10000, 1, 15, 2);
+INSERT INTO Post (member_id, recipe_id, contents, avg_price, avg_price_cnt, like_cnt, dis_like_cnt) VALUES (2, 2, '오늘 치킨 알프레도를 시도해보았는데 정말 맛있었어요.', 15000, 2, 23, 1);
+INSERT INTO Post (member_id, recipe_id, contents, avg_price, avg_price_cnt, like_cnt, dis_like_cnt) VALUES (3, 3, '소고기 타코 완성! 매콤하고 고소해요~', 8000, 1, 10, 3);
+INSERT INTO Post (member_id, recipe_id, contents, avg_price, avg_price_cnt, like_cnt, dis_like_cnt) VALUES (1, 4, '가든 샐러드를 간단하게 만들었어요.', 5000, 1, 8, 0);
+INSERT INTO Post (member_id, recipe_id, contents, avg_price, avg_price_cnt, like_cnt, dis_like_cnt) VALUES (2, 5, '클래식 마르게리따 피자 퍼펙트!', 12000, 1, 18, 2);
+
+# evaluation 더미 데이터
+INSERT INTO Evaluation (member_id, post_id, price) VALUES (1, 1, 10000);
+INSERT INTO Evaluation (member_id, post_id, price) VALUES (1, 2, 20000);
+INSERT INTO Evaluation (member_id, post_id, price) VALUES (2, 2, 10000);
+INSERT INTO Evaluation (member_id, post_id, price) VALUES (3, 3, 8000);
+INSERT INTO Evaluation (member_id, post_id, price) VALUES (1, 4, 5000);
+INSERT INTO Evaluation (member_id, post_id, price) VALUES (1, 5, 12000);
 
 # image 더미 데이터
 INSERT INTO Post_image (post_id, image) VALUES (1, 'https://example.com/image1.jpg');
