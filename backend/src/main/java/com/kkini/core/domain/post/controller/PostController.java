@@ -44,8 +44,8 @@ public class PostController {
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public Response<Void> addPost(
             @RequestPart(value = "data") PostRegisterRequestDto postRegisterRequestDto,
-            @RequestPart(value = "files") List<MultipartFile> multipartFiles
-//            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
+            @RequestPart(value = "files") List<MultipartFile> multipartFiles,
+            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
 //        postService.savePost(postRegisterRequestDto, multipartFiles, userPrincipal.getId());
         postService.savePost(postRegisterRequestDto, multipartFiles, 1L);
@@ -56,9 +56,9 @@ public class PostController {
     @Operation(summary = "포스트 목록 조회 : 피드", description = "피드 탭의 포스트를 조회한다.")
     @Parameter(name = "pageable", description = "페이지 정보")
     @GetMapping
-    public Response<Page<PostListResponseDto>> getPostList(
-            @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable
-//            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
+    public Response<Page<PostListResponseDto>> getFeedPostList(
+            @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable,
+            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
 //        return OK(postQueryService.getPostList(pageable, userPrincipal.getId()));
         return OK(postQueryService.getPostList(pageable, 1L));
@@ -71,31 +71,45 @@ public class PostController {
             @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable,
             @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
-        return OK(postQueryService.getMyPagePostList(pageable, userPrincipal.getId()));
+//        return OK(postQueryService.getMyPagePostList(pageable, userPrincipal.getId()));
+        return OK(postQueryService.getMyPagePostList(pageable, 1L));
     }
 
-    @Operation(summary = "포스트 목록 조회 : 검색", description = "검색 탭의 포스트를 조회한다.")
+    @Operation(summary = "포스트 목록 조회 : 검색", description = "검색 탭의 검색 포스트를 조회한다.")
     @Parameters({
             @Parameter(name = "pageable", description = "페이지 정보"),
             @Parameter(name = "search", description = "검색어")
     })
     @GetMapping("/search")
-    public Response<List<PostListResponseDto>> getSearchList(
+    public Response<Page<PostListResponseDto>> getSearchPostList(
             @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable,
             @RequestParam(value = "search") String search,
             @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
-        List<PostListResponseDto> list = new ArrayList<>();
+//        return OK(postQueryService.getSearchPostList(pageable, userPrincipal.getId(), search));
+        return OK(postQueryService.getSearchPostList(pageable, 1L, search));
+    }
 
-        return OK(list);
+    @Operation(summary = "포스트 목록 조회 : 추천", description = "검색 탭의 추천 포스트를 조회한다.")
+    @Parameters({
+            @Parameter(name = "pageable", description = "페이지 정보"),
+            @Parameter(name = "search", description = "검색어")
+    })
+    @GetMapping("/algorithm")
+    public Response<Page<PostListResponseDto>> getAlgorithmPostList(
+            @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable,
+            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
+    ) {
+//        return OK(postQueryService.getAlgorithmPostList(pageable, userPrincipal.getId()));
+        return OK(postQueryService.getAlgorithmPostList(pageable, 1L));
     }
 
     @Operation(summary = "포스트 삭제", description = "포스트를 삭제한다.")
     @Parameter(name = "id", description = "포스트 식별자")
     @DeleteMapping("/{id}")
     public Response<Void> removePost(
-            @PathVariable("id") Long id
-//            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
+            @PathVariable("id") Long id,
+            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
 //        postService.removePost(id, userPrincipal.getId());
         postService.removePost(id, 1L);
