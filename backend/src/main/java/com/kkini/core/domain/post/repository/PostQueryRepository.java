@@ -27,10 +27,14 @@ import static com.kkini.core.domain.scrap.entity.QScrap.scrap;
 @Slf4j
 public class PostQueryRepository {
 
+    private final int FEED = 1;
+    private final int MYPAGE = 2;
+    private final int SEARCH = 3;
+    private final int ALGORITHM = 4;
+
     private final JPAQueryFactory jpaQueryFactory;
 
-    // 피드
-    public Page<PostListResponseDto> findPostList(Pageable pageable, Long memberId, Boolean isFeed) {
+    public Page<PostListResponseDto> findPostList(Pageable pageable, Long memberId, int type, String search, Long categoryId) {
         List<Long> followList = jpaQueryFactory
                 .select(follow.target.id)
                 .from(follow)
@@ -44,10 +48,11 @@ public class PostQueryRepository {
                         post.createDateTime,
                         post.likeCnt,
                         post.disLikeCnt,
-                        post.price,
+                        post.avgPrice,
                         post.member.id.eq(memberId).as("isMine"),
                         post.member.id,
                         post.member.name,
+                        post.member.image,
                         recipe.id,
                         recipe.name,
                         reaction.state,
@@ -57,7 +62,7 @@ public class PostQueryRepository {
                 .leftJoin(recipe).on(post.recipe.id.eq(recipe.id))
                 .leftJoin(reaction).on(post.id.eq(reaction.post.id).and(post.member.id.eq(reaction.member.id)))
                 .leftJoin(scrap).on(post.id.eq(scrap.post.id).and(post.member.id.eq(scrap.member.id)))
-                .where(searchCondition(memberId, followList, isFeed))
+                .where(searchCondition(memberId, followList, type, search, categoryId))
                 .orderBy(postSort(pageable))
                 .fetch();
 
@@ -89,14 +94,30 @@ public class PostQueryRepository {
         return new PageImpl<>(postList.subList(start, end), pageable, postList.size());
     }
 
-    private BooleanBuilder searchCondition(Long memberId, List<Long> followList, Boolean isFeed) {
+    private BooleanBuilder searchCondition(Long memberId, List<Long> followList, int type, String search, Long categoryId) {
         BooleanBuilder builder = new BooleanBuilder();
 
-        builder.or(post.member.id.eq(memberId));
+        if(type == FEED) {
+            // 자신이 작성한 포스트를 가져온다.
+            builder.or(post.member.id.eq(memberId));
 
-        // Feed 요청이면, 팔로워 목록이 존재할때 팔로워가 작성한 포스트도 가져온다.
-        if(!isFeed && followList != null && !followList.isEmpty()) {
-            builder.or(post.member.id.in(followList));
+            // 팔로워 목록이 존재할때 팔로워가 작성한 포스트도 가져온다.
+            if(followList != null && !followList.isEmpty()) {
+                builder.or(post.member.id.in(followList));
+            }
+        }
+
+        if(type == MYPAGE) {
+            // 자신이 작성한 포스트를 가져온다.
+            builder.or(post.member.id.eq(memberId));
+        }
+
+        if(type == SEARCH) {
+            builder.or(post.contents.contains(search));
+        }
+
+        if(type == ALGORITHM) {
+            builder.or(post.recipe.category.id.eq(categoryId));
         }
 
         return builder;

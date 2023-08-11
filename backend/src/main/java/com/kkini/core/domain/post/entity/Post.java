@@ -28,20 +28,36 @@ public class Post extends BaseEntityWithModifiedTime {
 
     private String contents;
 
-    private int price;
+    private int avgPrice;
+
+    private int avgPriceCnt;
 
     private int likeCnt;
 
     private int disLikeCnt;
 
-    // 내용 수정
-    public void setContents(String contents) {
-        this.contents = contents;
-    }
+    public void increaseLikeCnt() { this.likeCnt++; };
 
-    // 레시피 변경
-    public void setRecipe(Recipe recipe) {
-        this.recipe = recipe;
+    public void decreaseLikeCnt() { this.likeCnt--; };
+
+    public void increaseDisLikeCnt() { this.disLikeCnt++; };
+
+    public void decreaseDisLikeCnt() { this.disLikeCnt--; };
+
+    public void changePrice(int oldPrice, int newPrice, boolean isNew) {
+        if (isNew) {
+            this.avgPrice = (this.avgPrice * this.avgPriceCnt + newPrice) / (this.avgPriceCnt + 1);
+
+            this.avgPriceCnt++;
+        } else {
+            int rollbackPrice;
+            if(this.avgPriceCnt - 1 == 0) {
+                rollbackPrice = 0;
+            } else {
+                rollbackPrice = (this.avgPrice * this.avgPriceCnt - oldPrice) / (this.avgPriceCnt - 1);
+            }
+            this.avgPrice = (rollbackPrice * this.avgPriceCnt + newPrice) / this.avgPriceCnt;
+        }
     }
 
 }
