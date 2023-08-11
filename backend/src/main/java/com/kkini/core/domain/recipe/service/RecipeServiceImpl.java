@@ -28,7 +28,7 @@ public class RecipeServiceImpl implements RecipeService {
     private final RecipeRepository recipeRepository;
     private final MemberRepository memberRepository;
     private final CategoryRepository categoryRepository;
-    private final LevelUpUtil levelUpUtil;
+//    private final LevelUpUtil levelUpUtil;
     private final S3Util s3Util;
 
     @Override
@@ -51,8 +51,8 @@ public class RecipeServiceImpl implements RecipeService {
         Member writer = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException(Member.class, memberId));
         Category category = categoryRepository.findById(dto.getCategoryId()).orElseThrow(() -> new NotFoundException(Category.class, dto.getCategoryId()));
 
-        writer.addStars(1);
-        levelUpUtil.checkLevelUp(memberId);
+//        writer.addStars(1);
+//        levelUpUtil.checkLevelUp(memberId);
         ArrayList<MultipartFile> multipartFiles = new ArrayList<>();
         multipartFiles.add(multipartFile);
         String recipe = s3Util.uploadFiles("recipe", multipartFiles).get(0);
