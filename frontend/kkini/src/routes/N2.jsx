@@ -1,48 +1,50 @@
 import React, { useState } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
-import Usname from '../components/Usname';
-import Feedname from '../components/Feedname';
-import SearchBar from '../components/SearchBar';
+import RecommendedFeed from '../components/RecommendedFeed';
+import FeedComponent from '../components/FeedComponent';
+import AccountComponent from '../components/AccountComponent';
 
-function N2() {
-  window.scrollTo(0, 0);
-  
+const N2 = () => {
   let [탭, 탭변경] = useState(0);
-  let [showResults, setShowResults] = useState(false);
+  let [검색어, 검색어변경] = useState("");
 
-  const handleSearch = (query) => {
-    // 여기서 query를 사용하여 검색을 수행할 수 있습니다.
-    setShowResults(true);
+  // 검색어 초기화 함수
+  const clearSearch = () => {
+    검색어변경("");
   };
 
   return (
     <div>
-      <SearchBar onSearch={handleSearch}></SearchBar>
-      {showResults && (
-        <>
+      <div>
+        <input
+          type="text"
+          placeholder="검색어를 입력하세요"
+          value={검색어}
+          onChange={(e) => 검색어변경(e.target.value)}
+        />
+        {검색어.trim() !== "" && (
+          <button onClick={clearSearch}>x</button>
+        )}
+      </div>
+      {검색어.trim() !== "" && (
+        <div>
           <Navbar className="justify-content-center">
             <Container>
               <Nav className="mx-auto" defaultActiveKey="link-0">
-                <Nav.Link onClick={() => { 탭변경(0) }} eventKey="link-0">사용자 이름 검색결과</Nav.Link>
-                <Nav.Link onClick={() => { 탭변경(1) }} eventKey="link-1">내용 검색결과</Nav.Link>
+                <Nav.Link onClick={() => { 탭변경(0) }} eventKey="link-0">피드</Nav.Link>
+                <Nav.Link onClick={() => { 탭변경(1) }} eventKey="link-1">계정</Nav.Link>
               </Nav>
             </Container>
           </Navbar>
-
-          <TabContent 탭={탭}></TabContent>
-        </>
+        </div>
       )}
-      n2입니다아아아
+      <div>
+        {검색어.trim() === "" ? <RecommendedFeed /> : null}
+        {검색어.trim() !== "" && 탭 === 0 ? <FeedComponent 검색어={검색어} /> : null}
+        {검색어.trim() !== "" && 탭 === 1 ? <AccountComponent 검색어={검색어} /> : null}
+      </div>
     </div>
   );
-}
-
-function TabContent(props) {
-  if (props.탭 === 0) {
-    return <Usname></Usname>;
-  } else {
-    return <Feedname></Feedname>;
-  }
-}
+};
 
 export default N2;

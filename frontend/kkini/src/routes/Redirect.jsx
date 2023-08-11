@@ -1,23 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import Home from './Home.jsx';
-import Login from './Login.jsx';
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { changeToken } from "../store.js";
+import { useDispatch, useSelector } from "react-redux";
 
-const Redirect = () => {
-  const code = useParams();
+const Redirect = ({ setIsLogIn }) => {
+  let state = useSelector((state)=>(state))
+  let dispatch = useDispatch();
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get('token');
 
-  console.log({code})
   useEffect(() => {
-    if (code) { // code 값이 있다면
+    console.log(token)
+    
+    if (token) { // code 값이 있다면
       // 쿠키나 세션 / 리덕스 툴킷에 코드 저장 로직
-      setIsLoggedIn(true);
-      navigate('/n1'); // 메인 페이지로 이동
+      setIsLogIn(true);
+      dispatch(changeToken(token));
+      navigate('/home'); // 메인 페이지로 이동
     } else {
-      navigate('/login'); // 로그인 페이지로 이동
+      navigate('/naver'); // 로그인 페이지로 이동
     }
-  }, [code, navigate]);
+  }, [token]);
 
   return (
     <div>

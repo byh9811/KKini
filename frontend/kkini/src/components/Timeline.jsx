@@ -1,94 +1,105 @@
 import React, { useState, useEffect } from 'react'
-import { useInView } from "react-intersection-observer";
 import Post from './Post.jsx';
 
-function Timeline() {
-  const [posts, setPosts] = useState([
-    {
-      user: "김승영",
-      postImage: "https://newsimg.sedaily.com/2023/04/04/29O67TZ4DD_1.jpg",
-      likes: 12,
-      timestamp:"2d",
-    },
-    {
-      user: "이승태",
-      postImage: "https://newsimg.sedaily.com/2023/04/04/29O67TZ4DD_1.jpg",
-      likes: 23,
-      timestamp:"2d",
-    },
-    {
-      user: "박태규",
-      postImage: "https://newsimg.sedaily.com/2023/04/04/29O67TZ4DD_1.jpg",
-      likes: 31,
-      timestamp:"2d",
-    },
-    {
-      user: "배용현",
-      postImage: "https://newsimg.sedaily.com/2023/04/04/29O67TZ4DD_1.jpg",
-      likes: 31,
-      timestamp:"2d",
-    },
-    {
-      user: "김범창",
-      postImage: "https://newsimg.sedaily.com/2023/04/04/29O67TZ4DD_1.jpg",
-      likes: 31,
-      timestamp:"2d",
-    },
-    {
-      user: "진병욱",
-      postImage: "https://newsimg.sedaily.com/2023/04/04/29O67TZ4DD_1.jpg",
-      likes: 31,
-      timestamp:"2d",
-    }
-  ]);
+
+function Timeline(props) {
   
-  const { ref, inView } = useInView({
-    threshold: 0,
-  });
+  const transformData = (data) => {
+    return data.map(post => ({
+      user: post.memberName,
+      postImage: post.imageList, // 여기는 간단히 수정했는데, 실제로 여러 이미지 처리가 필요하면 추가 수정이 필요합니다.
+      likeCnt: post.likeCnt,
+      disLikeCnt: post.disLikeCnt,
+      createDateTime: post.createDateTime,
+      contents: post.contents,
+      commentcnt: post.commentCnt,
+      avgPrice: post.avgPrice,
+      reaction: post.reaction,
+      Scrap: post.isScrap,
+      recipeId: post.recipeId,
+      recipeName: post.recipeName,
+    }));
+  }
+
+  const [localPosts, setLocalPosts] = useState(transformData(props.posts.content || []));
+
   
-  const [loading, setLoading] = useState(false);
+  const toggleReaction = (index) => {
+    setLocalPosts((prevPosts) => {
+      const newPosts = [...prevPosts];
+      newPosts[index].reaction = !newPosts[index].reaction;
+      return newPosts;
+    });
+  };
+  //서버상태도 업데이트해야함
+
+  const toggleLike = (index) => {
+    setLocalPosts((prevPosts) => {
+      const newPosts = [...prevPosts];
+      if (newPosts[index].reaction) {
+        newPosts[index].likeCnt--;
+      } else {
+        newPosts[index].likeCnt++;
+      }
+      newPosts[index].reaction = !newPosts[index].reaction;
+      return newPosts;
+    });
+  };
+  //서버상태도 업데이트해야함
 
   useEffect(() => {
-    if (inView && !loading) {
-      setLoading(true);
-      const addItems = () => {
-        const newPosts = [];
-        for (let i = 0; i < 1; i++) {
-          newPosts.push({
-              user:"T발씨병욱",
-              postImage:"https://i.namu.wiki/i/Fyh_vPFIbzkztGRXmAmT2UQGfQtaYANxjGPXhLhzOysKa0_b-XKj7AHzGyCxJ8lJRiZj4SMZcCJNRYK5d2Ztaefe4G9gE1ZkMzpI-aQj-61fNkElRMV-AnlB9mqlWDfd2UQbrd8pUpDjpXAH1LODyw.webp",
-              likes:"18",
-              timestamp:"18s",
-          });
-        }
-      setPosts((current) => [...current, ...newPosts]);
-      setLoading(false);
-    };
-      console.log("무한 스크롤링 요청!");
-      addItems();
+    // props.posts.content가 변경될 때마다 localPosts 상태 업데이트
+    if (props.posts && props.posts.content) {
+      setLocalPosts(transformData(props.posts.content));
     }
-  }, [inView]);
+  }, [props.posts]);
+
+
 
   return (
     <div className='timeline'>
       <div className='timeline_posts'>
-        {
-          posts.map((post, index) => {
-            return (
-              <Post
-              key={index}
-              user={post.user}
-              postImage={post.postImage}
-              likes={post.likes}
-              timestamp={post.timestamp}
-              ></Post>              
-            )
-          })
-        }
-        <Post ref={ref}></Post>
+        {localPosts.map((post, index) => (
+          <Post
+            key={index}
+            index={index}
+            user={post.user}
+            contents={post.contents}
+            postImage={post.postImage}
+            likeCnt={post.likeCnt}
+            disLikeCnt={post.disLikeCnt}
+            createDateTime={post.createDateTime}
+            hatecnt={post.hatecnt}
+            commentcnt={post.commentcnt}
+            avgPrice={post.avgPrice}
+            reaction={post.reaction}
+            recipeName={post.recipeName}
+            toggleLike={() => toggleLike(index)} // 이 함수도 기존에 정의되어 있어야 합니다.
+          />
+        ))}
       </div>
     </div>
   )
 }
+
+// function ImageSlider({ images }) {
+//   const settings = {
+//     dots: true,
+//     infinite: true,
+//     speed: 500,
+//     slidesToShow: 1,
+//     slidesToScroll: 1,
+//   };
+
+//   return (
+//     <Slider {...settings}>
+//       {images.map((image, index) => (
+//         <div key={index}>
+//           <img src={image} alt={`postImage-${index}`} />
+//         </div>
+//       ))}
+//     </Slider>
+//   );
+// }
 
 export default Timeline;
