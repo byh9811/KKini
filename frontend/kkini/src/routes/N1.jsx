@@ -23,10 +23,8 @@ function N1() {
   }, []);
 
   return (
-    <div className='homepage'>
-      <div className='homepage__timeline'>
-        <Timeline posts={posts} />
-      </div>
+    <div>
+      <Timeline posts={posts} />
     </div>
   );;
 }

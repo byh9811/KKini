@@ -1,23 +1,42 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-const FeedComponent = ({검색어, 카테고리, 분류}) => {
-  // const allFeeds = [모든 피드 데이터];
-  
-  // const filteredFeeds = allFeeds.filter(feed => feed.title.includes(검색어) && 
-  //   (카테고리 === "" || feed.category === 카테고리)
-  // );
+const FeedComponent = (props) => {
+  const { 검색어 } = props;
+  const [데이터, setData] = useState(null);
+
+  useEffect(() => {
+    axios.get('주소', {
+      params: {
+        search: 검색어
+      }
+    })
+      .then(response => {
+        setData(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, [검색어]);
 
   return (
     <div>
       {
-        분류 === 0 ? <div>피드 컴포넌트</div> : <div>레시피 컴포넌트</div>
+        데이터 ? (
+          <div>
+            <h2>검색 결과</h2>
+            <ul>
+              {데이터.map((item) => (
+                <div key={item.id}>{item.title}</div>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          <p>Loading...</p>
+        )
       }
-      <div>{카테고리}</div>
-      {/* {filteredFeeds.map(feed => (
-        <div key={feed.id}>{feed.title}</div>
-      ))} */}
     </div>
-  )
-}
+  );
+};
 
-export default FeedComponent
+export default FeedComponent;
