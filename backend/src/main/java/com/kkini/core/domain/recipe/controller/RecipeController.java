@@ -58,8 +58,8 @@ public class RecipeController {
             @Parameter(name = "pageable", description = "페이지네이션 정보")
     })
     @GetMapping("/mypage")
-    public Response<Page<RecipeListMypageResponseDto>> getRecipeList(@PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable, @AuthenticationPrincipal UserPrincipal userPrincipal) {
-        return OK(recipeQueryService.getMyRecipeList(userPrincipal.getId(), pageable));
+    public Response<Page<RecipeListMypageResponseDto>> getRecipeList(@PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
+        return OK(recipeQueryService.getMyRecipeList(1L, pageable));
     }
 
     @Operation(summary = "레시피 리스트 조회", description = "전체 레시피 리스트를 조회하는 API입니다.")
@@ -86,9 +86,8 @@ public class RecipeController {
     })
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public Response<Void> addRecipe(@RequestPart(value = "data") RecipeRegisterRequestDto recipeRegisterRequestDto,
-                                    @RequestPart(value = "file") MultipartFile recipeImageFile,
-                                    @AuthenticationPrincipal UserPrincipal userPrincipal) {
-        recipeService.saveRecipe(recipeRegisterRequestDto, recipeImageFile, userPrincipal.getId());
+                                    @RequestPart(value = "file") MultipartFile recipeImageFile) {
+        recipeService.saveRecipe(recipeRegisterRequestDto, recipeImageFile, 1L);
         return OK(null);
     }
 
@@ -97,8 +96,8 @@ public class RecipeController {
             @Parameter(name = "id", description = "레시피 ID")
     })
     @DeleteMapping("/{id}")
-    public Response<Void> removeRecipe(@PathVariable("id") Long recipeId, @AuthenticationPrincipal UserPrincipal userPrincipal) {
-        recipeService.removeRecipe(recipeId, userPrincipal.getId());
+    public Response<Void> removeRecipe(@PathVariable("id") Long recipeId) {
+        recipeService.removeRecipe(recipeId, 1L);
         return OK(null);
     }
 
