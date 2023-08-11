@@ -24,9 +24,8 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 public class ReactionServiceImpl implements ReactionService {
 
-    final Boolean LIKE = true;
-    final Boolean DISLIKE = false;
-    final Boolean NONE = null;
+    private final Boolean LIKE = true;
+    private final Boolean DISLIKE = false;
 
     private final ReactionRepository reactionRepository;
     private final MemberRepository memberRepository;
@@ -42,12 +41,16 @@ public class ReactionServiceImpl implements ReactionService {
         Member writer = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException(Reaction.class, memberId));
         Post post = postRepository.findById(dto.getPostId()).orElseThrow(() -> new NotFoundException(Post.class, dto.getPostId()));
         Reaction oldReaction = reactionRepository.findByMemberIdAndPostId(memberId, dto.getPostId());
-        Recipe recipe = recipeRepository.findById(post.getRecipe().getId()).orElseThrow(() -> new NotFoundException(Recipe.class, post.getRecipe().getId()));
+        Recipe recipe = null;
+
+        if(post.getRecipe() != null) {
+            recipe = recipeRepository.findById(post.getRecipe().getId()).orElseThrow(() -> new NotFoundException(Recipe.class, post.getRecipe().getId()));
+        }
 
         // 레시피가 존재하는 포스트만 가중치 적용
         if(recipe != null) { haveCategory = true; }
 
-        if(haveCategory) {
+        if(recipe != null && haveCategory) {
             // 사용자의 카테고리에 대한 가중치 불러오기 - 해당 포스트가 가지는 카테고리
             preference = preferenceRepository.findByCategoryIdAndMemberId(recipe.getCategory().getId(), memberId);
         }
@@ -80,6 +83,8 @@ public class ReactionServiceImpl implements ReactionService {
                 if(newReaction.getState() == DISLIKE) {
                     preference.decreaseWeightByLike();
                 }
+
+                preferenceRepository.save(preference);
             }
         }
 
@@ -126,6 +131,7 @@ public class ReactionServiceImpl implements ReactionService {
                         preference.increaseWeightByLike();
                     }
                 }
+
                 // LIKE -> DISLIKE, DISLIKE -> LIKE
                 else{
                     if (dto.getState() == LIKE) {
@@ -138,6 +144,8 @@ public class ReactionServiceImpl implements ReactionService {
                         preference.decreaseWeightByLike();
                     }
                 }
+
+                preferenceRepository.save(preference);
             }
         }
     }
