@@ -20,7 +20,7 @@ public class PostQueryServiceImpl implements PostQueryService {
     private final int FEED = 1;
     private final int MYPAGE = 2;
     private final int SEARCH = 3;
-    private final int ALGORITHM = 3;
+    private final int ALGORITHM = 4;
 
     private final PostQueryRepository postQueryRepository;
     private final PreferenceQueryRepository preferenceQueryRepository;

@@ -30,7 +30,7 @@ public class PostQueryRepository {
     private final int FEED = 1;
     private final int MYPAGE = 2;
     private final int SEARCH = 3;
-    private final int ALGORITHM = 3;
+    private final int ALGORITHM = 4;
 
     private final JPAQueryFactory jpaQueryFactory;
 
@@ -113,7 +113,8 @@ public class PostQueryRepository {
         }
 
         if(type == SEARCH) {
-            builder.or(post.contents.like(search));
+            System.out.println("!!!!!!!!!!!!!!" + search);
+            builder.or(post.contents.contains(search));
         }
 
         if(type == ALGORITHM) {

@@ -83,7 +83,7 @@ public class PostController {
     @GetMapping("/search")
     public Response<Page<PostListResponseDto>> getSearchPostList(
             @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable,
-            @RequestParam(value = "search") String search,
+            @RequestParam String search,
             @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
 //        return OK(postQueryService.getSearchPostList(pageable, userPrincipal.getId(), search));
