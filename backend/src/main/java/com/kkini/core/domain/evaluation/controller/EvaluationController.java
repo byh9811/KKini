@@ -31,8 +31,8 @@ public class EvaluationController {
     })
     @PostMapping
     public Response<Void> setEvaluation(
-            @RequestBody EvaluationRegisterRequestDto evaluationRegisterRequestDto,
-            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
+            @RequestBody EvaluationRegisterRequestDto evaluationRegisterRequestDto
+//            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
         evaluationService.saveEvaluation(evaluationRegisterRequestDto, 1L);
 

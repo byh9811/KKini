@@ -113,7 +113,6 @@ public class PostQueryRepository {
         }
 
         if(type == SEARCH) {
-            System.out.println("!!!!!!!!!!!!!!" + search);
             builder.or(post.contents.contains(search));
         }
 

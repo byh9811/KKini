@@ -31,10 +31,11 @@ public class ReactionController {
     })
     @PostMapping
     public Response<Void> modifyReaction(
-            @RequestBody ReactionRegisterRequestDto reactionRegisterRequestDto,
-            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
+            @RequestBody ReactionRegisterRequestDto reactionRegisterRequestDto
+//            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
-        reactionService.saveReaction(reactionRegisterRequestDto, userPrincipal.getId());
+//        reactionService.saveReaction(reactionRegisterRequestDto, userPrincipal.getId());
+        reactionService.saveReaction(reactionRegisterRequestDto, 1L);
 
         return OK(null);
     }
