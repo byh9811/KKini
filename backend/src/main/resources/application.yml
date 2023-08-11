@@ -6,9 +6,13 @@ spring:
       local:
         - db-local
         - log-local
+        - oauth2-local
+        - value-local
       dev:
         - db-dev
         - log-dev
+        - oauth2-dev
+        - value-dev
     include:
       - db
       - jwt
@@ -17,6 +21,7 @@ spring:
       - swagger
       - s3
       - oauth2
+      - value
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher

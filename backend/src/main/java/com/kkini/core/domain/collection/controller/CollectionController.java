@@ -2,6 +2,7 @@ package com.kkini.core.domain.collection.controller;
 
 import com.kkini.core.domain.collection.dto.response.CollectionListResponseDto;
 import com.kkini.core.domain.collection.service.CollectionQueryService;
+import com.kkini.core.domain.oauth2.UserPrincipal;
 import com.kkini.core.global.response.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -9,6 +10,7 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -30,8 +32,8 @@ public class CollectionController {
             @Parameter(name = "difficulty", description = "난이도 정보")
     })
     @GetMapping
-    public Response<List<CollectionListResponseDto>> getMyCollectionList(@RequestParam(required = false) Integer difficulty) {
-        return OK(collectionQueryService.getMyCollectionList(1L, difficulty));
+    public Response<List<CollectionListResponseDto>> getMyCollectionList(@RequestParam(required = false) Integer difficulty, @AuthenticationPrincipal UserPrincipal userPrincipal) {
+        return OK(collectionQueryService.getMyCollectionList(userPrincipal.getId(), difficulty));
     }
 
 }

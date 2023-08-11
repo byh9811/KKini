@@ -50,4 +50,16 @@ public class Member extends BaseEntityWithModifiedTime {
     public void updateRefreshToken(String token) {
         this.refreshToken = token;
     }
+
+    public void addStars(int cnt) {
+        this.stars += cnt;
+    }
+
+    public void loseStars(int cnt) {
+        this.stars -= cnt;
+    }
+
+    public void levelUp() {
+        this.level++;
+    }
 }
