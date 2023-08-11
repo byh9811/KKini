@@ -1,16 +1,12 @@
 package com.kkini.core.domain.mypage.repository;
 
 
-import com.kkini.core.domain.member.entity.Member;
 import com.kkini.core.domain.mypage.dto.response.MypageInfoResponseListDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-
 import static com.kkini.core.domain.member.entity.QMember.member;
 
 @Repository
@@ -27,20 +23,20 @@ public class MypageQueryRepository {
      * @param memberId (정보를 조회할 멤버 식별자)
      * @return 마이페이지 정보 리스트
      */
-    public List<MypageInfoResponseListDto> getMyPageInfo(Long memberId){
+    public MypageInfoResponseListDto getMyPageInfo(Long memberId){
 
         return jpaQueryFactory
                 .select(Projections.constructor(MypageInfoResponseListDto.class,
                         member.name,
                         member.nickname,
                         member.level,
-                        member.stars
+                        member.stars,
+                        member.image
                         ))
                 .from(member)
                 .where(
                         member.id.eq(memberId)
-                )
-                .fetch();
+                ).fetchFirst();
     }
 
     /**

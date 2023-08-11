@@ -20,4 +20,8 @@ public class MypageInfoResponseListDto {
 
     @Schema(name = "획득한 별")
     private int stars;
+    
+    @Schema(name = "프로필 이미지")
+    private String image;
+
 }

@@ -1,6 +1,7 @@
 package com.kkini.core.domain.mypage.service;
 
 
+import com.kkini.core.domain.follow.repository.FollowRepository;
 import com.kkini.core.domain.member.entity.Member;
 import com.kkini.core.domain.member.repository.MemberRepository;
 import com.kkini.core.domain.mypage.dto.response.MypageInfoResponseListDto;
@@ -24,9 +25,8 @@ public class MypageQueryServiceImpl implements MypageQueryService{
 
 
     @Override
-    public List<MypageInfoResponseListDto> getMypageInfo(Long memberId) {
+    public MypageInfoResponseListDto getMypageInfo(Long memberId) {
         memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException(Member.class, memberId));
-
         return mypageQueryRepository.getMyPageInfo(memberId);
     }
 
