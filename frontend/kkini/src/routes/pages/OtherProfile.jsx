@@ -1,10 +1,10 @@
 import React from 'react';
-import { ProfileUserDetails } from '../components/ProfileUserDetails';
-import ReqUserPostPart from '../components/ReqUserPostPart';
+import { ProfileUserDetails } from '../../components/mypage/ProfileUserDetails';
+import ReqUserPostPart from '../../components/mypage/ReqUserPostPart';
 
 
 //MY PAGE
-function N5() {
+function OtherProfile() {
   window.scrollTo(0, 0);
 
   return (
@@ -12,7 +12,7 @@ function N5() {
       {/* 프로필 */}
       <div className='w-full'>
         <div className=''>        
-          <ProfileUserDetails 내것 = {1}></ProfileUserDetails>
+          <ProfileUserDetails 내것 = {0}></ProfileUserDetails>
         </div>
         <div>
           <ReqUserPostPart></ReqUserPostPart>
@@ -22,4 +22,4 @@ function N5() {
   );
 }
 
-export default N5;
+export default OtherProfile;

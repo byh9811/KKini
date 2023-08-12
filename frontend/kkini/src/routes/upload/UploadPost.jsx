@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './Upload.css'
+import '../../css/Upload.css'
 
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import axios from 'axios';
@@ -90,7 +90,6 @@ function UploadPost() {
 
       axios.get('http://localhost:8080/api/recipe')
       .then((response) => {
-        console.log(response)
         setData(response.data.response)
       })
       .catch((error) => {

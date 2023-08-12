@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
-import RecommendedFeed from '../components/RecommendedFeed';
-import FeedComponent from '../components/FeedComponent';
-import AccountComponent from '../components/AccountComponent';
+import RecommendedFeed from '../../components/search/RecommendedFeed';
+import FeedComponent from '../../components/search/FeedComponent';
+import AccountComponent from '../../components/search/AccountComponent';
 
 const N2 = () => {
   let [탭, 탭변경] = useState(0);

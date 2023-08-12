@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 
-import UploadPost from './UploadPost.jsx'
-import UploadRecipes from './UploadRecipes.jsx'
+import UploadPost from '../upload/UploadPost'
+import UploadRecipes from '../upload/UploadRecipes.jsx'
 
 function N3() {
   window.scrollTo(0, 0);
@@ -10,7 +10,7 @@ function N3() {
   let [tab, setTab] = useState(0)
 
   return (
-    <div>
+    <div style={{height: 'calc(var(--vh, 1vh) * 100)'}}>
       <Navbar className="justify-content-center">
         <Container>
           <Nav className="mx-auto" defaultActiveKey="link-0">

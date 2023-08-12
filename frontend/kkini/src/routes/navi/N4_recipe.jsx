@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
-import FeedComponent from '../components/FeedComponent';
+import FeedComponent from '../../components/search/FeedComponent';
 
-import Search from '../components/Search';
-import ReqUserPostCard from '../components/ReqUserPostCard'
+import Search from '../../components/search/Search';
+import ReqUserPostCard from '../../components/mypage/ReqUserPostCard'
 
 const N4 = () => {
   window.scrollTo(0, 0);
@@ -33,7 +33,7 @@ const N4 = () => {
       <div>
         {검색어.trim() !== "" ? <FeedComponent 검색어={검색어} 카테고리={카테고리} 분류={1}/> : null}
         <div className='flex flex-wrap'>
-            {[1, 1, 1, 1, 1, 1].map((item)=><ReqUserPostCard></ReqUserPostCard>)}
+            {[1, 1, 1, 1, 1, 1].map((item, index)=><ReqUserPostCard key={index}></ReqUserPostCard>)}
         </div>
       </div>
     </div>

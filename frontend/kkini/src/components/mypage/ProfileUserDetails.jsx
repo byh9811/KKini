@@ -42,6 +42,9 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = 0 }) => {
         .catch((error) => {
           console.error("Error fetching posts:", error);
         });
+
+        
+        
     }
   }, []);
 
@@ -103,7 +106,6 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = 0 }) => {
   // };
 
   const [show, setShow] = useState(false);
-
   const handleShow = () => setShow(true);
   const handleClose = () => {
     setShow(false);
@@ -177,7 +179,6 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = 0 }) => {
                     <Button variant="primary" onClick={handleSave}>금액 평가 완료</Button>
                 </Modal.Footer>
             </Modal>
-      
     </div>
   );
 };
