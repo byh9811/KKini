@@ -67,11 +67,11 @@ public class ScrapController {
 
         Page<ScrapListResponseDto> list = null;
         if (memberId.equals("mypage")){
-            scrapQueryService.getScrapList(userPrincipal.getId(), pageable);
+            list = scrapQueryService.getScrapList(userPrincipal.getId(), pageable);
         } else{
-            scrapQueryService.getScrapList(Long.parseLong(memberId), pageable);
+            list = scrapQueryService.getScrapList(Long.parseLong(memberId), pageable);
         }
-
+        log.debug("조회한 리스트 : {}", list);
         return OK(list);
     }
 
