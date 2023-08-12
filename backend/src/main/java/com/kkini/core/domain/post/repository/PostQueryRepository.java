@@ -63,7 +63,7 @@ public class PostQueryRepository {
                 .leftJoin(reaction).on(post.id.eq(reaction.post.id).and(post.member.id.eq(reaction.member.id)))
                 .leftJoin(scrap).on(post.id.eq(scrap.post.id).and(post.member.id.eq(scrap.member.id)))
                 .where(searchCondition(memberId, followList, type, search, categoryId))
-                .orderBy(postSort(pageable))
+                .orderBy(postSort(pageable, type))
                 .fetch();
 
         for(int i=0; i<postList.size(); i++) {
@@ -98,17 +98,14 @@ public class PostQueryRepository {
         BooleanBuilder builder = new BooleanBuilder();
 
         if(type == FEED) {
-            // 자신이 작성한 포스트를 가져온다.
             builder.or(post.member.id.eq(memberId));
 
-            // 팔로워 목록이 존재할때 팔로워가 작성한 포스트도 가져온다.
             if(followList != null && !followList.isEmpty()) {
                 builder.or(post.member.id.in(followList));
             }
         }
 
         if(type == MYPAGE) {
-            // 자신이 작성한 포스트를 가져온다.
             builder.or(post.member.id.eq(memberId));
         }
 
@@ -123,7 +120,7 @@ public class PostQueryRepository {
         return builder;
     }
 
-    private OrderSpecifier<?> postSort(Pageable page) {
+    private OrderSpecifier<?> postSort(Pageable page, int type) {
         if (!page.getSort().isEmpty()) {
             for (Sort.Order order : page.getSort()) {
                 Order direction = order.getDirection().isAscending() ? Order.ASC : Order.DESC;

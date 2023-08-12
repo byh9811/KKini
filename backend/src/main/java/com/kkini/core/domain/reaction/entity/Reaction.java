@@ -30,7 +30,6 @@ public class Reaction extends BaseEntity {
 
     private Boolean state;
 
-    // 평가 변경
     public void setState(Boolean state) { this.state = state; }
 
 }
