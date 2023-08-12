@@ -38,6 +38,7 @@ public class ScrapController {
     public Response<Void> addScrap(@PathVariable Long postId, @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal) {
         log.debug("## 스크랩을 추가합니다.");
         log.debug("추가할 포스트 식별자 : {}", postId);
+
         AddScrapRequestDto addScrapRequestDto = new AddScrapRequestDto();
         addScrapRequestDto.setMemberId(userPrincipal.getId());
         addScrapRequestDto.setPostId(postId);
@@ -59,21 +60,34 @@ public class ScrapController {
 
     @Operation(summary = "스크랩 리스트", description = "회원(memberId)의 스크랩 리스트를 응답합니다.")
     @Parameter(name = "memberId", description = "조회를 원하는 회원 식별자")
-    @GetMapping("/list")
-    public Response<Page<ScrapListResponseDto>> scrapList(@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal, @PageableDefault(size = 20) Pageable pageable) {
+    @GetMapping("/list/{memberId}")
+    public Response<Page<ScrapListResponseDto>> scrapList(@PathVariable String memberId,@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal, @PageableDefault(size = 20) Pageable pageable) {
         log.debug("## 스크랩 리스트를 조회합니다.");
-        log.debug("조회할 멤버 식별자 : {}",userPrincipal.getId());
-        Page<ScrapListResponseDto> list = scrapQueryService.getScrapList(userPrincipal.getId(), pageable);
+        log.debug("조회할 멤버 식별자 : {}", memberId);
+
+        Page<ScrapListResponseDto> list = null;
+        if (memberId.equals("mypage")){
+            scrapQueryService.getScrapList(userPrincipal.getId(), pageable);
+        } else{
+            scrapQueryService.getScrapList(Long.parseLong(memberId), pageable);
+        }
 
         return OK(list);
     }
 
     @Operation(summary = "스크랩 개수 조회", description = "스크랩 개수를 조회합니다.")
-    @GetMapping("/count")
-    public Response<Integer> countScrapList(@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal){
+    @GetMapping("/count/{memberId}")
+    public Response<Integer> countScrapList(@PathVariable String memberId, @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal){
         log.debug("## 스크랩 개수를 조회합니다.");
-        log.debug("조회할 멤버 식별자 : {}", userPrincipal.getId());
-        int count = scrapService.countScrapList(userPrincipal.getId());
+        log.debug("조회할 멤버 식별자 : {}", memberId);
+
+        int count = 0;
+        if (memberId.equals("mypage")){
+            count = scrapService.countScrapList(userPrincipal.getId());
+        } else {
+            count = scrapService.countScrapList(Long.parseLong(memberId));
+        }
+
         return OK(count);
     }
 
