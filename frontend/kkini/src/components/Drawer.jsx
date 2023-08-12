@@ -57,7 +57,11 @@ const Drawer = ({ isOpen, onClose, postId }) => {
   return (
     <DrawerContainer isOpen={isOpen} ref={ref}>
       <button onClick={onClose}>닫기</button>
-      <CommentsPage postId={postId} /> {/* postId를 CommentsPage로 전달 */}
+      <CommentsPage 
+  postId={postId} 
+  comments={comments}
+  onCommentsChange={fetchComments}  // 이 부분이 정확한지 확인
+/>
     </DrawerContainer>
   );
 };

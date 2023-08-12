@@ -24,7 +24,7 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
     const [isBookmarked, setIsBookmarked] = useState(false);
     const [likeCnt, setLikeCnt] = useState(initialLikeCnt); 
     const [disLikeCnt, setdisLikeCnt] = useState(initialdisLikeCnt);
-    console.log(postId)  /// 웅서형작
+    console.log(postId)  
     const handleIconClick = (type) => {
         
         // 좋아요 아이콘을 위한 로직
