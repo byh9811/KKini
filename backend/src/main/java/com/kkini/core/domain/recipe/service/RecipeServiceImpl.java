@@ -63,6 +63,7 @@ public class RecipeServiceImpl implements RecipeService {
                 .name(dto.getName())
                 .time(dto.getTime())
                 .difficulty(0)      // 사용 안하게 된 필드 0
+                .deleted(false)
                 .image(recipe)
                 .ingredient(dto.getIngredient())
                 .steps(dto.getSteps())
