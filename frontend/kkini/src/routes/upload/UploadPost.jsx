@@ -61,7 +61,7 @@ function UploadPost() {
       }
 
       // 문자열
-      formData.append('data', new Blob([JSON.stringify(jsonData)], {
+      formData.append('post', new Blob([JSON.stringify(jsonData)], {
         type: "application/json"
       }));
 
@@ -90,7 +90,7 @@ function UploadPost() {
 
       axios.get('http://localhost:8080/api/recipe')
       .then((response) => {
-        console.log(response.data.response)
+        console.log(response)
         setData(response.data.response)
       })
       .catch((error) => {
@@ -145,7 +145,7 @@ function UploadPost() {
           options={data}
           sx={{ width: 300 }}
           value={data.find(item => item.recipeId === selectedRecipeId) || null}
-          getOptionLabel={(option) => option.label}
+          getOptionLabel={(option) => option.label} // 이 부분을 수정함
           renderInput={(params) => (
             <TextField
               {...params}
