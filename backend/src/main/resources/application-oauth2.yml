@@ -34,7 +34,7 @@ spring:
             redirect-uri: http://localhost:8080/api/oauth2/callback/naver
 app:
   oauth2:
-    authorized-redirect-uris: http://localhost:3000
+    authorized-redirect-uris: http://localhost:3000/redirect
 
 
 --- # dev 설정
@@ -50,4 +50,4 @@ spring:
             redirect-uri: https://i9c210.p.ssafy.io/api/oauth2/callback/naver
 app:
   oauth2:
-    authorized-redirect-uris: https://i9c210.p.ssafy.io/
+    authorized-redirect-uris: https://i9c210.p.ssafy.io/redirect
