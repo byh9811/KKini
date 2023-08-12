@@ -42,6 +42,7 @@ useEffect(() => {
         }
 
         try {
+          // console.log(data)
           // setComment(data.contents)
           console.log(comment)
 
@@ -64,10 +65,13 @@ useEffect(() => {
     }
   }, [submitTrigger]);
   
+  
   const handleCommentSubmit = (e) => {
     e.preventDefault();
   
     if (!effectivePostId) {
+      // console.log(postId)
+      // console.log(comment)
       // console.log('postId is not received')
 
       return;
@@ -110,11 +114,13 @@ useEffect(() => {
     <CommentsContainer>
       
       <CommentsList>
+        {/* {data.contents} */}
         {comments.map((item, index) => (
           <Comment key={index}>
             <CommentContent>
               <Avatar />
-              {item.text}              
+              {item.text}
+              
             </CommentContent>
             <button onClick={() => handleReplyClick(index)}>답글 달기</button>
             <button onClick={() => handleEditClick(index)}>수정</button>

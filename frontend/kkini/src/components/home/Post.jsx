@@ -126,6 +126,7 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
                     <PostIcon>
                         <ChatBubbleOutlineRoundedIcon onClick={() =>{ 
                             setIsDrawerOpen(true);
+                            
                         axios.get(`/comment/${postId}`).then(res=> setComments(res.data.response))
                         .catch(err=> console.log("err:" , err))
                         }} />
@@ -134,7 +135,7 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
                 </div>
                 <div className='post__iconSave'>
                     <PostIcon onClick={handleShow}>
-                        <LocalAtmRoundedIcon />
+                        <LocalAtmRoundedIcon />     {/* 이게 금액평가 아이콘 */}
                         <div><CountText>{avgPrice}</CountText></div>
                     </PostIcon>
                     <PostIcon>
@@ -171,6 +172,7 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
                     <Button variant="primary" onClick={handleSave}>금액 평가 완료</Button>
                 </Modal.Footer>
             </Modal>
+            {/* 여기서 하면됨 */}
         </PostContainer>
     );
 });
