@@ -68,28 +68,28 @@ public class PostQueryRepository {
                 .orderBy(postSort(pageable, type))
                 .fetch();
 
-        for(int i=0; i<postList.size(); i++) {
+        for (PostListResponseDto postListResponseDto : postList) {
             List<String> imageList = jpaQueryFactory
                     .select(postImage.image)
                     .from(postImage)
-                    .where(postImage.post.id.eq(postList.get(i).getId()))
+                    .where(postImage.post.id.eq(postListResponseDto.getId()))
                     .fetch();
 
             List<Long> imageIndexList = jpaQueryFactory
                     .select(postImage.id)
                     .from(postImage)
-                    .where(postImage.post.id.eq(postList.get(i).getId()))
+                    .where(postImage.post.id.eq(postListResponseDto.getId()))
                     .fetch();
 
             Long commentCnt = jpaQueryFactory
                     .select(comment.count())
                     .from(comment)
-                    .where(comment.post.id.eq(postList.get(i).getId()))
+                    .where(comment.post.id.eq(postListResponseDto.getId()))
                     .fetchFirst();
 
-            postList.get(i).setImageList(imageList);
-            postList.get(i).setImageIndexList(imageIndexList);
-            postList.get(i).setCommentCnt(commentCnt.intValue());
+            postListResponseDto.setImageList(imageList);
+            postListResponseDto.setImageIndexList(imageIndexList);
+            postListResponseDto.setCommentCnt(commentCnt.intValue());
         }
 
         long count = jpaQueryFactory
