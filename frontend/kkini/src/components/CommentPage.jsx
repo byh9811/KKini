@@ -1,40 +1,77 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Avatar } from '@mui/material';
+import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 
-function CommentsPage() {
-  const [comments, setComments] = useState([]);
+function CommentsPage({ comments = [], onCommentsChange, postId }) {
   const [comment, setComment] = useState('');
   const [replyToIndex, setReplyToIndex] = useState(null);
   const [editIndex, setEditIndex] = useState(null);
+  const [submitTrigger, setSubmitTrigger] = useState(false);
+  const location = useLocation();
+  // const postId = location.state?.postId;
+  const locationPostId = location.state?.postId;
 
-  const handleCommentChange = (e) => {
-    setComment(e.target.value);
-  };
+  useEffect(() => {
+    console.log("Current postId:", postId);
+    if (!locationPostId) {
+      console.error("postId is not defined.");
+      return;
+    }
+
+    if (submitTrigger) {
+      const submitComment = async () => {
+        let data = {
+          postId,
+          contents: comment
+        };
+
+        let endpoint;
+        let method;
+
+        if (editIndex !== null) {
+          endpoint = `http://localhost:8080/api/comment/update/${editIndex}`;
+          method = 'PUT';
+        } else {
+          endpoint = `http://localhost:8080/api/comment/`;
+          method = 'POST';
+          if (replyToIndex !== null) {
+            data.parentsId = replyToIndex;
+          }
+        }
+
+        try {
+          console.log(data)
+          const response = await axios({ method, url: endpoint, data });
+          if (response.data.success) {
+            onCommentsChange(response.data.response);
+          }
+        } catch (error) {
+          console.error("Error posting comment:", error.response ? error.response.data : error.message);
+        }
+      };
+
+      submitComment();
+      setComment('');
+      setEditIndex(null);
+      setReplyToIndex(null);
+      setSubmitTrigger(false);
+    }
+  }, [submitTrigger]);
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
-    if (editIndex !== null) {
-      const newComments = [...comments];
-      if (replyToIndex !== null) {
-        newComments[replyToIndex].replies[editIndex] = comment;
-      } else {
-        newComments[editIndex].text = comment;
-      }
-      setComments(newComments);
-      setEditIndex(null);
-      setReplyToIndex(null);
-    } else {
-      if (replyToIndex !== null) {
-        const newComments = [...comments];
-        newComments[replyToIndex].replies.push(comment);
-        setComments(newComments);
-      } else {
-        setComments([...comments, { text: comment, replies: [] }]);
-      }
+  
+    if (!postId) {
+      console.log('postid 안받아옴')
+      return;
     }
-    setComment('');
+  
+    setSubmitTrigger(true);
   };
+
+  const handleCommentChange = (e) => setComment(e.target.value);
 
   const handleEditClick = (commentIndex, replyIndex = null) => {
     setEditIndex(commentIndex);
@@ -43,17 +80,14 @@ function CommentsPage() {
     setComment(targetCommentText);
   };
 
-  const handleDeleteClick = (commentIndex, replyIndex = null) => {
-    const newComments = [...comments];
-    if (replyIndex !== null) {
-      newComments[replyIndex].replies.splice(commentIndex, 1);
-    } else {
-      newComments.splice(commentIndex, 1);
-    }
-    setComments(newComments);
-    if (replyToIndex === commentIndex) {
-      setReplyToIndex(null);
-    }
+  const handleDeleteClick = async (commentIndex) => {
+    try {
+      const response = await axios.delete(`http://localhost:8080/api/comment/delete/${commentIndex}`);
+      if (response.data.success) {
+        console.log('삭제들어가나?')
+        onCommentsChange(response.data.response);
+      }
+    } catch (error) {}
   };
 
   const handleReplyClick = (index) => {
@@ -68,6 +102,7 @@ function CommentsPage() {
 
   return (
     <CommentsContainer>
+      
       <CommentsList>
         {comments.map((item, index) => (
           <Comment key={index}>
@@ -78,7 +113,7 @@ function CommentsPage() {
             <button onClick={() => handleReplyClick(index)}>답글 달기</button>
             <button onClick={() => handleEditClick(index)}>수정</button>
             <button onClick={() => handleDeleteClick(index)}>삭제</button>
-            {item.replies.map((reply, replyIndex) => (
+            {item.replies && item.replies.map((reply, replyIndex) => (
               <Reply key={replyIndex}>
                 <CommentContent>
                   <Avatar />
@@ -129,10 +164,6 @@ const CommentContent = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 10px;
-
-  > Avatar {
-    margin-right: 10px;
-  }
 `;
 
 const Reply = styled.div`
@@ -161,9 +192,6 @@ const CommentButton = styled.button`
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  &:hover {
-    background-color: #0056b3;
-  }
 `;
 
 export default CommentsPage;
