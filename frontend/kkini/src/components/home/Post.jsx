@@ -24,6 +24,7 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
     const [likeCnt, setLikeCnt] = useState(initialLikeCnt); 
     const [disLikeCnt, setdisLikeCnt] = useState(initialdisLikeCnt);
     const [comments, setComments] = useState([]);
+
     const handleIconClick = (type) => {
         let newReaction = null;
     
