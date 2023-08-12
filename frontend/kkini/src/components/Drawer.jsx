@@ -1,6 +1,8 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import CommentsPage from './CommentPage';
+
 
 const DrawerContainer = styled.div`
   position: fixed;
@@ -17,8 +19,10 @@ const DrawerContainer = styled.div`
   border-radius: 10px;
 `;
 
-const Drawer = ({ isOpen, onClose }) => {
+const Drawer = ({ isOpen, onClose, postId }) => {
   const ref = useRef();
+  console.log(postId)
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -33,10 +37,27 @@ const Drawer = ({ isOpen, onClose }) => {
     };
   }, [onClose]);
 
+  const fetchComments = async () => {
+    if (!postId) return;
+    try {
+      const response = await axios.get(`http://localhost:8080/api/comments?postId=${postId}`);
+      if (response.data.success) {
+        setComments(response.data.comments); // 예상 응답 구조에 따라 수정 필요
+      }
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  };
+
+  // Drawer가 열리거나 postId가 변경되었을 때 댓글을 조회합니다.
+  useEffect(() => {
+    fetchComments();
+  }, [isOpen, postId]);
+
   return (
     <DrawerContainer isOpen={isOpen} ref={ref}>
       <button onClick={onClose}>닫기</button>
-      <CommentsPage />
+      <CommentsPage postId={postId} /> {/* postId를 CommentsPage로 전달 */}
     </DrawerContainer>
   );
 };

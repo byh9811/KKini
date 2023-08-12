@@ -10,10 +10,11 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Drawer from './Drawer';
+import axios from 'axios';
 // import ImageSlider from './ImageSlider.jsx';  // 여기서 'path_to_imageslider.jsx'는 실제 ImageSlider 컴포넌트가 있는 경로로 대체해야 합니다.
 
 
-const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: initialLikeCnt, contents, disLikeCnt: initialdisLikeCnt, commentcnt, avgPrice, recipeName }, ref) => {
+const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: initialLikeCnt, contents, disLikeCnt: initialdisLikeCnt, commentcnt, avgPrice, recipeName, postId }, ref) => {
     const [show, setShow] = useState(false);
     const [amount, setAmount] = useState('');
     const [amounts, setAmounts] = useState([]);
@@ -23,8 +24,9 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
     const [isBookmarked, setIsBookmarked] = useState(false);
     const [likeCnt, setLikeCnt] = useState(initialLikeCnt); 
     const [disLikeCnt, setdisLikeCnt] = useState(initialdisLikeCnt);
-
+    console.log(postId)  /// 웅서형작
     const handleIconClick = (type) => {
+        
         // 좋아요 아이콘을 위한 로직
         if (type === 'like') {
             if (reaction === true) {
@@ -82,7 +84,7 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
 
     return (
         <PostContainer ref={ref}>
-            <Drawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
+            <Drawer isOpen={isDrawerOpen} postId={postId} onClose={() => setIsDrawerOpen(false)} />
             <PostHeader>
                 <PostHeaderAuthor>
                     <Avatar className='m-2'/>
@@ -96,9 +98,6 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
             <PostImage>
                 <img src={postImage} alt="" />
             </PostImage>
-            {/* <PostImage>
-    <ImageSlider images={Array.isArray(postImage) ? postImage : [postImage]} />
-</PostImage> */}
 
             <PostFooterIcons>
                 <div className='post__iconsMain'>
@@ -115,7 +114,10 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
 />
                     </PostIcon>
                     <PostIcon>
-                        <ChatBubbleOutlineRoundedIcon onClick={() => setIsDrawerOpen(true)} />
+                        <ChatBubbleOutlineRoundedIcon onClick={() =>{ setIsDrawerOpen(true);
+                        //여기서 겟요청 뿌려주기
+                        
+                        }} />
                     </PostIcon>
                     <div><CountText><b>{likeCnt}</b>좋아요  <b>{disLikeCnt}</b>싫어요  <b>{commentcnt}</b>개의 댓글</CountText></div>
                 </div>

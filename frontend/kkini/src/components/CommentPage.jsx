@@ -11,11 +11,11 @@ function CommentsPage({ comments = [], onCommentsChange, postId }) {
   const [submitTrigger, setSubmitTrigger] = useState(false);
   const location = useLocation();
   // const postId = location.state?.postId;
-  const locationPostId = location.state?.postId;
+  const effectivePostId = postId || location.state?.postId;
 
-  useEffect(() => {
-    console.log("Current postId:", postId);
-    if (!locationPostId) {
+useEffect(() => {
+    // console.log("Current effectivePostId:", effectivePostId);
+    if (!effectivePostId) {
       console.error("postId is not defined.");
       return;
     }
@@ -34,7 +34,7 @@ function CommentsPage({ comments = [], onCommentsChange, postId }) {
           endpoint = `http://localhost:8080/api/comment/update/${editIndex}`;
           method = 'PUT';
         } else {
-          endpoint = `http://localhost:8080/api/comment/`;
+          endpoint = `http://localhost:8080/api/comment/`;//등록
           method = 'POST';
           if (replyToIndex !== null) {
             data.parentsId = replyToIndex;
@@ -42,9 +42,14 @@ function CommentsPage({ comments = [], onCommentsChange, postId }) {
         }
 
         try {
-          console.log(data)
+          // console.log(data)
+          // setComment(data.contents)
+          console.log(comment)
+
+
           const response = await axios({ method, url: endpoint, data });
           if (response.data.success) {
+            
             onCommentsChange(response.data.response);
           }
         } catch (error) {
@@ -59,13 +64,18 @@ function CommentsPage({ comments = [], onCommentsChange, postId }) {
       setSubmitTrigger(false);
     }
   }, [submitTrigger]);
-
+  
+  
   const handleCommentSubmit = (e) => {
     e.preventDefault();
   
-    if (!postId) {
-      console.log('postid 안받아옴')
+    if (!effectivePostId) {
+      // console.log(postId)
+      // console.log(comment)
+      // console.log('postId is not received')
+
       return;
+      
     }
   
     setSubmitTrigger(true);
@@ -82,7 +92,7 @@ function CommentsPage({ comments = [], onCommentsChange, postId }) {
 
   const handleDeleteClick = async (commentIndex) => {
     try {
-      const response = await axios.delete(`http://localhost:8080/api/comment/delete/${commentIndex}`);
+      const response = await axios.delete(`http://localhost:8080/api/comment/delete/${commentIndex}`);//삭제
       if (response.data.success) {
         console.log('삭제들어가나?')
         onCommentsChange(response.data.response);
@@ -104,11 +114,13 @@ function CommentsPage({ comments = [], onCommentsChange, postId }) {
     <CommentsContainer>
       
       <CommentsList>
+        {/* {data.contents} */}
         {comments.map((item, index) => (
           <Comment key={index}>
             <CommentContent>
               <Avatar />
               {item.text}
+              
             </CommentContent>
             <button onClick={() => handleReplyClick(index)}>답글 달기</button>
             <button onClick={() => handleEditClick(index)}>수정</button>
@@ -192,6 +204,13 @@ const CommentButton = styled.button`
   border: none;
   border-radius: 5px;
   cursor: pointer;
+`;
+
+const CurrentComment = styled.div`
+  margin: 20px 0;
+  padding: 10px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
 `;
 
 export default CommentsPage;
