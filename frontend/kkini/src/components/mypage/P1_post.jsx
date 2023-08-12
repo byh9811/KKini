@@ -10,7 +10,7 @@ function P1() {
             포스트!
         </div>
         <div className='flex flex-wrap'>
-            {[1, 1, 1, 1, 1, 1].map((item)=><ReqUserPostCard></ReqUserPostCard>)}
+            {[1, 1, 1, 1, 1, 1].map((item, index)=><ReqUserPostCard key={index}></ReqUserPostCard>)}
         </div>
     </div>
   );

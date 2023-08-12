@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import "./Upload.css";
+import "../../css/Upload.css";
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';

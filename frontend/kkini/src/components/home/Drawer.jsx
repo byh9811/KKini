@@ -31,10 +31,10 @@ const Drawer = ({ isOpen, onClose }) => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [onClose]);
+  }, [onClose]); 
 
   return (
-    <DrawerContainer isOpen={isOpen} ref={ref}>
+    <DrawerContainer ref={ref} isOpen={isOpen}>
       <button onClick={onClose}>닫기</button>
       <CommentsPage />
     </DrawerContainer>
