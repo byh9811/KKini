@@ -6,34 +6,30 @@ const AccountComponent = (props) => {
   const [데이터, setData] = useState(null);
 
   useEffect(() => {
-    axios.get('주소', {
-      params: {
-        search: 검색어
-      }
+    axios.get(`http://localhost:8080/api/member/search/${검색어}?page=0&size=10&sort=string`)
+    .then(response => {
+      setData(response.data.response.content);
     })
-      .then(response => {
-        setData(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
   }, [검색어]);
 
   return (
     <div>
       {
-        데이터 ? (
-          <div>
-            <h2>검색 결과</h2>
-            <ul>
-              {데이터.map((item) => (
-                <div key={item.id}>{item.title}</div>
-              ))}
-            </ul>
+        데이터
+        ? <div>
+            {
+              데이터.map((item) => 
+                <div key={item.id}>
+                  <img src={item.image} alt={`Image ${item.memberId}`} />
+                  {item.nickname}
+                </div>
+              )
+            }
           </div>
-        ) : (
-          <p>Loading...</p>
-        )
+        : null
       }
     </div>
   );

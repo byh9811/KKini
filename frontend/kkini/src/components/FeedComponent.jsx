@@ -6,13 +6,17 @@ const FeedComponent = (props) => {
   const [데이터, setData] = useState(null);
 
   useEffect(() => {
-    axios.get('주소', {
+    // 무한 스크롤 적용하고 페이지 정보 업데이트하기
+    axios.get('http://localhost:8080/api/post/search', {
       params: {
-        search: 검색어
+        search: 검색어,
+        page: 0,
+        size: 5,
       }
     })
       .then(response => {
-        setData(response.data);
+        console.log(response.data.response.content)
+        setData(response.data.response.content);
       })
       .catch(error => {
         console.error('Error fetching data:', error);
@@ -22,18 +26,16 @@ const FeedComponent = (props) => {
   return (
     <div>
       {
-        데이터 ? (
-          <div>
-            <h2>검색 결과</h2>
-            <ul>
-              {데이터.map((item) => (
-                <div key={item.id}>{item.title}</div>
-              ))}
-            </ul>
+        데이터
+        ? <div>
+            {
+              데이터.map((item) =>
+                <div key={item.id}>
+                  <img src={item.imageList[0]} alt={`Image ${item.id}`} />
+                </div>)
+            }
           </div>
-        ) : (
-          <p>Loading...</p>
-        )
+        : null
       }
     </div>
   );
