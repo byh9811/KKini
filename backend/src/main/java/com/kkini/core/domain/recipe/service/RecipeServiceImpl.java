@@ -28,7 +28,7 @@ public class RecipeServiceImpl implements RecipeService {
     private final RecipeRepository recipeRepository;
     private final MemberRepository memberRepository;
     private final CategoryRepository categoryRepository;
-//    private final LevelUpUtil levelUpUtil;
+    private final LevelUpUtil levelUpUtil;
     private final S3Util s3Util;
 
     @Override
