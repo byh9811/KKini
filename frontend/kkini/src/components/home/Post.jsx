@@ -10,9 +10,10 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Drawer from './Drawer';
+import axios from 'axios';
 // import ImageSlider from './ImageSlider.jsx';  // 여기서 'path_to_imageslider.jsx'는 실제 ImageSlider 컴포넌트가 있는 경로로 대체해야 합니다.
 
-const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: initialLikeCnt, contents, disLikeCnt: initialdisLikeCnt, commentcnt, avgPrice, recipeName }, ref) => {
+const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: initialLikeCnt, contents, disLikeCnt: initialdisLikeCnt, commentcnt, avgPrice, recipeName, postId }, ref) => {
     const [show, setShow] = useState(false);
     const [amount, setAmount] = useState('');
     const [amounts, setAmounts] = useState([]);
@@ -22,41 +23,55 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
     const [isBookmarked, setIsBookmarked] = useState(false);
     const [likeCnt, setLikeCnt] = useState(initialLikeCnt); 
     const [disLikeCnt, setdisLikeCnt] = useState(initialdisLikeCnt);
-
+    const [comments, setComments] = useState([]);
     const handleIconClick = (type) => {
+        let newReaction = null;
+    
         // 좋아요 아이콘을 위한 로직
         if (type === 'like') {
-            if (reaction === true) {
-                // 이미 좋아요가 눌러져 있을 때 좋아요 아이콘을 다시 누르면 좋아요 개수 -1
-                setLikeCnt(prevLikeCnt => prevLikeCnt - 1);
-                setReaction(null);
-            } else {
-                // 좋아요가 안 눌러져 있을 때 좋아요 아이콘을 누르면 좋아요 개수 +1
-                // 만약 이전에 싫어요가 눌러져 있었다면 싫어요 개수 -1
-                setLikeCnt(prevLikeCnt => prevLikeCnt + 1);
-                if (reaction === false) {
-                    setdisLikeCnt(prevDislikeCnt => prevDislikeCnt - 1);
-                }
-                setReaction(true);
-            }
+            newReaction = reaction === true ? null : true;
         }
         // 싫어요 아이콘을 위한 로직
         else if (type === 'dislike') {
-            if (reaction === false) {
-                // 이미 싫어요가 눌러져 있을 때 싫어요 아이콘을 다시 누르면 싫어요 개수 -1
-                setdisLikeCnt(prevDislikeCnt => prevDislikeCnt - 1);
-                setReaction(null);
-            } else {
-                // 싫어요가 안 눌러져 있을 때 싫어요 아이콘을 누르면 싫어요 개수 +1
-                // 만약 이전에 좋아요가 눌러져 있었다면 좋아요 개수 -1
-                setdisLikeCnt(prevDislikeCnt => prevDislikeCnt + 1);
-                if (reaction === true) {
+            newReaction = reaction === false ? null : false;
+        }
+    
+        // 서버에 PUT 요청을 보내 상태 변경을 저장
+        axios.put(`/reaction/${postId}`, {
+            postId: postId,
+            reaction: newReaction
+        })
+        .then((response) => {
+            // 성공적으로 응답받았을 때의 처리 로직
+            console.log('반응들감')
+            if(newReaction === true) {
+                setLikeCnt(prevLikeCnt => prevLikeCnt + (reaction === false ? 0 : 1));
+                if(reaction === false) {
+                    setdisLikeCnt(prevDislikeCnt => prevDislikeCnt - 1);
+                }
+            } else if(newReaction === false) {
+                setdisLikeCnt(prevDislikeCnt => prevDislikeCnt + (reaction === true ? 0 : 1));
+                if(reaction === true) {
                     setLikeCnt(prevLikeCnt => prevLikeCnt - 1);
                 }
-                setReaction(false);
+            } else {
+                if(reaction === true) {
+                    setLikeCnt(prevLikeCnt => prevLikeCnt - 1);
+                } else if(reaction === false) {
+                    setdisLikeCnt(prevDislikeCnt => prevDislikeCnt - 1);
+                }
             }
-        }
+    
+            setReaction(newReaction);
+        })
+        .catch((error) => {
+            // 에러가 발생했을 때의 처리 로직
+            console.error('There was an error sending the PUT request:', error);
+        });
     }
+    
+
+
 
     const handleClose = () => {
         setShow(false);
@@ -78,7 +93,7 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
 
     return (
         <PostContainer ref={ref}>
-            <Drawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
+            <Drawer isOpen={isDrawerOpen} postId={postId} onClose={() => {setIsDrawerOpen(false)}} comments={comments} />
             <PostHeader>
                 <PostHeaderAuthor>
                     <Avatar className='m-2'/>
@@ -92,9 +107,6 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
             <PostImage>
                 <img src={postImage} alt="" />
             </PostImage>
-            {/* <PostImage>
-    <ImageSlider images={Array.isArray(postImage) ? postImage : [postImage]} />
-</PostImage> */}
 
             <PostFooterIcons>
                 <div className='post__iconsMain'>
@@ -111,7 +123,11 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
 />
                     </PostIcon>
                     <PostIcon>
-                        <ChatBubbleOutlineRoundedIcon onClick={() => setIsDrawerOpen(true)} />
+                        <ChatBubbleOutlineRoundedIcon onClick={() =>{ 
+                            setIsDrawerOpen(true);
+                        axios.get(`/comment/${postId}`).then(res=> setComments(res.data.response))
+                        .catch(err=> console.log("err:" , err))
+                        }} />
                     </PostIcon>
                     <div><CountText><b>{likeCnt}</b>좋아요  <b>{disLikeCnt}</b>싫어요  <b>{commentcnt}</b>개의 댓글</CountText></div>
                 </div>

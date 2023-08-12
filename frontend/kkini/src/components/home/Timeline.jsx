@@ -16,19 +16,21 @@ function Timeline(props) {
       Scrap: post.isScrap,
       recipeId: post.recipeId,
       recipeName: post.recipeName,
+      postId: post.id,
     }));
   }
 
-  const [localPosts, setLocalPosts] = useState(transformData(props.posts.content || []));
+  const [localPosts, setLocalPosts] = useState(transformData(props.posts.content || [])); // 0812 수정전
 
+  // const [localPosts, setLocalPosts] = useState(transformData(props.posts || []));
   
-  const toggleReaction = (index) => {
-    setLocalPosts((prevPosts) => {
-      const newPosts = [...prevPosts];
-      newPosts[index].reaction = !newPosts[index].reaction;
-      return newPosts;
-    });
-  };
+  // const toggleReaction = (index) => {
+  //   setLocalPosts((prevPosts) => {
+  //     const newPosts = [...prevPosts];
+  //     newPosts[index].reaction = !newPosts[index].reaction;
+  //     return newPosts;
+  //   });
+  // };
   //서버상태도 업데이트해야함
 
   const toggleLike = (index) => {
@@ -46,7 +48,7 @@ function Timeline(props) {
   //서버상태도 업데이트해야함
 
   useEffect(() => {
-    // props.posts.content가 변경될 때마다 localPosts 상태 업데이트
+    
     if (props.posts && props.posts.content) {
       setLocalPosts(transformData(props.posts.content));
     }
@@ -71,31 +73,12 @@ function Timeline(props) {
             reaction={post.reaction}
             recipeName={post.recipeName}
             toggleLike={() => toggleLike(index)} // 이 함수도 기존에 정의되어 있어야 합니다.
+            postId={post.postId}
           />
         ))}
       </div>
     </div>
   )
 }
-
-// function ImageSlider({ images }) {
-//   const settings = {
-//     dots: true,
-//     infinite: true,
-//     speed: 500,
-//     slidesToShow: 1,
-//     slidesToScroll: 1,
-//   };
-
-//   return (
-//     <Slider {...settings}>
-//       {images.map((image, index) => (
-//         <div key={index}>
-//           <img src={image} alt={`postImage-${index}`} />
-//         </div>
-//       ))}
-//     </Slider>
-//   );
-// }
 
 export default Timeline;

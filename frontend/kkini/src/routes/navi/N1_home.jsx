@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Timeline from '../../components/home/Timeline';
 import axios from 'axios';
+import Drawer from '../../components/home/Drawer';
 
 function N1_home() {
   const [posts, setPosts] = useState([]);
+  const [selectedPostId, setSelectedPostId] = useState(null); // 추가된 상태
   
   useEffect(() => {
     axios.get('/post', {
@@ -13,7 +15,6 @@ function N1_home() {
     })
       .then((response) => {
         if (response.data.success) {
-          console.log(response.data.response)
           setPosts(response.data.response);
         }
       })
@@ -21,12 +22,16 @@ function N1_home() {
         console.error("Error fetching posts:", error);
       });
   }, []);
-
+  const handlePostSelect = (postId) => {
+    setSelectedPostId(postId);
+  };
+  console.log(posts)
   return (
     <div>
-      <Timeline posts={posts} />
+      <Timeline posts={posts} onSelectPost={handlePostSelect} />
+      {selectedPostId && <Drawer isOpen={!!selectedPostId} onClose={() => setSelectedPostId(null)} postId={selectedPostId} />} 
     </div>
-  );;
+  );
 }
 
 export default N1_home;
