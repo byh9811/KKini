@@ -5,7 +5,11 @@ const RecommendedFeed = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/post/algorithm?page=0&size=5&sort=string')
+    axios.get('/post/algorithm', {
+      params: {
+        page: 0,
+      }
+    })
       .then(response => {
         setData(response.data.response.content);
       })

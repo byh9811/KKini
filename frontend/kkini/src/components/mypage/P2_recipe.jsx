@@ -1,32 +1,38 @@
-// import React, { useState } from 'react';
-// import { useEffect } from 'react';
-// import { axios } from 'axios';
+import React, { useState } from 'react';
+import { useEffect } from 'react';
+import axios from 'axios';
 
-// function P2_recipe() {
-//   window.scrollTo(0, 0);
+function P2_recipe() {
+  window.scrollTo(0, 0);
 
-//   const [recipesList, setRecipesList] = useState([]);
+  const [recipesList, setRecipesList] = useState([]);
 
-//   useEffect(() => {
-//     axios.get('', {
-//       prams: {
-//         page: 0
-//       }
-//     })
-//       .then(response => {
-//         setRecipesList(response.data.response.content);
-//       })
-//       .catch(error => {
-//         console.error('Error fetching data:', error);
-//       });
-//   }, []);
+  useEffect(() => {
+    axios.get('/recipe/mypage', {
+      prams: {
+        page: 0,
+      }
+    })
+      .then(response => {
+        setRecipesList(response.data.response.content);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
   
-//   return (
-//     <div>
-//       <h2>레시피입니다아아아</h2>
-//     </div>
+  return (
+    <div>
+      {
+        recipesList.map((item) => (
+          <div key={item.recipeId}>
+            <img src={item.recipeImage} alt={`Image ${item.recipeId}`} />
+          </div>
+        ))
+      }
+    </div>
     
-//   );
-// }
+  );
+}
 
-// export default P2_recipe;
+export default P2_recipe;

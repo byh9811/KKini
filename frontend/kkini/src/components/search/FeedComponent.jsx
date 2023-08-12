@@ -7,7 +7,7 @@ const FeedComponent = (props) => {
 
   useEffect(() => {
     // 무한 스크롤 적용하고 페이지 정보 업데이트하기
-    axios.get('http://localhost:8080/api/post/search', {
+    axios.get('/post/search', {
       params: {
         search: 검색어,
         page: 0,

@@ -6,9 +6,14 @@ function N1_home() {
   const [posts, setPosts] = useState([]);
   
   useEffect(() => {
-    axios.get('http://localhost:8080/api/post?page=0&size=5&sort=string')
+    axios.get('/post', {
+      params: {
+        page: 0,
+      }
+    })
       .then((response) => {
         if (response.data.success) {
+          console.log(response.data.response)
           setPosts(response.data.response);
         }
       })

@@ -66,7 +66,7 @@ function UploadRecipes() {
         type: "application/json"
       }));
 
-      axios.post('http://localhost:8080/api/recipe', formData, {
+      axios.post('/recipe', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

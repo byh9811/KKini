@@ -6,12 +6,11 @@ const RecipesComponent = (props) => {
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/recipe/search', {
+    axios.get('/recipe/search', {
       params: {
         categoryId: 카테고리ID,
         name: 검색어,
         page: 0,
-        size: 10,
       }
     })
       .then(response => {

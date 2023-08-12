@@ -1,19 +1,30 @@
-import React from 'react';
-import ReqUserPostCard from './ReqUserPostCard'
+import ReqUserPostCard from "./ReqUserPostCard";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
-function P4_scrap() {
+function P4() {
   window.scrollTo(0, 0);
-  
+  const [scrapList, setScrapList] = useState([]);
+
+  useEffect(() => {
+    axios.get("/scrap/list")
+    .then((res) => {
+      setScrapList(res.data.response.content);
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
+  }, []);
+
   return (
     <div>
-        <div>
-            스크랩!
-        </div>
-        <div className='flex flex-wrap'>
-            {[1, 1, 1, 1, 1, 1].map((item)=><ReqUserPostCard></ReqUserPostCard>)}
-        </div>
+      <div className="flex flex-wrap">
+        {scrapList.map((item) => (
+          <ReqUserPostCard></ReqUserPostCard>
+        ))}
+      </div>
     </div>
   );
 }
 
-export default P4_scrap;
+export default P4;

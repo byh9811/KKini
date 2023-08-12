@@ -65,7 +65,7 @@ function UploadPost() {
         type: "application/json"
       }));
 
-      axios.post('http://localhost:8080/api/post', formData, {
+      axios.post('/post', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -88,7 +88,7 @@ function UploadPost() {
         URL.revokeObjectURL(item.preview_URL);
       })
 
-      axios.get('http://localhost:8080/api/recipe')
+      axios.get('/recipe')
       .then((response) => {
         setData(response.data.response)
       })

@@ -18,49 +18,52 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = 0 }) => {
   useEffect(() => {
     if (mine === 1) {
       // 마이페이지 정보 불러오기
-      axios
-        .get("/mypage/info")
-        .then((res) => {
-          setData(res.data.response);
-        })
-        .catch((error) => {
-          console.error("Error fetching posts:", error);
-        });
+      axios.get("/mypage/info")
+      .then((res) => {
+        setData(res.data.response);
+      })
+      .catch((error) => {
+        console.error("Error fetching posts:", error);
+      });
       // 팔로우 수
-      axios
-        .get("/mypage/countFollow")
-        .then((res) => {
-          setFollow(res.data.response);
-        })
-        .catch((error) => {
-          console.error("Error fetching posts:", error);
-        });
+      axios.get("/mypage/countFollow")
+      .then((res) => {
+        setFollow(res.data.response);
+      })
+      .catch((error) => {
+        console.error("Error fetching posts:", error);
+      });
       // 팔로워 수
-      axios
-        .get("/mypage/countFollower")
-        .then((res) => {
-          setFollower(res.data.response);
-        })
-        .catch((error) => {
-          console.error("Error fetching posts:", error);
-        });
-      axios
-        .get("/mypage/followList?page=0&size=50&sort=string")
-        .then((res) => {
-          console.log(res.data.response.content);
-          setFollowingList(res.data.response.content);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      axios
-        .get("/mypage/followerList?page=0&size=50&sort=string")
-        .then((res) => {
-          setFollowerList(res.data.response.content);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      axios.get("/mypage/countFollower")
+      .then((res) => {
+        setFollower(res.data.response);
+      })
+      .catch((error) => {
+        console.error("Error fetching posts:", error);
+      });
+      axios.get("/mypage/followList", {
+        params: {
+          page: 0,
+        }
+      })
+      .then((res) => {
+        console.log(res.data.response.content);
+        setFollowingList(res.data.response.content);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+      axios.get("/mypage/followerList", {
+        params: {
+          page: 0,
+        }
+      })
+      .then((res) => {
+        setFollowerList(res.data.response.content);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
       // fetchFollowingList();
       // fetchFollowerList();
     }
