@@ -63,6 +63,8 @@ public class PostQueryRepository {
                 .leftJoin(reaction).on(post.id.eq(reaction.post.id).and(post.member.id.eq(reaction.member.id)))
                 .leftJoin(scrap).on(post.id.eq(scrap.post.id).and(post.member.id.eq(scrap.member.id)))
                 .where(searchCondition(memberId, followList, type, search, categoryId))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .orderBy(postSort(pageable, type))
                 .fetch();
 
@@ -89,9 +91,15 @@ public class PostQueryRepository {
             postList.get(i).setCommentCnt(commentCnt.intValue());
         }
 
-        int start = (int) pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), postList.size());
-        return new PageImpl<>(postList.subList(start, end), pageable, postList.size());
+        long count = jpaQueryFactory
+                .select(post.count())
+                .from(post)
+                .where(searchCondition(memberId, followList, type, search, categoryId))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchFirst();
+
+        return new PageImpl<>(postList, pageable, count);
     }
 
     private BooleanBuilder searchCondition(Long memberId, List<Long> followList, int type, String search, Long categoryId) {
