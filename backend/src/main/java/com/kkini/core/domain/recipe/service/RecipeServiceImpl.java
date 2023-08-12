@@ -66,12 +66,7 @@ public class RecipeServiceImpl implements RecipeService {
 
         // TODO: 벌크 연산으로 INSERT문을 한번에 쿼리하면 ?
         // TODO: 현재 @GeneratedValue(strategy = GenerationType.IDENTITY)이기 때문에 쓰기지연 동작 X
-        for (String step : dto.getSteps()) {
-            stepRepository.save(Step.builder()
-                    .recipe(recipe)
-                    .content(step)
-                    .build());
-        }
+
 
         writer.addStars(1);
         levelUpUtil.checkLevelUp(memberId);

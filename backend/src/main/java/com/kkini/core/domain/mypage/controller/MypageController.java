@@ -1,5 +1,7 @@
 package com.kkini.core.domain.mypage.controller;
 
+import com.kkini.core.domain.follow.dto.response.FollowListResponseDto;
+import com.kkini.core.domain.follow.service.FollowQueryService;
 import com.kkini.core.domain.follow.service.FollowService;
 import com.kkini.core.domain.mypage.dto.response.MypageInfoResponseListDto;
 import com.kkini.core.domain.mypage.service.MypageQueryService;
@@ -11,6 +13,9 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +34,7 @@ public class MypageController {
     private final MypageQueryService mypageQueryService;
     private final MypageService mypageService;
     private final FollowService followService;
+    private final FollowQueryService followQueryService;
 
     @Operation(summary = "마이페이지 정보", description = "멤버 식별자의 마이페이지 정보를 출력합니다.")
     @Parameter(name = "memberId", description = "정보를 조회할 멤버 식별자")
@@ -115,6 +121,33 @@ public class MypageController {
         log.debug("팔로워 수 : {}", count);
 
         return OK(count);
+    }
+
+    @Operation(summary = "팔로우 리스트", description = "회원(memberId)의 팔로우 리스트를 확인할 수 있습니다.")
+    @Parameter(name = "memberId", description = "팔로우 리스트를 보고 싶은 회원(memberId)")
+    @GetMapping("/followList")
+    public Response<Page<FollowListResponseDto>> followList
+            (@Parameter(hidden = true)@AuthenticationPrincipal UserPrincipal userPrincipal,
+             @PageableDefault(size = 50) Pageable pageable){
+        log.debug("## 팔로우 리스트를 조회합니다.");
+        log.debug("조회할 멤버 식별자 : {}", userPrincipal.getId());
+        Page<FollowListResponseDto> followList = followQueryService.getFollowList(userPrincipal.getId(), pageable);
+        log.debug("팔로우 리스트 : {}",followList);
+
+        return OK(followList);
+    }
+
+    @Operation(summary = "팔로워 리스트", description = "회원(memberId)의 팔로워 리스트를 확인할 수 있습니다.")
+    @Parameter(name = "memberId", description = "팔로워 리스트를 보고 싶은 회원(memberId)")
+    @GetMapping("/followerList")
+    public Response<Page<FollowListResponseDto>> followerList(@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PageableDefault(size = 50) Pageable pageable){
+        log.debug("## 팔로워 리스트를 조회합니다.");
+        log.debug("조회할 멤버 식별자 : {}", userPrincipal.getId());
+        Page<FollowListResponseDto> followerList = followQueryService.getFollowerList(userPrincipal.getId(), pageable);
+        log.debug("팔로워 리스트 : {}", followerList);
+
+        return OK(followerList);
     }
 
 

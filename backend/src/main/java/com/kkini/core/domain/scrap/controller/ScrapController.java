@@ -59,7 +59,7 @@ public class ScrapController {
 
     @Operation(summary = "스크랩 리스트", description = "회원(memberId)의 스크랩 리스트를 응답합니다.")
     @Parameter(name = "memberId", description = "조회를 원하는 회원 식별자")
-    @GetMapping("/list}")
+    @GetMapping("/list")
     public Response<Page<ScrapListResponseDto>> scrapList(@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal, @PageableDefault(size = 20) Pageable pageable) {
         log.debug("## 스크랩 리스트를 조회합니다.");
         log.debug("조회할 멤버 식별자 : {}",userPrincipal.getId());
