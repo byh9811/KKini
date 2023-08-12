@@ -35,25 +35,11 @@ public class ReactionServiceImpl implements ReactionService {
 
     @Override
     public void saveReaction(ReactionRegisterRequestDto dto, Long memberId) {
-        boolean haveCategory = false;
-        Preference preference = null;
+        Boolean oldState = null;
 
         Member writer = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException(Reaction.class, memberId));
         Post post = postRepository.findById(dto.getPostId()).orElseThrow(() -> new NotFoundException(Post.class, dto.getPostId()));
         Reaction oldReaction = reactionRepository.findByMemberIdAndPostId(memberId, dto.getPostId());
-        Recipe recipe = null;
-
-        if(post.getRecipe() != null) {
-            recipe = recipeRepository.findById(post.getRecipe().getId()).orElseThrow(() -> new NotFoundException(Recipe.class, post.getRecipe().getId()));
-        }
-
-        // 레시피가 존재하는 포스트만 가중치 적용
-        if(recipe != null) { haveCategory = true; }
-
-        if(recipe != null && haveCategory) {
-            // 사용자의 카테고리에 대한 가중치 불러오기 - 해당 포스트가 가지는 카테고리
-            preference = preferenceRepository.findByCategoryIdAndMemberId(recipe.getCategory().getId(), memberId);
-        }
 
         // 신규
         if(oldReaction == null) {
@@ -64,90 +50,118 @@ public class ReactionServiceImpl implements ReactionService {
                     .build();
 
             reactionRepository.save(newReaction);
-
-            // NONE -> LIKE, NONE -> DISLIKE
-            if(newReaction.getState() == LIKE) {
-                post.increaseLikeCnt();
-            }
-
-            if(newReaction.getState() == DISLIKE) {
-                post.increaseDisLikeCnt();
-            }
-
-            // 가중치 갱신
-            if(haveCategory) {
-                if(newReaction.getState() == LIKE) {
-                    preference.increaseWeightByLike();
-                }
-
-                if(newReaction.getState() == DISLIKE) {
-                    preference.decreaseWeightByLike();
-                }
-
-                preferenceRepository.save(preference);
-            }
         }
 
         // 수정
         else {
-            Boolean oldState = oldReaction.getState();
-            oldReaction.setState(dto.getState());
+            oldState = oldReaction.getState();
 
-            reactionRepository.save(oldReaction);
+            reactionRepository.save(setReaction(oldReaction, oldState, dto.getState()));
+        }
 
-            // 결과 NONE : LIKE -> LIKE, DISLIKE -> DISLIKE
-            if(oldState == dto.getState()) {
-                if(oldState == LIKE) {
-                    post.decreaseLikeCnt();
-                }
+        // Count 갱신
+        postRepository.save(setPostReactionCount(post, oldState, dto.getState()));
 
-                if(oldState == DISLIKE) {
-                    post.decreaseDisLikeCnt();
-                }
-            }
+        // 가중치 갱신
+        if(post.getRecipe() != null) {
+            Recipe recipe = recipeRepository.findById(post.getRecipe().getId()).orElseThrow(() -> new NotFoundException(Recipe.class, post.getRecipe().getId()));
 
-            // LIKE -> DISLIKE, DISLIKE -> LIKE
-            else {
-                if(oldState == LIKE) {
-                    post.decreaseLikeCnt();
-                    post.increaseDisLikeCnt();
-                }
-
-                if(oldState == DISLIKE) {
-                    post.decreaseDisLikeCnt();
-                    post.increaseLikeCnt();
-                }
-            }
-
-            // 가중치 갱신
-            if(haveCategory) {
-                // 결과 NONE : LIKE -> LIKE, DISLIKE -> DISLIKE
-                if(oldState == dto.getState()) {
-                    if (oldState == LIKE) {
-                        preference.decreaseWeightByLike();
-                    }
-
-                    if (oldState == DISLIKE) {
-                        preference.increaseWeightByLike();
-                    }
-                }
-
-                // LIKE -> DISLIKE, DISLIKE -> LIKE
-                else{
-                    if (dto.getState() == LIKE) {
-                        preference.increaseWeightByLike();
-                        preference.increaseWeightByLike();
-                    }
-
-                    if (dto.getState() == DISLIKE) {
-                        preference.decreaseWeightByLike();
-                        preference.decreaseWeightByLike();
-                    }
-                }
-
-                preferenceRepository.save(preference);
+            if(recipe != null) {
+                Preference preference = preferenceRepository.findByCategoryIdAndMemberId(recipe.getCategory().getId(), memberId);
+                preferenceRepository.save(setPreference(preference, oldState, dto.getState()));
             }
         }
+    }
+
+    // Reaction 갱신
+    private Reaction setReaction(Reaction reaction, Boolean oldState, Boolean newState) {
+        if(oldState == null && newState == LIKE) {
+            reaction.setState(LIKE);
+        }
+
+        else if(oldState == null && newState == DISLIKE) {
+            reaction.setState(DISLIKE);
+        }
+
+        else if(oldState == LIKE && newState == LIKE) {
+            reaction.setState(null);
+        }
+
+        else if(oldState == LIKE && newState == DISLIKE) {
+            reaction.setState(DISLIKE);
+        }
+
+        else if(oldState == DISLIKE && newState == LIKE) {
+            reaction.setState(LIKE);
+        }
+
+        else if(oldState == DISLIKE && newState == DISLIKE) {
+            reaction.setState(null);
+        }
+
+        return reaction;
+    }
+
+    // Post 갱신
+    private Post setPostReactionCount(Post post, Boolean oldState, Boolean newState) {
+        if(oldState == null && newState == LIKE) {
+            post.increaseLikeCnt();
+        }
+
+        else if(oldState == null && newState == DISLIKE) {
+            post.increaseDisLikeCnt();
+        }
+
+        else if(oldState == LIKE && newState == LIKE) {
+            post.decreaseLikeCnt();
+        }
+
+        else if(oldState == LIKE && newState == DISLIKE) {
+            post.decreaseLikeCnt();
+            post.increaseDisLikeCnt();
+        }
+
+        else if(oldState == DISLIKE && newState == LIKE) {
+            post.decreaseDisLikeCnt();
+            post.increaseLikeCnt();
+        }
+
+        else if(oldState == DISLIKE && newState == DISLIKE) {
+            post.decreaseDisLikeCnt();
+        }
+
+        return post;
+    }
+
+    // Preference 갱신
+    private Preference setPreference(Preference preference, Boolean oldState, Boolean newState) {
+        if(oldState == null && newState == LIKE) {
+            preference.increaseWeightByLike();
+        }
+
+        else if(oldState == null && newState == DISLIKE) {
+            preference.decreaseWeightByLike();
+        }
+
+        else if(oldState == LIKE && newState == LIKE) {
+            preference.decreaseWeightByLike();
+        }
+
+        else if(oldState == LIKE && newState == DISLIKE) {
+            preference.decreaseWeightByLike();
+            preference.decreaseWeightByLike();
+        }
+
+        else if(oldState == DISLIKE && newState == LIKE) {
+            preference.increaseWeightByLike();
+            preference.increaseWeightByLike();
+        }
+
+        else if(oldState == DISLIKE && newState == DISLIKE) {
+            preference.increaseWeightByLike();
+        }
+
+        return preference;
     }
 
 }
