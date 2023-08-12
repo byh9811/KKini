@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './Upload.css'
+import '../../css/Upload.css'
 
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import axios from 'axios';
@@ -61,7 +61,7 @@ function UploadPost() {
       }
 
       // 문자열
-      formData.append('post', new Blob([JSON.stringify(jsonData)], {
+      formData.append('data', new Blob([JSON.stringify(jsonData)], {
         type: "application/json"
       }));
 
@@ -90,7 +90,7 @@ function UploadPost() {
 
       axios.get('http://localhost:8080/api/recipe')
       .then((response) => {
-        console.log(response)
+        console.log(response.data.response)
         setData(response.data.response)
       })
       .catch((error) => {
@@ -145,7 +145,7 @@ function UploadPost() {
           options={data}
           sx={{ width: 300 }}
           value={data.find(item => item.recipeId === selectedRecipeId) || null}
-          getOptionLabel={(option) => option.label} // 이 부분을 수정함
+          getOptionLabel={(option) => option.label}
           renderInput={(params) => (
             <TextField
               {...params}
