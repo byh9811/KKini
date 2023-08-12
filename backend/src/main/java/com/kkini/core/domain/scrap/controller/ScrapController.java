@@ -39,7 +39,7 @@ public class ScrapController {
         log.debug("## 스크랩을 추가합니다.");
         log.debug("추가할 포스트 식별자 : {}", postId);
         AddScrapRequestDto addScrapRequestDto = new AddScrapRequestDto();
-        addScrapRequestDto.setMemberId(userPrincipal.getId()); // 해당 부분은 추후에 user.getMemberId()로 교체할 예정
+        addScrapRequestDto.setMemberId(userPrincipal.getId());
         addScrapRequestDto.setPostId(postId);
         scrapService.addScrap(addScrapRequestDto);
 

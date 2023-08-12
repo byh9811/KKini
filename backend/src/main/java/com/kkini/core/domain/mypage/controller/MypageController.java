@@ -57,16 +57,16 @@ public class MypageController {
 
     @Operation(summary = "프로필 이미지", description = "해당 유저의 프로필 이미지를 불러옵니다.")
     @GetMapping("/profileImage/{memberId}")
-    public Response<String> getOtherProfileImage(@PathVariable Long memberId, @AuthenticationPrincipal UserPrincipal userPrincipal){
+    public Response<String> getOtherProfileImage(@PathVariable String memberId, @AuthenticationPrincipal UserPrincipal userPrincipal){
         log.debug("## 프로필 이미지를 불러옵니다.");
         log.debug("멤버 식별자 : {}", memberId);
 
         String image = "";
 
-        if (memberId == -1){
+        if (memberId.equals("mypage")){
             image = mypageQueryService.getProfileImage(userPrincipal.getId());
         } else {
-            image = mypageQueryService.getProfileImage(memberId);
+            image = mypageQueryService.getProfileImage(Long.parseLong(memberId));
         }
 
         log.debug("불러온 프로필 이미지 : {}", image);
@@ -81,60 +81,6 @@ public class MypageController {
         log.debug("탈퇴를 진행할 회원 : {}", userPrincipal.getId());
         mypageService.withDrawalMembership(userPrincipal.getId());
         return OK(null);
-    }
-
-
-    @Operation(summary = "팔로우 수 조회", description = "회원의 팔로우 수를 조회합니다.")
-    @Parameter(name = "memberId", description = "대상 회원의 멤버 식별자")
-    @GetMapping("/countFollow")
-    public Response<Integer> countFollow( @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal){
-        log.debug("## 팔로우 수를 조회합니다.");
-
-        int count = followService.countFollows(userPrincipal.getId());
-
-        log.debug("팔로우 수 : {}",count);
-
-        return OK(count);
-    }
-
-    @Operation(summary = "팔로워 수 조회", description = "회원의 팔로워 수를 조회합니다.")
-    @Parameter(name = "memberId", description = "대상 회원의 멤버 식별자")
-    @GetMapping("/countFollower")
-    public Response<Integer> countFollower(@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal){
-        log.debug("## 팔로워 수를 조회합니다.");
-
-        int count = followService.countFollowers(userPrincipal.getId());
-
-        log.debug("팔로워 수 : {}", count);
-
-        return OK(count);
-    }
-
-    @Operation(summary = "팔로우 리스트", description = "회원(memberId)의 팔로우 리스트를 확인할 수 있습니다.")
-    @Parameter(name = "memberId", description = "팔로우 리스트를 보고 싶은 회원(memberId)")
-    @GetMapping("/followList")
-    public Response<Page<FollowListResponseDto>> followList
-            (@Parameter(hidden = true)@AuthenticationPrincipal UserPrincipal userPrincipal,
-             @PageableDefault(size = 50) Pageable pageable){
-        log.debug("## 팔로우 리스트를 조회합니다.");
-        log.debug("조회할 멤버 식별자 : {}", userPrincipal.getId());
-        Page<FollowListResponseDto> followList = followQueryService.getFollowList(userPrincipal.getId(), pageable);
-        log.debug("팔로우 리스트 : {}",followList);
-
-        return OK(followList);
-    }
-
-    @Operation(summary = "팔로워 리스트", description = "회원(memberId)의 팔로워 리스트를 확인할 수 있습니다.")
-    @Parameter(name = "memberId", description = "팔로워 리스트를 보고 싶은 회원(memberId)")
-    @GetMapping("/followerList")
-    public Response<Page<FollowListResponseDto>> followerList(@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal,
-            @PageableDefault(size = 50) Pageable pageable){
-        log.debug("## 팔로워 리스트를 조회합니다.");
-        log.debug("조회할 멤버 식별자 : {}", userPrincipal.getId());
-        Page<FollowListResponseDto> followerList = followQueryService.getFollowerList(userPrincipal.getId(), pageable);
-        log.debug("팔로워 리스트 : {}", followerList);
-
-        return OK(followerList);
     }
 
 
