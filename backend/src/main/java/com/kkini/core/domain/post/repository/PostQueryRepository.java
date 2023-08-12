@@ -82,9 +82,10 @@ public class PostQueryRepository {
                     .fetch();
 
             Long commentCnt = jpaQueryFactory
-                    .selectFrom(comment)
+                    .select(comment.count())
+                    .from(comment)
                     .where(comment.post.id.eq(postList.get(i).getId()))
-                    .fetchCount();
+                    .fetchFirst();
 
             postList.get(i).setImageList(imageList);
             postList.get(i).setImageIndexList(imageIndexList);
@@ -95,8 +96,6 @@ public class PostQueryRepository {
                 .select(post.count())
                 .from(post)
                 .where(searchCondition(memberId, followList, type, search, categoryId))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
                 .fetchFirst();
 
         return new PageImpl<>(postList, pageable, count);
