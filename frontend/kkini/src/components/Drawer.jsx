@@ -19,11 +19,11 @@ const DrawerContainer = styled.div`
   border-radius: 10px;
 `;
 
-const Drawer = ({ isOpen, onClose, postId }) => {
+const Drawer = ({ isOpen, onClose, postId, comments }) => {
   const ref = useRef();
   console.log(postId)
-  const [comments, setComments] = useState([]);
-
+  console.log(comments)
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (ref.current && !ref.current.contains(event.target)) {
@@ -40,10 +40,17 @@ const Drawer = ({ isOpen, onClose, postId }) => {
   const fetchComments = async () => {
     if (!postId) return;
     try {
-      const response = await axios.get(`http://localhost:8080/api/comments?postId=${postId}`);
-      if (response.data.success) {
-        setComments(response.data.comments); // 예상 응답 구조에 따라 수정 필요
-      }
+      console.log(postId)
+      console.log("여기1")
+      console.log("여기1")
+      console.log("여기1")
+      console.log(postId)
+      const response = await axios.get(`/comment/${postId}`);
+      console.log(response);
+      // if (response.data.success) {
+      //     console.log(response.data)
+      //   setComments(response.data.comments); // 예상 응답 구조에 따라 수정 필요
+      // }
     } catch (error) {
       console.error("Error fetching comments:", error);
     }
@@ -52,8 +59,8 @@ const Drawer = ({ isOpen, onClose, postId }) => {
   // Drawer가 열리거나 postId가 변경되었을 때 댓글을 조회합니다.
   useEffect(() => {
     fetchComments();
-  }, [isOpen, postId]);
-
+  }, []);
+  console.log(comments)
   return (
     <DrawerContainer isOpen={isOpen} ref={ref}>
       <button onClick={onClose}>닫기</button>

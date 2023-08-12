@@ -10,7 +10,7 @@ function N1() {
 
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/post?page=0&size=5&sort=string')
+    axios.get('/post?page=0&size=5&sort=string')
       .then((response) => {
         if (response.data.success) {
           console.log(typeof response.data.response, response);

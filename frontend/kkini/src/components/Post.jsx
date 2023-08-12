@@ -24,41 +24,52 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
     const [isBookmarked, setIsBookmarked] = useState(false);
     const [likeCnt, setLikeCnt] = useState(initialLikeCnt); 
     const [disLikeCnt, setdisLikeCnt] = useState(initialdisLikeCnt);
-    console.log(postId)  
+    const [comments, setComments] = useState([]);
+    console.log(postId)  //웅서형짱
     const handleIconClick = (type) => {
-        
+        let newReaction = null;
+    
         // 좋아요 아이콘을 위한 로직
         if (type === 'like') {
-            if (reaction === true) {
-                // 이미 좋아요가 눌러져 있을 때 좋아요 아이콘을 다시 누르면 좋아요 개수 -1
-                setLikeCnt(prevLikeCnt => prevLikeCnt - 1);
-                setReaction(null);
-            } else {
-                // 좋아요가 안 눌러져 있을 때 좋아요 아이콘을 누르면 좋아요 개수 +1
-                // 만약 이전에 싫어요가 눌러져 있었다면 싫어요 개수 -1
-                setLikeCnt(prevLikeCnt => prevLikeCnt + 1);
-                if (reaction === false) {
-                    setdisLikeCnt(prevDislikeCnt => prevDislikeCnt - 1);
-                }
-                setReaction(true);
-            }
+            newReaction = reaction === true ? null : true;
         }
         // 싫어요 아이콘을 위한 로직
         else if (type === 'dislike') {
-            if (reaction === false) {
-                // 이미 싫어요가 눌러져 있을 때 싫어요 아이콘을 다시 누르면 싫어요 개수 -1
-                setdisLikeCnt(prevDislikeCnt => prevDislikeCnt - 1);
-                setReaction(null);
-            } else {
-                // 싫어요가 안 눌러져 있을 때 싫어요 아이콘을 누르면 싫어요 개수 +1
-                // 만약 이전에 좋아요가 눌러져 있었다면 좋아요 개수 -1
-                setdisLikeCnt(prevDislikeCnt => prevDislikeCnt + 1);
-                if (reaction === true) {
+            newReaction = reaction === false ? null : false;
+        }
+    
+        // 서버에 PUT 요청을 보내 상태 변경을 저장
+        axios.put(`/reaction/${postId}`, {
+            postId: postId,
+            reaction: newReaction
+        })
+        .then((response) => {
+            // 성공적으로 응답받았을 때의 처리 로직
+            console.log('반응들감')
+            if(newReaction === true) {
+                setLikeCnt(prevLikeCnt => prevLikeCnt + (reaction === false ? 0 : 1));
+                if(reaction === false) {
+                    setdisLikeCnt(prevDislikeCnt => prevDislikeCnt - 1);
+                }
+            } else if(newReaction === false) {
+                setdisLikeCnt(prevDislikeCnt => prevDislikeCnt + (reaction === true ? 0 : 1));
+                if(reaction === true) {
                     setLikeCnt(prevLikeCnt => prevLikeCnt - 1);
                 }
-                setReaction(false);
+            } else {
+                if(reaction === true) {
+                    setLikeCnt(prevLikeCnt => prevLikeCnt - 1);
+                } else if(reaction === false) {
+                    setdisLikeCnt(prevDislikeCnt => prevDislikeCnt - 1);
+                }
             }
-        }
+    
+            setReaction(newReaction);
+        })
+        .catch((error) => {
+            // 에러가 발생했을 때의 처리 로직
+            console.error('There was an error sending the PUT request:', error);
+        });
     }
     
 
@@ -84,7 +95,7 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
 
     return (
         <PostContainer ref={ref}>
-            <Drawer isOpen={isDrawerOpen} postId={postId} onClose={() => setIsDrawerOpen(false)} />
+            <Drawer isOpen={isDrawerOpen} postId={postId} onClose={() => {setIsDrawerOpen(false)}} comments={comments} />
             <PostHeader>
                 <PostHeaderAuthor>
                     <Avatar className='m-2'/>
@@ -114,16 +125,18 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
 />
                     </PostIcon>
                     <PostIcon>
-                        <ChatBubbleOutlineRoundedIcon onClick={() =>{ setIsDrawerOpen(true);
+                        <ChatBubbleOutlineRoundedIcon onClick={() =>{ 
+                            setIsDrawerOpen(true);
                         //여기서 겟요청 뿌려주기
-                        
+                        axios.get(`/comment/${postId}`).then(res=> setComments(res.data.response))
+                        .catch(err=> console.log("err:" , err))
                         }} />
                     </PostIcon>
                     <div><CountText><b>{likeCnt}</b>좋아요  <b>{disLikeCnt}</b>싫어요  <b>{commentcnt}</b>개의 댓글</CountText></div>
                 </div>
                 <div className='post__iconSave'>
                     <PostIcon onClick={handleShow}>
-                        <LocalAtmRoundedIcon />
+                        <LocalAtmRoundedIcon />     {/* 이게 금액평가 아이콘 */}
                         <div><CountText>{avgPrice}</CountText></div>
                     </PostIcon>
                     <PostIcon>
@@ -160,6 +173,7 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
                     <Button variant="primary" onClick={handleSave}>금액 평가 완료</Button>
                 </Modal.Footer>
             </Modal>
+            {/* 여기서 하면됨 */}
         </PostContainer>
     );
 });
