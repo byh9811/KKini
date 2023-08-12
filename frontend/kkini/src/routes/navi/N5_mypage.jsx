@@ -2,13 +2,11 @@ import React from 'react';
 import { ProfileUserDetails } from '../../components/mypage/ProfileUserDetails';
 import ReqUserPostPart from '../../components/mypage/ReqUserPostPart';
 
-
-//MY PAGE
-function N5() {
+function N5_mypage() {
   window.scrollTo(0, 0);
 
   return (
-    <div style={{height: 'calc(var(--vh, 1vh) * 100)'}}>
+    <div>
       {/* 프로필 */}
       <div className='w-full'>
         <div className=''>        
@@ -22,4 +20,4 @@ function N5() {
   );
 }
 
-export default N5;
+export default N5_mypage;

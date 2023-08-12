@@ -4,7 +4,7 @@ import RecommendedFeed from '../../components/search/RecommendedFeed';
 import FeedComponent from '../../components/search/FeedComponent';
 import AccountComponent from '../../components/search/AccountComponent';
 
-const N2 = () => {
+const N2_search = () => {
   let [탭, 탭변경] = useState(0);
   let [검색어, 검색어변경] = useState("");
 
@@ -47,4 +47,4 @@ const N2 = () => {
   );
 };
 
-export default N2;
+export default N2_search;

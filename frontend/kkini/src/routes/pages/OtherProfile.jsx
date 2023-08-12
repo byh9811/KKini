@@ -2,7 +2,6 @@ import React from 'react';
 import { ProfileUserDetails } from '../../components/mypage/ProfileUserDetails';
 import ReqUserPostPart from '../../components/mypage/ReqUserPostPart';
 
-
 //MY PAGE
 function OtherProfile() {
   window.scrollTo(0, 0);

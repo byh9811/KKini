@@ -1,7 +1,7 @@
 import React from 'react';
 import ReqUserPostCard from './ReqUserPostCard'
 
-function P4() {
+function P4_scrap() {
   window.scrollTo(0, 0);
   
   return (
@@ -16,4 +16,4 @@ function P4() {
   );
 }
 
-export default P4;
+export default P4_scrap;

@@ -4,7 +4,7 @@ import { Navbar, Container, Nav } from 'react-bootstrap';
 import UploadPost from '../upload/UploadPost'
 import UploadRecipes from '../upload/UploadRecipes.jsx'
 
-function N3() {
+function N3_upload() {
   window.scrollTo(0, 0);
 
   let [tab, setTab] = useState(0)
@@ -29,4 +29,4 @@ function N3() {
   );
 }
 
-export default N3;
+export default N3_upload;

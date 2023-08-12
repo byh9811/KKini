@@ -12,7 +12,6 @@ import Modal from 'react-bootstrap/Modal';
 import Drawer from './Drawer';
 // import ImageSlider from './ImageSlider.jsx';  // 여기서 'path_to_imageslider.jsx'는 실제 ImageSlider 컴포넌트가 있는 경로로 대체해야 합니다.
 
-
 const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: initialLikeCnt, contents, disLikeCnt: initialdisLikeCnt, commentcnt, avgPrice, recipeName }, ref) => {
     const [show, setShow] = useState(false);
     const [amount, setAmount] = useState('');
@@ -58,9 +57,6 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
             }
         }
     }
-    
-
-
 
     const handleClose = () => {
         setShow(false);
@@ -247,4 +243,3 @@ const Recipetext = styled.span`
     font-size: 15px; 
     color: #4545b1
 `;
-

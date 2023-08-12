@@ -90,7 +90,6 @@ function UploadPost() {
 
       axios.get('http://localhost:8080/api/recipe')
       .then((response) => {
-        console.log(response.data.response)
         setData(response.data.response)
       })
       .catch((error) => {

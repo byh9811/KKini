@@ -1,28 +1,32 @@
+// Redirect.js
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { changeToken } from "../../store.js";
+import { changeToken } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
 import setAuthorizationToken from "../../apis/utils/setAuthorizationToken.js";
 
 const Redirect = ({ setIsLogIn }) => {
-  let state = useSelector((state)=>(state))
+  let state = useSelector((state) => state);
   let dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   const [searchParams] = useSearchParams();
-  const token = searchParams.get('token');
+  const token = searchParams.get("token");
 
   useEffect(() => {
-    
-    if (token) { // code 값이 있다면
-      // 쿠키나 세션 / 리덕스 툴킷에 코드 저장 로직
+    console.log(token);
+
+    if (token) {
       setIsLogIn(true);
-      dispatch(changeToken(token));
-      localStorage.setItem('jwtToken', token);
+
+      // 토큰 값을 객체로 감싸서 디스패치
+      dispatch(changeToken({ token }));
+
+      localStorage.setItem("jwtToken", token);
       setAuthorizationToken(token);
-      navigate('/home'); // 메인 페이지로 이동
+      navigate("/home");
     } else {
-      navigate('/naver'); // 로그인 페이지로 이동
+      navigate("/naver");
     }
   }, [token]);
 

@@ -3,7 +3,6 @@ import axios from 'axios';
 
 const RecommendedFeed = () => {
   const [data, setData] = useState([]);
-  console.log(data)
 
   useEffect(() => {
     axios.get('http://localhost:8080/api/post/algorithm?page=0&size=5&sort=string')

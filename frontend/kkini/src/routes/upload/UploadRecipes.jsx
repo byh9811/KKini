@@ -42,16 +42,11 @@ function UploadRecipes() {
     { id: 4, label: '양식' },
     { id: 5, label: '기타' },
   ];
-  console.log(selectedCategory)
 
   const [title, setTitle] = useState('');
-  console.log(title)
   const [timeValue, setTimeValue] = useState('');
-  console.log(timeValue)
   const [materialValue, setMaterialValue] = useState('');
-  console.log(materialValue)
   const [contentValue, setContentValue] = useState('');
-  console.log(contentValue)
 
   const jsonData = {
     categoryId: selectedCategory,

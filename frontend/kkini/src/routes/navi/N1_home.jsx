@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Timeline from '../../components/home/Timeline';
 import axios from 'axios';
 
-function N1() {
+function N1_home() {
   const [posts, setPosts] = useState([]);
   
   useEffect(() => {
@@ -24,4 +24,4 @@ function N1() {
   );;
 }
 
-export default N1;
+export default N1_home;

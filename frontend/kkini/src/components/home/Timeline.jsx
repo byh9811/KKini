@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Post from './Post.jsx';
 
-
 function Timeline(props) {
-  
   const transformData = (data) => {
     return data.map(post => ({
       user: post.memberName,
@@ -53,8 +51,6 @@ function Timeline(props) {
       setLocalPosts(transformData(props.posts.content));
     }
   }, [props.posts]);
-
-
 
   return (
     <div className='timeline'>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
-import RecipesComponent from './../../components/RecipesComponent';
+import RecipesComponent from '../../components/search/RecipesComponent';
 
 const N4_recipe = () => {
   window.scrollTo(0, 0);

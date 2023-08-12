@@ -1,7 +1,7 @@
 import React from 'react';
 import ReqUserPostCard from './ReqUserPostCard'
 
-function P1() {
+function P1_post() {
   window.scrollTo(0, 0);
   
   return (
@@ -16,4 +16,4 @@ function P1() {
   );
 }
 
-export default P1;
+export default P1_post;

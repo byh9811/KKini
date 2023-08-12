@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import { AiOutlineTable } from 'react-icons/ai'
+import React, { useState } from 'react'
+import { AiOutlineTable, AiOutlineUserg } from 'react-icons/ai'
 import { BiBookmark, BiBookBookmark } from 'react-icons/bi'
 import { MdLocalDining } from 'react-icons/md'
 
-import P1 from './P1_post'
-import P2 from './P2_recipe'
-import P3 from './P3_book'
-import P4 from './P4_scrap.jsx'
+import P1_post from './P1_post.jsx'
+import P2_recipe from './P2_recipe.jsx'
+import P3_book from './P3_book.jsx'
+import P4_scrap from './P4_scrap.jsx'
 
-const ReqUserPostPart = ({ 내것 = 0, memid = 0 }) => {
+const ReqUserPostPart = () => {
     const [activeTab, setActiveTab] = useState()
     let [tab, setTab] = useState(0)
-    const [mine] = useState(내것);
-    const [tabs, setTabs] = useState([
+    const tabs=[
         {
             tab: "포스트",
             icon:<AiOutlineTable></AiOutlineTable>,
@@ -34,37 +33,13 @@ const ReqUserPostPart = ({ 내것 = 0, memid = 0 }) => {
             icon: <BiBookmark></BiBookmark>,
             ind: 3
         }
-    ])
-
-    useEffect(() => {
-        if (mine !== 1) {
-            setTabs([
-                {
-                    tab: "포스트",
-                    icon:<AiOutlineTable />,
-                    activeTab: "",
-                    ind: 0
-                },
-                {
-                    tab:"레시피",
-                    icon: <MdLocalDining />,
-                    ind: 1
-                },
-                {
-                    tab:"도감",
-                    icon: <BiBookBookmark />,
-                    ind: 2
-                }
-            ]);
-        }
-    }, [mine]);  
+    ]
 
     return (
         <div>
             <div className="flex space-x-14 border-t relative">
                 {tabs.map((item)=> (
                     <div 
-                        key={item.ind}
                         onClick={()=> {
                             setActiveTab(item.tab);
                             setTab(item.ind);
@@ -85,8 +60,8 @@ const ReqUserPostPart = ({ 내것 = 0, memid = 0 }) => {
 export default ReqUserPostPart
 
 function TabContent(props) {
-    return props.tab === 0 ? <P1 />
-       : props.tab === 1 ? <P2 />
-       : props.tab === 2 ? <P3 />
-       : <P4 />;
+    return props.tab === 0 ? <P1_post />
+       : props.tab === 1 ? <P2_recipe />
+       : props.tab === 2 ? <P3_book />
+       : <P4_scrap />;
   }

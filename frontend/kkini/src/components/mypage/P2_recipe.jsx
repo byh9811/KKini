@@ -1,20 +1,32 @@
-import React from 'react';
-import ReqUserPostCard from './ReqUserPostCard'
+// import React, { useState } from 'react';
+// import { useEffect } from 'react';
+// import { axios } from 'axios';
 
-function P2() {
-  window.scrollTo(0, 0);
+// function P2_recipe() {
+//   window.scrollTo(0, 0);
+
+//   const [recipesList, setRecipesList] = useState([]);
+
+//   useEffect(() => {
+//     axios.get('', {
+//       prams: {
+//         page: 0
+//       }
+//     })
+//       .then(response => {
+//         setRecipesList(response.data.response.content);
+//       })
+//       .catch(error => {
+//         console.error('Error fetching data:', error);
+//       });
+//   }, []);
   
-  return (
-    <div>
-        <div>
-            레시피!
-        </div>
-        <div className='flex flex-wrap'>
-            {[1, 1, 1, 1, 1, 1].map((item)=><ReqUserPostCard></ReqUserPostCard>)}
-        </div>
-    </div>
+//   return (
+//     <div>
+//       <h2>레시피입니다아아아</h2>
+//     </div>
     
-  );
-}
+//   );
+// }
 
-export default P2;
+// export default P2_recipe;
