@@ -9,7 +9,7 @@ const Naver = () => {
   const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&STATE=${STATE}&redirect_uri=${NAVER_CALLBACK_URL}`;
 
   const NaverLogin = () => {
-    window.location.href = process.env.REACT_APP_REDIRECT_URL;
+    window.location.href = process.env.REACT_APP_LOGIN_URL;
   };
 
   return (
