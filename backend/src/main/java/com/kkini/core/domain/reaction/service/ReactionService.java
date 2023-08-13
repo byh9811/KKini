@@ -4,6 +4,6 @@ import com.kkini.core.domain.reaction.dto.request.ReactionRegisterRequestDto;
 
 public interface ReactionService {
 
-    void saveReaction(ReactionRegisterRequestDto reactionRegisterRequestDto, Long memberId);
+    Boolean saveReaction(ReactionRegisterRequestDto reactionRegisterRequestDto, Long memberId);
 
 }
