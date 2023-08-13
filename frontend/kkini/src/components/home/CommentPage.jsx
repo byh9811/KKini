@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { Avatar } from '@mui/material';
-import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { Avatar } from "@mui/material";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 function CommentsPage({ comments, onCommentsChange, postId }) {
   const [comment, setComment] = useState(comments);
@@ -12,7 +12,6 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
   const location = useLocation();
 
   const effectivePostId = postId || location.state?.postId;
-  console.log(comments)
   useEffect(() => {
     if (!effectivePostId) {
       console.error("postId is not defined.");
@@ -23,7 +22,7 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
       const submitComment = async () => {
         let data = {
           postId: effectivePostId,
-          contents: comment
+          contents: comment,
         };
 
         let endpoint;
@@ -31,10 +30,10 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
 
         if (editIndex !== null) {
           endpoint = `http://localhost:8080/api/comment/update/${editIndex}`;
-          method = 'PUT';
+          method = "PUT";
         } else {
           endpoint = `http://localhost:8080/api/comment/`;
-          method = 'POST';
+          method = "POST";
           if (replyToIndex !== null) {
             data.parentsId = replyToIndex;
           }
@@ -46,12 +45,15 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
             onCommentsChange(); // 댓글 작성, 수정, 삭제 후 댓글 목록 다시 가져오기
           }
         } catch (error) {
-          console.error("Error posting comment:", error.response ? error.response.data : error.message);
+          console.error(
+            "Error posting comment:",
+            error.response ? error.response.data : error.message
+          );
         }
       };
 
       submitComment();
-      setComment('');
+      setComment("");
       setEditIndex(null);
       setReplyToIndex(null);
       setSubmitTrigger(false);
@@ -60,7 +62,7 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
-  
+
     if (!effectivePostId) {
       return;
     }
@@ -73,19 +75,25 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
   const handleEditClick = (commentIndex, replyIndex = null) => {
     setEditIndex(commentIndex);
     setReplyToIndex(replyIndex);
-    const targetCommentText = replyIndex !== null ? comments[replyIndex].replies[commentIndex] : comments[commentIndex].text;
+    const targetCommentText =
+      replyIndex !== null
+        ? comments[replyIndex].replies[commentIndex]
+        : comments[commentIndex].text;
     setComment(targetCommentText);
   };
 
   const handleDeleteClick = async (commentIndex) => {
     try {
       const response = await axios.delete(`/comment/delete/${commentIndex}`);
-      console.log('삭제됨')
+      console.log("삭제됨");
       if (response.data.success) {
         onCommentsChange(); // 댓글 삭제 후 댓글 목록 다시 가져오기
       }
     } catch (error) {
-      console.error("Error deleting comment:", error.response ? error.response.data : error.message);
+      console.error(
+        "Error deleting comment:",
+        error.response ? error.response.data : error.message
+      );
     }
   };
 
@@ -96,35 +104,35 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
 
   const handleReplyCancel = () => {
     setReplyToIndex(null);
-    setComment('');
+    setComment("");
   };
 
   return (
     <CommentsContainer>
-      
       <CommentsList>
-      {comments.map((item, index) => (
-    <Comment key={index}>
-        <CommentContent>
-            <Avatar />
-            {item.text}
-        </CommentContent>
-        <h3>{item.parents.contents}</h3>
-        <button onClick={() => handleReplyClick(index)}>답글 달기</button>
-        <button onClick={() => handleEditClick(index)}>수정</button>
-        <button onClick={() => handleDeleteClick(index)}>삭제</button>
-        {item.replies && item.replies.map((reply, replyIndex) => (
-            <Reply key={replyIndex}>
-                <CommentContent>
+        {comments.map((item, index) => (
+          <Comment key={index}>
+            <CommentContent>
+              <Avatar />
+              {item.text}
+            </CommentContent>
+            <h3>{item.parents.contents}</h3>
+            <button onClick={() => handleReplyClick(index)}>답글 달기</button>
+            <button onClick={() => handleEditClick(index)}>수정</button>
+            <button onClick={() => handleDeleteClick(index)}>삭제</button>
+            {item.replies &&
+              item.replies.map((reply, replyIndex) => (
+                <Reply key={replyIndex}>
+                  <CommentContent>
                     <Avatar />
                     {reply}
-                </CommentContent>
-                <button onClick={() => handleEditClick(replyIndex, index)}>수정</button>
-                <button onClick={() => handleDeleteClick(replyIndex, index)}>삭제</button>
-            </Reply>
+                  </CommentContent>
+                  <button onClick={() => handleEditClick(replyIndex, index)}>수정</button>
+                  <button onClick={() => handleDeleteClick(replyIndex, index)}>삭제</button>
+                </Reply>
+              ))}
+          </Comment>
         ))}
-    </Comment>
-))}
       </CommentsList>
       <CommentForm onSubmit={handleCommentSubmit}>
         <CommentInput
@@ -133,7 +141,7 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
           onChange={handleCommentChange}
           placeholder="댓글을 입력하세요..."
         />
-        <CommentButton type="submit">{editIndex !== null ? '수정하기' : '댓글 작성'}</CommentButton>
+        <CommentButton type="submit">{editIndex !== null ? "수정하기" : "댓글 작성"}</CommentButton>
       </CommentForm>
       {replyToIndex !== null && (
         <div>
@@ -187,7 +195,7 @@ const CommentInput = styled.input`
 
 const CommentButton = styled.button`
   padding: 10px 15px;
-  background-color: #007BFF;
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 4px;
