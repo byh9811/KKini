@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface PreferenceRepository extends JpaRepository<Preference, Long> {
 
     Preference findByCategoryIdAndMemberId(Long categoryId, Long memberId);
+
+    Long countByMember_Id(Long memberId);
 }
