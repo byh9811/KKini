@@ -2,7 +2,7 @@ import ReqUserPostCard from "./ReqUserPostCard";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-function P4() {
+function P4Scrap() {
   window.scrollTo(0, 0);
   const [scrapList, setScrapList] = useState([]);
 
@@ -27,4 +27,4 @@ function P4() {
   );
 }
 
-export default P4;
+export default P4Scrap;

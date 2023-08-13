@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReqUserPostCard from "./ReqUserPostCard";
 import axios from "axios";
 
-function P1_post() {
+function P1Post() {
   window.scrollTo(0, 0);
   const [postList, setPostList] = useState([]);
 
@@ -33,4 +33,4 @@ function P1_post() {
   );
 }
 
-export default P1_post;
+export default P1Post;
