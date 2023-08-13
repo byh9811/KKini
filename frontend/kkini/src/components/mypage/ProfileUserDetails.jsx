@@ -18,7 +18,7 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = 0 }) => {
   useEffect(() => {
     if (mine === 1) {
       // 마이페이지 정보 불러오기
-      axios.get("/mypage/info")
+      axios.get("/mypage/info/mypage")
       .then((res) => {
         setData(res.data.response);
       })
@@ -26,7 +26,7 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = 0 }) => {
         console.error("Error fetching posts:", error);
       });
       // 팔로우 수
-      axios.get("/mypage/countFollow")
+      axios.get("/follow/countFollow/mypage")
       .then((res) => {
         setFollow(res.data.response);
       })
@@ -34,14 +34,14 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = 0 }) => {
         console.error("Error fetching posts:", error);
       });
       // 팔로워 수
-      axios.get("/mypage/countFollower")
+      axios.get("/follow/countFollower/mypage")
       .then((res) => {
         setFollower(res.data.response);
       })
       .catch((error) => {
         console.error("Error fetching posts:", error);
       });
-      axios.get("/mypage/followList", {
+      axios.get("/follow/followList/mypage", {
         params: {
           page: 0,
         }
@@ -53,7 +53,7 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = 0 }) => {
       .catch((error) => {
         console.log(error);
       });
-      axios.get("/mypage/followerList", {
+      axios.get("/follow/followerList/mypage", {
         params: {
           page: 0,
         }
