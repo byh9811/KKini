@@ -27,10 +27,13 @@ public class FollowServiceImpl implements FollowService{
     public void addFollow(FollowRequestDto followRequestDto) {
         Member me = memberRepository.findById(followRequestDto.getMemberId()).orElseThrow(() -> new NotFoundException(Member.class, followRequestDto.getMemberId()));
         Member target = memberRepository.findById(followRequestDto.getTargetMemberId()).orElseThrow(() -> new NotFoundException(Member.class, followRequestDto.getMemberId()));
-        followRepository.save(Follow.builder()
-                .me(me)
-                .target(target)
-                .build());
+        int count = followRepository.countByMe_IdAndTarget_Id(followRequestDto.getMemberId(), followRequestDto.getTargetMemberId());
+        if (count == 0){
+            followRepository.save(Follow.builder()
+                    .me(me)
+                    .target(target)
+                    .build());
+        }
     }
 
     @Override

@@ -49,6 +49,7 @@ public class ScrapQueryRepository {
         int count = jpaQueryFactory
                 .select(scrap.count())
                 .from(scrap)
+                .where(scrap.member.id.eq(memberId))
                 .fetch().size();
 
         return new PageImpl<>(list, pageable, count);

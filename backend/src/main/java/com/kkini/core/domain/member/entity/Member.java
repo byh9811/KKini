@@ -14,6 +14,10 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Table(indexes = {
+        @Index(name = "idx_email", columnList = "email"),
+        @Index(name = "idx_nickname", columnList = "nickname")
+})
 @Entity
 public class Member extends BaseEntityWithModifiedTime {
 
