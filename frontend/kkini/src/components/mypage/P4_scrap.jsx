@@ -7,7 +7,7 @@ function P4Scrap() {
   const [scrapList, setScrapList] = useState([]);
 
   useEffect(() => {
-    axios.get("/scrap/list")
+    axios.get("/scrap/list/mypage")
     .then((res) => {
       setScrapList(res.data.response.content);
     })

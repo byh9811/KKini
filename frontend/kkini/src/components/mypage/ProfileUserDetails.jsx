@@ -102,10 +102,10 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = '' }) => {
               <p className="font-semibold">{data.nickname}</p>
               {/* 팔로우 */}
               {
-                내것 ? null :
-                <button onClick={isfollowing ? handleUnfollow : handleFollow}>
-                  {isfollowing ? 'Unfollow' : 'Follow'}
-                </button>
+                // 내것 ? null :
+                // <button onClick={isfollowing ? handleUnfollow : handleFollow}>
+                //   {isfollowing ? 'Unfollow' : 'Follow'}
+                // </button>
               }
         
         
