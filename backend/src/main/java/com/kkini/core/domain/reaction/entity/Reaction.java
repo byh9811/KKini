@@ -6,6 +6,8 @@ import com.kkini.core.global.entity.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -18,14 +20,16 @@ import javax.persistence.ManyToOne;
 public class Reaction extends BaseEntity {
 
     @ManyToOne
-    @JoinColumn(name = "post_id")
-    private Post post;
-
-    @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Post post;
+
     private Boolean state;
 
-    // 비즈니스 로직 (추후 생성 예정)
+    public void setState(Boolean state) { this.state = state; }
+
 }

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -17,21 +18,22 @@ import javax.persistence.ManyToOne;
 @SuperBuilder
 public class Preference extends BaseEntity {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 
     private int weight;
 
-    public void increaseWeight() {
-        this.weight += 1;
-    }
+    public void increaseWeightByEval() { this.weight++; }
 
-    public void decreaseWeight() {
-        this.weight -= 1;
-    }
+    public void decreaseWeightByEval() { this.weight--; }
+
+    public void increaseWeightByLike() { this.weight += 3; }
+
+    public void decreaseWeightByLike() { this.weight -= 3; }
+
 }

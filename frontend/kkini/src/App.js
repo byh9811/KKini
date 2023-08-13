@@ -1,45 +1,50 @@
 import './App.css'
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import styled from 'styled-components';
-import Naver from "./routes/Naver.jsx"
-import Home from './routes/Home.jsx';
-import Redirect from './routes/Redirect.jsx';
-import Login from './routes/Login.jsx';
-import N1 from './routes/N1.jsx'
-import N2 from './routes/N2.jsx'
-import N3 from './routes/N3.jsx'
-import N4 from './routes/N4.jsx'
-import N5 from './routes/N5.jsx'
+import React, { useEffect, useState } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import Home from './routes/pages/Home.jsx';
+import Redirect from './routes/login/Redirect.jsx';
+import N1 from './routes/navi/N1_home.jsx'
+import N2 from './routes/navi/N2_search.jsx'
+import N3 from './routes/navi/N3_upload.jsx'
+import N4 from './routes/navi/N4_recipe.jsx'
+import N5 from './routes/navi/N5_mypage.jsx'
+import "tailwindcss/tailwind.css";
+import Naver from './routes/login/Naver';
+import OtherProfile from './routes/pages/OtherProfile';
+import Withdrawal from './routes/login/Withdrawal';
 
 // App.js
 function App() {
+  const [isLogIn, setIsLogIn ] = useState(false);
+
+  function setScreenSize() {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+  }
+  useEffect(() => {
+    setScreenSize();
+  });
+
   return (
     <div className="App">
-      <Logo src="img/logo.png" alt="로고" />
-      <h2 style={{ margin: '0 auto' }}>끼니에 어서오세요!</h2>
-      <Naver></Naver>
-      <div className="App">
-        <Routes>
-          <Route path="/redirect" element={<Redirect />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="*" element={<Home />}> {/* Home 컴포넌트를 루트 경로로 정의 */}
-            <Route path="n1" element={<N1 />} />
-            <Route path="n2" element={<N2 />} />
-            <Route path="n3" element={<N3 />} />
-            <Route path="n4" element={<N4 />} />
-            <Route path="n5" element={<N5 />} />
-          </Route>
-        </Routes>
+      <div style={{ margin: '0 auto' }}>
       </div>
+      <Routes>
+      <Route path="/" element={isLogIn ? <Home/> : <Navigate to="/naver" />} />
+        <Route path="/redirect" element={<Redirect  setIsLogIn={setIsLogIn}/>} />
+        <Route path="/naver" element={<Naver/>} />
+        <Route path="/withdrawal" element={<Withdrawal />} />
+        <Route path="/home/*" element={<Home />}>
+          <Route path="n1" element={<N1 />} />
+          <Route path="n2" element={<N2 />} />
+          <Route path="n3" element={<N3 />} />
+          <Route path="n4" element={<N4 />} />
+          <Route path="n5" element={<N5 />} />
+          <Route path="mypage" element={<OtherProfile/>}/>
+        </Route>
+      </Routes>
     </div>
   );
 }
 
 export default App;
-
-const Logo = styled.img`
-    width: 300px;
-    height: 300px;
-    margin: 0 auto;
-    `

@@ -51,7 +51,7 @@ public class CollectionQueryRepository {
 
         return jpaQueryFactory
                 .select(Projections.constructor(CollectionListResponseDto.class,
-                        collection.id,
+                        recipe.id,
                         recipe.image
                 ))
                 .from(collection)

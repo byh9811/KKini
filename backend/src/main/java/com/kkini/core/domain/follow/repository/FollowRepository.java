@@ -10,4 +10,6 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
     int countByMeId(long id);
     int countByTargetId(long id);
 
+    int countByMe_IdAndTarget_Id(Long memberId, Long targetMemberId);
+
 }

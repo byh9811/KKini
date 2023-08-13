@@ -1,14 +1,18 @@
 package com.kkini.core.domain.oauth2.jwt;
 
+import com.kkini.core.domain.category.entity.Category;
+import com.kkini.core.domain.category.repository.CategoryRepository;
 import com.kkini.core.domain.member.entity.Member;
 import com.kkini.core.domain.member.repository.MemberRepository;
+import com.kkini.core.domain.preference.entity.Preference;
+import com.kkini.core.domain.preference.repository.PreferenceRepository;
 import com.kkini.core.global.config.security.ExpireTime;
 import com.kkini.core.domain.oauth2.dto.UserResponseDto;
+import com.kkini.core.global.exception.NotFoundException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +30,6 @@ import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -34,6 +37,8 @@ import java.util.stream.Collectors;
 public class JwtTokenProvider {
 
     private final MemberRepository memberRepository;
+    private final PreferenceRepository preferenceRepository;
+    private final CategoryRepository categoryRepository;
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "Bearer";
@@ -45,10 +50,12 @@ public class JwtTokenProvider {
     //The specified key byte array is 248 bits which is not secure enough for any JWT HMAC-SHA algorithm.
     // The JWT JWA Specification (RFC 7518, Section 3.2) states that keys used with HMAC-SHA algorithms MUST have a size >= 256 bits (the key size must be greater than or equal to the hash output size).
     // Consider using the io.jsonwebtoken.security.Keys#secretKeyFor(SignatureAlgorithm) method to create a key guaranteed to be secure enough for your preferred HMAC-SHA algorithm.
-    public JwtTokenProvider(@Value("${JWT_SECRET_KEY}") String secretKey, @Autowired MemberRepository memberRepository) {
+    public JwtTokenProvider(@Value("${JWT_SECRET_KEY}") String secretKey, @Autowired MemberRepository memberRepository, @Autowired PreferenceRepository preferenceRepository, CategoryRepository categoryRepository) {
+        this.preferenceRepository = preferenceRepository;
+        this.categoryRepository = categoryRepository;
+        this.memberRepository = memberRepository;
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
-        this.memberRepository = memberRepository;
     }
 
     //Authentication 을 가지고 AccessToken, RefreshToken 을 생성하는 메서드
@@ -85,10 +92,21 @@ public class JwtTokenProvider {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
-        Member member = memberRepository.findByEmail(name).get();
+        Member member = memberRepository.findByEmail(name).orElseThrow(() -> new NotFoundException(Member.class));
         member.updateRefreshToken(refreshToken);
 
         memberRepository.save(member);
+        for (Long i = 1L; i <=5L; i++) {
+            Long finalI = i;
+            Category category = categoryRepository.findById(finalI).orElseThrow(() -> new NotFoundException(Category.class, finalI));
+            preferenceRepository.save(Preference.builder()
+                    .weight(0)
+                    .category(category)
+                    .member(member)
+                    .build()
+            );
+        }
+
 
         return UserResponseDto.TokenInfo.builder()
                 .grantType(BEARER_TYPE)

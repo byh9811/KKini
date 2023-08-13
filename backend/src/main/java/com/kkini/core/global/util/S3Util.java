@@ -74,7 +74,7 @@ public class S3Util {
             }
 
             // 저장된 파일 정보 반환
-            filePaths.add(uploadFilePath + "/" + uploadFileName);
+            filePaths.add(uploadFileUrl);
         }
 
         return filePaths;

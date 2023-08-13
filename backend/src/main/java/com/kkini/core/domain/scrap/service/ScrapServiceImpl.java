@@ -30,16 +30,24 @@ public class ScrapServiceImpl implements ScrapService{
                 () -> new NotFoundException(Member.class, addScrapRequestDto.getMemberId()));
         Post post = postRepository.findById(addScrapRequestDto.getPostId()).orElseThrow(
                 () -> new NotFoundException(Member.class, addScrapRequestDto.getPostId()));
-        scrapRepository.save(Scrap.builder()
-                .member(member)
-                .post(post)
-                .build());
+        int count = scrapRepository.countByMember_IdAndPost_Id(addScrapRequestDto.getMemberId(), addScrapRequestDto.getPostId());
+        if(count == 0){
+            scrapRepository.save(Scrap.builder()
+                    .member(member)
+                    .post(post)
+                    .build());
+        }
+
     }
 
     @Override
-    public void deleteScrap(Long id) {
+    public void deleteScrap(Long id, Long memberId) {
         Scrap scrap = scrapRepository.findById(id).orElseThrow(() -> new NotFoundException(Scrap.class, id));
-        scrapRepository.delete(scrap);
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException(Member.class, memberId));
+
+        if (scrap.getMember().equals(member)) {
+            scrapRepository.delete(scrap);
+        }
     }
 
     @Override

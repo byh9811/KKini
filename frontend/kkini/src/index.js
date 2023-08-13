@@ -5,14 +5,28 @@ import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom";
+import { Provider } from 'react-redux';
+import store from './store.js'
+import "tailwindcss/tailwind.css";
+
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from 'redux-persist';
+import setAuthorizationToken from './apis/utils/setAuthorizationToken';
+
+export let persistor = persistStore(store);
+
+setAuthorizationToken(localStorage.jwtToken);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>
+    <Provider store = {store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <BrowserRouter>
+        <App />
+      </BrowserRouter>
+      </PersistGate>
+    </Provider>
 );
 
 

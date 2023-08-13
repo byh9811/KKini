@@ -24,7 +24,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    @Value("${AUTH_REDIRECT_URI}")
+    @Value("${app.oauth2.authorized-redirect-uris}")
     private String redirectUri;
     private final JwtTokenProvider jwtTokenProvider;
     private final CookieAuthorizationRequestRepository cookieAuthorizationRequestRepository;
@@ -33,6 +33,11 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         log.debug("성공적으로 인증 수행 완료!!!!!!");
+        for (Cookie cookie:request.getCookies()) {
+            log.warn("쿠키 불러오기");
+            log.warn(cookie.getName());
+            log.warn(cookie.getValue());
+        }
         log.debug("{}", request);
         log.debug("{}", response);
         log.debug("{}", authentication);

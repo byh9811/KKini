@@ -15,11 +15,11 @@ import javax.persistence.*;
 @SuperBuilder
 public class Recipe extends BaseEntityWithModifiedTime {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 
@@ -33,9 +33,10 @@ public class Recipe extends BaseEntityWithModifiedTime {
 
     private String image;
 
+    private String steps;
+
     private Boolean deleted;
 
-    // 비즈니스 로직 (추후 생성 예정)
     public void deleteRecipe() {
         this.deleted = true;
     }
