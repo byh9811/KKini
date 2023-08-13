@@ -43,13 +43,13 @@ public class ReactionServiceImpl implements ReactionService {
 
         // 신규
         if(reaction == null) {
-            Reaction newReaction = Reaction.builder()
+            reaction = Reaction.builder()
                     .member(writer)
                     .post(post)
                     .state(dto.getState())
                     .build();
 
-            reactionRepository.save(newReaction);
+            reactionRepository.save(reaction);
         }
 
         // 수정
