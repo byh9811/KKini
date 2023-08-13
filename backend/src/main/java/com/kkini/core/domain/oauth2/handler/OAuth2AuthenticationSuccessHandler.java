@@ -24,7 +24,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    @Value("${AUTH_REDIRECT_URI}")
+    @Value("${app.oauth2.authorized-redirect-uris}")
     private String redirectUri;
     private final JwtTokenProvider jwtTokenProvider;
     private final CookieAuthorizationRequestRepository cookieAuthorizationRequestRepository;
