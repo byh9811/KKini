@@ -48,14 +48,11 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public void saveRecipe(RecipeRegisterRequestDto dto, MultipartFile multipartFile, Long memberId) {
-        Member writer = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException(Member.class, memberId));
-        Category category = categoryRepository.findById(dto.getCategoryId()).orElseThrow(() -> new NotFoundException(Category.class, dto.getCategoryId()));
 
-//        writer.addStars(1);
-//        levelUpUtil.checkLevelUp(memberId);
-        ArrayList<MultipartFile> multipartFiles = new ArrayList<>();
-        multipartFiles.add(multipartFile);
-        String recipe = s3Util.uploadFiles("recipe", multipartFiles).get(0);
+        Member writer = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException(Member.class, memberId));
+
+        log.warn("{}", dto.toString());
+        Category category = categoryRepository.findById(dto.getCategoryId()).orElseThrow(() -> new NotFoundException(Category.class, dto.getCategoryId()));
 
         recipeRepository.save(Recipe.builder()
                 .member(writer)
@@ -63,11 +60,27 @@ public class RecipeServiceImpl implements RecipeService {
                 .name(dto.getName())
                 .time(dto.getTime())
                 .difficulty(0)      // 사용 안하게 된 필드 0
-                .deleted(false)
-                .image(recipe)
                 .ingredient(dto.getIngredient())
                 .steps(dto.getSteps())
                 .build());
 
+        // TODO: 벌크 연산으로 INSERT문을 한번에 쿼리하면 ?
+        // TODO: 현재 @GeneratedValue(strategy = GenerationType.IDENTITY)이기 때문에 쓰기지연 동작 X
+
+
+        writer.addStars(1);
+        levelUpUtil.checkLevelUp(memberId);
+        ArrayList<MultipartFile> multipartFiles = new ArrayList<>();
+        multipartFiles.add(multipartFile);
+        s3Util.uploadFiles("recipe", multipartFiles);
+
+//        // TODO: 벌크 연산으로 INSERT문을 한번에 쿼리하면 ?
+//        // TODO: 현재 @GeneratedValue(strategy = GenerationType.IDENTITY)이기 때문에 쓰기지연 동작 X
+//        for (String step : dto.getSteps()) {
+//            stepRepository.save(Step.builder()
+//                    .recipe(recipe)
+//                    .content(step)
+//                    .build());
+//        }
     }
 }
