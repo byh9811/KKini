@@ -3,7 +3,7 @@ import { ProfileUserDetails } from '../../components/mypage/ProfileUserDetails';
 import ReqUserPostPart from '../../components/mypage/ReqUserPostPart';
 import { useParams } from 'react-router-dom'
 
-function N5_mypage() {
+function N5Mypage() {
   window.scrollTo(0, 0);
   const { userId = "" } = useParams();
   const [ mine, setMine ] = useState(1);
@@ -33,4 +33,4 @@ function N5_mypage() {
   );
 }
 
-export default N5_mypage;
+export default N5Mypage;
