@@ -20,49 +20,34 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = '' }) => {
     // console.log(`유저아이디: ${userId}`)
     console.log('mypage')
       // 마이페이지 정보 불러오기
-      axios
-      // axios.get('http://localhost:8080/api/post?page=0&size=5&sort=string')
-        .get(`/mypage/info/${memid}`)
-        // .get("/mypage/info")
-        .then((res) => {
-          setData(res.data.response);
-        })
-        .catch((error) => {
-          console.error("Error fetching posts:", error);
-        });
+      axios.get("/mypage/info/mypage")
+      .then((res) => {
+        setData(res.data.response);
+      })
+      .catch((error) => {
+        console.error("Error fetching posts:", error);
+      });
       // 팔로우 수
-      axios
-        .get(`/mypage/countFollow/${memid}`)
-        .then((res) => {
-          setFollow(res.data.response);
-        })
-        .catch((error) => {
-          console.error("Error fetching posts:", error);
-        });
+      axios.get("/follow/countFollow/mypage")
+      .then((res) => {
+        setFollow(res.data.response);
+      })
+      .catch((error) => {
+        console.error("Error fetching posts:", error);
+      });
       // 팔로워 수
-      axios
-        .get(`/mypage/countFollower/${memid}`)
-        .then((res) => {
-          setFollower(res.data.response);
-        })
-        .catch((error) => {
-          console.error("Error fetching posts:", error);
-        });
-
-      // fetchFollowingList();
-      axios
-      // .get("/mypage/followList?page=0&size=50&sort=string")
-      .get(`/mypage/follow/followList/${memid}`)
+      axios.get("/follow/countFollower/mypage")
       .then((res) => {
         setFollowingList(res.data.response.content);
       })
       .catch((error) => {
         console.log(error);
       });
-      // fetchFollowerList();
-      axios
-      // .get("/mypage/followerList?page=0&size=50&sort=string")
-      .get(`/mypage/follow/followerList/${memid}`)
+      axios.get("/follow/followList/mypage", {
+        params: {
+          page: 0,
+        }
+      })
       .then((res) => {
           setFollowerList(res.data.response.content);
           setIsfollowing(res.data.response.content.some((user) => user["회원 식별자"] === Number(memid)));
@@ -83,11 +68,11 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = '' }) => {
       .catch((error) => {
         console.log(error);
       });
-  }
-
-  const handleUnfollow = () => {
-    axios
-      .delete(`/follow/${memid}`)
+      axios.get("/follow/followerList/mypage", {
+        params: {
+          page: 0,
+        }
+      })
       .then((res) => {
         // setIsfollowing(res.data.response.some((user) => user["회원 식별자"] === Number(memid)));
         setIsfollowing(false)
