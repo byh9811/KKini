@@ -34,11 +34,10 @@ public class CommentController {
     @Parameter(name = "commentRegisterRequestDto", description = "댓글 정보")
     @PostMapping
     public Response<Void> addComment(
-            @RequestBody CommentRegisterRequestDto commentRegisterRequestDto
-//            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
+            @RequestBody CommentRegisterRequestDto commentRegisterRequestDto,
+            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
-//        commentService.saveComment(commentRegisterRequestDto, userPrincipal.getId());
-        commentService.saveComment(commentRegisterRequestDto, 1L);
+        commentService.saveComment(commentRegisterRequestDto, userPrincipal.getId());
 
         return OK(null);
     }
@@ -60,11 +59,10 @@ public class CommentController {
     @Parameter(name = "commentUpdateRequestDto", description = "댓글 정보")
     @PutMapping
     public Response<Void> modifyComment(
-            @RequestBody CommentUpdateRequestDto commentUpdateRequestDto
-//            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
+            @RequestBody CommentUpdateRequestDto commentUpdateRequestDto,
+            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
-//        commentService.modifyComment(commentUpdateRequestDto, userPrincipal.getId());
-        commentService.modifyComment(commentUpdateRequestDto, 1L);
+        commentService.modifyComment(commentUpdateRequestDto, userPrincipal.getId());
 
         return OK(null);
     }
@@ -74,11 +72,10 @@ public class CommentController {
     @Parameter(name = "id", description = "댓글 식별자")
     @DeleteMapping("/{id}")
     public Response<Void> removeComment(
-            @PathVariable("id") Long commentId
-//            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
+            @PathVariable("id") Long commentId,
+            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
-//        commentService.removeComment(commentId, userPrincipal.getId());
-        commentService.removeComment(commentId, 1L);
+        commentService.removeComment(commentId, userPrincipal.getId());
 
         return OK(null);
     }

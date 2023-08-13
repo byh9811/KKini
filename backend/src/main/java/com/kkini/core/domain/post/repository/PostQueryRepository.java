@@ -63,52 +63,56 @@ public class PostQueryRepository {
                 .leftJoin(reaction).on(post.id.eq(reaction.post.id).and(post.member.id.eq(reaction.member.id)))
                 .leftJoin(scrap).on(post.id.eq(scrap.post.id).and(post.member.id.eq(scrap.member.id)))
                 .where(searchCondition(memberId, followList, type, search, categoryId))
-                .orderBy(postSort(pageable))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(postSort(pageable, type))
                 .fetch();
 
-        for(int i=0; i<postList.size(); i++) {
+        for (PostListResponseDto postListResponseDto : postList) {
             List<String> imageList = jpaQueryFactory
                     .select(postImage.image)
                     .from(postImage)
-                    .where(postImage.post.id.eq(postList.get(i).getId()))
+                    .where(postImage.post.id.eq(postListResponseDto.getId()))
                     .fetch();
 
             List<Long> imageIndexList = jpaQueryFactory
                     .select(postImage.id)
                     .from(postImage)
-                    .where(postImage.post.id.eq(postList.get(i).getId()))
+                    .where(postImage.post.id.eq(postListResponseDto.getId()))
                     .fetch();
 
             Long commentCnt = jpaQueryFactory
-                    .selectFrom(comment)
-                    .where(comment.post.id.eq(postList.get(i).getId()))
-                    .fetchCount();
+                    .select(comment.count())
+                    .from(comment)
+                    .where(comment.post.id.eq(postListResponseDto.getId()))
+                    .fetchFirst();
 
-            postList.get(i).setImageList(imageList);
-            postList.get(i).setImageIndexList(imageIndexList);
-            postList.get(i).setCommentCnt(commentCnt.intValue());
+            postListResponseDto.setImageList(imageList);
+            postListResponseDto.setImageIndexList(imageIndexList);
+            postListResponseDto.setCommentCnt(commentCnt.intValue());
         }
 
-        int start = (int) pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), postList.size());
-        return new PageImpl<>(postList.subList(start, end), pageable, postList.size());
+        long count = jpaQueryFactory
+                .select(post.count())
+                .from(post)
+                .where(searchCondition(memberId, followList, type, search, categoryId))
+                .fetchFirst();
+
+        return new PageImpl<>(postList, pageable, count);
     }
 
     private BooleanBuilder searchCondition(Long memberId, List<Long> followList, int type, String search, Long categoryId) {
         BooleanBuilder builder = new BooleanBuilder();
 
         if(type == FEED) {
-            // 자신이 작성한 포스트를 가져온다.
             builder.or(post.member.id.eq(memberId));
 
-            // 팔로워 목록이 존재할때 팔로워가 작성한 포스트도 가져온다.
             if(followList != null && !followList.isEmpty()) {
                 builder.or(post.member.id.in(followList));
             }
         }
 
         if(type == MYPAGE) {
-            // 자신이 작성한 포스트를 가져온다.
             builder.or(post.member.id.eq(memberId));
         }
 
@@ -123,7 +127,7 @@ public class PostQueryRepository {
         return builder;
     }
 
-    private OrderSpecifier<?> postSort(Pageable page) {
+    private OrderSpecifier<?> postSort(Pageable page, int type) {
         if (!page.getSort().isEmpty()) {
             for (Sort.Order order : page.getSort()) {
                 Order direction = order.getDirection().isAscending() ? Order.ASC : Order.DESC;
