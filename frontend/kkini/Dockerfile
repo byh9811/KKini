@@ -18,4 +18,4 @@ COPY . .
 EXPOSE 3000
 
 # 번들 파일 실행하기 (컨테이너 실행할 때 동작)
-CMD ["npm", "start"]
+CMD ["npm", "run", "build"]
