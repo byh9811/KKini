@@ -49,52 +49,55 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
         })
       }
 
-    const handleIconClick = (type) => {
-        let newReaction = null;
+
+      //좋아요 싫어요 수정완룐
+      const handleIconClick = (type) => {
+        let intendedReaction = null;
     
-        // 좋아요 아이콘을 위한 로직
         if (type === 'like') {
-            newReaction = reaction === true ? null : true;
-        }
-        // 싫어요 아이콘을 위한 로직
-        else if (type === 'dislike') {
-            newReaction = reaction === false ? null : false;
+            intendedReaction = reaction === true ? null : true;
+        } else if (type === 'dislike') {
+            intendedReaction = reaction === false ? null : false;
         }
     
-        // 서버에 PUT 요청을 보내 상태 변경을 저장
-        axios.put(`/reaction/${postId}`, {
+        axios.post(`/reaction`, {
             postId: postId,
-            reaction: newReaction
+            state: intendedReaction
         })
         .then((response) => {
-            // 성공적으로 응답받았을 때의 처리 로직
-            console.log('반응들감')
-            if(newReaction === true) {
-                setLikeCnt(prevLikeCnt => prevLikeCnt + (reaction === false ? 0 : 1));
-                if(reaction === false) {
-                    setdisLikeCnt(prevDislikeCnt => prevDislikeCnt - 1);
+            if (response.data.success) {
+                if (intendedReaction === true) {
+                    setLikeCnt(prevLikeCnt => prevLikeCnt + 1);
+                    if (reaction === false) {
+                        setdisLikeCnt(prevDislikeCnt => prevDislikeCnt - 1);
+                    }
+                } else if (intendedReaction === false) {
+                    setdisLikeCnt(prevDislikeCnt => prevDislikeCnt + 1);
+                    if (reaction === true) {
+                        setLikeCnt(prevLikeCnt => prevLikeCnt - 1);
+                    }
+                } else {
+                    if (reaction === true) {
+                        setLikeCnt(prevLikeCnt => prevLikeCnt - 1);
+                    } else if (reaction === false) {
+                        setdisLikeCnt(prevDislikeCnt => prevDislikeCnt - 1);
+                    }
                 }
-            } else if(newReaction === false) {
-                setdisLikeCnt(prevDislikeCnt => prevDislikeCnt + (reaction === true ? 0 : 1));
-                if(reaction === true) {
-                    setLikeCnt(prevLikeCnt => prevLikeCnt - 1);
-                }
+                setReaction(intendedReaction);
             } else {
-                if(reaction === true) {
-                    setLikeCnt(prevLikeCnt => prevLikeCnt - 1);
-                } else if(reaction === false) {
-                    setdisLikeCnt(prevDislikeCnt => prevDislikeCnt - 1);
-                }
+                console.error('Error from server:', response.data.error.message);
             }
-    
-            setReaction(newReaction);
         })
         .catch((error) => {
-            // 에러가 발생했을 때의 처리 로직
             console.error('There was an error sending the PUT request:', error);
         });
     }
     
+    
+    
+
+
+
     const handleClose = () => {
         setShow(false);
         setAmount('');
