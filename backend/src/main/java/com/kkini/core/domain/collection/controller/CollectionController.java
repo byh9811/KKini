@@ -29,11 +29,10 @@ public class CollectionController {
 
     @Operation(summary = "내 도감 리스트 조회", description = "내 도감 리스트를 조회하는 API입니다.")
     @Parameters({
-            @Parameter(name = "difficulty", description = "난이도 정보")
     })
     @GetMapping
-    public Response<List<CollectionListResponseDto>> getMyCollectionList(@RequestParam(required = false) Integer difficulty, @AuthenticationPrincipal UserPrincipal userPrincipal) {
-        return OK(collectionQueryService.getMyCollectionList(userPrincipal.getId(), difficulty));
+    public Response<CollectionListResponseDto> getMyCollection(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        return OK(collectionQueryService.getMyCollection(userPrincipal.getId()));
     }
 
 }
