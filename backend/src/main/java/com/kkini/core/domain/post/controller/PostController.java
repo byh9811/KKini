@@ -93,10 +93,10 @@ public class PostController {
     })
     @GetMapping("/algorithm")
     public Response<Page<PostListResponseDto>> getAlgorithmPostList(
-            @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable,
+            int page,
             @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
-        return OK(postQueryService.getAlgorithmPostList(pageable, userPrincipal.getId()));
+        return OK(postQueryService.getAlgorithmPostList(page, userPrincipal.getId()));
     }
 
     @Operation(summary = "포스트 삭제", description = "포스트를 삭제한다.")
