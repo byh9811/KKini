@@ -83,7 +83,7 @@ fe-package:   # JOB 이름
     - docker login -u $DOCKER_HUB_ID --password $DOCKER_HUB_PW   # Docker Hub에 로그인
   # 실행될 script 설정
   script:
-    - docker build -t $FE_IMAGE_NAME --build-arg nav_key=$REACT_APP_NAVER_API_KEY frontend/kkini/.   # fe에 있는 Dockerfile로 build
+    - docker build -t $FE_IMAGE_NAME frontend/kkini/.   # fe에 있는 Dockerfile로 build
     - docker push $FE_IMAGE_NAME   # DockerHub에 image push
   # script가 실행된 후 수행 될 script
   after_script:
