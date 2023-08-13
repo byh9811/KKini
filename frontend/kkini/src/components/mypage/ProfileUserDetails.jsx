@@ -16,49 +16,57 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = '' }) => {
   const [followerList, setFollowerList] = useState([]);
 
   useEffect(() => {
-    // console.log(`내것: ${내것}`)
-    // console.log(`유저아이디: ${userId}`)
-    console.log('mypage')
-      // 마이페이지 정보 불러오기
-      axios.get("/mypage/info/mypage")
-      .then((res) => {
-        setData(res.data.response);
-      })
-      .catch((error) => {
-        console.error("Error fetching posts:", error);
-      });
-      // 팔로우 수
-      axios.get("/follow/countFollow/mypage")
-      .then((res) => {
-        setFollow(res.data.response);
-      })
-      .catch((error) => {
-        console.error("Error fetching posts:", error);
-      });
-      // 팔로워 수
-      axios.get("/follow/countFollower/mypage")
-      .then((res) => {
-        setFollowingList(res.data.response.content);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-      axios.get("/follow/followList/mypage", {
-        params: {
-          page: 0,
+    // 마이페이지 정보 불러오기
+    axios.get("/mypage/info/mypage")
+    .then((res) => {
+      setData(res.data.response);
+    })
+    .catch((error) => {
+      console.error("Error fetching posts:", error);
+    });
+    // 팔로우 수
+    axios.get("/follow/countFollow/mypage")
+    .then((res) => {
+      setFollow(res.data.response);
+    })
+    .catch((error) => {
+      console.error("Error fetching posts:", error);
+    });
+    // 팔로워 수
+    axios.get("/follow/countFollower/mypage")
+    .then((res) => {
+      setFollower(res.data.response);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+    axios.get("/follow/followList/mypage", {
+      params: {
+        page: 0,
+      }
+    })
+    .then((res) => {
+      setFollowerList(res.data.response.content);
+      setIsfollowing(res.data.response.content.some((user) => user["회원 식별자"] === Number(memid)));
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+    axios.get("/follow/followerList/mypage", {
+      params: {
+        page: 0,
         }
-      })
-      .then((res) => {
-          setFollowerList(res.data.response.content);
-          setIsfollowing(res.data.response.content.some((user) => user["회원 식별자"] === Number(memid)));
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    })
+    .then((res) => {
+      setFollowerList(res.data.response.content);
+      setIsfollowing(res.data.response.content.some((user) => user["회원 식별자"] === Number(memid)));
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   }, []);
 
   //  팔로우
-  
   const handleFollow = () => {
     axios
       .post(`/follow/${memid}`)
@@ -108,7 +116,6 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = '' }) => {
                 // </button>
               }
         
-        
               <CiSettings size={20} onClick={handleShow}></CiSettings>
             </div>
             <div className="flex space-x-10">
@@ -136,25 +143,25 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = '' }) => {
       </div>
         
       <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton style={{ textAlign: 'center' }}>
-                    <Modal.Title>Settings</Modal.Title>
-                </Modal.Header>
-                <Modal.Body style={{ textAlign: 'center' }}>
-                <CommentsContainer>
-                  <div>
-                    <Link to = "/withdrawal">
-                      회원탈퇴
-                    </Link>
-                  </div>
-                  <a href="http://localhost:8080/api/member/logout">
-                    로그아웃
-                  </a>
-                </CommentsContainer>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>닫기</Button>
-                </Modal.Footer>
-            </Modal>
+        <Modal.Header closeButton style={{ textAlign: 'center' }}>
+            <Modal.Title>Settings</Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{ textAlign: 'center' }}>
+          <CommentsContainer>
+            <div>
+              <Link to = "/withdrawal">
+                회원탈퇴
+              </Link>
+            </div>
+            <a href="http://localhost:8080/api/member/logout">
+              로그아웃
+            </a>
+          </CommentsContainer>
+        </Modal.Body>
+        <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>닫기</Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

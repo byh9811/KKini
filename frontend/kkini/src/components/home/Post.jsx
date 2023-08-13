@@ -13,7 +13,6 @@ import Drawer from './Drawer';
 import axios from 'axios';
 // import ImageSlider from './ImageSlider.jsx';  // 여기서 'path_to_imageslider.jsx'는 실제 ImageSlider 컴포넌트가 있는 경로로 대체해야 합니다.
 
-
 const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: initialLikeCnt, contents, disLikeCnt: initialdisLikeCnt, commentcnt, avgPrice, recipeName, postId }, ref) => {
     const [show, setShow] = useState(false);
     const [amount, setAmount] = useState('');
@@ -25,7 +24,6 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
     const [likeCnt, setLikeCnt] = useState(initialLikeCnt); 
     const [disLikeCnt, setdisLikeCnt] = useState(initialdisLikeCnt);
     const [comments, setComments] = useState([]);
-
 
     const addScrap = (postId) => {
         setIsBookmarked(true)
@@ -97,9 +95,6 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
         });
     }
     
-
-
-
     const handleClose = () => {
         setShow(false);
         setAmount('');
@@ -132,7 +127,11 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
             </PostHeader>
             <Contentstext>{contents}<b> #{recipeName}</b></Contentstext>
             <PostImage>
-                <img src={postImage} alt="" />
+                {
+                    postImage.map((link, index) => (
+                        <img key={index} src={link} alt={`Image ${index}`} />
+                    ))
+                }
             </PostImage>
 
             <PostFooterIcons>
@@ -198,7 +197,6 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
                     <Button variant="primary" onClick={handleSave}>금액 평가 완료</Button>
                 </Modal.Footer>
             </Modal>
-            {/* 여기서 하면됨 */}
         </PostContainer>
     );
 });
@@ -241,8 +239,6 @@ const PostHeaderAuthor = styled.div`
   }
 `;
 
-
-
 const PostImage = styled.div`
   img {
     width: 95%;
@@ -269,7 +265,6 @@ const PostIcon = styled.div`
         cursor: pointer;
     }
 `;
-
 
 const CountText = styled.span`
     display: flex;

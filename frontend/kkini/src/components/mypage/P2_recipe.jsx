@@ -23,15 +23,18 @@ function P2Recipe() {
   
   return (
     <div>
-      {
-        recipesList.map((item) => (
-          <div key={item.recipeId}>
-            <img src={item.recipeImage} alt={`Image ${item.recipeId}`} />
-          </div>
-        ))
-      }
+      {recipesList.length > 0 ? (
+        <div>
+          {recipesList.map((item) => (
+            <div key={item.recipeId}>
+              <img src={item.recipeImage} alt={`Image ${item.recipeId}`} />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p>등록된 레시피가 없습니다</p>
+      )}
     </div>
-    
   );
 }
 

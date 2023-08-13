@@ -22,13 +22,17 @@ function P1Post() {
 
   return (
     <div>
-      <div className="flex flex-wrap">
-        {postList.map((item) => (
-          <div key={item.id}>
-            <img src={item.imageList[0]} alt={`Image ${item.id}`} />
-          </div>
-        ))}
-      </div>
+      {postList.length > 0 ? (
+        <div className="flex flex-wrap">
+          {postList.map((item) => (
+            <div key={item.id}>
+              <img src={item.imageList[0]} alt={`Image ${item.id}`} />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p>등록된 글이 없습니다</p>
+      )}
     </div>
   );
 }
