@@ -22,7 +22,7 @@ public class Post extends BaseEntityWithModifiedTime {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 

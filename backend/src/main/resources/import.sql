@@ -14,18 +14,26 @@ INSERT INTO MEMBER(create_date_time, modify_date_time, auth_provider, email, ima
 INSERT INTO MEMBER(create_date_time, modify_date_time, auth_provider, email, image, level, name, nickname, oauth2id, refresh_token, role, stars) VALUES (now(), now(), 'NAVER', 'byh9811@google.com', 'imagename789', 3, '이승태', 'IUFAN', 'oauth2id2', 'token67890', 'ROLE_USER', 2);
 
 # recipe 더미 데이터
-INSERT INTO Recipe (member_id, category_id, name, time, difficulty, ingredient, image, steps, deleted) VALUES (1, 1, '맛있는 초콜릿 케이크', 45, 3, '밀가루 2컵, 설탕 2컵, 코코아 파우더 3/4컵, ...', 'https://example.com/chocolate-cake.jpg', '1. 오븐 예열...\n2. 건조 재료 섞기...\n3. 습기 있는 재료 추가하기...', false);
-INSERT INTO Recipe (member_id, category_id, name, time, difficulty, ingredient, image, steps, deleted) VALUES (2, 2, '크리미한 치킨 알프레도', 30, 2, '뼈 없는 닭가슴살 2조각, 생크림 1컵, 파마산 치즈 1/2컵, ...', 'https://example.com/chicken-alfredo.jpg', '1. 닭살 조리...\n2. 파스타 준비...\n3. 알프레도 소스 만들기...', false);
+INSERT INTO Recipe (member_id, category_id, name, time, difficulty, ingredient, image, steps, deleted) VALUES (1, 1, '맛있는 초콜릿 케이크', 45, 3, '밀가루 2컵, 설탕 2컵, 코코아 파우더 3/4컵, ...', 'https://cookiebebe.com/shopimages/cookiebebe/002003000013.jpg?1622104450', '1. 오븐 예열...\n2. 건조 재료 섞기...\n3. 습기 있는 재료 추가하기...', false);
+INSERT INTO Recipe (member_id, category_id, name, time, difficulty, ingredient, image, steps, deleted) VALUES (2, 2, '크리미한 치킨 알프레도', 30, 2, '뼈 없는 닭가슴살 2조각, 생크림 1컵, 파마산 치즈 1/2컵, ...', 'https://i.ytimg.com/vi/C_V6H9DxeUk/maxresdefault.jpg', '1. 닭살 조리...\n2. 파스타 준비...\n3. 알프레도 소스 만들기...', false);
 INSERT INTO Recipe (member_id, category_id, name, time, difficulty, ingredient, image, steps, deleted) VALUES (3, 1, '매콤한 소고기 타코', 25, 2, '1파운드 갈은 소고기, 타코 시즈닝 1팩, 샐러드용 양상추 1컵, ...', 'https://example.com/beef-tacos.jpg', '1. 소고기 볶기...\n2. 시즈닝 추가...\n3. 타코 조립하기...', false);
 INSERT INTO Recipe (member_id, category_id, name, time, difficulty, ingredient, image, steps, deleted) VALUES (1, 3, '신선한 가든 샐러드', 15, 1, '잡채 채소 2컵, 체리 토마토 1/2컵, 얇게 썬 오이 1/4컵, ...', 'https://example.com/garden-salad.jpg', '1. 채소 씻고 다듬기...\n2. 보울에 재료 넣기...\n3. 드레싱 뿌리기...', false);
 INSERT INTO Recipe (member_id, category_id, name, time, difficulty, ingredient, image, steps, deleted) VALUES (2, 2, '클래식 마르게리따 피자', 20, 2, '피자 반죽 1개, 토마토 소스 1/2컵, 모짜렐라 치즈 1 1/2컵, ...', 'https://example.com/margherita-pizza.jpg', '1. 반죽 펴기...\n2. 소스 바르기...\n3. 치즈와 토핑 추가하기...\n4. 예열한 오븐에서 굽기...', false);
 
 # post 더미 데이터
-INSERT INTO Post (member_id, recipe_id, contents, price, like_cnt, dis_like_cnt) VALUES (1, 1, '맛있는 초콜릿 케이크를 만들었어요!', 10000, 15, 2);
-INSERT INTO Post (member_id, recipe_id, contents, price, like_cnt, dis_like_cnt) VALUES (2, 2, '오늘 치킨 알프레도를 시도해보았는데 정말 맛있었어요.', 15000, 23, 1);
-INSERT INTO Post (member_id, recipe_id, contents, price, like_cnt, dis_like_cnt) VALUES (3, 3, '소고기 타코 완성! 매콤하고 고소해요~', 8000, 10, 3);
-INSERT INTO Post (member_id, recipe_id, contents, price, like_cnt, dis_like_cnt) VALUES (1, 4, '가든 샐러드를 간단하게 만들었어요.', 5000, 8, 0);
-INSERT INTO Post (member_id, recipe_id, contents, price, like_cnt, dis_like_cnt) VALUES (2, 5, '클래식 마르게리따 피자 퍼펙트!', 12000, 18, 2);
+INSERT INTO Post (member_id, recipe_id, contents, avg_price, avg_price_cnt, like_cnt, dis_like_cnt) VALUES (1, 1, '맛있는 초콜릿 케이크를 만들었어요!', 10000, 1, 15, 2);
+INSERT INTO Post (member_id, recipe_id, contents, avg_price, avg_price_cnt, like_cnt, dis_like_cnt) VALUES (2, 2, '오늘 치킨 알프레도를 시도해보았는데 정말 맛있었어요.', 15000, 2, 23, 1);
+INSERT INTO Post (member_id, recipe_id, contents, avg_price, avg_price_cnt, like_cnt, dis_like_cnt) VALUES (3, 3, '소고기 타코 완성! 매콤하고 고소해요~', 8000, 1, 10, 3);
+INSERT INTO Post (member_id, recipe_id, contents, avg_price, avg_price_cnt, like_cnt, dis_like_cnt) VALUES (1, 4, '가든 샐러드를 간단하게 만들었어요.', 5000, 1, 8, 0);
+INSERT INTO Post (member_id, recipe_id, contents, avg_price, avg_price_cnt, like_cnt, dis_like_cnt) VALUES (2, 5, '클래식 마르게리따 피자 퍼펙트!', 12000, 1, 18, 2);
+
+# evaluation 더미 데이터
+INSERT INTO Evaluation (member_id, post_id, price) VALUES (1, 1, 10000);
+INSERT INTO Evaluation (member_id, post_id, price) VALUES (1, 2, 20000);
+INSERT INTO Evaluation (member_id, post_id, price) VALUES (2, 2, 10000);
+INSERT INTO Evaluation (member_id, post_id, price) VALUES (3, 3, 8000);
+INSERT INTO Evaluation (member_id, post_id, price) VALUES (1, 4, 5000);
+INSERT INTO Evaluation (member_id, post_id, price) VALUES (1, 5, 12000);
 
 # image 더미 데이터
 INSERT INTO Post_image (post_id, image) VALUES (1, 'https://example.com/image1.jpg');
@@ -33,6 +41,9 @@ INSERT INTO Post_image (post_id, image) VALUES (2, 'https://example.com/image2.j
 INSERT INTO Post_image (post_id, image) VALUES (3, 'https://example.com/image3.jpg');
 INSERT INTO Post_image (post_id, image) VALUES (4, 'https://example.com/image4.jpg');
 INSERT INTO Post_image (post_id, image) VALUES (5, 'https://example.com/image5.jpg');
+INSERT INTO Post_image (post_id, image) VALUES (2, 'https://bakeitwithlove.com/wp-content/uploads/2021/04/Grilled-Chicken-Fettucine-Alfredo-lg-500x500.jpg');
+INSERT INTO Post_image (post_id, image) VALUES (2, 'https://bakeitwithlove.com/wp-content/uploads/2021/04/Grilled-Chicken-Fettuccine-Alfredo-h.jpg');
+INSERT INTO Post_image (post_id, image) VALUES (5, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_eMXBi5GQn-wgHuErh-r5flo-u8jYJPPjrg&usqp=CAU');
 
 # scrap 더미 데이터
 -- Scrap 테이블에 더미 데이터 5개 삽입
