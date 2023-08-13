@@ -8,8 +8,10 @@ ENV REACT_APP_NAVER_API_KEY $nav_key
 # Docker Container에서 작업이 이루어지는 위치
 WORKDIR /usr/src/app
 
-COPY ./build/ .
+COPY . .
 
+RUN npm install
+RUN npm run build
 RUN npm install -g serve
 
 EXPOSE 3000
