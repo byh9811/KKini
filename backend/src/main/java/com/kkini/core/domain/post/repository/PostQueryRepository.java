@@ -177,7 +177,11 @@ public class PostQueryRepository {
         }
 
         if(type == ALGORITHM) {
-            builder.or(post.recipe.category.id.eq(categoryId));
+            if (categoryId == 0) {
+                return null;
+            } else {
+                builder.or(post.recipe.category.id.eq(categoryId));
+            }
         }
 
         return builder;
