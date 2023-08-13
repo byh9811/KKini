@@ -11,10 +11,14 @@ import "tailwindcss/tailwind.css";
 
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
+import setAuthorizationToken from './apis/utils/setAuthorizationToken';
 
 export let persistor = persistStore(store);
 
+setAuthorizationToken(localStorage.jwtToken);
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
     <Provider store = {store}>
       <PersistGate loading={null} persistor={persistor}>
