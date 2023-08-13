@@ -40,7 +40,8 @@ function App() {
           <Route path="n2" element={<N2Search />} />
           <Route path="n3" element={<N3Upload />} />
           <Route path="n4" element={<N4Recipe />} />
-          <Route path="n5/:userId/*" element={<N5Mypage />} />
+          <Route path="n5" element={<N5Mypage />} />
+          <Route path="n5/:userId" element={<N5Mypage />} />
         </Route>
       </Routes>
     </div>

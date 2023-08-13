@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios';
 
-function P2_recipe() {
+function P2Recipe() {
   window.scrollTo(0, 0);
 
   const [recipesList, setRecipesList] = useState([]);
@@ -35,4 +35,4 @@ function P2_recipe() {
   );
 }
 
-export default P2_recipe;
+export default P2Recipe;
