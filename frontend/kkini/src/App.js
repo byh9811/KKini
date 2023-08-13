@@ -7,11 +7,11 @@ import N1 from './routes/navi/N1_home.jsx'
 import N2 from './routes/navi/N2_search.jsx'
 import N3 from './routes/navi/N3_upload.jsx'
 import N4 from './routes/navi/N4_recipe.jsx'
-import N5 from './routes/navi/N5_mypage.jsx'
+import N5_mypage from './routes/navi/N5_mypage.jsx'
 import "tailwindcss/tailwind.css";
 import Naver from './routes/login/Naver';
-import OtherProfile from './routes/pages/OtherProfile';
 import Withdrawal from './routes/login/Withdrawal';
+import FollowList from './components/mypage/FollowList';
 
 // App.js
 function App() {
@@ -34,13 +34,13 @@ function App() {
         <Route path="/redirect" element={<Redirect  setIsLogIn={setIsLogIn}/>} />
         <Route path="/naver" element={<Naver/>} />
         <Route path="/withdrawal" element={<Withdrawal />} />
+        <Route path="/followlist/:userId?" element={<FollowList />}/>
         <Route path="/home/*" element={<Home />}>
           <Route path="n1" element={<N1 />} />
           <Route path="n2" element={<N2 />} />
           <Route path="n3" element={<N3 />} />
           <Route path="n4" element={<N4 />} />
-          <Route path="n5" element={<N5 />} />
-          <Route path="mypage" element={<OtherProfile/>}/>
+          <Route path="n5/:userId?" element={<N5_mypage />} />
         </Route>
       </Routes>
     </div>

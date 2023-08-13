@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiOutlineTable, AiOutlineUser } from 'react-icons/ai';
 import { BiBookmark, BiBookBookmark } from 'react-icons/bi';
 import { MdLocalDining } from 'react-icons/md';
@@ -8,16 +8,26 @@ import P2_recipe from './P2_recipe.jsx';
 import P3_book from './P3_book.jsx';
 import P4_scrap from './P4_scrap.jsx';
 
-const tabs = [
-  { tab: "포스트", icon: <AiOutlineTable />, ind: 0 },
-  { tab: "레시피", icon: <MdLocalDining />, ind: 1 },
-  { tab: "도감", icon: <BiBookBookmark />, ind: 2 },
-  { tab: "스크랩", icon: <BiBookmark />, ind: 3 },
-];
-
-const ReqUserPostPart = () => {
-  const [activeTab, setActiveTab] = useState(tabs[0].tab);
+const ReqUserPostPart = ({ 내것 = 0, memid = 0 }) => {
   const [tab, setTab] = useState(0);
+  const [tabs, setTabs] = useState([
+    { tab: "포스트", icon: <AiOutlineTable />, ind: 0 },
+    { tab: "레시피", icon: <MdLocalDining />, ind: 1 },
+    { tab: "도감", icon: <BiBookBookmark />, ind: 2 },
+    { tab: "스크랩", icon: <BiBookmark />, ind: 3 },
+  ]);
+  const [activeTab, setActiveTab] = useState(tabs[0].tab);
+  
+  useEffect(()=> {
+    if (내것 !== 1) {
+      setTabs([
+        { tab: "포스트", icon: <AiOutlineTable />, ind: 0 },
+        { tab: "레시피", icon: <MdLocalDining />, ind: 1 },
+        { tab: "빈", icon: <MdLocalDining />, ind: 2 },
+        { tab: "칸", icon: <MdLocalDining />, ind: 3 },
+      ])
+    }
+  }, [내것]);
 
   return (
     <div>

@@ -35,7 +35,7 @@ function Home({ onLogout }) {
         <Route path="/n2" element={<N2_search />} />
         <Route path="/n3" element={<N3_upload />} />
         <Route path="/n4" element={<N4_recipe />} />
-        <Route path="/n5" element={<N5_mypage />} />
+        <Route path="/n5:userId?" element={<N5_mypage />} />
         <Route path="/comments" element={<CommentsPage />} />
         <Route path="book" element={<Book />} />
         <Route path="followlist" element={<FollowList />} />
