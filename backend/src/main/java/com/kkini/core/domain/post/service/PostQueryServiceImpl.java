@@ -70,12 +70,15 @@ public class PostQueryServiceImpl implements PostQueryService {
 
             Pageable pageable = PageRequest.of(page, nextCnt, Sort.by("id").descending());
             Long categoryId = interestingCategoryIdList.get(i);
+            log.warn("categoryId: {}", categoryId);
             Page<PostListResponseDto> categoryPostList = postQueryRepository.findPostList(pageable, memberId, ALGORITHM, null, categoryId);
-            postList.addAll(categoryPostList.getContent());
+            List<PostListResponseDto> content = categoryPostList.getContent();
+            postList.addAll(content);
 
+            log.warn("content: {}", content.size());
             log.warn("postList: {}", postList.size());
-            if (postList.size() < nextCnt) {        // 원하는 개수의 포스트를 조회하지 못했으면
-                correction = nextCnt - postList.size();     // 남은 개수 다음 카테고리로 이월
+            if (content.size() < nextCnt) {        // 원하는 개수의 포스트를 조회하지 못했으면
+                correction = nextCnt - content.size();     // 남은 개수 다음 카테고리로 이월
             } else {        // 포스트 전부 조회했으면
                 correction = 0;     // 보정값 초기화
             }
