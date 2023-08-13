@@ -38,7 +38,7 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = '' }) => {
       // 팔로워 수
       axios.get("/follow/countFollower/mypage")
       .then((res) => {
-        setFollowingList(res.data.response.content);
+        setFollow(res.data.res)
       })
       .catch((error) => {
         console.log(error);
