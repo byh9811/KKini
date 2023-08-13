@@ -1,6 +1,8 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import CommentsPage from './CommentPage';
+
 
 const DrawerContainer = styled.div`
   position: fixed;
@@ -17,9 +19,9 @@ const DrawerContainer = styled.div`
   border-radius: 10px;
 `;
 
-const Drawer = ({ isOpen, onClose }) => {
+const Drawer = ({ isOpen, onClose, postId, comments }) => {
   const ref = useRef();
-
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (ref.current && !ref.current.contains(event.target)) {
@@ -31,12 +33,35 @@ const Drawer = ({ isOpen, onClose }) => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [onClose]); 
+  }, [onClose]);
 
+  const fetchComments = async () => {
+    if (!postId) return;
+    try {
+      console.log(postId)
+      const response = await axios.get(`/comment/${postId}`);
+      console.log(response);
+      // if (response.data.success) {
+      //     console.log(response.data)
+      //   setComments(response.data.comments); // 예상 응답 구조에 따라 수정 필요
+      // }
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchComments();
+  }, []);
+  console.log(comments)
   return (
-    <DrawerContainer ref={ref} isOpen={isOpen}>
+    <DrawerContainer isOpen={isOpen} ref={ref}>
       <button onClick={onClose}>닫기</button>
-      <CommentsPage />
+      <CommentsPage 
+  postId={postId} 
+  comments={comments}
+  onCommentsChange={fetchComments} // 이 부분이 정확한지 확인
+/>
     </DrawerContainer>
   );
 };
