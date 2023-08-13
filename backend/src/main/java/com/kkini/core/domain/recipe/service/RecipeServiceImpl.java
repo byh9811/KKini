@@ -28,7 +28,7 @@ public class RecipeServiceImpl implements RecipeService {
     private final RecipeRepository recipeRepository;
     private final MemberRepository memberRepository;
     private final CategoryRepository categoryRepository;
-//    private final LevelUpUtil levelUpUtil;
+    //    private final LevelUpUtil levelUpUtil;
     private final S3Util s3Util;
 
     @Override
@@ -64,6 +64,7 @@ public class RecipeServiceImpl implements RecipeService {
                 .time(dto.getTime())
                 .difficulty(0)      // 사용 안하게 된 필드 0
                 .image(recipe)
+                .deleted(false)
                 .ingredient(dto.getIngredient())
                 .steps(dto.getSteps())
                 .build());

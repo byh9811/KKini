@@ -39,7 +39,7 @@ public class FollowController {
         log.debug("## 팔로우를 추가합니다.");
         log.debug("대상 회원 : {}", targetMemberId);
         FollowRequestDto followRequestDto = new FollowRequestDto();
-        followRequestDto.setMemberId(userPrincipal.getId()); // 추후에 User의 아이디를 가져올 것
+        followRequestDto.setMemberId(userPrincipal.getId());
         followRequestDto.setTargetMemberId(targetMemberId);
         followService.addFollow(followRequestDto);
         return OK(null);
@@ -60,15 +60,15 @@ public class FollowController {
     @Parameter(name = "memberId", description = "팔로우 리스트를 보고 싶은 회원(memberId)")
     @GetMapping("/followList/{memberId}")
     public Response<Page<FollowListResponseDto>> followList
-            (@PathVariable Long memberId, @Parameter(hidden = true)@AuthenticationPrincipal UserPrincipal userPrincipal,
+            (@PathVariable String memberId, @Parameter(hidden = true)@AuthenticationPrincipal UserPrincipal userPrincipal,
              @PageableDefault(size = 50)Pageable pageable){
         log.debug("## 팔로우 리스트를 조회합니다.");
         log.debug("조회할 멤버 식별자 : {}", memberId);
         Page<FollowListResponseDto> followList = null;
-        if (memberId == null){
+        if (memberId.equals("mypage")){
             followList = followQueryService.getFollowList(userPrincipal.getId(), pageable);
         } else{
-            followList = followQueryService.getFollowList(memberId, pageable);
+            followList = followQueryService.getFollowList(Long.parseLong(memberId), pageable);
         }
 
         log.debug("팔로우 리스트 : {}",followList);
@@ -80,15 +80,15 @@ public class FollowController {
     @Parameter(name = "memberId", description = "팔로워 리스트를 보고 싶은 회원(memberId)")
     @GetMapping("/followerList/{memberId}")
     public Response<Page<FollowListResponseDto>> followerList(
-            @PathVariable Long memberId, @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PathVariable String memberId, @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PageableDefault(size = 50) Pageable pageable){
         log.debug("## 팔로워 리스트를 조회합니다.");
         log.debug("조회할 멤버 식별자 : {}", memberId);
         Page<FollowListResponseDto> followerList = null;
-        if (memberId == null){
+        if (memberId.equals("mypage")){
             followerList = followQueryService.getFollowerList(userPrincipal.getId(), pageable);
         } else {
-            followerList = followQueryService.getFollowerList(memberId, pageable);
+            followerList = followQueryService.getFollowerList(Long.parseLong(memberId), pageable);
         }
         log.debug("팔로워 리스트 : {}", followerList);
         return OK(followerList);
@@ -98,14 +98,14 @@ public class FollowController {
     @Operation(summary = "팔로우 수 조회", description = "회원의 팔로우 수를 조회합니다.")
     @Parameter(name = "memberId", description = "대상 회원의 멤버 식별자")
     @GetMapping("/countFollow/{memberId}")
-    public Response<Integer> countFollow(@PathVariable Long memberId, @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal){
+    public Response<Integer> countFollow(@PathVariable String memberId, @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal){
         log.debug("## 팔로우 수를 조회합니다.");
         log.debug("회원 식별자 : {}", memberId);
         int count = 0;
-        if (memberId == null){
+        if (memberId.equals("mypage")){
             count = followService.countFollows(userPrincipal.getId());
         }else{
-            count = followService.countFollows(memberId);
+            count = followService.countFollows(Long.parseLong(memberId));
         }
         log.debug("팔로우 수 : {}",count);
 
@@ -115,14 +115,14 @@ public class FollowController {
     @Operation(summary = "팔로워 수 조회", description = "회원의 팔로워 수를 조회합니다.")
     @Parameter(name = "memberId", description = "대상 회원의 멤버 식별자")
     @GetMapping("/countFollower/{memberId}")
-    public Response<Integer> countFollower(@PathVariable Long memberId,@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal){
+    public Response<Integer> countFollower(@PathVariable String memberId,@Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal){
         log.debug("## 팔로워 수를 조회합니다.");
         log.debug("회원 식별자 : {}", memberId);
         int count = 0;
-        if (memberId == null){
+        if (memberId.equals("mypage")){
             count = followService.countFollowers(userPrincipal.getId());
         }else{
-            count = followService.countFollowers(memberId);
+            count = followService.countFollowers(Long.parseLong(memberId));
         }
         log.debug("팔로워 수 : {}", count);
 

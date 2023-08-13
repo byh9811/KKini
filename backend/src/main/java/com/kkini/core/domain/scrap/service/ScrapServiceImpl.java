@@ -30,10 +30,14 @@ public class ScrapServiceImpl implements ScrapService{
                 () -> new NotFoundException(Member.class, addScrapRequestDto.getMemberId()));
         Post post = postRepository.findById(addScrapRequestDto.getPostId()).orElseThrow(
                 () -> new NotFoundException(Member.class, addScrapRequestDto.getPostId()));
-        scrapRepository.save(Scrap.builder()
-                .member(member)
-                .post(post)
-                .build());
+        int count = scrapRepository.countByMember_IdAndPost_Id(addScrapRequestDto.getMemberId(), addScrapRequestDto.getPostId());
+        if(count == 0){
+            scrapRepository.save(Scrap.builder()
+                    .member(member)
+                    .post(post)
+                    .build());
+        }
+
     }
 
     @Override
