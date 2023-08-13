@@ -126,7 +126,7 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
                     <PostIcon>
                         <ChatBubbleOutlineRoundedIcon onClick={() =>{ 
                             setIsDrawerOpen(true);
-                            
+
                         axios.get(`/comment/${postId}`).then(res=> setComments(res.data.response))
                         .catch(err=> console.log("err:" , err))
                         }} />

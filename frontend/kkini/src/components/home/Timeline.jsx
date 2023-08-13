@@ -18,6 +18,7 @@ function Timeline(props) {
       recipeName: post.recipeName,
       postId: post.id,
     }));
+    
   }
 
   const [localPosts, setLocalPosts] = useState(transformData(props.posts.content || [])); // 0812 수정전
@@ -75,6 +76,7 @@ function Timeline(props) {
             toggleLike={() => toggleLike(index)} // 이 함수도 기존에 정의되어 있어야 합니다.
             postId={post.postId}
           />
+          
         ))}
       </div>
     </div>

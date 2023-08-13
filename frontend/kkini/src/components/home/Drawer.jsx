@@ -39,10 +39,6 @@ const Drawer = ({ isOpen, onClose, postId, comments }) => {
     if (!postId) return;
     try {
       console.log(postId)
-      console.log("여기1")
-      console.log("여기1")
-      console.log("여기1")
-      console.log(postId)
       const response = await axios.get(`/comment/${postId}`);
       console.log(response);
       // if (response.data.success) {
