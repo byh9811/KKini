@@ -234,6 +234,8 @@ const Post = forwardRef(
                 <BookmarkBorderRoundedIcon
                   onClick={() => changeScrap(postId)}
                 />
+                  onClick={() => changeScrap(postId)}
+                />
               )}
             </PostIcon>
           </div>

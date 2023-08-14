@@ -1,23 +1,30 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom'
-// 회원탈퇴
-function Withdrawal() {
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
+import axios from "axios";
 
+const goWithdrawal = () => {
+  axios.delete("/mypage/withdrawal").then((res) => {
+    window.location.href = "http://localhost:8080/api/member/logout";
+  });
+};
+
+function Withdrawal() {
   const navigate = useNavigate();
-  
+
   return (
-    <div className='mx-auto'>
+    <div className="mx-auto">
+      <h2>돌이킬 수 없는 선택이오.</h2>
+      <h2>두 번 묻지 않을테요.</h2>
+      <h2 style={{ color: "red" }}>회원탈퇴 하시겠소?</h2>
       <div>
-        돌이킬 수 없는 선택이오.
+        <Button variant="danger" onClick={goWithdrawal} style={{ marginTop: "100px" }}>
+          확인
+        </Button>
       </div>
       <div>
-        두 번 묻지 않을테요.
+        <Button onClick={() => navigate(-1)}>뒤로가기</Button>
       </div>
-      <div>
-        회원탈퇴 하시겠오?
-      </div>
-      <button onClick={() => navigate(-1)}>확인</button>
-      <button onClick={() => navigate(-1)}>뒤로가기</button>
     </div>
   );
 }
