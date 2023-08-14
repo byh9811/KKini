@@ -18,8 +18,10 @@ const DrawerContainer = styled.div`
   border-radius: 10px;
 `;
 
-const Drawer = ({ isOpen, onClose, postId, comments }) => {
+const Drawer = ({ isOpen, postId, onClose }) => {
   const ref = useRef();
+
+  const [comments, setComments] = useState();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -38,10 +40,9 @@ const Drawer = ({ isOpen, onClose, postId, comments }) => {
     if (!postId) return;
     try {
       const response = await axios.get(`/comment/${postId}`);
-      // if (response.data.success) {
-      //     console.log(response.data)
-      //   setComments(response.data.comments); // 예상 응답 구조에 따라 수정 필요
-      // }
+      if (response.data.success) {
+        setComments(response.data.response); // 예상 응답 구조에 따라 수정 필요
+      }
     } catch (error) {
       console.error("Error fetching comments:", error);
     }
@@ -49,6 +50,8 @@ const Drawer = ({ isOpen, onClose, postId, comments }) => {
 
   useEffect(() => {
     fetchComments();
+    console.log("!!");
+    console.log(comments);
   }, []);
 
   return (
