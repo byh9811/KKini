@@ -8,17 +8,8 @@ import LocalAtmRoundedIcon from "@mui/icons-material/LocalAtmRounded";
 import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import Button from "react-bootstrap/Button";
-// import Modal from "react-bootstrap/Modal";
 import Drawer from "./Drawer";
 import axios from "axios";
-// import ImageSlider from './ImageSlider.jsx';  // 여기서 'path_to_imageslider.jsx'는 실제 ImageSlider 컴포넌트가 있는 경로로 대체해야 합니다.
-
-// 모달
-import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import Typography from "@mui/material/Typography";
 import ImageSwiper from "./ImageSwiper";
 
 const Post = forwardRef(
@@ -109,7 +100,6 @@ const Post = forwardRef(
           state: type,
         })
         .then((response) => {
-          console.log(response);
           setReaction(response.data.response);
 
           if (response.data.success) {
@@ -296,7 +286,6 @@ const Post = forwardRef(
 export default Post;
 
 const PostContainer = styled.div`
-  // width: 550px;
   margin: 0px 40px 50px 40px;
 `;
 
@@ -331,15 +320,6 @@ const PostHeaderAuthor = styled.div`
   }
 `;
 
-const PostImage = styled.div`
-  img {
-    width: 95%;
-    border-radius: 6px;
-    border: 0.6px solid rgba(128, 128, 128, 0.516);
-    margin: 0 auto;
-  }
-`;
-
 const PostFooterIcons = styled.div`
   display: flex;
   flex-direction: row;
@@ -360,7 +340,7 @@ const PostIcon = styled.div`
 
 const CountText = styled.span`
   display: flex;
-  font-size: 10px; // 원하는 크기로 조절하세요.
+  font-size: 10px;
 `;
 
 const Contentstext = styled.span`
