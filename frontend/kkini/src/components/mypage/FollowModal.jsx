@@ -31,7 +31,7 @@ function FollowerModal({ open, onClose, whichOne }) {
   return (
     <Modal open={open} onClose={onClose}>
       <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", backgroundColor: "white", padding: "16px" }}>
-        <h2>Followers</h2>
+        <h2>{whichOne}s</h2>
         <List>
           {list.map((follower) => (
             <ListItem key={follower.id}>
