@@ -6,6 +6,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { ImageListItem } from "@mui/material";
 
 function FollowerModal({ open, onClose, whichOne }) {
   const { userId } = useParams();
@@ -35,6 +36,7 @@ function FollowerModal({ open, onClose, whichOne }) {
         <List>
           {list.map((follower) => (
             <ListItem key={follower.id}>
+              <img src={follower.image} />
               <ListItemText primary={follower.nickname} />
             </ListItem>
           ))}
