@@ -8,10 +8,13 @@ ENV REACT_APP_LOGIN_URL https://i9c210.p.ssafy.io/api/oauth2/authorize/naver
 # Docker Container에서 작업이 이루어지는 위치
 WORKDIR /usr/src/app
 
-RUN npm install -g serve
+COPY . .
 
-RUN mkdir ./build
-COPY ./build ./build
+RUN npm install
+RUN npm install -g serve
+RUN npm run build
+
+EXPOSE 3000
 
 # 번들 파일 실행하기 (컨테이너 실행할 때 동작)
 CMD ["serve", "-s", "build"]
