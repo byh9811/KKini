@@ -37,9 +37,7 @@ const Drawer = ({ isOpen, onClose, postId, comments }) => {
   const fetchComments = async () => {
     if (!postId) return;
     try {
-      console.log(postId);
       const response = await axios.get(`/comment/${postId}`);
-      console.log(response);
       // if (response.data.success) {
       //     console.log(response.data)
       //   setComments(response.data.comments); // 예상 응답 구조에 따라 수정 필요
@@ -52,7 +50,7 @@ const Drawer = ({ isOpen, onClose, postId, comments }) => {
   useEffect(() => {
     fetchComments();
   }, []);
-  // console.log(comments)
+
   return (
     <DrawerContainer isOpen={isOpen} ref={ref}>
       <button onClick={onClose}>닫기</button>

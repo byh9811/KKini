@@ -5,6 +5,7 @@ import axios from "axios";
 function P4Scrap() {
   window.scrollTo(0, 0);
   const [scrapList, setScrapList] = useState([]);
+  console.log('하이', scrapList)
 
   useEffect(() => {
     axios.get("/scrap/list/mypage")
@@ -21,7 +22,7 @@ function P4Scrap() {
       {scrapList.length > 0 ? (
         <div className="flex flex-wrap">
           {scrapList.map((item) => (
-            <ReqUserPostCard></ReqUserPostCard>
+            <img src={item.image} alt={`Image ${item.id}`} />
           ))}
         </div>
       ) : (

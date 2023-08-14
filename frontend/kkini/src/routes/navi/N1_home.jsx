@@ -25,7 +25,7 @@ function N1Home() {
   const handlePostSelect = (postId) => {
     setSelectedPostId(postId);
   };
-  console.log(posts)
+
   return (
     <div>
       <Timeline posts={posts} onSelectPost={handlePostSelect} />

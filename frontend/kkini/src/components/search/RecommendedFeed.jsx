@@ -11,6 +11,7 @@ const RecommendedFeed = () => {
       }
     })
       .then(response => {
+        console.log(response.data.response.content);
         setData(response.data.response.content);
       })
       .catch(error => {
