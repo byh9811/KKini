@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static com.kkini.core.domain.comment.entity.QComment.comment;
+import static com.kkini.core.domain.evaluation.entity.QEvaluation.evaluation;
 import static com.kkini.core.domain.follow.entity.QFollow.follow;
 import static com.kkini.core.domain.post.entity.QPost.post;
 import static com.kkini.core.domain.postimage.entity.QPostImage.postImage;
@@ -49,6 +50,7 @@ public class PostQueryRepository {
                         post.likeCnt,
                         post.disLikeCnt,
                         post.avgPrice,
+                        evaluation.price,
                         post.member.id.eq(memberId).as("isMine"),
                         post.member.id,
                         post.member.name,
@@ -62,6 +64,7 @@ public class PostQueryRepository {
                 .leftJoin(recipe).on(post.recipe.id.eq(recipe.id))
                 .leftJoin(reaction).on(post.id.eq(reaction.post.id).and(post.member.id.eq(reaction.member.id)))
                 .leftJoin(scrap).on(post.id.eq(scrap.post.id).and(post.member.id.eq(scrap.member.id)))
+                .leftJoin(evaluation).on(post.id.eq(evaluation.post.id).and(post.member.id.eq(evaluation.member.id)))
                 .where(searchCondition(memberId, followList, type, search, categoryId))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())

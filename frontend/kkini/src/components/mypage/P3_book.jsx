@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom'
 
-function P3_book() {
+function P3Book() {
   window.scrollTo(0, 0);
   const navigate = useNavigate();
 
@@ -12,4 +12,4 @@ function P3_book() {
   );
 }
 
-export default P3_book;
+export default P3Book;

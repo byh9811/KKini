@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios';
 
-function P2_recipe() {
+function P2Recipe() {
   window.scrollTo(0, 0);
 
   const [recipesList, setRecipesList] = useState([]);
@@ -23,16 +23,19 @@ function P2_recipe() {
   
   return (
     <div>
-      {
-        recipesList.map((item) => (
-          <div key={item.recipeId}>
-            <img src={item.recipeImage} alt={`Image ${item.recipeId}`} />
-          </div>
-        ))
-      }
+      {recipesList.length > 0 ? (
+        <div>
+          {recipesList.map((item) => (
+            <div key={item.recipeId}>
+              <img src={item.recipeImage} alt={`Image ${item.recipeId}`} />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p>등록된 레시피가 없습니다</p>
+      )}
     </div>
-    
   );
 }
 
-export default P2_recipe;
+export default P2Recipe;

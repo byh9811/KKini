@@ -3,7 +3,7 @@ import Timeline from '../../components/home/Timeline';
 import axios from 'axios';
 import Drawer from '../../components/home/Drawer';
 
-function N1_home() {
+function N1Home() {
   const [posts, setPosts] = useState([]);
   const [selectedPostId, setSelectedPostId] = useState(null); // 추가된 상태
   
@@ -25,7 +25,7 @@ function N1_home() {
   const handlePostSelect = (postId) => {
     setSelectedPostId(postId);
   };
-  console.log(posts)
+
   return (
     <div>
       <Timeline posts={posts} onSelectPost={handlePostSelect} />
@@ -34,4 +34,4 @@ function N1_home() {
   );
 }
 
-export default N1_home;
+export default N1Home;

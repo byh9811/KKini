@@ -31,6 +31,9 @@ public class PostListResponseDto {
     @Schema(description = "평균 가격")
     private int avgPrice;
 
+    @Schema(description = "나의 가격")
+    private int myPrice;
+
     @Schema(description = "내가 쓴 글")
     private Boolean isMine;
 
@@ -64,13 +67,14 @@ public class PostListResponseDto {
     @Schema(description = "댓글 수")
     private int commentCnt;
 
-    public PostListResponseDto(Long id, String contents, Timestamp createDateTime, int likeCnt, int hateCnt, int avgPrice, Boolean isMine, Long memberId, String memberName, String memberImage, Long recipeId, String recipeName, Boolean reaction, Boolean isScrap) {
+    public PostListResponseDto(Long id, String contents, Timestamp createDateTime, int likeCnt, int hateCnt, int avgPrice, int myPrice, Boolean isMine, Long memberId, String memberName, String memberImage, Long recipeId, String recipeName, Boolean reaction, Boolean isScrap) {
         this.id = id;
         this.contents = contents;
         this.createDateTime = createDateTime;
         this.likeCnt = likeCnt;
         this.disLikeCnt = hateCnt;
         this.avgPrice = avgPrice;
+        this.myPrice = myPrice;
         this.isMine = isMine;
         this.memberId = memberId;
         this.memberName = memberName;

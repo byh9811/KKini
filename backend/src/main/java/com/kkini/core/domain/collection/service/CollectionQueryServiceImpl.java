@@ -2,6 +2,8 @@ package com.kkini.core.domain.collection.service;
 
 import com.kkini.core.domain.collection.dto.response.CollectionListResponseDto;
 import com.kkini.core.domain.collection.repository.CollectionQueryRepository;
+import com.kkini.core.domain.member.entity.Member;
+import com.kkini.core.global.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,7 +20,7 @@ public class CollectionQueryServiceImpl implements CollectionQueryService {
     private final CollectionQueryRepository collectionQueryRepository;
 
     @Override
-    public List<CollectionListResponseDto> getMyCollectionList(Long memberId, Integer difficulty) {
-        return collectionQueryRepository.findRandomCollectionList(memberId, difficulty);
+    public CollectionListResponseDto getMyCollection(Long memberId) {
+        return collectionQueryRepository.findRandomCollection(memberId).orElseThrow(() -> new NotFoundException(Member.class, memberId));
     }
 }
