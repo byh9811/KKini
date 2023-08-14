@@ -30,13 +30,11 @@ public class EvaluationController {
             @Parameter(name = "price", description = "금액")
     })
     @PostMapping
-    public Response<Void> setEvaluation(
+    public Response<Integer> setEvaluation(
             @RequestBody EvaluationRegisterRequestDto evaluationRegisterRequestDto,
             @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
-        evaluationService.saveEvaluation(evaluationRegisterRequestDto, userPrincipal.getId());
-
-        return OK(null);
+        return OK(evaluationService.saveEvaluation(evaluationRegisterRequestDto, userPrincipal.getId()));
     }
 
 }

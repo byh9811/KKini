@@ -50,13 +50,7 @@ public class Post extends BaseEntityWithModifiedTime {
 
             this.avgPriceCnt++;
         } else {
-            int rollbackPrice;
-            if(this.avgPriceCnt - 1 == 0) {
-                rollbackPrice = 0;
-            } else {
-                rollbackPrice = (this.avgPrice * this.avgPriceCnt - oldPrice) / (this.avgPriceCnt - 1);
-            }
-            this.avgPrice = (rollbackPrice * this.avgPriceCnt + newPrice) / this.avgPriceCnt;
+            this.avgPrice = (this.avgPrice * this.avgPriceCnt - oldPrice + newPrice) / this.avgPriceCnt;
         }
     }
 
