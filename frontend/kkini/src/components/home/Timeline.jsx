@@ -56,7 +56,7 @@ function Timeline(props) {
 
   return (
     <div className="timeline">
-      {localPosts.lengh > 0 ? (
+      {localPosts.length > 0 ? (
       <div className="timeline_posts">
         {localPosts.map((post, index) => (
 
