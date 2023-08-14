@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import '../../css/Upload.css'
+import React, { useEffect, useState } from "react";
+import "../../css/Upload.css";
 
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import axios from 'axios';
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import axios from "axios";
 
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
-import { useNavigate } from 'react-router-dom';
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import { useNavigate } from "react-router-dom";
+import { Box } from "@mui/material";
 
 function UploadPost() {
   const [fileList, setFileList] = useState([]);
@@ -41,14 +42,14 @@ function UploadPost() {
     const tmpFileList = [...fileList];
     tmpFileList.splice(index, 1);
     setFileList(tmpFileList);
-  }
+  };
 
   const moveImage = (fromIndex, toIndex) => {
     const tmpFileList = [...fileList];
     const [removedItem] = tmpFileList.splice(fromIndex, 1);
     tmpFileList.splice(toIndex, 0, removedItem);
     setFileList(tmpFileList);
-  }
+  };
 
   const [data, setData] = useState([]);
   const handleFileUpload = () => {
@@ -61,78 +62,91 @@ function UploadPost() {
       }
 
       // 문자열
-      formData.append('data', new Blob([JSON.stringify(jsonData)], {
-        type: "application/json"
-      }));
+      formData.append(
+        "data",
+        new Blob([JSON.stringify(jsonData)], {
+          type: "application/json",
+        })
+      );
 
-      axios.post('/post', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then((response) => {
-        console.log('업로드 성공:', response.data);
-        navigate('/home/n1')
-      })
-      .catch((error) => {
-        console.error('업로드 실패:', error);
-      });
+      axios
+        .post("/post", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          console.log("업로드 성공:", response.data);
+          navigate("/home/n1");
+        })
+        .catch((error) => {
+          console.error("업로드 실패:", error);
+        });
     } else {
-      alert('이미지를 업로드하세요');
+      alert("이미지를 업로드하세요");
     }
-  }
+  };
 
   useEffect(() => {
     const setRecipes = () => {
       fileList?.forEach((item) => {
         URL.revokeObjectURL(item.preview_URL);
-      })
-
-      axios.get('/recipe')
-      .then((response) => {
-        setData(response.data.response)
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error)
       });
+
+      axios
+        .get("/recipe")
+        .then((response) => {
+          setData(response.data.response);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
     };
-  setRecipes();
+    setRecipes();
   }, []);
 
   return (
     <div className="uploader-wrapper">
       <div>
-        {
-          fileList.length < 5 && (
-            <div>
-              <label>이미지 선택</label>
-              <input
-                // id="fileInput"
-                type="file" multiple={true} accept="image/*"
-                onChange={saveImage}
-                onClick={(e) => e.target.value = null}
-                ref={refParam => inputRef = refParam}
-                style={{ display: "none" }}
-              />
-              <button onClick={() => inputRef.click()}>
-                사진 업로드
-              </button>
-            </div>
-          )
-        }
+        {fileList.length < 5 && (
+          <div>
+            <label>이미지 선택</label>
+            <input
+              // id="fileInput"
+              type="file"
+              multiple={true}
+              accept="image/*"
+              onChange={saveImage}
+              onClick={(e) => (e.target.value = null)}
+              ref={(refParam) => (inputRef = refParam)}
+              style={{ display: "none" }}
+            />
+            <button onClick={() => inputRef.click()}>사진 업로드</button>
+          </div>
+        )}
       </div>
 
       <div className="file-container">
-        {
-          fileList?.map((item, index) => (
-            <div className="file-wrapper" key={index} draggable onDragStart={(e) => e.dataTransfer.setData("index", index)} onDragOver={(e) => e.preventDefault()} onDrop={(e) => moveImage(e.dataTransfer.getData("index"), index)}>
-              <img src={item.preview_URL} alt="Uploaded file" />
-              <div className="delete-button" onClick={() => { deleteImage(index) }}>
-                <HighlightOffIcon fontSize="large" color="error" />
-              </div>
+        {fileList?.map((item, index) => (
+          <div
+            className="file-wrapper"
+            key={index}
+            draggable
+            onDragStart={(e) => e.dataTransfer.setData("index", index)}
+            onDragOver={(e) => e.preventDefault()}
+            onDrop={(e) => moveImage(e.dataTransfer.getData("index"), index)}
+          >
+            <img src={item.preview_URL} alt="Uploaded file" />
+            <div
+              className="delete-button"
+              onClick={() => {
+                deleteImage(index);
+              }}
+            >
+              <HighlightOffIcon fontSize="large" color="error" />
             </div>
-          ))
-        }
+          </div>
+        ))}
       </div>
 
       <div>
@@ -170,17 +184,12 @@ function UploadPost() {
       <div>
         <label>내용 입력</label>
         <br />
-        <textarea
-          name="" id="" cols="30" rows="5"
-          onChange={(e) => setContent(e.target.value)}
-        ></textarea>
+        <textarea name="" id="" cols="30" rows="5" onChange={(e) => setContent(e.target.value)}></textarea>
       </div>
       <br />
 
       <div>
-        <button onClick={handleFileUpload}>
-          파일 업로드
-        </button>
+        <button onClick={handleFileUpload}>파일 업로드</button>
       </div>
     </div>
   );
