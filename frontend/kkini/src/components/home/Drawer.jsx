@@ -41,7 +41,7 @@ const Drawer = ({ isOpen, postId, onClose }) => {
     try {
       const response = await axios.get(`/comment/${postId}`);
       if (response.data.success) {
-        setComments(response.data.comments); // 예상 응답 구조에 따라 수정 필요
+        setComments(response.data.response); // 예상 응답 구조에 따라 수정 필요
       }
     } catch (error) {
       console.error("Error fetching comments:", error);
@@ -50,6 +50,8 @@ const Drawer = ({ isOpen, postId, onClose }) => {
 
   useEffect(() => {
     fetchComments();
+    console.log("!!");
+    console.log(comments);
   }, []);
 
   return (
