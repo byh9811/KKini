@@ -138,18 +138,23 @@ function UploadPost() {
       <div>
         <label>참고 음식</label>
         <Autocomplete
-          styled ={{width: '500px'}}
+          styled={{ width: "500px" }}
           disablePortal
-          // id="combo-box-demo"
           options={data}
           sx={{ width: 300 }}
-          value={data.find(item => item.recipeId === selectedRecipeId) || null}
+          value={data.find((item) => item.recipeId === selectedRecipeId) || null}
           getOptionLabel={(option) => option.label}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Recipes"
-            />
+          renderInput={(params) => <TextField {...params} label="Recipes" />}
+          renderOption={(props, option) => (
+            <li {...props}>
+              <img
+                src={option.image} // 이미지 URL을 가져와서 사용해야 합니다.
+                alt={option.label}
+                width={30}
+                height={30}
+              />
+              {option.label}
+            </li>
           )}
           onChange={(event, newValue) => {
             if (newValue) {
