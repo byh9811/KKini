@@ -42,7 +42,6 @@ function P4Scrap() {
         <div className="flex flex-wrap">
           {scrapList.map((item) => (
           <div key={item.id}>
-            <img src={item.image} alt={`Image ${item.id}`} onClick={() => setSelectedId(item.id)} />
             <Modal
               open={selectedId === item.id}
               onClose={() => setSelectedId(null)}
@@ -60,7 +59,7 @@ function P4Scrap() {
                       index={item.id}
                       user={item.user}
                       contents={item.contents}
-                      postImage={item.imageList[0]}
+                      postImage={item.image}
                       likeCnt={item.likeCnt}
                       disLikeCnt={item.disLikeCnt}
                       createDateTime={item.createDateTime}
@@ -103,7 +102,7 @@ function P4Scrap() {
                       index={item.id}
                       user={item.user}
                       contents={item.contents}
-                      postImage={item.imageList[0]}
+                      postImage={item.image}
                       likeCnt={item.likeCnt}
                       disLikeCnt={item.disLikeCnt}
                       createDateTime={item.createDateTime}
