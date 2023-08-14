@@ -59,7 +59,14 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
       setReplyToIndex(null);
       setSubmitTrigger(false);
     }
-  }, [submitTrigger, effectivePostId, comment, onCommentsChange, editIndex, replyToIndex]);
+  }, [
+    submitTrigger,
+    effectivePostId,
+    comment,
+    onCommentsChange,
+    editIndex,
+    replyToIndex,
+  ]);
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
@@ -85,8 +92,9 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
 
   const handleDeleteClick = async (commentIndex) => {
     try {
-      const response = await axios.delete(`/comment/delete/${commentIndex}`);
-      console.log('삭제')
+      const response = await axios.delete(`/comment/${commentIndex}`);
+      console.log("삭제");
+      console.log(commentIndex);
       if (response.data.success) {
         onCommentsChange(); // 댓글 삭제 후 댓글 목록 다시 가져오기
       }
@@ -111,29 +119,42 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
   return (
     <CommentsContainer>
       <CommentsList>
-        {comments.map((item, index) => (
-          <Comment key={index}>
-            <CommentContent>
-              <Avatar />
-              {item.text}
-            </CommentContent>
-            <h3>{item.parents.contents}</h3>
-            <button onClick={() => handleReplyClick(index)}>답글 달기</button>
-            <button onClick={() => handleEditClick(index)}>수정</button>
-            <button onClick={() => handleDeleteClick(index)}>삭제</button>
-            {item.replies &&
-              item.replies.map((reply, replyIndex) => (
-                <Reply key={replyIndex}>
-                  <CommentContent>
-                    <Avatar />
-                    {reply}
-                  </CommentContent>
-                  <button onClick={() => handleEditClick(replyIndex, index)}>수정</button>
-                  <button onClick={() => handleDeleteClick(replyIndex, index)}>삭제</button>
-                </Reply>
-              ))}
-          </Comment>
-        ))}
+        {comments &&
+          comments.map((item, index) => (
+            <Comment key={index}>
+              <CommentContent>
+                <Avatar />
+                {item.text}
+              </CommentContent>
+              <h3>{item.parents.contents}</h3>
+              {/* <button onClick={() => handleReplyClick(item.parents.id)}>
+                답글 달기
+              </button>
+              <button onClick={() => handleEditClick(item.parents.id)}>
+                수정
+              </button> */}
+              <button onClick={() => handleDeleteClick(item.parents.id)}>
+                삭제
+              </button>
+              {item.replies &&
+                item.replies.map((reply, replyIndex) => (
+                  <Reply key={replyIndex}>
+                    <CommentContent>
+                      <Avatar />
+                      {reply}
+                    </CommentContent>
+                    <button onClick={() => handleEditClick(replyIndex, index)}>
+                      수정
+                    </button>
+                    <button
+                      onClick={() => handleDeleteClick(replyIndex, index)}
+                    >
+                      삭제
+                    </button>
+                  </Reply>
+                ))}
+            </Comment>
+          ))}
       </CommentsList>
       <CommentForm onSubmit={handleCommentSubmit}>
         <CommentInput
@@ -142,7 +163,9 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
           onChange={handleCommentChange}
           placeholder="댓글을 입력하세요..."
         />
-        <CommentButton type="submit">{editIndex !== null ? "수정하기" : "댓글 작성"}</CommentButton>
+        <CommentButton type="submit">
+          {editIndex !== null ? "수정하기" : "댓글 작성"}
+        </CommentButton>
       </CommentForm>
       {replyToIndex !== null && (
         <div>
