@@ -10,19 +10,20 @@ const RecipesComponent = (props) => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    axios.get('/recipe/search', {
-      params: {
-        categoryId: 카테고리ID,
-        name: 검색어,
-        page: 0,
-      }
-    })
-      .then(response => {
-        console.log(response.data.response.content)
+    axios
+      .get("/recipe/search", {
+        params: {
+          categoryId: 카테고리ID,
+          name: 검색어,
+          page: 0,
+        },
+      })
+      .then((response) => {
+        console.log(response.data.response.content);
         setRecipes(response.data.response.content);
       })
-      .catch(error => {
-        console.error('Error fetching recipes:', error);
+      .catch((error) => {
+        console.error("Error fetching recipes:", error);
       });
   }, [검색어, 카테고리ID]);
 
@@ -53,6 +54,6 @@ const RecipesComponent = (props) => {
       )}
     </div>
   );
-}
+};
 
 export default RecipesComponent;

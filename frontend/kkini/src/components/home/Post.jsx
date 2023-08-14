@@ -14,31 +14,15 @@ import axios from "axios";
 // import ImageSlider from './ImageSlider.jsx';  // 여기서 'path_to_imageslider.jsx'는 실제 ImageSlider 컴포넌트가 있는 경로로 대체해야 합니다.
 
 // 모달
-import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
-import Typography from '@mui/material/Typography';
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+import Typography from "@mui/material/Typography";
+import ImageSwiper from "./ImageSwiper";
 
 const Post = forwardRef(
-  (
-    {
-      user,
-      postImage,
-      createDateTime,
-      likeCnt,
-      disLikeCnt,
-      commentCnt,
-      contents,
-      avgPrice,
-      myPrice,
-      reaction,
-      recipeName,
-      postId,
-      isScrap,
-    },
-    ref
-  ) => {
+  ({ user, postImage, createDateTime, likeCnt, disLikeCnt, commentCnt, contents, avgPrice, myPrice, reaction, recipeName, postId, isScrap }, ref) => {
     const [reactionState, setReaction] = useState(reaction);
     const [likeCntState, setLikeCnt] = useState(likeCnt);
     const [disLikeCntState, setDisLikeCnt] = useState(disLikeCnt);
@@ -56,24 +40,23 @@ const Post = forwardRef(
 
     const [comments, setComments] = useState([]);
 
-
     // 모달
     const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-        p: 4,
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: 400,
+      bgcolor: "background.paper",
+      border: "2px solid #000",
+      boxShadow: 24,
+      p: 4,
     };
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => {
-        setOpen(false)
+      setOpen(false);
     };
 
     const changeScrap = (postId) => {
@@ -177,25 +160,17 @@ const Post = forwardRef(
           {contents}
           <b> #{recipeName}</b>
         </Contentstext>
-        <PostImage>
-          {postImage.map((link, index) => (
-            <img key={index} src={link} alt={`Image ${index}`} />
-          ))}
-        </PostImage>
+        <div style={{ width: "20vw", height: "20vh" }}>
+          <ImageSwiper postImage={postImage} />
+        </div>
 
         <PostFooterIcons>
           <div className="post__iconsMain">
             <PostIcon>
-              <FavoriteBorderIcon
-                style={{ color: reactionState === true ? "red" : "gray" }}
-                onClick={() => handleIconClick(true)}
-              />
+              <FavoriteBorderIcon style={{ color: reactionState === true ? "red" : "gray" }} onClick={() => handleIconClick(true)} />
             </PostIcon>
             <PostIcon>
-              <ThumbDownOffAltRoundedIcon
-                style={{ color: reactionState === false ? "blue" : "gray" }}
-                onClick={() => handleIconClick(false)}
-              />
+              <ThumbDownOffAltRoundedIcon style={{ color: reactionState === false ? "blue" : "gray" }} onClick={() => handleIconClick(false)} />
             </PostIcon>
             <PostIcon>
               <ChatBubbleOutlineRoundedIcon
@@ -232,33 +207,32 @@ const Post = forwardRef(
             </PostIcon>
           </div>
         </PostFooterIcons>
-        
-         <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
+
+        <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
           <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+            <Typography id="modal-modal-title" variant="h6" component="h2">
               금액 평가창
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               이 음식이 얼마처럼 보이나요???
-              <img src={postImage} alt="" style={{ maxWidth: '100%', borderRadius: '6px' }} />
+              <img src={postImage} alt="" style={{ maxWidth: "100%", borderRadius: "6px" }} />
               <div>
-                  <input
-                      type="number"
-                      placeholder="금액을 입력하세요"
-                      onChange={(e) => setMyPrice(e.target.value)}
-                      style={{ textAlign: 'center', width: '100%', padding: '10px', margin: '10px 0' }}
-                  />
+                <input
+                  type="number"
+                  placeholder="금액을 입력하세요"
+                  onChange={(e) => setMyPrice(e.target.value)}
+                  style={{ textAlign: "center", width: "100%", padding: "10px", margin: "10px 0" }}
+                />
               </div>
-              <Button variant="secondary" onClick={handleClose}>닫기</Button>
-              <Button variant="primary" onClick={handleSave}>금액 평가 완료</Button>
-          </Typography>
+              <Button variant="secondary" onClick={handleClose}>
+                닫기
+              </Button>
+              <Button variant="primary" onClick={handleSave}>
+                금액 평가 완료
+              </Button>
+            </Typography>
           </Box>
-            </Modal>
+        </Modal>
       </PostContainer>
     );
   }
