@@ -7,11 +7,16 @@ function N5Mypage() {
   window.scrollTo(0, 0);
   const { userId = "" } = useParams();
   const [ mine, setMine ] = useState(1);
+  const [ memid, setMemid ] = useState('mypage');
 
   useEffect(()=> {
     if ( userId !== "" ) {
-    setMine(0);
+      setMine(0);
+      setMemid(userId)
+      // console.log('other')
+      // console.log(memid)
   }
+    // console.log('mypage')
   // console.log(mine)
 
   }, [userId, mine]);
@@ -22,10 +27,10 @@ function N5Mypage() {
       {/* 프로필 */}
       <div className='w-full'>
         <div className=''>        
-          <ProfileUserDetails 내것 = {mine} memid={ userId }></ProfileUserDetails>
+          <ProfileUserDetails 내것 = {mine} memid={ memid }></ProfileUserDetails>
         </div>
         <div>
-          <ReqUserPostPart 내것 = {mine} memid={ userId }></ReqUserPostPart>
+          <ReqUserPostPart 내것 = {mine} memid={ memid }></ReqUserPostPart>
         </div>
       </div>
     </div>

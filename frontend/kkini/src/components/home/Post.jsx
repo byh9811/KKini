@@ -234,30 +234,30 @@ const Post = forwardRef(
         </PostFooterIcons>
         
          <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={style}>
-                <Typography id="modal-modal-title" variant="h6" component="h2">
-                    금액 평가창
-                </Typography>
-                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                    이 음식이 얼마처럼 보이나요???
-                    <img src={postImage} alt="" style={{ maxWidth: '100%', borderRadius: '6px' }} />
-                    <div>
-                        <input
-                            type="number"
-                            placeholder="금액을 입력하세요"
-                            onChange={(e) => setMyPrice(e.target.value)}
-                            style={{ textAlign: 'center', width: '100%', padding: '10px', margin: '10px 0' }}
-                        />
-                    </div>
-                    <Button variant="secondary" onClick={handleClose}>닫기</Button>
-                    <Button variant="primary" onClick={handleSave}>금액 평가 완료</Button>
-                </Typography>
-                </Box>
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+              금액 평가창
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              이 음식이 얼마처럼 보이나요???
+              <img src={postImage} alt="" style={{ maxWidth: '100%', borderRadius: '6px' }} />
+              <div>
+                  <input
+                      type="number"
+                      placeholder="금액을 입력하세요"
+                      onChange={(e) => setMyPrice(e.target.value)}
+                      style={{ textAlign: 'center', width: '100%', padding: '10px', margin: '10px 0' }}
+                  />
+              </div>
+              <Button variant="secondary" onClick={handleClose}>닫기</Button>
+              <Button variant="primary" onClick={handleSave}>금액 평가 완료</Button>
+          </Typography>
+          </Box>
             </Modal>
       </PostContainer>
     );
