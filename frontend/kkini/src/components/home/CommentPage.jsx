@@ -59,7 +59,14 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
       setReplyToIndex(null);
       setSubmitTrigger(false);
     }
-  }, [submitTrigger, effectivePostId, comment, onCommentsChange, editIndex, replyToIndex]);
+  }, [
+    submitTrigger,
+    effectivePostId,
+    comment,
+    onCommentsChange,
+    editIndex,
+    replyToIndex,
+  ]);
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
@@ -86,7 +93,7 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
   const handleDeleteClick = async (commentIndex) => {
     try {
       const response = await axios.delete(`/comment/delete/${commentIndex}`);
-      console.log('삭제')
+      console.log("삭제");
       if (response.data.success) {
         onCommentsChange(); // 댓글 삭제 후 댓글 목록 다시 가져오기
       }
@@ -128,8 +135,12 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
                     <Avatar />
                     {reply}
                   </CommentContent>
-                  <button onClick={() => handleEditClick(replyIndex, index)}>수정</button>
-                  <button onClick={() => handleDeleteClick(replyIndex, index)}>삭제</button>
+                  <button onClick={() => handleEditClick(replyIndex, index)}>
+                    수정
+                  </button>
+                  <button onClick={() => handleDeleteClick(replyIndex, index)}>
+                    삭제
+                  </button>
                 </Reply>
               ))}
           </Comment>
@@ -142,7 +153,9 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
           onChange={handleCommentChange}
           placeholder="댓글을 입력하세요..."
         />
-        <CommentButton type="submit">{editIndex !== null ? "수정하기" : "댓글 작성"}</CommentButton>
+        <CommentButton type="submit">
+          {editIndex !== null ? "수정하기" : "댓글 작성"}
+        </CommentButton>
       </CommentForm>
       {replyToIndex !== null && (
         <div>
