@@ -13,7 +13,7 @@ import Naver from './routes/login/Naver';
 import Withdrawal from './routes/login/Withdrawal';
 import FollowList from './components/mypage/FollowList';
 import NotFound from './components/home/NotFound';
-
+import Paper from '@mui/material/Paper';
 // App.js
 function App() {
   const [isLogIn, setIsLogIn ] = useState(false);
@@ -27,7 +27,7 @@ function App() {
   });
 
   return (
-    <div className="App">
+    <Paper className="App">
       <div style={{ margin: '0 auto' }}>
       </div>
       <Routes>
@@ -46,7 +46,7 @@ function App() {
         </Route>
         <Route path="/*" element={<NotFound />} />
       </Routes>
-    </div>
+    </Paper>
   );
 }
 
