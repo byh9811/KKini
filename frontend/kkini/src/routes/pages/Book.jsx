@@ -8,7 +8,13 @@ function Book() {
   const canvasRef = useRef(null);
   const [data, setData] = useState([]);
   const navigate = useNavigate();
+<<<<<<< HEAD
+=======
+  
+>>>>>>> 6ec182e2e5fa7b71947bd8b5e3a67bd2532a7ab4
 
+
+  // 여기서우선 받아와야함
   useEffect(() => {
     const fetchData = async () => {
       try {
