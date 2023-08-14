@@ -8,17 +8,8 @@ import LocalAtmRoundedIcon from "@mui/icons-material/LocalAtmRounded";
 import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import Button from "react-bootstrap/Button";
-// import Modal from "react-bootstrap/Modal";
 import Drawer from "./Drawer";
 import axios from "axios";
-// import ImageSlider from './ImageSlider.jsx';  // 여기서 'path_to_imageslider.jsx'는 실제 ImageSlider 컴포넌트가 있는 경로로 대체해야 합니다.
-
-// 모달
-import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import Typography from "@mui/material/Typography";
 import ImageSwiper from "./ImageSwiper";
 
 const Post = forwardRef(
@@ -31,33 +22,8 @@ const Post = forwardRef(
     const [avgPriceState, setAvgPrice] = useState(avgPrice);
     const [myPriceState, setMyPrice] = useState(myPrice);
 
-    const [show, setShow] = useState(false);
-    // const [amount, setAmount] = useState("");
-    // const [amounts, setAmounts] = useState([]);
-    // const [averageAmount, setAverageAmount] = useState(null);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-    // const [isBookmarked, setIsBookmarked] = useState(false);
-
     const [comments, setComments] = useState([]);
-
-    // 모달
-    const style = {
-      position: "absolute",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      width: 400,
-      bgcolor: "background.paper",
-      border: "2px solid #000",
-      boxShadow: 24,
-      p: 4,
-    };
-
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => {
-      setOpen(false);
-    };
 
     const changeScrap = (postId) => {
       if (isScrapState) {
@@ -93,7 +59,6 @@ const Post = forwardRef(
       }
     };
 
-    //좋아요 싫어요 수정완룐
     const handleIconClick = (type) => {
       axios
         .post(`/reaction`, {
@@ -101,7 +66,6 @@ const Post = forwardRef(
           state: type,
         })
         .then((response) => {
-          console.log(response);
           setReaction(response.data.response);
 
           if (response.data.success) {
@@ -129,12 +93,6 @@ const Post = forwardRef(
         .catch((error) => {
           console.error("There was an error sending the PUT request:", error);
         });
-    };
-
-    const handleShow = () => setShow(true);
-
-    const handleSave = () => {
-      handleClose();
     };
 
     return (
@@ -192,8 +150,8 @@ const Post = forwardRef(
             </div>
           </div>
           <div className="post__iconSave">
-            <PostIcon onClick={handleOpen}>
-              <LocalAtmRoundedIcon /> {/* 이게 금액평가 아이콘 */}
+            <PostIcon>
+              <LocalAtmRoundedIcon />
               <div>
                 <CountText>{avgPrice}</CountText>
               </div>
@@ -207,32 +165,6 @@ const Post = forwardRef(
             </PostIcon>
           </div>
         </PostFooterIcons>
-
-        <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
-          <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              금액 평가창
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              이 음식이 얼마처럼 보이나요???
-              <img src={postImage} alt="" style={{ maxWidth: "100%", borderRadius: "6px" }} />
-              <div>
-                <input
-                  type="number"
-                  placeholder="금액을 입력하세요"
-                  onChange={(e) => setMyPrice(e.target.value)}
-                  style={{ textAlign: "center", width: "100%", padding: "10px", margin: "10px 0" }}
-                />
-              </div>
-              <Button variant="secondary" onClick={handleClose}>
-                닫기
-              </Button>
-              <Button variant="primary" onClick={handleSave}>
-                금액 평가 완료
-              </Button>
-            </Typography>
-          </Box>
-        </Modal>
       </PostContainer>
     );
   }
@@ -241,7 +173,6 @@ const Post = forwardRef(
 export default Post;
 
 const PostContainer = styled.div`
-  // width: 550px;
   margin: 0px 40px 50px 40px;
 `;
 
@@ -276,15 +207,6 @@ const PostHeaderAuthor = styled.div`
   }
 `;
 
-const PostImage = styled.div`
-  img {
-    width: 95%;
-    border-radius: 6px;
-    border: 0.6px solid rgba(128, 128, 128, 0.516);
-    margin: 0 auto;
-  }
-`;
-
 const PostFooterIcons = styled.div`
   display: flex;
   flex-direction: row;
@@ -305,7 +227,7 @@ const PostIcon = styled.div`
 
 const CountText = styled.span`
   display: flex;
-  font-size: 10px; // 원하는 크기로 조절하세요.
+  font-size: 10px;
 `;
 
 const Contentstext = styled.span`
