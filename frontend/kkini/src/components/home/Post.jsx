@@ -8,10 +8,17 @@ import LocalAtmRoundedIcon from "@mui/icons-material/LocalAtmRounded";
 import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+// import Modal from "react-bootstrap/Modal";
 import Drawer from "./Drawer";
 import axios from "axios";
 // import ImageSlider from './ImageSlider.jsx';  // 여기서 'path_to_imageslider.jsx'는 실제 ImageSlider 컴포넌트가 있는 경로로 대체해야 합니다.
+
+// 모달
+import Backdrop from '@mui/material/Backdrop';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
+import Typography from '@mui/material/Typography';
 
 const Post = forwardRef(
   (
@@ -48,6 +55,26 @@ const Post = forwardRef(
     // const [isBookmarked, setIsBookmarked] = useState(false);
 
     const [comments, setComments] = useState([]);
+
+
+    // 모달
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
+
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => {
+        setOpen(false)
+    };
 
     const changeScrap = (postId) => {
       if (isScrapState) {
@@ -121,10 +148,6 @@ const Post = forwardRef(
         });
     };
 
-    const handleClose = () => {
-      setShow(false);
-    };
-
     const handleShow = () => setShow(true);
 
     const handleSave = () => {
@@ -194,7 +217,7 @@ const Post = forwardRef(
             </div>
           </div>
           <div className="post__iconSave">
-            <PostIcon onClick={handleShow}>
+            <PostIcon onClick={handleOpen}>
               <LocalAtmRoundedIcon /> {/* 이게 금액평가 아이콘 */}
               <div>
                 <CountText>{avgPrice}</CountText>
@@ -209,33 +232,33 @@ const Post = forwardRef(
             </PostIcon>
           </div>
         </PostFooterIcons>
-
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton style={{ textAlign: "center" }}>
-            <Modal.Title>금액 평가창</Modal.Title>
-          </Modal.Header>
-          <Modal.Body style={{ textAlign: "center" }}>
-            이 음식이 얼마처럼 보이나요???
-            <img src={postImage} alt="" style={{ maxWidth: "100%", borderRadius: "6px" }} />
-            <div>
-              <input
-                type="number"
-                // value={}
-                placeholder="금액을 입력하세요"
-                onChange={(e) => setMyPrice(e.target.value)}
-                style={{ textAlign: "center", width: "100%", padding: "10px", margin: "10px 0" }}
-              />
-            </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              닫기
-            </Button>
-            <Button variant="primary" onClick={handleSave}>
-              금액 평가 완료
-            </Button>
-          </Modal.Footer>
-        </Modal>
+        
+         <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
+                <Typography id="modal-modal-title" variant="h6" component="h2">
+                    금액 평가창
+                </Typography>
+                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    이 음식이 얼마처럼 보이나요???
+                    <img src={postImage} alt="" style={{ maxWidth: '100%', borderRadius: '6px' }} />
+                    <div>
+                        <input
+                            type="number"
+                            placeholder="금액을 입력하세요"
+                            onChange={(e) => setMyPrice(e.target.value)}
+                            style={{ textAlign: 'center', width: '100%', padding: '10px', margin: '10px 0' }}
+                        />
+                    </div>
+                    <Button variant="secondary" onClick={handleClose}>닫기</Button>
+                    <Button variant="primary" onClick={handleSave}>금액 평가 완료</Button>
+                </Typography>
+                </Box>
+            </Modal>
       </PostContainer>
     );
   }
