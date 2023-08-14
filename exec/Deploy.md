@@ -24,6 +24,7 @@
 ```
 
 ## Notice
-1. 위에서 정의된 Environment Variable의 값을 등록해야 한다.
-2. SSH 설치 이후 Default File에 각 요청 URL에 대해 포트를 분기하도록 설정해야 한다.
-3. Docker와 GitLab Runner를 사용해 자동화 배포를 설정하는데, GitLab-Runner는 가장 먼저 컨테이너로 등록해주어야 한다.
+1. 프로젝트를 성공적으로 세팅하기 위해 S3와 Naver API의 키가 필요하다.
+2. 위에서 정의된 Environment Variable의 값을 등록해야 한다.
+3. SSH 설치 이후 Default File에 각 요청 URL에 대해 포트를 분기하도록 설정해야 한다.
+4. Docker와 GitLab Runner를 사용해 자동화 배포를 설정하는데, GitLab-Runner는 가장 먼저 컨테이너로 등록해주어야 한다.
