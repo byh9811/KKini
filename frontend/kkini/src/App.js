@@ -12,6 +12,7 @@ import "tailwindcss/tailwind.css";
 import Naver from './routes/login/Naver';
 import Withdrawal from './routes/login/Withdrawal';
 import FollowList from './components/mypage/FollowList';
+import NotFound from './components/home/NotFound';
 
 import Book from './routes/pages/Book';
 
@@ -46,6 +47,7 @@ function App() {
           <Route path="n5" element={<N5Mypage />} />
           <Route path="n5/:userId" element={<N5Mypage />} />
         </Route>
+        <Route path="/*" element={<NotFound />} />
       </Routes>
     </div>
   );
