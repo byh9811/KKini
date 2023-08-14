@@ -34,29 +34,29 @@ public class ReactionServiceImpl implements ReactionService {
     private final RecipeRepository recipeRepository;
 
     @Override
-    public void saveReaction(ReactionRegisterRequestDto dto, Long memberId) {
+    public Boolean saveReaction(ReactionRegisterRequestDto dto, Long memberId) {
         Boolean oldState = null;
 
         Member writer = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException(Reaction.class, memberId));
         Post post = postRepository.findById(dto.getPostId()).orElseThrow(() -> new NotFoundException(Post.class, dto.getPostId()));
-        Reaction oldReaction = reactionRepository.findByMemberIdAndPostId(memberId, dto.getPostId());
+        Reaction reaction = reactionRepository.findByMemberIdAndPostId(memberId, dto.getPostId());
 
         // 신규
-        if(oldReaction == null) {
-            Reaction newReaction = Reaction.builder()
+        if(reaction == null) {
+            reaction = Reaction.builder()
                     .member(writer)
                     .post(post)
                     .state(dto.getState())
                     .build();
 
-            reactionRepository.save(newReaction);
+            reactionRepository.save(reaction);
         }
 
         // 수정
         else {
-            oldState = oldReaction.getState();
+            oldState = reaction.getState();
 
-            reactionRepository.save(setReaction(oldReaction, oldState, dto.getState()));
+            reactionRepository.save(setReaction(reaction, oldState, dto.getState()));
         }
 
         // Count 갱신
@@ -71,6 +71,8 @@ public class ReactionServiceImpl implements ReactionService {
                 preferenceRepository.save(setPreference(preference, oldState, dto.getState()));
             }
         }
+
+        return reaction.getState();
     }
 
     // Reaction 갱신

@@ -96,15 +96,18 @@ public class JwtTokenProvider {
         member.updateRefreshToken(refreshToken);
 
         memberRepository.save(member);
-        for (Long i = 1L; i <=5L; i++) {
-            Long finalI = i;
-            Category category = categoryRepository.findById(finalI).orElseThrow(() -> new NotFoundException(Category.class, finalI));
-            preferenceRepository.save(Preference.builder()
-                    .weight(0)
-                    .category(category)
-                    .member(member)
-                    .build()
-            );
+        Long cnt = preferenceRepository.countByMember_Id(member.getId());
+        if (cnt == 0){
+            for (Long i = 1L; i <=5L; i++) {
+                Long finalI = i;
+                Category category = categoryRepository.findById(finalI).orElseThrow(() -> new NotFoundException(Category.class, finalI));
+                preferenceRepository.save(Preference.builder()
+                        .weight(0)
+                        .category(category)
+                        .member(member)
+                        .build()
+                );
+            }
         }
 
 

@@ -42,7 +42,7 @@ public class ScrapServiceImpl implements ScrapService{
 
     @Override
     public void deleteScrap(Long id, Long memberId) {
-        Scrap scrap = scrapRepository.findById(id).orElseThrow(() -> new NotFoundException(Scrap.class, id));
+        Scrap scrap = scrapRepository.findByMember_IdAndPost_Id(memberId, id).orElseThrow(() -> new NotFoundException(Scrap.class, id,memberId));
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException(Member.class, memberId));
 
         if (scrap.getMember().equals(member)) {

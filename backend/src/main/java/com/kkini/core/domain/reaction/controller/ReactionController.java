@@ -30,13 +30,11 @@ public class ReactionController {
             @Parameter(name = "state", description = "상태(좋아요:true/싫어요:false/없음:null)")
     })
     @PostMapping
-    public Response<Void> modifyReaction(
+    public Response<Boolean> modifyReaction(
             @RequestBody ReactionRegisterRequestDto reactionRegisterRequestDto,
             @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
-        reactionService.saveReaction(reactionRegisterRequestDto, userPrincipal.getId());
-
-        return OK(null);
+        return OK(reactionService.saveReaction(reactionRegisterRequestDto, userPrincipal.getId()));
     }
 
 }
