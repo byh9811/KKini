@@ -41,6 +41,7 @@ public class ScrapQueryRepository {
                 .where(
                         scrap.member.id.eq(memberId)
                 )
+                .groupBy(scrap.id, scrap.post.id)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(scrap.id.desc())
