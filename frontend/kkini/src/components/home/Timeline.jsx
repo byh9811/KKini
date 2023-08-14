@@ -56,8 +56,10 @@ function Timeline(props) {
 
   return (
     <div className="timeline">
+      {localPosts.lengh > 0 ? (
       <div className="timeline_posts">
         {localPosts.map((post, index) => (
+
           <Post
             key={index}
             index={index}
@@ -79,6 +81,13 @@ function Timeline(props) {
           />
         ))}
       </div>
+      ):(
+        <div>
+        <p>등록된 게시글이 없어요</p>
+        <p>게시글을 등록하러 가볼까요</p>
+        <button>등록하기</button>
+        </div>
+      )}
     </div>
   );
 }
