@@ -30,7 +30,7 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
         axios
           .post(`/scrap/${postId}`)
           .then((res) => {
-            console.log(res);
+            // console.log(res);
           })
           .catch((error) => {
             console.log(error);
@@ -42,7 +42,7 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
         axios
         .delete(`/scrap/${postId}`)
         .then((res) => {
-            console.log(res);
+            // console.log(res);
         })
         .catch((err) => {
             console.log(err);
@@ -68,7 +68,6 @@ const Post = forwardRef(({ user, index, postImage, createDateTime, likeCnt: init
         })
         .then((response) => {
             // 성공적으로 응답받았을 때의 처리 로직
-            console.log('반응들감')
             if(newReaction === true) {
                 setLikeCnt(prevLikeCnt => prevLikeCnt + (reaction === false ? 0 : 1));
                 if(reaction === false) {

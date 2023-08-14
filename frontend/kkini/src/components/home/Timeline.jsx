@@ -56,31 +56,38 @@ function Timeline(props) {
   }, [props.posts]);
 
   return (
-    <div className='timeline'>
-      <div className='timeline_posts'>
-        {localPosts.map((post, index) => (
-          <Post
-            key={index}
-            index={index}
-            user={post.user}
-            contents={post.contents}
-            postImage={post.postImage}
-            likeCnt={post.likeCnt}
-            disLikeCnt={post.disLikeCnt}
-            createDateTime={post.createDateTime}
-            hatecnt={post.hatecnt}
-            commentcnt={post.commentcnt}
-            avgPrice={post.avgPrice}
-            reaction={post.reaction}
-            recipeName={post.recipeName}
-            toggleLike={() => toggleLike(index)} // 이 함수도 기존에 정의되어 있어야 합니다.
-            postId={post.postId}
-          />
-          
-        ))}
-      </div>
+    <div className="timeline">
+      {localPosts.length > 0 ? (
+        <div className="timeline_posts">
+          {localPosts.map((post, index) => (
+            <Post
+              key={index}
+              index={index}
+              user={post.user}
+              contents={post.contents}
+              postImage={post.postImage}
+              likeCnt={post.likeCnt}
+              disLikeCnt={post.disLikeCnt}
+              createDateTime={post.createDateTime}
+              hatecnt={post.hatecnt}
+              commentcnt={post.commentcnt}
+              avgPrice={post.avgPrice}
+              reaction={post.reaction}
+              recipeName={post.recipeName}
+              toggleLike={() => toggleLike(index)} // 이 함수도 기존에 정의되어 있어야 합니다.
+              postId={post.postId}
+            />
+          ))}
+        </div>
+      ) : (
+        <div>
+          <p>등록된 글이 존재하지 않아요</p>
+          <p>글을 등록하러 가볼까요</p>
+          <button>등록하기</button>
+        </div>
+      )}
     </div>
-  )
+  );
 }
 
 export default Timeline;

@@ -12,7 +12,7 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
   const location = useLocation();
 
   const effectivePostId = postId || location.state?.postId;
-  console.log(comments)
+
   useEffect(() => {
     if (!effectivePostId) {
       console.error("postId is not defined.");
@@ -80,7 +80,7 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
   const handleDeleteClick = async (commentIndex) => {
     try {
       const response = await axios.delete(`/comment/delete/${commentIndex}`);
-      console.log('삭제됨')
+      console.log('삭제')
       if (response.data.success) {
         onCommentsChange(); // 댓글 삭제 후 댓글 목록 다시 가져오기
       }

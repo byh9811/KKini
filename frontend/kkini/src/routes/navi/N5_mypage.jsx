@@ -12,7 +12,6 @@ function N5Mypage() {
     if ( userId !== "" ) {
     setMine(0);
   }
-    console.log('mypage')
   // console.log(mine)
 
   }, [userId, mine]);
