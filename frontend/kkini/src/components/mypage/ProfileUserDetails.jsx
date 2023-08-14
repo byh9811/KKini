@@ -6,6 +6,9 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import styled from "styled-components";
 import FollowModal from "./FollowModal";
+import { ListGroup, ListGroupItem } from "react-bootstrap";
+import { ListItemText } from "@mui/material";
+import { Label } from "@mui/icons-material";
 
 export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
   const [data, setData] = useState("");
@@ -105,6 +108,10 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
     setShow(false);
   };
 
+  const goLogout = () => {
+    window.location.href = "http://localhost:8080/api/member/logout";
+  };
+
   return (
     <div>
       <div className="py-10 w-full">
@@ -138,14 +145,19 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton style={{ textAlign: "center" }}>
-          <Modal.Title>Settings</Modal.Title>
+          <Modal.Title>내 정보</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ textAlign: "center" }}>
+          <ListGroup>
+            <ListItemText>이름 : {data.name}</ListItemText>
+            <ListItemText>닉네임 : {data.nickname}</ListItemText>
+            <ListItemText>이메일 : {data.email}</ListItemText>
+          </ListGroup>
           <CommentsContainer>
             <div>
               <Link to="/withdrawal">회원탈퇴</Link>
             </div>
-            <a href="http://localhost:8080/api/member/logout">로그아웃</a>
+            <button onClick={goLogout}>로그아웃</button>
           </CommentsContainer>
         </Modal.Body>
         <Modal.Footer>
