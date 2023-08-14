@@ -1,6 +1,5 @@
 package com.kkini.core.domain.post.service;
 
-import com.kkini.core.domain.category.repository.CategoryQueryRepository;
 import com.kkini.core.domain.post.dto.response.PostListResponseDto;
 import com.kkini.core.domain.post.repository.PostQueryRepository;
 import com.kkini.core.domain.preference.repository.PreferenceQueryRepository;
@@ -33,6 +32,10 @@ public class PostQueryServiceImpl implements PostQueryService {
         return postList;
     }
 
+    @Override
+    public PostListResponseDto getPostDetail(Long postId, Long memberId) {
+        return postQueryRepository.findPostDetail(postId, memberId);
+    }
     // 마이 페이지 조회
     @Override
     public Page<PostListResponseDto> getMyPagePostList(Pageable pageable, Long memberId) {
