@@ -1,6 +1,6 @@
 import React, { forwardRef, useState } from "react";
 import styled from "styled-components";
-import { Avatar } from "@mui/material";
+import { Avatar, Box, Typography, Modal } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ThumbDownOffAltRoundedIcon from "@mui/icons-material/ThumbDownOffAltRounded";
 import ChatBubbleOutlineRoundedIcon from "@mui/icons-material/ChatBubbleOutlineRounded";
@@ -13,24 +13,7 @@ import axios from "axios";
 import ImageSwiper from "./ImageSwiper";
 
 const Post = forwardRef(
-  (
-    {
-      user,
-      postImage,
-      createDateTime,
-      likeCnt,
-      disLikeCnt,
-      commentCnt,
-      contents,
-      avgPrice,
-      myPrice,
-      reaction,
-      recipeName,
-      postId,
-      isScrap,
-    },
-    ref
-  ) => {
+  ({ user, postImage, createDateTime, likeCnt, disLikeCnt, commentCnt, contents, avgPrice, myPrice, reaction, recipeName, postId, isScrap }, ref) => {
     const [reactionState, setReaction] = useState(reaction);
     const [likeCntState, setLikeCnt] = useState(likeCnt);
     const [disLikeCntState, setDisLikeCnt] = useState(disLikeCnt);
@@ -184,18 +167,12 @@ const Post = forwardRef(
           <div className="post__iconsMain">
             {/* 좋아요 인터페이스 */}
             <PostIcon>
-              <FavoriteBorderIcon
-                style={{ color: reactionState === true ? "red" : "gray" }}
-                onClick={() => handleIconClick(true)}
-              />
+              <FavoriteBorderIcon style={{ color: reactionState === true ? "red" : "gray" }} onClick={() => handleIconClick(true)} />
             </PostIcon>
 
             {/* 싫어요 인터페이스 */}
             <PostIcon>
-              <ThumbDownOffAltRoundedIcon
-                style={{ color: reactionState === false ? "blue" : "gray" }}
-                onClick={() => handleIconClick(false)}
-              />
+              <ThumbDownOffAltRoundedIcon style={{ color: reactionState === false ? "blue" : "gray" }} onClick={() => handleIconClick(false)} />
             </PostIcon>
 
             {/* 댓글 인터페이스 : 댓글 열기 */}
@@ -210,8 +187,7 @@ const Post = forwardRef(
             {/* 포스트 상태 표시 */}
             <div>
               <CountText>
-                <b>{likeCntState}</b>좋아요 <b>{disLikeCntState}</b>싫어요{" "}
-                <b>{commentCntState}</b>
+                <b>{likeCntState}</b>좋아요 <b>{disLikeCntState}</b>싫어요 <b>{commentCntState}</b>
                 개의 댓글
               </CountText>
             </div>
@@ -231,33 +207,20 @@ const Post = forwardRef(
               {isScrapState ? (
                 <BookmarkIcon onClick={() => changeScrap(postId)} />
               ) : (
-                <BookmarkBorderRoundedIcon
-                  onClick={() => changeScrap(postId)}
-                />
-                  onClick={() => changeScrap(postId)}
-                />
+                <BookmarkBorderRoundedIcon onClick={() => changeScrap(postId)} />
               )}
             </PostIcon>
           </div>
         </PostFooterIcons>
 
-        <Modal
-          open={priceModalShow}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
+        <Modal open={priceModalShow} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
           <Box sx={style}>
             <Typography id="modal-modal-title" variant="h6" component="h2">
               금액 평가창
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               이 음식이 얼마처럼 보이나요???
-              <img
-                src={postImage}
-                alt=""
-                style={{ maxWidth: "100%", borderRadius: "6px" }}
-              />
+              <img src={postImage} alt="" style={{ maxWidth: "100%", borderRadius: "6px" }} />
               <div>
                 <input
                   type="number"
