@@ -1,28 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
-import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
-import Typography from '@mui/material/Typography';
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
+import RecipesModal from '../recipe/RecipesModal';
 
 const RecipesComponent = (props) => {
   const { 검색어, 카테고리ID } = props;
   const [recipes, setRecipes] = useState([]);
-  const [selectedId, setSelectedId] = useState(null);
+
+  const [selectedRecipe, setSelectedRecipe] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     axios.get('/recipe/search', {
@@ -41,36 +26,31 @@ const RecipesComponent = (props) => {
       });
   }, [검색어, 카테고리ID]);
 
+  const handleRecipeClick = (recipeId) => {
+    setSelectedRecipe(recipeId);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedRecipe(null);
+    setShowModal(false);
+  };
+
   return (
     <div>
       {
-        recipes.map((recipe) => (
-          <div key={recipe.id}>
-            <img src={recipe.recipeImage} alt={`Image ${recipe.id}`} onClick={() => setSelectedId(recipe.id)}/>
-            {recipe.recipeName}
-            {recipe.writerName}
-
-            <Modal
-              open={selectedId === recipe.id}
-              onClose={() => setSelectedId(null)}
-              closeAfterTransition
-              BackdropComponent={Backdrop}
-              BackdropProps={{
-                timeout: 500,
-              }}
-            >
-              <Fade in={selectedId === recipe.id}>
-                <Box sx={style}>
-                  <Typography id="modal-modal-title" variant="h6" component="h2">
-                    {recipe.recipeName}
-                    {recipe.writerName}
-                  </Typography>
-                </Box>
-              </Fade>
-            </Modal>
+        recipes.map((item) => (
+          <div key={item.id}>
+            <img src={item.recipeImage} alt={`Image ${item.id}`} onClick={() => handleRecipeClick(item)} />
+            {item.recipeName}
+            <br />
+            {item.writerName}
           </div>
         ))
       }
+      {selectedRecipe !== null && (
+        <RecipesModal recipeId={selectedRecipe.recipeId} handleClose={handleCloseModal} show={showModal} />
+      )}
     </div>
   );
 }
