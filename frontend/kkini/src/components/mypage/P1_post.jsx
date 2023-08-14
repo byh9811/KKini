@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReqUserPostCard from "./ReqUserPostCard";
 import axios from "axios";
 
-function P1_post() {
+function P1Post() {
   window.scrollTo(0, 0);
   const [postList, setPostList] = useState([]);
 
@@ -22,15 +22,19 @@ function P1_post() {
 
   return (
     <div>
-      <div className="flex flex-wrap">
-        {postList.map((item) => (
-          <div key={item.id}>
-            <img src={item.imageList[0]} alt={`Image ${item.id}`} />
-          </div>
-        ))}
-      </div>
+      {postList.length > 0 ? (
+        <div className="flex flex-wrap">
+          {postList.map((item) => (
+            <div key={item.id}>
+              <img src={item.imageList[0]} alt={`Image ${item.id}`} />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p>등록된 글이 없습니다</p>
+      )}
     </div>
   );
 }
 
-export default P1_post;
+export default P1Post;

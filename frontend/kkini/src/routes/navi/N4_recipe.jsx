@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import RecipesComponent from '../../components/search/RecipesComponent';
 
-const N4_recipe = () => {
+const N4Recipe = () => {
   window.scrollTo(0, 0);
   const [카테고리ID, 카테고리ID변경] = useState(null);
   const [검색어, 검색어변경] = useState("");
@@ -43,4 +43,4 @@ const N4_recipe = () => {
   );
 };
 
-export default N4_recipe;
+export default N4Recipe;
