@@ -1,5 +1,6 @@
 package com.kkini.core.domain.mypage.dto.response;
 
+import com.kkini.core.domain.oauth2.enums.AuthProvider;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,5 +27,8 @@ public class MypageInfoResponseListDto {
 
     @Schema(name = "이메일")
     private String email;
+
+    @Schema(name = "가입 서비스")
+    private AuthProvider authProvider;
 
 }
