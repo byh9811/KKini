@@ -58,6 +58,10 @@ function UploadPost() {
 
       // 이미지
       for (let i = 0; i < fileList.length; i++) {
+        if (fileList[i].fileObject.size > 5000000) {
+          alert("5mb 이상 이미지는 업로드가 불가능해요");
+          return;
+        }
         formData.append("files", fileList[i].fileObject);
       }
 
@@ -77,7 +81,7 @@ function UploadPost() {
         })
         .then((response) => {
           console.log("업로드 성공:", response.data);
-          navigate("/home/n1");
+          navigate("/home/feed");
         })
         .catch((error) => {
           console.error("업로드 실패:", error);
