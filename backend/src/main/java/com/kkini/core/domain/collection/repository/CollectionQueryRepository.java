@@ -23,27 +23,25 @@ public class CollectionQueryRepository {
     private final int LIST_SIZE = 1;
     private final JPAQueryFactory jpaQueryFactory;
 
-    public Optional<CollectionListResponseDto> findRandomCollection(Long memberId) {
+    public List<CollectionListResponseDto> findRandomCollection(Long memberId) {
 
-        List<Long> myCollectionList = jpaQueryFactory
-                .select(collection.id)
-                .from(collection)
-                .where(
-                        memberEq(memberId)
-                )
-                .fetch();
+//        List<Long> myCollectionList = jpaQueryFactory
+//                .select(collection.id)
+//                .from(collection)
+//                .where(
+//                        memberEq(memberId)
+//                )
+//                .fetch();
 
-        Long RandomId = getRandom(myCollectionList);
-
-        return Optional.ofNullable(jpaQueryFactory
+        return jpaQueryFactory
                 .select(Projections.constructor(CollectionListResponseDto.class,
                         recipe.id,
                         recipe.image
                 ))
                 .from(collection)
                 .join(recipe).on(collection.recipe.id.eq(recipe.id))
-                .where(collection.id.eq(RandomId))
-                .fetchOne());
+                .where(collection.member.id.eq(memberId))
+                .fetch();
     }
 
 //    public List<CollectionListResponseDto> findRandomCollectionList(Long memberId, Integer difficulty) {

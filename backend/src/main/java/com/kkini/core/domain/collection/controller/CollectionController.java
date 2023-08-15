@@ -31,7 +31,7 @@ public class CollectionController {
     @Parameters({
     })
     @GetMapping
-    public Response<CollectionListResponseDto> getMyCollection(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+    public Response<List<CollectionListResponseDto>> getMyCollection(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         return OK(collectionQueryService.getMyCollection(userPrincipal.getId()));
     }
 
