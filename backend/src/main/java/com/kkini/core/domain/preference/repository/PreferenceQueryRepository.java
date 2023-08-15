@@ -19,14 +19,12 @@ public class PreferenceQueryRepository {
      * 이 순서를 이용하여 알맞은 개수의 포스트 조회
      */
     public List<Long> getInterestingCategoryIdList(Long memberId) {
-        List<Long> list = jpaQueryFactory.select(
+        return jpaQueryFactory.select(
                         preference.category.id
                 )
                 .from(preference)
                 .where(preference.member.id.eq(memberId))
                 .orderBy(preference.weight.desc())
                 .fetch();
-        list.add(null);
-        return list;
     }
 }
