@@ -23,7 +23,9 @@ public class PostQueryServiceImpl implements PostQueryService {
     private final int MYPAGE = 2;
     private final int SEARCH = 3;
     private final int ALGORITHM = 4;
-    private final int[] feedCntArr = {7, 5, 4, 3, 1, 0};
+    private final int[] feedCntArr = {7, 5, 4, 3, 1};
+
+    private final int PAGE_SIZE = 20;
 
     private final PostQueryRepository postQueryRepository;
     private final PreferenceQueryRepository preferenceQueryRepository;
@@ -62,33 +64,32 @@ public class PostQueryServiceImpl implements PostQueryService {
     public Page<PostListResponseDto> getAlgorithmPostList(int page, Long memberId) {
         List<PostListResponseDto> postList = new ArrayList<>();
         List<Long> interestingCategoryIdList = preferenceQueryRepository.getInterestingCategoryIdList(memberId);
-        int correction = 0;     // 다음 리스트의 사이즈를 판별하기 위한 보정값
 
-        for (int i=0; i<6; i++) {
-            int nextCnt = feedCntArr[i] + correction;
-            log.warn("nextCnt: {}", nextCnt);
-            if (nextCnt == 0) {
-                break;
-            }
-
-            Pageable pageable = PageRequest.of(page, nextCnt, Sort.by("id").descending());
+        for (int i=0; i<5; i++) {
+            Pageable pageable = PageRequest.of(page, feedCntArr[i], Sort.by("id").descending());
             Long categoryId = interestingCategoryIdList.get(i);
-            log.warn("categoryId: {}", categoryId);
-            Page<PostListResponseDto> categoryPostList = postQueryRepository.findPostList(pageable, memberId, ALGORITHM, null, categoryId);
-            List<PostListResponseDto> content = categoryPostList.getContent();
+            List<PostListResponseDto> content = postQueryRepository.findPostByAlgorithm(pageable, categoryId);
             postList.addAll(content);
+        }
 
-            log.warn("content: {}", content.size());
-            log.warn("postList: {}", postList.size());
-            if (content.size() < nextCnt) {        // 원하는 개수의 포스트를 조회하지 못했으면
-                correction = nextCnt - content.size();     // 남은 개수 다음 카테고리로 이월
-            } else {        // 포스트 전부 조회했으면
-                correction = 0;     // 보정값 초기화
+        log.warn("{}", postList.size());
+
+        // 페이지 계산을 위한 임시 Page: 수식으로 바꿀 수 있음
+        PageImpl<PostListResponseDto> tempPage = new PageImpl<>(postList, PageRequest.of(page, PAGE_SIZE), postRepository.count());
+
+        // 20개를 못가져왔으면
+        if(postList.size()<PAGE_SIZE) {
+            // 남은 개수만큼 최근껄로 가져옴
+            if(tempPage.isLast()) {     // 마지막 페이지면
+                if (postList.size() < tempPage.getTotalElements() % PAGE_SIZE) {        // 사이즈는 맞춰서 리턴하자
+                    postList.addAll(postQueryRepository.findRemainPost(tempPage.getTotalElements()%PAGE_SIZE - postList.size()));
+                }
+            } else {     // 마지막 페이지가 아닌데 카테고리에 맞는 포스트가 부족해서 못가져온거면
+                postList.addAll(postQueryRepository.findRemainPost(PAGE_SIZE - postList.size()));
             }
         }
-        log.warn("{}", postList.size());
-        PageImpl<PostListResponseDto> postListResponseDtos = new PageImpl<>(postList, PageRequest.of(page, 20), postRepository.count());
-        return postListResponseDtos;
+
+        return new PageImpl<>(postList, PageRequest.of(page, PAGE_SIZE), postRepository.count());
     }
 
 }
