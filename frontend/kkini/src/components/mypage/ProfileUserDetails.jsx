@@ -122,7 +122,7 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
 
           <div className="space-y-5 text-xs">
             <div className="flex space-x-10 items-center">
-              <p className="font-semibold">{data.nickname}</p>
+              <h2>{data.nickname}</h2>
               {/* 팔로우 */}
               {
                 // 내것 ? null :
@@ -148,22 +148,25 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
           <Modal.Title>내 정보</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ textAlign: "center" }}>
-          <ListGroup>
-            <ListItemText>이름 : {data.name}</ListItemText>
-            <ListItemText>닉네임 : {data.nickname}</ListItemText>
-            <ListItemText>이메일 : {data.email}</ListItemText>
-          </ListGroup>
-          <CommentsContainer>
-            <div>
-              <Link to="/withdrawal">회원탈퇴</Link>
-            </div>
-            <button onClick={goLogout}>로그아웃</button>
-          </CommentsContainer>
+          <div style={{ textAlign: "left" }}>
+            <h4>이름 : {data.name}</h4>
+            <h4>닉네임 : {data.nickname}</h4>
+            <h4>이메일 : {data.email}</h4>
+          </div>
         </Modal.Body>
+        <CommentsContainer>
+          <button type="button">
+            회원탈퇴
+            {/* <Link to="/withdrawal"></Link> */}
+          </button>
+          <button type="button" onClick={goLogout}>
+            로그아웃
+          </button>
+        </CommentsContainer>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <button type="button" onClick={handleClose}>
             닫기
-          </Button>
+          </button>
         </Modal.Footer>
       </Modal>
     </div>

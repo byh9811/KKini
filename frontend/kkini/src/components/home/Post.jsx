@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Avatar, Box, Typography, Modal } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -23,6 +23,19 @@ const Post = forwardRef(
     const [myPriceState, setMyPrice] = useState(myPrice);
     const [priceModalShow, setPriceModalShow] = useState(false);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [day, setDay] = useState("");
+
+    useEffect(() => {
+      let today = new Date();
+      let createDate = new Date(createDateTime);
+      let milliseconds = today - createDate;
+      let now = Math.floor(milliseconds / (1000 * 60 * 60 * 24));
+      if (now === 0) {
+        setDay("오늘");
+      } else {
+        setDay(`${now}일전`);
+      }
+    }, "");
 
     // 모달
     const style = {
@@ -151,7 +164,7 @@ const Post = forwardRef(
             <Avatar className="m-2" />
             <div className="userInfo">
               <div>{user}</div>
-              <span>{createDateTime}</span>
+              <span>{day}</span>
             </div>
           </PostHeaderAuthor>
         </PostHeader>
@@ -251,7 +264,7 @@ const Post = forwardRef(
 export default Post;
 
 const PostContainer = styled.div`
-  margin: 0px 40px 50px 40px;
+  margin: 0px -20px 50px -20px;
 `;
 
 const PostHeader = styled.div`
