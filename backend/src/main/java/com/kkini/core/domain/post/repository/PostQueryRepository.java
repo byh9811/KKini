@@ -64,38 +64,16 @@ public class PostQueryRepository {
                 .from(post)
                 .leftJoin(recipe).on(post.recipe.id.eq(recipe.id))
                 .leftJoin(member).on(post.member.id.eq(member.id))
-                .leftJoin(reaction).on(post.id.eq(reaction.post.id).and(post.member.id.eq(reaction.member.id)))
-                .leftJoin(scrap).on(post.id.eq(scrap.post.id).and(post.member.id.eq(scrap.member.id)))
-                .leftJoin(evaluation).on(post.id.eq(evaluation.post.id).and(post.member.id.eq(evaluation.member.id)))
+                .leftJoin(reaction).on(post.id.eq(reaction.post.id).and(reaction.member.id.eq(memberId)))
+                .leftJoin(scrap).on(post.id.eq(scrap.post.id).and(scrap.member.id.eq(memberId)))
+                .leftJoin(evaluation).on(post.id.eq(evaluation.post.id).and(evaluation.member.id.eq(memberId)))
                 .where(searchCondition(memberId, followList, type, search, categoryId))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(postSort(pageable, type))
                 .fetch();
 
-        for (PostListResponseDto postListResponseDto : postList) {
-            List<String> imageList = jpaQueryFactory
-                    .select(postImage.image)
-                    .from(postImage)
-                    .where(postImage.post.id.eq(postListResponseDto.getId()))
-                    .fetch();
-
-            List<Long> imageIndexList = jpaQueryFactory
-                    .select(postImage.id)
-                    .from(postImage)
-                    .where(postImage.post.id.eq(postListResponseDto.getId()))
-                    .fetch();
-
-            Long commentCnt = jpaQueryFactory
-                    .select(comment.count())
-                    .from(comment)
-                    .where(comment.post.id.eq(postListResponseDto.getId()))
-                    .fetchFirst();
-
-            postListResponseDto.setImageList(imageList);
-            postListResponseDto.setImageIndexList(imageIndexList);
-            postListResponseDto.setCommentCnt(commentCnt.intValue());
-        }
+        setPostInfo(postList);
 
         long count = jpaQueryFactory
                 .select(post.count())
@@ -117,10 +95,10 @@ public class PostQueryRepository {
                         post.disLikeCnt,
                         post.avgPrice,
                         evaluation.price,
-                        post.member.id.eq(memberId).as("isMine"),
-                        post.member.id,
-                        post.member.name,
-                        post.member.image,
+                        member.id.eq(memberId).as("isMine"),
+                        member.id,
+                        member.name,
+                        member.image,
                         recipe.id,
                         recipe.name,
                         reaction.state,
@@ -128,9 +106,9 @@ public class PostQueryRepository {
                 ))
                 .from(post)
                 .leftJoin(recipe).on(post.recipe.id.eq(recipe.id))
-                .leftJoin(reaction).on(post.id.eq(reaction.post.id).and(post.member.id.eq(reaction.member.id)))
-                .leftJoin(scrap).on(post.id.eq(scrap.post.id).and(post.member.id.eq(scrap.member.id)))
-                .leftJoin(evaluation).on(post.id.eq(evaluation.post.id).and(post.member.id.eq(evaluation.member.id)))
+                .leftJoin(reaction).on(post.id.eq(reaction.post.id).and(reaction.member.id.eq(memberId)))
+                .leftJoin(scrap).on(post.id.eq(scrap.post.id).and(scrap.member.id.eq(memberId)))
+                .leftJoin(evaluation).on(post.id.eq(evaluation.post.id).and(evaluation.member.id.eq(memberId)))
                 .where(post.id.eq(postId))
                 .fetchOne();
 
@@ -159,7 +137,7 @@ public class PostQueryRepository {
         return findPost;
     }
 
-    public List<PostListResponseDto> findPostByAlgorithm(Pageable pageable, Long categoryId) {
+    public List<PostListResponseDto> findPostByAlgorithm(Pageable pageable, Long categoryId, Long memberId) {
 
         List<PostListResponseDto> postList = jpaQueryFactory
                 .select(Projections.constructor(PostListResponseDto.class,
@@ -169,6 +147,8 @@ public class PostQueryRepository {
                         post.likeCnt,
                         post.disLikeCnt,
                         post.avgPrice,
+                        evaluation.price,
+                        member.id.eq(memberId).as("isMine"),
                         member.id,
                         member.name,
                         member.image,
@@ -179,42 +159,21 @@ public class PostQueryRepository {
                 ))
                 .from(post)
                 .leftJoin(recipe).on(post.recipe.id.eq(recipe.id))
-                .leftJoin(member).on(post.member.id.eq(member.id))
-                .leftJoin(reaction).on(post.id.eq(reaction.post.id).and(post.member.id.eq(reaction.member.id)))
-                .leftJoin(scrap).on(post.id.eq(scrap.post.id).and(post.member.id.eq(scrap.member.id)))
+                .leftJoin(member).on(post.member.id.eq(memberId))
+                .leftJoin(reaction).on(post.id.eq(reaction.post.id).and(reaction.member.id.eq(memberId)))
+                .leftJoin(scrap).on(post.id.eq(scrap.post.id).and(scrap.member.id.eq(memberId)))
+                .leftJoin(evaluation).on(post.id.eq(evaluation.post.id).and(evaluation.member.id.eq(memberId)))
                 .where(categoryId==0L ? null : post.recipe.category.id.eq(categoryId))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        for (PostListResponseDto postListResponseDto : postList) {
-            List<String> imageList = jpaQueryFactory
-                    .select(postImage.image)
-                    .from(postImage)
-                    .where(postImage.post.id.eq(postListResponseDto.getId()))
-                    .fetch();
-
-            List<Long> imageIndexList = jpaQueryFactory
-                    .select(postImage.id)
-                    .from(postImage)
-                    .where(postImage.post.id.eq(postListResponseDto.getId()))
-                    .fetch();
-
-            Long commentCnt = jpaQueryFactory
-                    .select(comment.count())
-                    .from(comment)
-                    .where(comment.post.id.eq(postListResponseDto.getId()))
-                    .fetchFirst();
-
-            postListResponseDto.setImageList(imageList);
-            postListResponseDto.setImageIndexList(imageIndexList);
-            postListResponseDto.setCommentCnt(commentCnt.intValue());
-        }
+        setPostInfo(postList);
 
         return postList;
     }
 
-    public List<PostListResponseDto> findRemainPost(long size) {
+    public List<PostListResponseDto> findRemainPost(long size, Long memberId) {
 
         List<PostListResponseDto> postList = jpaQueryFactory
                 .select(Projections.constructor(PostListResponseDto.class,
@@ -224,6 +183,8 @@ public class PostQueryRepository {
                         post.likeCnt,
                         post.disLikeCnt,
                         post.avgPrice,
+                        evaluation.price,
+                        member.id.eq(memberId).as("isMine"),
                         member.id,
                         member.name,
                         member.image,
@@ -235,35 +196,14 @@ public class PostQueryRepository {
                 .from(post)
                 .leftJoin(recipe).on(post.recipe.id.eq(recipe.id))
                 .leftJoin(member).on(post.member.id.eq(member.id))
-                .leftJoin(reaction).on(post.id.eq(reaction.post.id).and(post.member.id.eq(reaction.member.id)))
-                .leftJoin(scrap).on(post.id.eq(scrap.post.id).and(post.member.id.eq(scrap.member.id)))
+                .leftJoin(evaluation).on(post.id.eq(evaluation.post.id).and(evaluation.member.id.eq(memberId)))
+                .leftJoin(reaction).on(post.id.eq(reaction.post.id).and(reaction.member.id.eq(memberId)))
+                .leftJoin(scrap).on(post.id.eq(scrap.post.id).and(scrap.member.id.eq(memberId)))
                 .orderBy(post.modifyDateTime.asc())
                 .limit(size)
                 .fetch();
 
-        for (PostListResponseDto postListResponseDto : postList) {
-            List<String> imageList = jpaQueryFactory
-                    .select(postImage.image)
-                    .from(postImage)
-                    .where(postImage.post.id.eq(postListResponseDto.getId()))
-                    .fetch();
-
-            List<Long> imageIndexList = jpaQueryFactory
-                    .select(postImage.id)
-                    .from(postImage)
-                    .where(postImage.post.id.eq(postListResponseDto.getId()))
-                    .fetch();
-
-            Long commentCnt = jpaQueryFactory
-                    .select(comment.count())
-                    .from(comment)
-                    .where(comment.post.id.eq(postListResponseDto.getId()))
-                    .fetchFirst();
-
-            postListResponseDto.setImageList(imageList);
-            postListResponseDto.setImageIndexList(imageIndexList);
-            postListResponseDto.setCommentCnt(commentCnt.intValue());
-        }
+        setPostInfo(postList);
 
         return postList;
     }
@@ -304,12 +244,38 @@ public class PostQueryRepository {
                 Order direction = order.getDirection().isAscending() ? Order.ASC : Order.DESC;
                 switch (order.getProperty()){
                     case "id":
-                        return new OrderSpecifier<>(direction, post.id);
+                        return new OrderSpecifier<>(Order.DESC, post.id);
                 }
             }
         }
 
-        return new OrderSpecifier<>(Order.DESC, post.modifyDateTime);
+        return new OrderSpecifier<>(Order.DESC, post.id);
+    }
+
+    private void setPostInfo(List<PostListResponseDto> postList) {
+        for (PostListResponseDto postListResponseDto : postList) {
+            List<String> imageList = jpaQueryFactory
+                    .select(postImage.image)
+                    .from(postImage)
+                    .where(postImage.post.id.eq(postListResponseDto.getId()))
+                    .fetch();
+
+            List<Long> imageIndexList = jpaQueryFactory
+                    .select(postImage.id)
+                    .from(postImage)
+                    .where(postImage.post.id.eq(postListResponseDto.getId()))
+                    .fetch();
+
+            Long commentCnt = jpaQueryFactory
+                    .select(comment.count())
+                    .from(comment)
+                    .where(comment.post.id.eq(postListResponseDto.getId()))
+                    .fetchFirst();
+
+            postListResponseDto.setImageList(imageList);
+            postListResponseDto.setImageIndexList(imageIndexList);
+            postListResponseDto.setCommentCnt(commentCnt.intValue());
+        }
     }
 
 }

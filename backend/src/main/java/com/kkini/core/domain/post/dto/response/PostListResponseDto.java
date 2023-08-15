@@ -85,20 +85,4 @@ public class PostListResponseDto {
         this.isScrap = isScrap;
     }
 
-    public PostListResponseDto(Long id, String contents, Timestamp createDateTime, int likeCnt, int hateCnt, int avgPrice, Long memberId, String memberName, String memberImage, Long recipeId, String recipeName, Boolean reaction, Boolean isScrap) {
-        this.id = id;
-        this.contents = contents;
-        this.createDateTime = createDateTime;
-        this.likeCnt = likeCnt;
-        this.disLikeCnt = hateCnt;
-        this.avgPrice = avgPrice;
-        this.memberId = memberId;
-        this.memberName = memberName;
-        this.memberImage = memberImage;
-        this.recipeId = recipeId;
-        this.recipeName = recipeName;
-        this.reaction = reaction;
-        this.isScrap = isScrap;
-    }
-
 }

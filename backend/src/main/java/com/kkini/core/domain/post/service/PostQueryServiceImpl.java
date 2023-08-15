@@ -68,7 +68,7 @@ public class PostQueryServiceImpl implements PostQueryService {
         for (int i=0; i<5; i++) {
             Pageable pageable = PageRequest.of(page, feedCntArr[i], Sort.by("id").descending());
             Long categoryId = interestingCategoryIdList.get(i);
-            List<PostListResponseDto> content = postQueryRepository.findPostByAlgorithm(pageable, categoryId);
+            List<PostListResponseDto> content = postQueryRepository.findPostByAlgorithm(pageable, categoryId, memberId);
             postList.addAll(content);
         }
 
@@ -82,10 +82,10 @@ public class PostQueryServiceImpl implements PostQueryService {
             // 남은 개수만큼 최근껄로 가져옴
             if(tempPage.isLast()) {     // 마지막 페이지면
                 if (postList.size() < tempPage.getTotalElements() % PAGE_SIZE) {        // 사이즈는 맞춰서 리턴하자
-                    postList.addAll(postQueryRepository.findRemainPost(tempPage.getTotalElements()%PAGE_SIZE - postList.size()));
+                    postList.addAll(postQueryRepository.findRemainPost(tempPage.getTotalElements()%PAGE_SIZE - postList.size(), memberId));
                 }
             } else {     // 마지막 페이지가 아닌데 카테고리에 맞는 포스트가 부족해서 못가져온거면
-                postList.addAll(postQueryRepository.findRemainPost(PAGE_SIZE - postList.size()));
+                postList.addAll(postQueryRepository.findRemainPost(PAGE_SIZE - postList.size(), memberId));
             }
         }
 
