@@ -3,14 +3,14 @@
   align-items: flex-start;
   background-color: #ffffff;
   border: 1px none;
-  display: flex;
+  display: block;
   flex-direction: column;
   max-width: 500px;
   min-height: 1080px;
   min-width: 320px;
   position: relative;
   margin: 0 auto;
-  font-family: 'Roboto', sans-serif;
+  font-family: "omyu_pretty";
 }
 
 :root {

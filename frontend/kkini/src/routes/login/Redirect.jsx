@@ -24,9 +24,9 @@ const Redirect = ({ setIsLogIn }) => {
 
       localStorage.setItem("jwtToken", token);
       setAuthorizationToken(token);
-      navigate("/home");
+      navigate("/home/feed");
     } else {
-      navigate("/naver");
+      navigate("/login");
     }
   }, [token]);
 

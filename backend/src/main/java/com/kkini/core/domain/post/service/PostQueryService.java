@@ -14,6 +14,6 @@ public interface PostQueryService {
 
     Page<PostListResponseDto> getSearchPostList(Pageable pageable, Long memberId, String search);
 
-    Page<PostListResponseDto> getAlgorithmPostList(Pageable pageable, Long memberId);
+    Page<PostListResponseDto> getAlgorithmPostList(int page, Long memberId);
 
 }
