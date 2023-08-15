@@ -44,8 +44,8 @@ public class WebSecurityConfigure {
         log.debug("   {}", http.toString());
         //httpBasic, csrf, formLogin, rememberMe, logout, session disable
         http
-                .cors()
-                .and()
+//                .cors()
+//                .and()
                 .csrf().disable()
                 .formLogin().disable()
                 .rememberMe().disable()

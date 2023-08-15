@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import RecipesModal from '../recipe/RecipesModal';
 
 function P2Recipe() {
   window.scrollTo(0, 0);
 
   const [recipesList, setRecipesList] = useState([]);
+  const [selectedRecipe, setSelectedRecipe] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     axios.get('/recipe/mypage', {
-      prams: {
+      params: {
         page: 0,
       }
     })
@@ -20,19 +22,28 @@ function P2Recipe() {
         console.error('Error fetching data:', error);
       });
   }, []);
+
+  const handleRecipeClick = (recipeId) => {
+    setSelectedRecipe(recipeId);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedRecipe(null);
+    setShowModal(false);
+  };
   
   return (
     <div>
-      {recipesList.length > 0 ? (
-        <div>
-          {recipesList.map((item) => (
-            <div key={item.recipeId}>
-              <img src={item.recipeImage} alt={`Image ${item.recipeId}`} />
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p>등록된 레시피가 없습니다</p>
+      {
+        recipesList.map((item) => (
+          <div key={item.recipeId}>
+            <img src={item.recipeImage} alt={`Image ${item.recipeId}`} onClick={() => handleRecipeClick(item)} />
+          </div>
+        ))
+      }
+      {selectedRecipe !== null && (
+        <RecipesModal recipeId={selectedRecipe.recipeId} handleClose={handleCloseModal} show={showModal} />
       )}
     </div>
   );

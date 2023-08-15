@@ -6,7 +6,6 @@ const FeedComponent = (props) => {
   const [데이터, setData] = useState(null);
 
   useEffect(() => {
-    // 무한 스크롤 적용하고 페이지 정보 업데이트하기
     axios.get('/post/search', {
       params: {
         search: 검색어,
@@ -15,7 +14,6 @@ const FeedComponent = (props) => {
       }
     })
       .then(response => {
-        console.log(response.data.response.content)
         setData(response.data.response.content);
       })
       .catch(error => {
@@ -29,10 +27,11 @@ const FeedComponent = (props) => {
         데이터
         ? <div>
             {
-              데이터.map((item) =>
+              데이터.map((item) => (
                 <div key={item.id}>
                   <img src={item.imageList[0]} alt={`Image ${item.id}`} />
-                </div>)
+                </div>
+              ))
             }
           </div>
         : null
