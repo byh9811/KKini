@@ -113,7 +113,8 @@ public class RecipeQueryRepository {
         return jpaQueryFactory
                 .select(Projections.constructor(RecipeAllListResponseDto.class,
                         recipe.id,
-                        recipe.name
+                        recipe.name,
+                        recipe.image
                 ))
                 .from(recipe)
                 .where(

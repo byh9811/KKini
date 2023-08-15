@@ -4,6 +4,6 @@ import com.kkini.core.domain.evaluation.dto.request.EvaluationRegisterRequestDto
 
 public interface EvaluationService {
 
-    void saveEvaluation(EvaluationRegisterRequestDto evaluationRegisterRequestDto, Long memberId);
+    int saveEvaluation(EvaluationRegisterRequestDto evaluationRegisterRequestDto, Long memberId);
 
 }
