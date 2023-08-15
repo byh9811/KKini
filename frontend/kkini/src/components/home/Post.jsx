@@ -15,7 +15,25 @@ import "../../css/posts.css";
 import RecipesModal from "../recipe/RecipesModal";
 
 const Post = forwardRef(
-  ({ user, postImage, createDateTime, likeCnt, disLikeCnt, commentCnt, contents, avgPrice, myPrice, reaction, recipeName, recipeId, postId, isScrap }, ref) => {
+  (
+    {
+      user,
+      postImage,
+      createDateTime,
+      likeCnt,
+      disLikeCnt,
+      commentCnt,
+      contents,
+      avgPrice,
+      myPrice,
+      reaction,
+      recipeName,
+      recipeId,
+      postId,
+      isScrap,
+    },
+    ref
+  ) => {
     const [show, setShow] = useState(false);
     const [reactionState, setReaction] = useState(reaction);
     const [likeCntState, setLikeCnt] = useState(likeCnt);
@@ -131,17 +149,8 @@ const Post = forwardRef(
         {/* 내용 */}
         <div className="contents-text">
           {contents}
-          <br />
-          {recipeId && (
-          <div
-            onClick={() => handleRecipeClick(recipeId)}
-          >
-            # {recipeName}
-          </div>
-          )}
-          {recipeId !== null && (
-            <RecipesModal recipeId={recipeId} handleClose={handleCloseModal} show={showModal} />
-          )}
+          {recipeId && <div onClick={() => handleRecipeClick(recipeId)}># {recipeName}</div>}
+          {recipeId !== null && <RecipesModal recipeId={recipeId} handleClose={handleCloseModal} show={showModal} />}
         </div>
 
         {/* 이미지 */}
@@ -154,18 +163,12 @@ const Post = forwardRef(
           <div className="post__iconsMain">
             {/* 좋아요 인터페이스 */}
             <div className="post-icon">
-              <FavoriteBorderIcon
-                style={{ color: reactionState === true ? "red" : "gray" }}
-                onClick={() => handleIconClick(true)}
-              />
+              <FavoriteBorderIcon style={{ color: reactionState === true ? "red" : "gray" }} onClick={() => handleIconClick(true)} />
             </div>
 
             {/* 싫어요 인터페이스 */}
             <div className="post-icon">
-              <ThumbDownOffAltRoundedIcon
-                style={{ color: reactionState === false ? "blue" : "gray" }}
-                onClick={() => handleIconClick(false)}
-              />
+              <ThumbDownOffAltRoundedIcon style={{ color: reactionState === false ? "blue" : "gray" }} onClick={() => handleIconClick(false)} />
             </div>
 
             {/* 댓글 인터페이스 : 댓글 열기 */}
@@ -187,17 +190,14 @@ const Post = forwardRef(
               {isScrapState ? (
                 <BookmarkIcon onClick={() => changeScrap(postId)} />
               ) : (
-                <BookmarkBorderRoundedIcon
-                  onClick={() => changeScrap(postId)}
-                />
+                <BookmarkBorderRoundedIcon onClick={() => changeScrap(postId)} />
               )}
             </div>
 
             {/* 포스트 상태 표시 */}
             <div>
               <div className="count-text">
-                <b>{likeCntState}</b>좋아요 <b>{disLikeCntState}</b>싫어요{" "}
-                <b>{commentCnt}</b>
+                <b>{likeCntState}</b>좋아요 <b>{disLikeCntState}</b>싫어요 <b>{commentCnt}</b>
                 개의 댓글
                 {avgPriceState}
               </div>

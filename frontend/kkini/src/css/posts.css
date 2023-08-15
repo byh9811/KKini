@@ -62,5 +62,7 @@
 
 .contents-text {
   display: flex;
+  flex-direction: column;
+  text-align: left;
   font-size: 15px;
 }
