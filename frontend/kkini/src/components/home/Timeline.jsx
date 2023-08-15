@@ -73,6 +73,7 @@ function Timeline(props) {
               avgPrice={post.avgPrice}
               myPrice={post.myPrice}
               reaction={post.reaction}
+              recipeId={post.recipeId}
               recipeName={post.recipeName}
               toggleLike={() => toggleLike(index)} // 이 함수도 기존에 정의되어 있어야 합니다.
               postId={post.postId}

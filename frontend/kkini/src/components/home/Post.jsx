@@ -12,25 +12,10 @@ import axios from "axios";
 import ImageSwiper from "./ImageSwiper";
 import "../../css/posts.css";
 
+import RecipesModal from "../recipe/RecipesModal";
+
 const Post = forwardRef(
-  (
-    {
-      user,
-      postImage,
-      createDateTime,
-      likeCnt,
-      disLikeCnt,
-      commentCnt,
-      contents,
-      avgPrice,
-      myPrice,
-      reaction,
-      recipeName,
-      postId,
-      isScrap,
-    },
-    ref
-  ) => {
+  ({ user, postImage, createDateTime, likeCnt, disLikeCnt, commentCnt, contents, avgPrice, myPrice, reaction, recipeName, recipeId, postId, isScrap }, ref) => {
     const [show, setShow] = useState(false);
     const [reactionState, setReaction] = useState(reaction);
     const [likeCntState, setLikeCnt] = useState(likeCnt);
@@ -38,7 +23,6 @@ const Post = forwardRef(
     const [isScrapState, setIsScrap] = useState(isScrap);
     const [avgPriceState, setAvgPrice] = useState(avgPrice);
     const [myPriceState, setMyPrice] = useState(myPrice);
-    const [priceModalShow, setPriceModalShow] = useState(false);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [day, setDay] = useState("");
 
@@ -53,22 +37,6 @@ const Post = forwardRef(
         setDay(`${now}일전`);
       }
     }, "");
-
-    // 모달
-    const style = {
-      position: "absolute",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      width: 400,
-      bgcolor: "background.paper",
-      border: "2px solid #000",
-      boxShadow: 24,
-      p: 4,
-    };
-
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
 
     const changeScrap = (postId) => {
       const scrapAction = isScrapState ? axios.delete : axios.post;
@@ -126,6 +94,19 @@ const Post = forwardRef(
       handleClose();
     };
 
+    const [showModal, setShowModal] = useState(false);
+    // const [selectedRecipeId, setSelectedRecipeId] = useState(null);
+
+    const handleRecipeClick = (recipeId) => {
+      // setSelectedRecipeId(recipeId);
+      setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+      // setSelectedRecipeId(null);
+      setShowModal(false);
+    };
+
     return (
       <div className="post-container" ref={ref}>
         <Drawer
@@ -150,7 +131,17 @@ const Post = forwardRef(
         {/* 내용 */}
         <div className="contents-text">
           {contents}
-          <b> #{recipeName}</b>
+          <br />
+          {recipeId && (
+          <div
+            onClick={() => handleRecipeClick(recipeId)}
+          >
+            # {recipeName}
+          </div>
+          )}
+          {recipeId !== null && (
+            <RecipesModal recipeId={recipeId} handleClose={handleCloseModal} show={showModal} />
+          )}
         </div>
 
         {/* 이미지 */}
@@ -222,11 +213,11 @@ const Post = forwardRef(
           </Modal.Header>
           <Modal.Body>
             <p>얼마면 돼?</p>
-            <img
-              src={postImage[0]}
-              alt=""
-              style={{ maxWidth: "100%", borderRadius: "6px" }}
-            />
+
+            <div>
+              <ImageSwiper postImage={postImage} />
+            </div>
+            {/* <img src={postImage[0]} alt="" style={{ maxWidth: "100%", borderRadius: "6px" }} /> */}
             <div>
               <input
                 type="number"
