@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { CiSettings } from "react-icons/ci";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
@@ -9,30 +9,43 @@ import FollowModal from "./FollowModal";
 import { ListGroup, ListGroupItem } from "react-bootstrap";
 import { ListItemText } from "@mui/material";
 import { Label } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
   const [data, setData] = useState("");
   const [follow, setFollow] = useState("");
   const [follower, setFollower] = useState("");
   const [isfollowing, setIsfollowing] = useState();
-
-  const [followingList, setFollowingList] = useState([]);
-  const [followerList, setFollowerList] = useState([]);
+  const id = useParams();
+  const selectedId = id.userId || "mypage";
+  const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(memid, "userdetail");
     // 마이페이지 정보 불러오기
     axios
-      .get(`/mypage/info/${memid}`)
+      .get(`/mypage/info/${selectedId}`)
       .then((res) => {
-        setData(res.data.response);
+        console.log(res);
+        if (res.data.success) {
+          setData(res.data.response);
+        } else {
+          navigate("/error");
+        }
       })
       .catch((error) => {
         console.error("Error fetching posts:", error);
+        navigate("/error");
       });
+    axios.get(`/follow/isFollow/${selectedId}`).then((res) => {
+      if (res.data.response === 0) {
+        setIsfollowing(false);
+      } else {
+        setIsfollowing(true);
+      }
+    });
     // 팔로우 수
     axios
-      .get(`/follow/countFollow/${memid}`)
+      .get(`/follow/countFollow/${selectedId}`)
       .then((res) => {
         setFollow(res.data.response);
       })
@@ -41,60 +54,39 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
       });
     // 팔로워 수
     axios
-      .get(`/follow/countFollower/${memid}`)
+      .get(`/follow/countFollower/${selectedId}`)
       .then((res) => {
         setFollower(res.data.response);
       })
       .catch((error) => {
         console.log(error);
       });
-    axios
-      .get(`/follow/followList/${memid}`, {
-        params: {
-          page: 0,
-        },
-      })
-      .then((res) => {
-        setFollowerList(res.data.response.content);
-        setIsfollowing(res.data.response.content.some((user) => user["회원 식별자"] === Number(memid)));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    axios
-      .get(`/follow/followerList/${memid}`, {
-        params: {
-          page: 0,
-        },
-      })
-      .then((res) => {
-        setFollowerList(res.data.response.content);
-        setIsfollowing(res.data.response.content.some((user) => user["회원 식별자"] === Number(memid)));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  }, [selectedId, isfollowing]);
 
-  //  팔로우
+  //  팔로우 신청
   const handleFollow = () => {
     axios
-      .post(`/follow/${memid}`)
+      .post(`/follow/${selectedId}`)
       .then((res) => {
-        setIsfollowing(true);
+        if (res.data.success) {
+          setIsfollowing(true);
+        } else if (res.data.error.status === 400) {
+          alert("본인은 팔로우 할 수 없어요");
+        }
       })
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  // 팔로우 취소
+  const handleUnfollow = () => {
     axios
-      .get(`/follow/followerList/${memid}`, {
-        params: {
-          page: 0,
-        },
-      })
+      .delete(`/follow/${selectedId}`)
       .then((res) => {
-        // setIsfollowing(res.data.response.some((user) => user["회원 식별자"] === Number(memid)));
-        setIsfollowing(false);
+        if (res.data.success) {
+          setIsfollowing(false);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -112,6 +104,10 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
     window.location.href = "http://localhost:8080/api/member/logout";
   };
 
+  const goOut = () => {
+    navigate("/withdrawal");
+  };
+
   return (
     <div>
       <div className="py-10 w-full">
@@ -122,16 +118,14 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
 
           <div className="space-y-5 text-xs">
             <div className="flex space-x-10 items-center">
-              <h2>{data.nickname}</h2>
+              <h4>{data.nickname}</h4>
               {/* 팔로우 */}
-              {
-                // 내것 ? null :
-                // <button onClick={isfollowing ? handleUnfollow : handleFollow}>
-                //   {isfollowing ? 'Unfollow' : 'Follow'}
-                // </button>
-              }
-
-              <CiSettings size={20} onClick={handleShow}></CiSettings>
+              {내것 ? null : (
+                <Button variant="primary" onClick={isfollowing ? handleUnfollow : handleFollow}>
+                  {isfollowing ? "팔로우 취소" : "팔로우"}
+                </Button>
+              )}
+              {내것 === 1 ? <CiSettings size={20} onClick={handleShow}></CiSettings> : null}
             </div>
             <div className="flex space-x-10">
               <FollowModal whichOne="follow" />
@@ -147,26 +141,31 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
         <Modal.Header closeButton style={{ textAlign: "center" }}>
           <Modal.Title>내 정보</Modal.Title>
         </Modal.Header>
-        <Modal.Body style={{ textAlign: "center" }}>
-          <div style={{ textAlign: "left" }}>
+        <Modal.Body>
+          {data.authProvider === "NAVER" ? (
+            <div style={{ display: "flex" }}>
+              <NaverIcon />
+              <h4 style={{ margin: 0, marginLeft: 4 }}>네이버 연동중</h4>
+            </div>
+          ) : (
+            <p>연동이 되어 있지 않습니다</p>
+          )}
+          <Info>
             <h4>이름 : {data.name}</h4>
             <h4>닉네임 : {data.nickname}</h4>
             <h4>이메일 : {data.email}</h4>
-          </div>
+          </Info>
         </Modal.Body>
         <CommentsContainer>
-          <button type="button">
-            회원탈퇴
-            {/* <Link to="/withdrawal"></Link> */}
-          </button>
-          <button type="button" onClick={goLogout}>
+          <Button variant="info" onClick={goLogout}>
             로그아웃
-          </button>
+          </Button>
+          <Button style={{ display: "block", textAlign: "right" }} variant="danger" onClick={goOut}>
+            회원탈퇴
+          </Button>
         </CommentsContainer>
         <Modal.Footer>
-          <button type="button" onClick={handleClose}>
-            닫기
-          </button>
+          <Button onClick={handleClose}>닫기</Button>
         </Modal.Footer>
       </Modal>
     </div>
@@ -177,4 +176,15 @@ const CommentsContainer = styled.div`
   max-width: 550px;
   margin: 30px auto;
   padding: 10px;
+`;
+
+const NaverIcon = styled.div`
+  width: 30px;
+  height: 30px;
+  background: url("/img/naverbtn2.png") no-repeat center;
+  background-size: 30px;
+`;
+
+const Info = styled.div`
+  margin-top: "30px";
 `;
