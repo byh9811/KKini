@@ -37,13 +37,12 @@ public class FollowServiceImpl implements FollowService{
     }
 
     @Override
-    public void deleteFollow(Long id, Long memberId) {
-        Follow follow = followRepository.findById(id).orElseThrow(() -> new NotFoundException(Follow.class ,id));
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException(Member.class, memberId));
+    public void deleteFollow(FollowRequestDto followRequestDto) {
+        Member me = memberRepository.findById(followRequestDto.getMemberId()).orElseThrow(() -> new NotFoundException(Member.class, followRequestDto.getMemberId()));
+        Member target = memberRepository.findById(followRequestDto.getTargetMemberId()).orElseThrow(() -> new NotFoundException(Member.class, followRequestDto.getTargetMemberId()));
 
-        if (follow.getMe().equals(member)){
-            followRepository.delete(follow);
-        }
+        Follow follow = followRepository.findByMe_IdAndTarget_Id(me.getId(), target.getId()).orElseThrow(() -> new NotFoundException(Follow.class, me.getId(), target.getId()));
+        followRepository.delete(follow);
     }
 
     @Override
@@ -57,4 +56,18 @@ public class FollowServiceImpl implements FollowService{
         memberRepository.findById(id).orElseThrow(() -> new NotFoundException(Member.class, id));
         return followRepository.countByTargetId(id);
     }
+
+    @Override
+    public int isFollow(FollowRequestDto followRequestDto) {
+        memberRepository.findById(followRequestDto.getMemberId()).orElseThrow(() -> new NotFoundException(Member.class, followRequestDto.getMemberId()));
+        memberRepository.findById(followRequestDto.getTargetMemberId()).orElseThrow(() -> new NotFoundException(Member.class, followRequestDto.getTargetMemberId()));
+        int cnt = followRepository.countByMe_IdAndTarget_Id(followRequestDto.getMemberId(), followRequestDto.getTargetMemberId());
+        if (cnt == 1) {
+            return 1;
+        } else{
+            return 0;
+        }
+    }
+
+
 }

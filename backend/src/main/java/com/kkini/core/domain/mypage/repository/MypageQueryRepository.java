@@ -32,7 +32,8 @@ public class MypageQueryRepository {
                         member.level,
                         member.stars,
                         member.image,
-                        member.email
+                        member.email,
+                        member.authProvider
                         ))
                 .from(member)
                 .where(

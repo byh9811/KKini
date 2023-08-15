@@ -9,11 +9,13 @@ public interface FollowService {
     void addFollow(FollowRequestDto followRequestDto);
 
     // 팔로우 삭제
-    void deleteFollow(Long id, Long memberId);
+    void deleteFollow(FollowRequestDto followRequestDto);
 
     // 팔로우 수 조회
     int countFollows(Long id);
 
     // 팔로워 수 조회
     int countFollowers(Long id);
+
+    int isFollow(FollowRequestDto followRequestDto);
 }
