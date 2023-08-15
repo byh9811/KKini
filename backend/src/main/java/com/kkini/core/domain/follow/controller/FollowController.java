@@ -14,12 +14,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.kkini.core.global.response.Response.ERROR;
 import static com.kkini.core.global.response.Response.OK;
 
 @RestController
@@ -35,23 +38,33 @@ public class FollowController {
     @Operation(summary = "팔로우 추가", description = "본인(memberId)이 팔로우(targetMemberId)를 추가합니다.")
     @Parameter(name = "targetMemberId", description = "팔로우를 하고 싶은 ID")
     @PostMapping("/{targetMemberId}")
-    public Response<Void> addFollow(@PathVariable Long targetMemberId, @Parameter(hidden = true)@AuthenticationPrincipal UserPrincipal userPrincipal){
+    public Response<?> addFollow(@PathVariable Long targetMemberId, @Parameter(hidden = true)@AuthenticationPrincipal UserPrincipal userPrincipal){
         log.debug("## 팔로우를 추가합니다.");
         log.debug("대상 회원 : {}", targetMemberId);
-        FollowRequestDto followRequestDto = new FollowRequestDto();
-        followRequestDto.setMemberId(userPrincipal.getId());
-        followRequestDto.setTargetMemberId(targetMemberId);
-        followService.addFollow(followRequestDto);
-        return OK(null);
+
+        if (targetMemberId == userPrincipal.getId()){
+            return ERROR("팔로우 안됨", HttpStatus.BAD_REQUEST);
+        } else{
+            FollowRequestDto followRequestDto = new FollowRequestDto();
+            followRequestDto.setMemberId(userPrincipal.getId());
+            followRequestDto.setTargetMemberId(targetMemberId);
+            followService.addFollow(followRequestDto);
+            return OK(null);
+        }
     }
 
     @Operation(summary = "팔로우 삭제", description = "본인(memberId)이 팔로우(targetMemberId)를 삭제합니다.")
     @Parameter(name = "id", description = "팔로우 삭제를 하려는 팔로우 식별자")
-    @DeleteMapping("/{id}")
-    public Response<Void> deleteFollow(@PathVariable Long id, @AuthenticationPrincipal UserPrincipal userPrincipal){
+    @DeleteMapping("/{targetId}")
+    public Response<Void> deleteFollow(@PathVariable Long targetId, @AuthenticationPrincipal UserPrincipal userPrincipal){
         log.debug("## 팔로우를 삭제합니다.");
-        log.debug("삭제할 팔로우 식별자 : {}", id);
-        followService.deleteFollow(id, userPrincipal.getId());
+        log.debug("삭제할 팔로우 식별자 : {}", targetId);
+
+        FollowRequestDto followRequestDto = new FollowRequestDto();
+        followRequestDto.setMemberId(userPrincipal.getId());
+        followRequestDto.setTargetMemberId(targetId);
+        followService.deleteFollow(followRequestDto);
+
         return OK(null);
     }
 
@@ -127,6 +140,26 @@ public class FollowController {
         log.debug("팔로워 수 : {}", count);
 
         return OK(count);
+    }
+
+    @Operation(summary = "팔로우 여부 확인", description = "팔로우 여부를 확인합니다.")
+    @Parameter(name = "targetId", description = "타겟 멤버 식별자")
+    @GetMapping("/isFollow/{targetId}")
+    public Response<Integer> isFollow(@PathVariable String targetId, @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal) {
+        log.debug("## 팔로우 여부를 확인합니다.");
+        log.debug("타겟 식별자 : {}", targetId);
+
+        int cnt;
+        if (targetId.equals("mypage")){
+            cnt = 0;
+        } else {
+            FollowRequestDto followRequestDto = new FollowRequestDto();
+            followRequestDto.setMemberId(userPrincipal.getId());
+            followRequestDto.setTargetMemberId(Long.parseLong(targetId));
+            cnt = followService.isFollow(followRequestDto);
+        }
+
+        return OK(cnt);
     }
 
 
