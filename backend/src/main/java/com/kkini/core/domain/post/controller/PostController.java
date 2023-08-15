@@ -52,6 +52,15 @@ public class PostController {
         return OK(null);
     }
 
+    @Operation(summary = "포스트 상세 조회", description = "포스트 한개를 상세 조회한다.")
+    @Parameter(name = "postId", description = "postID 정보")
+    @GetMapping("/detail/{postId}")
+    public Response<PostListResponseDto> getFeedPostList(
+            @PathVariable Long postId,
+            @AuthenticationPrincipal UserPrincipal userPrincipal) {
+        return OK(postQueryService.getPostDetail(postId, userPrincipal.getId()));
+    }
+
     @Operation(summary = "포스트 목록 조회 : 피드", description = "피드 탭의 포스트를 조회한다.")
     @Parameter(name = "pageable", description = "페이지 정보")
     @GetMapping

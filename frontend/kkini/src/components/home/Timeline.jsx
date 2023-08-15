@@ -55,37 +55,36 @@ function Timeline(props) {
   }, [props.posts]);
 
   return (
-    <div className="timeline">
+    <div className="timeline" style={{ padding: 0 }}>
       {localPosts.length > 0 ? (
-      <div className="timeline_posts">
-        {localPosts.map((post, index) => (
-
-          <Post
-            key={index}
-            index={index}
-            user={post.user}
-            contents={post.contents}
-            postImage={post.postImage}
-            likeCnt={post.likeCnt}
-            disLikeCnt={post.disLikeCnt}
-            createDateTime={post.createDateTime}
-            hatecnt={post.hatecnt}
-            commentCnt={post.commentCnt}
-            avgPrice={post.avgPrice}
-            myPrice={post.myPrice}
-            reaction={post.reaction}
-            recipeName={post.recipeName}
-            toggleLike={() => toggleLike(index)} // 이 함수도 기존에 정의되어 있어야 합니다.
-            postId={post.postId}
-            isScrap={post.isScrap}
-          />
-        ))}
-      </div>
-      ):(
+        <div className="timeline_posts" style={{ padding: 0 }}>
+          {localPosts.map((post, index) => (
+            <Post
+              key={index}
+              index={index}
+              user={post.user}
+              contents={post.contents}
+              postImage={post.postImage}
+              likeCnt={post.likeCnt}
+              disLikeCnt={post.disLikeCnt}
+              createDateTime={post.createDateTime}
+              hatecnt={post.hatecnt}
+              commentCnt={post.commentCnt}
+              avgPrice={post.avgPrice}
+              myPrice={post.myPrice}
+              reaction={post.reaction}
+              recipeName={post.recipeName}
+              toggleLike={() => toggleLike(index)} // 이 함수도 기존에 정의되어 있어야 합니다.
+              postId={post.postId}
+              isScrap={post.isScrap}
+            />
+          ))}
+        </div>
+      ) : (
         <div>
-        <p>등록된 게시글이 없어요</p>
-        <p>게시글을 등록하러 가볼까요</p>
-        <button>등록하기</button>
+          <p>등록된 게시글이 없어요</p>
+          <p>게시글을 등록하러 가볼까요</p>
+          <button>등록하기</button>
         </div>
       )}
     </div>

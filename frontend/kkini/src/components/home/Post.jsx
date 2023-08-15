@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Avatar } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -23,6 +23,37 @@ const Post = forwardRef(
     const [isScrapState, setIsScrap] = useState(isScrap);
     const [avgPriceState, setAvgPrice] = useState(avgPrice);
     const [myPriceState, setMyPrice] = useState(myPrice);
+    const [priceModalShow, setPriceModalShow] = useState(false);
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [day, setDay] = useState("");
+
+    useEffect(() => {
+      let today = new Date();
+      let createDate = new Date(createDateTime);
+      let milliseconds = today - createDate;
+      let now = Math.floor(milliseconds / (1000 * 60 * 60 * 24));
+      if (now === 0) {
+        setDay("오늘");
+      } else {
+        setDay(`${now}일전`);
+      }
+    }, "");
+
+    // 모달
+    const style = {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: 400,
+      bgcolor: "background.paper",
+      border: "2px solid #000",
+      boxShadow: 24,
+      p: 4,
+    };
+
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
 
     const changeScrap = (postId) => {
       const scrapAction = isScrapState ? axios.delete : axios.post;
@@ -94,7 +125,7 @@ const Post = forwardRef(
             <Avatar className="m-2" />
             <div className="userInfo">
               <div>{user}</div>
-              <span>{createDateTime}</span>
+              <span>{day}</span>
             </div>
           </PostHeaderAuthor>
         </PostHeader>
@@ -194,7 +225,7 @@ const Post = forwardRef(
 export default Post;
 
 const PostContainer = styled.div`
-  margin: 0px 40px 50px 40px;
+  margin: 0px -20px 50px -20px;
 `;
 
 const PostHeader = styled.div`
