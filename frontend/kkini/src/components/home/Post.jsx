@@ -15,7 +15,6 @@ import ImageSwiper from "./ImageSwiper";
 const Post = forwardRef(
   ({ user, postImage, createDateTime, likeCnt, disLikeCnt, commentCnt, contents, avgPrice, myPrice, reaction, recipeName, postId, isScrap }, ref) => {
     const [show, setShow] = useState(false);
-    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [reactionState, setReaction] = useState(reaction);
     const [likeCntState, setLikeCnt] = useState(likeCnt);
     const [disLikeCntState, setDisLikeCnt] = useState(disLikeCnt);
