@@ -14,4 +14,6 @@ public class RecipeAllListResponseDto {
     @Schema(description = "레시피 이름")
     private String label;
 
+    @Schema(description = "레시피 이미지")
+    private String image;
 }

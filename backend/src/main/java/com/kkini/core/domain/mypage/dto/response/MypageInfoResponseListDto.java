@@ -24,4 +24,7 @@ public class MypageInfoResponseListDto {
     @Schema(name = "프로필 이미지")
     private String image;
 
+    @Schema(name = "이메일")
+    private String email;
+
 }

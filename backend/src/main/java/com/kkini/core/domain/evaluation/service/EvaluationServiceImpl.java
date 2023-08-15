@@ -31,7 +31,7 @@ public class EvaluationServiceImpl implements EvaluationService {
     private final RecipeRepository recipeRepository;
 
     @Override
-    public void saveEvaluation(EvaluationRegisterRequestDto dto, Long memberId) {
+    public int saveEvaluation(EvaluationRegisterRequestDto dto, Long memberId) {
         int oldPrice = 0;
         boolean isNew = false;
 
@@ -59,14 +59,15 @@ public class EvaluationServiceImpl implements EvaluationService {
         
         // 수정
         else {
+            oldPrice = evaluation.getPrice();
+
             evaluation.setPrice(dto.getPrice());
             evaluationRepository.save(evaluation);
-
-            oldPrice = evaluation.getPrice();
         }
 
         // 평균 반영
         post.changePrice(oldPrice, dto.getPrice(), isNew);
+        postRepository.save(post);
 
         // 가중치 갱신
         if(recipe != null && isNew) {
@@ -74,6 +75,8 @@ public class EvaluationServiceImpl implements EvaluationService {
             preference.increaseWeightByEval();
             preferenceRepository.save(preference);
         }
+
+        return post.getAvgPrice();
     }
 
 }
