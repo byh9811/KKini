@@ -12,25 +12,24 @@ import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 function NavigationBar() {
   const navigate = useNavigate();
   const [value, setValue] = useState(0);
-
   const location = useLocation();
 
   useEffect(() => {
     // 현재 경로에 따라 value 값을 변경하여 활성 탭을 설정합니다.
     switch (location.pathname) {
-      case "/home/n1":
+      case "/home/feed":
         setValue(0);
         break;
-      case "/home/n2":
+      case "/home/search":
         setValue(1);
         break;
-      case "/home/n3":
+      case "/home/make":
         setValue(2);
         break;
-      case "/home/n4":
+      case "/home/recipe":
         setValue(3);
         break;
-      case "/home/n5":
+      case "/home/info":
         setValue(4);
         break;
       default:
@@ -58,31 +57,31 @@ function NavigationBar() {
     >
       <BottomNavigationAction
         onClick={() => {
-          navigate("/home/n1");
+          navigate("/home/feed");
         }}
         icon={<HomeIcon />}
       />
       <BottomNavigationAction
         onClick={() => {
-          navigate("/home/n2");
+          navigate("/home/search");
         }}
         icon={<SearchIcon />}
       />
       <BottomNavigationAction
         onClick={() => {
-          navigate("/home/n3");
+          navigate("/home/make");
         }}
         icon={<AddTwoToneIcon />}
       />
       <BottomNavigationAction
         onClick={() => {
-          navigate("/home/n4");
+          navigate("/home/recipe");
         }}
         icon={<RestaurantMenuTwoToneIcon />}
       />
       <BottomNavigationAction
         onClick={() => {
-          navigate("/home/n5");
+          navigate("/home/info");
         }}
         icon={<PermIdentityOutlinedIcon />}
       />

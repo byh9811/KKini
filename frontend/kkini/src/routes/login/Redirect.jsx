@@ -26,7 +26,7 @@ const Redirect = ({ setIsLogIn }) => {
       setAuthorizationToken(token);
       navigate("/home");
     } else {
-      navigate("/naver");
+      navigate("/login");
     }
   }, [token]);
 

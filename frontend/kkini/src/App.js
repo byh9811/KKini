@@ -35,12 +35,12 @@ function App() {
         <Route path="/withdrawal" element={<Withdrawal />} />
         <Route path="/followlist/:userId?" element={<FollowList />} />
         <Route path="/home/*" element={<Home />}>
-          <Route path="n1" element={<N1Home />} />
-          <Route path="n2" element={<N2Search />} />
-          <Route path="n3" element={<N3Upload />} />
-          <Route path="n4" element={<N4Recipe />} />
-          <Route path="n5" element={<N5Mypage />} />
-          <Route path="n5/:userId" element={<N5Mypage />} />
+          <Route path="feed" element={<N1Home />} />
+          <Route path="search" element={<N2Search />} />
+          <Route path="make" element={<N3Upload />} />
+          <Route path="recipe" element={<N4Recipe />} />
+          <Route path="info" element={<N5Mypage />} />
+          <Route path="info/:userId" element={<N5Mypage />} />
         </Route>
         <Route path="/*" element={<NotFound />} />
       </Routes>
