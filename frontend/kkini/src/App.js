@@ -42,6 +42,7 @@ function App() {
           <Route path="info" element={<N5Mypage />} />
           <Route path="info/:userId" element={<N5Mypage />} />
         </Route>
+        <Route path="/error" element={<NotFound />}></Route>
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </Paper>
