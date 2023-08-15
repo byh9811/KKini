@@ -5,5 +5,5 @@ import com.kkini.core.domain.collection.dto.response.CollectionListResponseDto;
 import java.util.List;
 
 public interface CollectionQueryService {
-    CollectionListResponseDto getMyCollection(Long memberId);
+    List<CollectionListResponseDto> getMyCollection(Long memberId);
 }
