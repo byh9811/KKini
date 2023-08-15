@@ -5,6 +5,7 @@ import RecipesModal from '../recipe/RecipesModal';
 const RecipesComponent = (props) => {
   const { 검색어, 카테고리ID } = props;
   const [recipes, setRecipes] = useState([]);
+  console.log(recipes)
 
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [showModal, setShowModal] = useState(false);
