@@ -1,6 +1,6 @@
 import React, { forwardRef, useState } from "react";
 import styled from "styled-components";
-import { Avatar } from "@mui/material";
+import { Avatar, Box, Typography, Modal } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ThumbDownOffAltRoundedIcon from "@mui/icons-material/ThumbDownOffAltRounded";
 import ChatBubbleOutlineRoundedIcon from "@mui/icons-material/ChatBubbleOutlineRounded";
@@ -8,30 +8,12 @@ import LocalAtmRoundedIcon from "@mui/icons-material/LocalAtmRounded";
 import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
 import Drawer from "./Drawer";
 import axios from "axios";
-// import ImageSlider from './ImageSlider.jsx';  // 여기서 'path_to_imageslider.jsx'는 실제 ImageSlider 컴포넌트가 있는 경로로 대체해야 합니다.
+import ImageSwiper from "./ImageSwiper";
 
 const Post = forwardRef(
-  (
-    {
-      user,
-      postImage,
-      createDateTime,
-      likeCnt,
-      disLikeCnt,
-      commentCnt,
-      contents,
-      avgPrice,
-      myPrice,
-      reaction,
-      recipeName,
-      postId,
-      isScrap,
-    },
-    ref
-  ) => {
+  ({ user, postImage, createDateTime, likeCnt, disLikeCnt, commentCnt, contents, avgPrice, myPrice, reaction, recipeName, postId, isScrap }, ref) => {
     const [reactionState, setReaction] = useState(reaction);
     const [likeCntState, setLikeCnt] = useState(likeCnt);
     const [disLikeCntState, setDisLikeCnt] = useState(disLikeCnt);
@@ -39,16 +21,26 @@ const Post = forwardRef(
     const [isScrapState, setIsScrap] = useState(isScrap);
     const [avgPriceState, setAvgPrice] = useState(avgPrice);
     const [myPriceState, setMyPrice] = useState(myPrice);
-
-    const [show, setShow] = useState(false);
-    // const [amount, setAmount] = useState("");
-    // const [amounts, setAmounts] = useState([]);
-    // const [averageAmount, setAverageAmount] = useState(null);
+    const [priceModalShow, setPriceModalShow] = useState(false);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-    // const [isBookmarked, setIsBookmarked] = useState(false);
 
-    const [comments, setComments] = useState([]);
+    // 모달
+    const style = {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: 400,
+      bgcolor: "background.paper",
+      border: "2px solid #000",
+      boxShadow: 24,
+      p: 4,
+    };
 
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+
+    // 스크랩
     const changeScrap = (postId) => {
       if (isScrapState) {
         axios
@@ -83,7 +75,7 @@ const Post = forwardRef(
       }
     };
 
-    //좋아요 싫어요 수정완룐
+    // 반응
     const handleIconClick = (type) => {
       axios
         .post(`/reaction`, {
@@ -91,7 +83,6 @@ const Post = forwardRef(
           state: type,
         })
         .then((response) => {
-          console.log(response);
           setReaction(response.data.response);
 
           if (response.data.success) {
@@ -121,13 +112,28 @@ const Post = forwardRef(
         });
     };
 
+    // 금액 닫기
     const handleClose = () => {
-      setShow(false);
+      setPriceModalShow(false);
     };
 
-    const handleShow = () => setShow(true);
+    // 금액 열기
+    const handleShow = () => setPriceModalShow(true);
 
+    // 금액 입력
     const handleSave = () => {
+      axios
+        .post(`/evaluation`, {
+          postId: postId,
+          price: myPriceState,
+        })
+        .then((response) => {
+          setAvgPrice(response.data.response);
+        })
+        .catch((error) => {
+          console.log("error: ", error);
+        });
+
       handleClose();
     };
 
@@ -139,7 +145,6 @@ const Post = forwardRef(
           onClose={() => {
             setIsDrawerOpen(false);
           }}
-          comments={comments}
         />
         <PostHeader>
           <PostHeaderAuthor>
@@ -154,38 +159,32 @@ const Post = forwardRef(
           {contents}
           <b> #{recipeName}</b>
         </Contentstext>
-        <PostImage>
-          {postImage.map((link, index) => (
-            <img key={index} src={link} alt={`Image ${index}`} />
-          ))}
-        </PostImage>
+        <div style={{ width: "20vw", height: "20vh" }}>
+          <ImageSwiper postImage={postImage} />
+        </div>
 
         <PostFooterIcons>
           <div className="post__iconsMain">
+            {/* 좋아요 인터페이스 */}
             <PostIcon>
-              <FavoriteBorderIcon
-                style={{ color: reactionState === true ? "red" : "gray" }}
-                onClick={() => handleIconClick(true)}
-              />
+              <FavoriteBorderIcon style={{ color: reactionState === true ? "red" : "gray" }} onClick={() => handleIconClick(true)} />
             </PostIcon>
+
+            {/* 싫어요 인터페이스 */}
             <PostIcon>
-              <ThumbDownOffAltRoundedIcon
-                style={{ color: reactionState === false ? "blue" : "gray" }}
-                onClick={() => handleIconClick(false)}
-              />
+              <ThumbDownOffAltRoundedIcon style={{ color: reactionState === false ? "blue" : "gray" }} onClick={() => handleIconClick(false)} />
             </PostIcon>
+
+            {/* 댓글 인터페이스 : 댓글 열기 */}
             <PostIcon>
               <ChatBubbleOutlineRoundedIcon
                 onClick={() => {
                   setIsDrawerOpen(true);
-
-                  axios
-                    .get(`/comment/${postId}`)
-                    .then((res) => setComments(res.data.response))
-                    .catch((err) => console.log("err:", err));
                 }}
               />
             </PostIcon>
+
+            {/* 포스트 상태 표시 */}
             <div>
               <CountText>
                 <b>{likeCntState}</b>좋아요 <b>{disLikeCntState}</b>싫어요 <b>{commentCntState}</b>
@@ -193,13 +192,17 @@ const Post = forwardRef(
               </CountText>
             </div>
           </div>
+
           <div className="post__iconSave">
+            {/* 금액 인터페이스 */}
             <PostIcon onClick={handleShow}>
-              <LocalAtmRoundedIcon /> {/* 이게 금액평가 아이콘 */}
+              <LocalAtmRoundedIcon />
               <div>
-                <CountText>{avgPrice}</CountText>
+                <CountText>{avgPriceState}</CountText>
               </div>
             </PostIcon>
+
+            {/* 스크랩 인터페이스 */}
             <PostIcon>
               {isScrapState ? (
                 <BookmarkIcon onClick={() => changeScrap(postId)} />
@@ -210,31 +213,35 @@ const Post = forwardRef(
           </div>
         </PostFooterIcons>
 
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton style={{ textAlign: "center" }}>
-            <Modal.Title>금액 평가창</Modal.Title>
-          </Modal.Header>
-          <Modal.Body style={{ textAlign: "center" }}>
-            이 음식이 얼마처럼 보이나요???
-            <img src={postImage} alt="" style={{ maxWidth: "100%", borderRadius: "6px" }} />
-            <div>
-              <input
-                type="number"
-                // value={}
-                placeholder="금액을 입력하세요"
-                onChange={(e) => setMyPrice(e.target.value)}
-                style={{ textAlign: "center", width: "100%", padding: "10px", margin: "10px 0" }}
-              />
-            </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              닫기
-            </Button>
-            <Button variant="primary" onClick={handleSave}>
-              금액 평가 완료
-            </Button>
-          </Modal.Footer>
+        <Modal open={priceModalShow} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              금액 평가창
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              이 음식이 얼마처럼 보이나요???
+              <img src={postImage} alt="" style={{ maxWidth: "100%", borderRadius: "6px" }} />
+              <div>
+                <input
+                  type="number"
+                  placeholder="금액을 입력하세요"
+                  onChange={(e) => setMyPrice(e.target.value)}
+                  style={{
+                    textAlign: "center",
+                    width: "100%",
+                    padding: "10px",
+                    margin: "10px 0",
+                  }}
+                />
+              </div>
+              <Button variant="secondary" onClick={handleClose}>
+                닫기
+              </Button>
+              <Button variant="primary" onClick={handleSave}>
+                금액 평가 완료
+              </Button>
+            </Typography>
+          </Box>
         </Modal>
       </PostContainer>
     );
@@ -244,7 +251,6 @@ const Post = forwardRef(
 export default Post;
 
 const PostContainer = styled.div`
-  // width: 550px;
   margin: 0px 40px 50px 40px;
 `;
 
@@ -279,15 +285,6 @@ const PostHeaderAuthor = styled.div`
   }
 `;
 
-const PostImage = styled.div`
-  img {
-    width: 95%;
-    border-radius: 6px;
-    border: 0.6px solid rgba(128, 128, 128, 0.516);
-    margin: 0 auto;
-  }
-`;
-
 const PostFooterIcons = styled.div`
   display: flex;
   flex-direction: row;
@@ -308,7 +305,7 @@ const PostIcon = styled.div`
 
 const CountText = styled.span`
   display: flex;
-  font-size: 10px; // 원하는 크기로 조절하세요.
+  font-size: 10px;
 `;
 
 const Contentstext = styled.span`

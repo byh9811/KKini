@@ -11,7 +11,6 @@ const RecommendedFeed = () => {
       }
     })
       .then(response => {
-        console.log(response.data.response.content);
         setData(response.data.response.content);
       })
       .catch(error => {
@@ -30,6 +29,6 @@ const RecommendedFeed = () => {
       }
     </div>
   );
-};
+}
 
 export default RecommendedFeed;

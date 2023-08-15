@@ -104,6 +104,59 @@ public class PostQueryRepository {
         return new PageImpl<>(postList, pageable, count);
     }
 
+    public PostListResponseDto findPostDetail(Long postId, Long memberId) {
+
+        PostListResponseDto findPost = jpaQueryFactory
+                .select(Projections.constructor(PostListResponseDto.class,
+                        post.id,
+                        post.contents,
+                        post.createDateTime,
+                        post.likeCnt,
+                        post.disLikeCnt,
+                        post.avgPrice,
+                        evaluation.price,
+                        post.member.id.eq(memberId).as("isMine"),
+                        post.member.id,
+                        post.member.name,
+                        post.member.image,
+                        recipe.id,
+                        recipe.name,
+                        reaction.state,
+                        scrap.id.isNotNull()
+                ))
+                .from(post)
+                .leftJoin(recipe).on(post.recipe.id.eq(recipe.id))
+                .leftJoin(reaction).on(post.id.eq(reaction.post.id).and(post.member.id.eq(reaction.member.id)))
+                .leftJoin(scrap).on(post.id.eq(scrap.post.id).and(post.member.id.eq(scrap.member.id)))
+                .leftJoin(evaluation).on(post.id.eq(evaluation.post.id).and(post.member.id.eq(evaluation.member.id)))
+                .where(post.id.eq(postId))
+                .fetchOne();
+
+        List<String> imageList = jpaQueryFactory
+                .select(postImage.image)
+                .from(postImage)
+                .where(postImage.post.id.eq(findPost.getId()))
+                .fetch();
+
+        List<Long> imageIndexList = jpaQueryFactory
+                .select(postImage.id)
+                .from(postImage)
+                .where(postImage.post.id.eq(findPost.getId()))
+                .fetch();
+
+        Long commentCnt = jpaQueryFactory
+                .select(comment.count())
+                .from(comment)
+                .where(comment.post.id.eq(findPost.getId()))
+                .fetchFirst();
+
+        findPost.setImageList(imageList);
+        findPost.setImageIndexList(imageIndexList);
+        findPost.setCommentCnt(commentCnt.intValue());
+
+        return findPost;
+    }
+
     private BooleanBuilder searchCondition(Long memberId, List<Long> followList, int type, String search, Long categoryId) {
         BooleanBuilder builder = new BooleanBuilder();
 

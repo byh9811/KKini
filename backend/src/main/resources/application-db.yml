@@ -36,7 +36,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create    # 실행시 DB 그대로
+      ddl-auto: none    # 실행시 DB 그대로
     properties:
       hibernate:
         format_sql: false    # SQL 쿼리 보기 좋게 표시 X

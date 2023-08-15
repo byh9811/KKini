@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import ReqUserPostCard from "./ReqUserPostCard";
 import axios from "axios";
 
 function P1Post() {
@@ -22,17 +21,13 @@ function P1Post() {
 
   return (
     <div>
-      {postList.length > 0 ? (
-        <div className="flex flex-wrap">
-          {postList.map((item) => (
-            <div key={item.id}>
-              <img src={item.imageList[0]} alt={`Image ${item.id}`} />
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p>등록된 글이 없습니다</p>
-      )}
+      <div className="flex flex-wrap">
+        {postList.map((item) => (
+          <div key={item.id}>
+            <img src={item.imageList[0]} alt={`Image ${item.id}`} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 // Naver.js
 import React from "react";
 import styled, { css } from 'styled-components';
+import Paper from '@mui/material/Paper';
 
 const Naver = () => {
   const NAVER_CLIENT_ID = process.env.REACT_APP_NAVER_API_KEY;
@@ -18,10 +19,13 @@ const Naver = () => {
         <Logo src="img/logo.png" alt="로고" className="mx-auto"/>
         <Title style={{ margin: '0 auto' }}>끼니에 어서오세요!</Title>
       </div>
+            <Paper elevation={3}>
+
             <NaverLoginBtn2 onClick={NaverLogin} className="mx-auto">
                 <NaverIcon alt="navericon" />
                 <BtnTitle>네이버 로그인</BtnTitle>
             </NaverLoginBtn2>
+            </Paper>
     </div>
   )
   // <button onClick={NaverLogin}>네이버 로그인</button>;
@@ -44,10 +48,10 @@ const NaverLoginBtn2 = styled.button`
     align-items: center;
     width: 327px;
     height: 56px;
-    background-color: white;
+    background-color: #03c75a;
     border-radius: 6px;
     margin-top: 50px;
-    border: 1px solid slategray;
+    /* border: 1px solid slategray; */
 `
 
 // 로그인 버튼 사용가이드 링크를 들어가면 이미지를 받아 이렇게 적용이 가능하다 ! 
@@ -61,7 +65,7 @@ const NaverIcon = styled.div`
 
 const Title = styled.span`
     margin-left: 90px;
-    color: slategrey;
+    color: slategray;
     font-weight: 900;
     font-size: 25px;
     line-height: 24px;
@@ -69,7 +73,7 @@ const Title = styled.span`
 
 const BtnTitle = styled.span`
     margin-left: 90px;
-    color: slategray;
+    color: white;
     font-weight: 800;
     font-size: 14px;
     line-height: 24px;

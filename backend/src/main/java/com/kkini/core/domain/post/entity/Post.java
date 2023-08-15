@@ -6,11 +6,10 @@ import com.kkini.core.global.entity.BaseEntityWithModifiedTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -18,12 +17,14 @@ import javax.persistence.OneToOne;
 @SuperBuilder
 public class Post extends BaseEntityWithModifiedTime {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Member member;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Recipe recipe;
 
     private String contents;
@@ -50,13 +51,7 @@ public class Post extends BaseEntityWithModifiedTime {
 
             this.avgPriceCnt++;
         } else {
-            int rollbackPrice;
-            if(this.avgPriceCnt - 1 == 0) {
-                rollbackPrice = 0;
-            } else {
-                rollbackPrice = (this.avgPrice * this.avgPriceCnt - oldPrice) / (this.avgPriceCnt - 1);
-            }
-            this.avgPrice = (rollbackPrice * this.avgPriceCnt + newPrice) / this.avgPriceCnt;
+            this.avgPrice = (this.avgPrice * this.avgPriceCnt - oldPrice + newPrice) / this.avgPriceCnt;
         }
     }
 
