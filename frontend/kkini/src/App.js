@@ -16,6 +16,7 @@ import NotFound from './components/home/NotFound';
 
 import Book from './routes/pages/Book';
 
+
 import Paper from '@mui/material/Paper';
 // App.js
 function App() {
@@ -39,6 +40,7 @@ function App() {
         <Route path="/naver" element={<Naver/>} />
         <Route path="/withdrawal" element={<Withdrawal />} />
         <Route path="/followlist/:userId?" element={<FollowList />}/>
+        <Route path="/book" element={<Book />} />
         <Route path="/book" element={<Book />} />
         <Route path="/home/*" element={<Home />}>
           <Route path="n1" element={<N1Home />} />
