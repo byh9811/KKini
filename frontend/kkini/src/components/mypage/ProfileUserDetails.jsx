@@ -16,15 +16,16 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
   const [follow, setFollow] = useState("");
   const [follower, setFollower] = useState("");
   const [isfollowing, setIsfollowing] = useState();
-
-  const [followingList, setFollowingList] = useState([]);
-  const [followerList, setFollowerList] = useState([]);
+  const id = useParams();
+  const selectedId = id.userId || "mypage";
   const navigate = useNavigate();
+
   useEffect(() => {
     // 마이페이지 정보 불러오기
     axios
-      .get(`/mypage/info/${memid}`)
+      .get(`/mypage/info/${selectedId}`)
       .then((res) => {
+        console.log(res);
         if (res.data.success) {
           setData(res.data.response);
         } else {
@@ -35,9 +36,16 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
         console.error("Error fetching posts:", error);
         navigate("/error");
       });
+    axios.get(`/follow/isFollow/${selectedId}`).then((res) => {
+      if (res.data.response === 0) {
+        setIsfollowing(false);
+      } else {
+        setIsfollowing(true);
+      }
+    });
     // 팔로우 수
     axios
-      .get(`/follow/countFollow/${memid}`)
+      .get(`/follow/countFollow/${selectedId}`)
       .then((res) => {
         setFollow(res.data.response);
       })
@@ -46,51 +54,42 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
       });
     // 팔로워 수
     axios
-      .get(`/follow/countFollower/${memid}`)
+      .get(`/follow/countFollower/${selectedId}`)
       .then((res) => {
         setFollower(res.data.response);
       })
       .catch((error) => {
         console.log(error);
       });
-    // axios
-    //   .get(`/follow/followList/${memid}`, {
-    //     params: {
-    //       page: 0,
-    //     },
-    //   })
-    //   .then((res) => {
-    //     setFollowerList(res.data.response.content);
-    //     setIsfollowing(res.data.response.content.some((user) => user["회원 식별자"] === Number(memid)));
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-    // axios
-    //   .get(`/follow/followerList/${memid}`, {
-    //     params: {
-    //       page: 0,
-    //     },
-    //   })
-    //   .then((res) => {
-    //     setFollowerList(res.data.response.content);
-    //     setIsfollowing(res.data.response.content.some((user) => user["회원 식별자"] === Number(memid)));
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-  }, []);
+  }, [selectedId, isfollowing]);
 
-  //  팔로우
+  //  팔로우 신청
   const handleFollow = () => {
     axios
-      .post(`/follow/${memid}`)
+      .post(`/follow/${selectedId}`)
       .then((res) => {
-        setIsfollowing(true);
+        if (res.data.success) {
+          setIsfollowing(true);
+        } else if (res.data.error.status === 400) {
+          alert("본인은 팔로우 할 수 없어요");
+        }
       })
       .catch((error) => {
         console.log(error);
-        navigate("/error");
+      });
+  };
+
+  // 팔로우 취소
+  const handleUnfollow = () => {
+    axios
+      .delete(`/follow/${selectedId}`)
+      .then((res) => {
+        if (res.data.success) {
+          setIsfollowing(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -121,9 +120,12 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
             <div className="flex space-x-10 items-center">
               <h4>{data.nickname}</h4>
               {/* 팔로우 */}
-              {/* {내것 ? null : <button onClick={isfollowing ? handleUnfollow : handleFollow}>{isfollowing ? "Unfollow" : "Follow"}</button>} */}
-
-              <CiSettings size={20} onClick={handleShow}></CiSettings>
+              {내것 ? null : (
+                <Button variant="primary" onClick={isfollowing ? handleUnfollow : handleFollow}>
+                  {isfollowing ? "팔로우 취소" : "팔로우"}
+                </Button>
+              )}
+              {내것 === 1 ? <CiSettings size={20} onClick={handleShow}></CiSettings> : null}
             </div>
             <div className="flex space-x-10">
               <FollowModal whichOne="follow" />

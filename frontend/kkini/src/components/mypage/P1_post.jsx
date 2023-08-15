@@ -6,28 +6,33 @@ function P1Post() {
   const [postList, setPostList] = useState([]);
 
   useEffect(() => {
-    axios.get("/post/mypage", {
-      params: {
-        page: 0,
-      }
-    })
-    .then((res) => {
-      setPostList(res.data.response.content);
-    })
-    .catch(error => {
-      console.error('Error fetching data:', error);
-    });
+    axios
+      .get("/post/mypage", {
+        params: {
+          page: 0,
+        },
+      })
+      .then((res) => {
+        setPostList(res.data.response.content);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
   }, []);
 
   return (
     <div>
-      <div className="flex flex-wrap">
-        {postList.map((item) => (
-          <div key={item.id}>
-            <img src={item.imageList[0]} alt={`Image ${item.id}`} />
-          </div>
-        ))}
-      </div>
+      {postList.length > 0 ? (
+        <div className="flex flex-wrap">
+          {postList.map((item) => (
+            <div key={item.id}>
+              <img src={item.imageList[0]} alt={`Image ${item.id}`} />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p>등록된 게시글이 없어요</p>
+      )}
     </div>
   );
 }
