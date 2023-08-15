@@ -1,52 +1,23 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
-import '../../css/prac.css';
-
+// 도감
 function Book() {
-  const canvasRef = useRef(null);
-  const [data, setData] = useState([]);
+
   const navigate = useNavigate();
-
-  const generateRandomAnimation = () => {
-    const randomDuration = Math.floor(Math.random() * 15 + 6);
-    const randomDelay = Math.floor(Math.random() * 5) - 5;
-    const randomDegree = Math.floor(Math.random() * 360);
-    const randomScale = Math.random() * 2 - 0.4;
-    const randomBlur = Math.floor(Math.random() * 10);
-    const randomLeft = Math.floor(Math.random() * 120 - 20);
-
-    return {
-      left: `${randomLeft}%`,
-      animation: `raise ${randomDuration}s linear infinite`,
-      animationDelay: `${randomDelay}s`,
-      transform: `scale(${randomScale}) rotate(${randomDegree}deg)`,
-      zIndex: Math.floor(Math.random() * 3) - 7,
-      filter: `blur(${randomBlur}px)`
-    };
-  };
+  const [data, setData] = useState("");
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get(`/collection`);
+    axios
+      .get(`/api/collection`)
+      .then((res) => {
         setData(res.data.response);
       } catch (error) {
+      } catch (error) {
         console.error("Error fetching posts:", error);
-      }
-    };
-
-    fetchData();
-    const halfHeight = document.documentElement.scrollHeight / 2;
-    window.scrollTo(0, halfHeight);
-
-  }, []);
-
-  const chunkedData = [];
-  for (let i = 0; i < data.length; i += 5) {
-    chunkedData.push(data.slice(i, i + 5));
-  }
-
+      });
+  }, [data])
+  
   return (
     <div>
       <canvas ref={canvasRef}></canvas>
@@ -80,3 +51,4 @@ function Book() {
 }
 
 export default Book;
+
