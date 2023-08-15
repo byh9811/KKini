@@ -1,19 +1,21 @@
 import React, { forwardRef, useState } from "react";
 import styled from "styled-components";
-import { Avatar, Box, Typography, Modal } from "@mui/material";
+import { Avatar } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ThumbDownOffAltRoundedIcon from "@mui/icons-material/ThumbDownOffAltRounded";
 import ChatBubbleOutlineRoundedIcon from "@mui/icons-material/ChatBubbleOutlineRounded";
 import LocalAtmRoundedIcon from "@mui/icons-material/LocalAtmRounded";
 import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
-import Button from "react-bootstrap/Button";
+import { Modal, Button } from "react-bootstrap";
 import Drawer from "./Drawer";
 import axios from "axios";
 import ImageSwiper from "./ImageSwiper";
 
 const Post = forwardRef(
   ({ user, postImage, createDateTime, likeCnt, disLikeCnt, commentCnt, contents, avgPrice, myPrice, reaction, recipeName, postId, isScrap }, ref) => {
+    const [show, setShow] = useState(false);
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [reactionState, setReaction] = useState(reaction);
     const [likeCntState, setLikeCnt] = useState(likeCnt);
     const [disLikeCntState, setDisLikeCnt] = useState(disLikeCnt);
@@ -21,61 +23,21 @@ const Post = forwardRef(
     const [isScrapState, setIsScrap] = useState(isScrap);
     const [avgPriceState, setAvgPrice] = useState(avgPrice);
     const [myPriceState, setMyPrice] = useState(myPrice);
-    const [priceModalShow, setPriceModalShow] = useState(false);
-    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-    // 모달
-    const style = {
-      position: "absolute",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      width: 400,
-      bgcolor: "background.paper",
-      border: "2px solid #000",
-      boxShadow: 24,
-      p: 4,
-    };
-
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-
-    // 스크랩
     const changeScrap = (postId) => {
-      if (isScrapState) {
-        axios
-          .delete(`/scrap/${postId}`)
-          .then((response) => {
-            if (response.data.success) {
-              if (isScrapState) {
-                setIsScrap(false);
-              } else {
-                setIsScrap(true);
-              }
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      } else {
-        axios
-          .post(`/scrap/${postId}`)
-          .then((response) => {
-            if (response.data.success) {
-              if (isScrapState) {
-                setIsScrap(false);
-              } else {
-                setIsScrap(true);
-              }
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
+      const scrapAction = isScrapState ? axios.delete : axios.post;
+
+      scrapAction(`/scrap/${postId}`)
+        .then((response) => {
+          if (response.data.success) {
+            setIsScrap(!isScrapState);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     };
 
-    // 반응
     const handleIconClick = (type) => {
       axios
         .post(`/reaction`, {
@@ -86,23 +48,10 @@ const Post = forwardRef(
           setReaction(response.data.response);
 
           if (response.data.success) {
-            if (reactionState === true) {
-              setLikeCnt((cnt) => cnt - 1);
-              if (type === false) {
-                setDisLikeCnt((cnt) => cnt + 1);
-              }
-            } else if (reactionState === false) {
-              setDisLikeCnt((cnt) => cnt - 1);
-              if (type === true) {
-                setLikeCnt((cnt) => cnt + 1);
-              }
-            } else if (reactionState === null) {
-              if (type === true) {
-                setLikeCnt((cnt) => cnt + 1);
-              } else if (type === false) {
-                setDisLikeCnt((cnt) => cnt + 1);
-              }
-            }
+            const cntUpdater = (prevCnt) => (type ? prevCnt + 1 : prevCnt - 1);
+
+            setLikeCnt(cntUpdater(likeCntState));
+            setDisLikeCnt(cntUpdater(disLikeCntState));
           } else {
             console.error("Error from server:", response.data.error.message);
           }
@@ -112,15 +61,9 @@ const Post = forwardRef(
         });
     };
 
-    // 금액 닫기
-    const handleClose = () => {
-      setPriceModalShow(false);
-    };
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
-    // 금액 열기
-    const handleShow = () => setPriceModalShow(true);
-
-    // 금액 입력
     const handleSave = () => {
       axios
         .post(`/evaluation`, {
@@ -213,36 +156,36 @@ const Post = forwardRef(
           </div>
         </PostFooterIcons>
 
-        <Modal open={priceModalShow} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
-          <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              금액 평가창
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              이 음식이 얼마처럼 보이나요???
-              <img src={postImage} alt="" style={{ maxWidth: "100%", borderRadius: "6px" }} />
-              <div>
-                <input
-                  type="number"
-                  placeholder="금액을 입력하세요"
-                  onChange={(e) => setMyPrice(e.target.value)}
-                  style={{
-                    textAlign: "center",
-                    width: "100%",
-                    padding: "10px",
-                    margin: "10px 0",
-                  }}
-                />
-              </div>
-              <Button variant="secondary" onClick={handleClose}>
-                닫기
-              </Button>
-              <Button variant="primary" onClick={handleSave}>
-                금액 평가 완료
-              </Button>
-            </Typography>
-          </Box>
-        </Modal>
+        <Modal show={show} onHide={handleClose} animation={false}>
+          <Modal.Header closeButton>
+            <Modal.Title>금액 평가</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>얼마면 돼?</p>
+            <img src={postImage[0]} alt="" style={{ maxWidth: "100%", borderRadius: "6px" }} />
+            <div>
+              <input
+                type="number"
+                placeholder="금액을 입력하세요"
+                onChange={(e) => setMyPrice(e.target.value)}
+                style={{
+                  textAlign: "center",
+                  width: "100%",
+                  padding: "10px",
+                  margin: "10px 0",
+                }}
+              />
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={handleSave}>
+              Save Changes
+            </Button>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+        </Modal.Footer>
+      </Modal>
       </PostContainer>
     );
   }
@@ -311,10 +254,4 @@ const CountText = styled.span`
 const Contentstext = styled.span`
   display: flex;
   font-size: 15px;
-`;
-
-const Recipetext = styled.span`
-  display: flex;
-  font-size: 15px;
-  color: #4545b1;
 `;
