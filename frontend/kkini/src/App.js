@@ -41,7 +41,6 @@ function App() {
         <Route path="/withdrawal" element={<Withdrawal />} />
         <Route path="/followlist/:userId?" element={<FollowList />}/>
         <Route path="/book" element={<Book />} />
-        <Route path="/book" element={<Book />} />
         <Route path="/home/*" element={<Home />}>
           <Route path="n1" element={<N1Home />} />
           <Route path="n2" element={<N2Search />} />
