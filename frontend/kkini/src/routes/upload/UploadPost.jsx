@@ -77,7 +77,7 @@ function UploadPost() {
         })
         .then((response) => {
           console.log("업로드 성공:", response.data);
-          navigate("/home/n1");
+          navigate("/home/feed");
         })
         .catch((error) => {
           console.error("업로드 실패:", error);
