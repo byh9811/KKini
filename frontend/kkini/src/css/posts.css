@@ -1,5 +1,6 @@
 .post-container {
   margin: 0px 20px 20px 20px;
+  box-sizing: border-box;
 }
 
 .post-header {
@@ -33,16 +34,12 @@
   margin: 0;
 }
 
-.test {
-  background-color: black;
-  width: 100%;
-}
-
 .post-footer-icons {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  margin-top: 20px;
 }
 
 .post-icon {

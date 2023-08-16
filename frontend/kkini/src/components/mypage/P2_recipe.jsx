@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import RecipesModal from "../recipe/RecipesModal";
+import '../../css/recipe.css'
 
 function P2Recipe() {
   window.scrollTo(0, 0);
@@ -37,10 +38,15 @@ function P2Recipe() {
   return (
     <div>
       {recipesList.length > 0 ? (
-        <div>
+        <div className='recipes-grid'>
           {recipesList.map((item) => (
-            <div key={item.recipeId}>
+            <div key={item.recipeId} className='recipe-item'>
               <img src={item.recipeImage} alt={`Image ${item.recipeId}`} onClick={() => handleRecipeClick(item)} />
+              <div className="recipe-overlay">
+                <div>{item.recipeName}</div>
+                <br />
+                <div>{item.writerName}</div>
+            </div>
             </div>
           ))}
           {selectedRecipe !== null && <RecipesModal recipeId={selectedRecipe.recipeId} handleClose={handleCloseModal} show={showModal} />}

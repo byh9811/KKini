@@ -46,10 +46,7 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
             onCommentsChange(); // 댓글 작성, 수정, 삭제 후 댓글 목록 다시 가져오기
           }
         } catch (error) {
-          console.error(
-            "Error posting comment:",
-            error.response ? error.response.data : error.message
-          );
+          console.error("Error posting comment:", error.response ? error.response.data : error.message);
         }
       };
 
@@ -59,14 +56,7 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
       setReplyToIndex(null);
       setSubmitTrigger(false);
     }
-  }, [
-    submitTrigger,
-    effectivePostId,
-    comment,
-    onCommentsChange,
-    editIndex,
-    replyToIndex,
-  ]);
+  }, [submitTrigger, effectivePostId, comment, onCommentsChange, editIndex, replyToIndex]);
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
@@ -80,94 +70,61 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
 
   const handleCommentChange = (e) => setComment(e.target.value);
 
-  const handleEditClick = (commentIndex, replyIndex = null) => {
-    setEditIndex(commentIndex);
-    setReplyToIndex(replyIndex);
-    const targetCommentText =
-      replyIndex !== null
-        ? comments[replyIndex].replies[commentIndex]
-        : comments[commentIndex].text;
-    setComment(targetCommentText);
-  };
+  // const handleEditClick = (commentIndex, replyIndex = null) => {
+  //   setEditIndex(commentIndex);
+  //   setReplyToIndex(replyIndex);
+  //   const targetCommentText =
+  //     replyIndex !== null
+  //       ? comments[replyIndex].replies[commentIndex]
+  //       : comments[commentIndex].text;
+  //   setComment(targetCommentText);
+  // };
 
   const handleDeleteClick = async (commentIndex) => {
     try {
       const response = await axios.delete(`/comment/${commentIndex}`);
-      console.log("삭제");
-      console.log(commentIndex);
       if (response.data.success) {
         onCommentsChange(); // 댓글 삭제 후 댓글 목록 다시 가져오기
       }
     } catch (error) {
-      console.error(
-        "Error deleting comment:",
-        error.response ? error.response.data : error.message
-      );
+      console.error("Error deleting comment:", error.response ? error.response.data : error.message);
     }
-  };
-
-  const handleReplyClick = (index) => {
-    setReplyToIndex(index);
-    setEditIndex(null);
-  };
-
-  const handleReplyCancel = () => {
-    setReplyToIndex(null);
-    setComment("");
   };
 
   return (
     <div className="CommentsContainer">
+      {/* 댓글 목록 */}
       <div className="CommentsList">
         {comments &&
           comments.map((item, index) => (
             <div className="Comment" key={index}>
+              {/* 사진 */}
+              <Avatar className="m-2" />
+
+              {/* 댓글 */}
               <div className="CommentContent">
-                <Avatar />
-                {item.text}
+                {/* 아이디 */}
+                <p style={{ fontWeight: "bold" }}>{item.parents.memberName}</p>
+
+                {/* 내용 */}
+                <p>{item.parents.contents}</p>
+
+                {/* 삭제 */}
+                <button style={{ fontSize: "10px" }} onClick={() => handleDeleteClick(item.parents.id)}>
+                  삭제
+                </button>
               </div>
-              <h3>{item.parents.contents}</h3>
-              <button onClick={() => handleDeleteClick(item.parents.id)}>
-                삭제
-              </button>
-              {item.replies &&
-                item.replies.map((reply, replyIndex) => (
-                  <div className="Reply" key={replyIndex}>
-                    <div className="CommentContent">
-                      <Avatar />
-                      {reply}
-                    </div>
-                    <button onClick={() => handleEditClick(replyIndex, index)}>
-                      수정
-                    </button>
-                    <button
-                      onClick={() => handleDeleteClick(replyIndex, index)}
-                    >
-                      삭제
-                    </button>
-                  </div>
-                ))}
             </div>
           ))}
       </div>
-      <div className="CommentForm" onSubmit={handleCommentSubmit}>
-        <input
-          className="CommentInput"
-          type="text"
-          value={comment}
-          onChange={handleCommentChange}
-          placeholder="댓글을 입력하세요..."
-        />
+
+      {/* 댓글 입력 */}
+      <form className="CommentForm" onSubmit={handleCommentSubmit}>
+        <input className="CommentInput" type="text" placeholder="댓글을 입력하세요..." value={comment} onChange={handleCommentChange} required />
         <button className="CommentButton" type="submit">
-          {editIndex !== null ? "수정하기" : "댓글 작성"}
+          작성
         </button>
-      </div>
-      {replyToIndex !== null && (
-        <div>
-          답글 작성 중: {comments[replyToIndex].text}
-          <button onClick={handleReplyCancel}>답글 취소</button>
-        </div>
-      )}
+      </form>
     </div>
   );
 }

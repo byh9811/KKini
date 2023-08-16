@@ -22,16 +22,14 @@ const ReqUserPostPart = ({ 내것 = 0, memid = 0 }) => {
     if (내것 !== 1) {
       setTabs([
         { tab: "포스트", icon: <AiOutlineTable />, ind: 0 },
-        { tab: "레시피", icon: <MdLocalDining />, ind: 1 },
-        // { tab: "빈", icon: <MdLocalDining />, ind: 2 },
-        // { tab: "칸", icon: <MdLocalDining />, ind: 3 },
+        { tab: "레시피", icon: <MdLocalDining />, ind: 1 }
       ])
     }
   }, [내것]);
 
   return (
     <div>
-      <div className="flex space-x-14 border-t relative">
+      <div className="flex justify-between border-t relative mx-auto px-2">
         {tabs.map((item) => (
           <div
             key={item.tab}
@@ -42,8 +40,9 @@ const ReqUserPostPart = ({ 내것 = 0, memid = 0 }) => {
             className={`${
               activeTab === item.tab ? "border-t border-black" : "opacity-60"
             } flex items-center cursor-pointer py-2 text-sm`}
+            style={{ marginRight: '24px' }}  // 탭 사이의 간격 조절
           >
-            <p>{item.icon}</p>
+            <p style={{ marginRight: '12px' }}>{item.icon}</p> 
             <p className='ml-1'>{item.tab}</p>
           </div>
         ))}
