@@ -31,7 +31,7 @@ function Book() {
       try {
         const res = await axios.get(`/collection`);
         setData(res.data.response);
-        // console.log(res.data.)
+        console.log(res)
       } catch (error) {
         console.error("Error fetching posts:", error);
       }
@@ -62,6 +62,7 @@ function Book() {
                 <img className="svg" src="https://o.remove.bg/downloads/6a03de1c-0136-4b3f-a568-08802065548f/%EB%B0%B1%EC%A2%85-removebg-preview.png" alt="Description" style={generateRandomAnimation()} />
               </div>
             </div>
+            // 이부분 src가 url이미지 라서 수정필요
           ))}
         </div>
       ))}
