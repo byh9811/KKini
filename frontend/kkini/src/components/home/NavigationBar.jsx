@@ -51,35 +51,42 @@ function NavigationBar() {
         width: ["100%", "100%", 500], // 반응형으로 width 설정
         margin: "0 auto",
         zIndex: 1,
+        backgroundColor: 'transparent',
+        boxShadow: 'none'
       }}
       value={value}
       onChange={handleChange}
     >
       <BottomNavigationAction
+        style={{ color: value === 0 ? '#726193' : 'inherit' }}
         onClick={() => {
           navigate("/home/feed");
         }}
         icon={<HomeIcon />}
       />
       <BottomNavigationAction
+        style={{ color: value === 1 ? '#e37b7c' : 'inherit' }}
         onClick={() => {
           navigate("/home/search");
         }}
         icon={<SearchIcon />}
       />
       <BottomNavigationAction
+        style={{ color: value === 2 ? '#ffe4b4' : 'inherit' }}
         onClick={() => {
           navigate("/home/make");
         }}
         icon={<AddTwoToneIcon />}
       />
       <BottomNavigationAction
+        style={{ color: value === 3 ? '#353865' : 'inherit' }}
         onClick={() => {
           navigate("/home/recipe");
         }}
         icon={<RestaurantMenuTwoToneIcon />}
       />
       <BottomNavigationAction
+        style={{ color: value === 4 ? '#e37b7c' : 'inherit' }}
         onClick={() => {
           navigate("/home/info");
         }}

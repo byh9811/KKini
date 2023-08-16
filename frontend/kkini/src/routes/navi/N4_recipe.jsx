@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import RecipesComponent from '../../components/search/RecipesComponent';
+import '../../css/recipe.css'
 
 const N4Recipe = () => {
   window.scrollTo(0, 0);
@@ -8,7 +9,7 @@ const N4Recipe = () => {
   const [검색어, 검색어변경] = useState("");
 
   return (
-    <div>
+    <div className='recipe'>
       <div>
         <input
           type="text"
