@@ -194,6 +194,7 @@ const Post = forwardRef(
         <div className="post-footer-icons">
           <div className="post-footer-icons-left">
             {/* 좋아요 인터페이스 */}
+
             <div className="post-icon">
               {reactionState === true ? (
                 <FavoriteIcon
@@ -211,8 +212,10 @@ const Post = forwardRef(
                 />
               )}
             </div>
+            {likeCntState}
 
             {/* 싫어요 인터페이스 */}
+
             <div className="post-icon">
               {reactionState === false ? (
                 <ThumbDownAltRoundedIcon
@@ -226,8 +229,10 @@ const Post = forwardRef(
                 />
               )}
             </div>
+            {disLikeCntState}
 
             {/* 댓글 인터페이스 */}
+
             <div className="post-icon">
               <ChatBubbleOutlineRoundedIcon
                 onClick={() => {
@@ -235,6 +240,7 @@ const Post = forwardRef(
                 }}
               />
             </div>
+            {commentCnt}
           </div>
 
           <div className="post-footer-icons-left">
@@ -242,6 +248,7 @@ const Post = forwardRef(
             <div className="post-icon" onClick={handleShow}>
               <LocalAtmRoundedIcon />
             </div>
+            {avgPriceState}
 
             {/* 스크랩 인터페이스 */}
             <div className="post-icon">
@@ -257,14 +264,14 @@ const Post = forwardRef(
         </div>
 
         {/* 포스트 상태 표시 */}
-        <div>
+        {/* <div>
           <div className="count-text">
-            <b>{likeCntState}</b>좋아요&nbsp;
-            <b>{disLikeCntState}</b>싫어요&nbsp;
-            <b>{commentCnt}</b>댓글&nbsp;
+            <b>{likeCntState}</b>좋아요&nbsp;&nbsp;&nbsp;
+            <b>{disLikeCntState}</b>싫어요&nbsp;&nbsp;&nbsp;
+            <b>{commentCnt}</b>댓글&nbsp;&nbsp;&nbsp;
             <b>{avgPriceState}</b>원
           </div>
-        </div>
+        </div> */}
 
         <Modal show={show} onHide={handleClose} animation={false}>
           <Modal.Header closeButton>
