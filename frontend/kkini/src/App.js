@@ -9,11 +9,15 @@ import N3Upload from "./routes/navi/N3_upload.jsx";
 import N4Recipe from "./routes/navi/N4_recipe.jsx";
 import N5Mypage from "./routes/navi/N5_mypage.jsx";
 import "tailwindcss/tailwind.css";
-import Naver from "./routes/login/Naver";
-import Withdrawal from "./routes/login/Withdrawal";
-import FollowList from "./components/mypage/FollowList";
-import NotFound from "./components/home/NotFound";
-import Paper from "@mui/material/Paper";
+import Naver from './routes/login/Naver';
+import Withdrawal from './routes/login/Withdrawal';
+import FollowList from './components/mypage/FollowList';
+import NotFound from './components/home/NotFound';
+
+import Book from './routes/pages/Book';
+
+
+import Paper from '@mui/material/Paper';
 // App.js
 function App() {
   const [isLogIn, setIsLogIn] = useState(false);
@@ -33,7 +37,8 @@ function App() {
         <Route path="/redirect" element={<Redirect setIsLogIn={setIsLogIn} />} />
         <Route path="/login" element={<Naver />} />
         <Route path="/withdrawal" element={<Withdrawal />} />
-        <Route path="/followlist/:userId?" element={<FollowList />} />
+        <Route path="/followlist/:userId?" element={<FollowList />}/>
+        <Route path="/book" element={<Book />} />
         <Route path="/home/*" element={<Home />}>
           <Route path="feed" element={<N1Home />} />
           <Route path="search" element={<N2Search />} />
