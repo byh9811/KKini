@@ -1,6 +1,7 @@
 package com.kkini.core.global.handler;
 
 import com.kkini.core.global.exception.InvalidException;
+import com.kkini.core.global.exception.JwtTokenException;
 import com.kkini.core.global.exception.ServiceRuntimeException;
 import com.kkini.core.global.response.Response;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
+
+import java.util.jar.JarException;
 
 import static com.kkini.core.global.response.Response.ERROR;
 
@@ -40,6 +43,11 @@ public class ExceptionAdvice {
     @GetMapping("/error")
     public ResponseEntity<?> notFoundException(NoHandlerFoundException e){
         return newResponse(e, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(JwtTokenException.class)
+    public ResponseEntity<?> handleJwtTokenException(JarException e){
+        return newResponse(e, HttpStatus.UNAUTHORIZED);
     }
 
 
