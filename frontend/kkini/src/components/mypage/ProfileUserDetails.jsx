@@ -111,8 +111,10 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
     <div>
       <div className="py-10 w-full">
         <div className="flex items-center">
-          <div className="w-[15%]">
-            <img className="w-32 h-32 rounded-full" src={data.image} alt="프로필 이미지" />
+          <div className="w-[30%]">
+            <div className="w-32 h-32 rounded-full flex items-center justify-center overflow-hidden mx-auto">
+              <img className="w-full h-full object-cover" src={data.image} alt="프로필 이미지" />
+            </div>
           </div>
 
           <div className="space-y-5 text-xs">
@@ -128,9 +130,9 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
             </div>
             <div className="flex space-x-10">
               <FollowModal whichOne="follow" />
-              <p>{follow}</p>
+              <p className="my-auto">{follow}</p>
               <FollowModal whichOne="follower"></FollowModal>
-              <p>{follower}</p>
+              <p className="my-auto">{follower}</p>
             </div>
           </div>
         </div>
