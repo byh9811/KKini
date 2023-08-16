@@ -26,7 +26,7 @@ const RecommendedFeed = () => {
           <div key={item.id} className='recipe-item'>
             <img src={item.imageList[0]} alt={`Image ${item.id}`} />
             <div className="recipe-overlay">
-                <div>{item.writerName}</div>
+                <div>{item.memberName}</div>
             </div>
           </div>
         ))

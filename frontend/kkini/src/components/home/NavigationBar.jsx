@@ -52,7 +52,9 @@ function NavigationBar() {
         margin: "0 auto",
         zIndex: 1,
         boxShadow: 'none',
-        background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+        // background: 'linear-gradient(10deg, #55465B 30%, #A69397 90%)',
+        // background: 'linear-gradient(5deg, #8380B7 30%, #9D646A 90%)',
+        background: 'white',
       }}
       value={value}
       onChange={handleChange}

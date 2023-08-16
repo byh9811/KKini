@@ -140,7 +140,7 @@ function UploadPost() {
             onDragOver={(e) => e.preventDefault()}
             onDrop={(e) => moveImage(e.dataTransfer.getData("index"), index)}
           >
-            {/* <img src={item.preview_URL} alt="Uploaded file" /> */}
+            <img src={item.preview_URL} alt="Uploaded file" />
             <div
               className="delete-button"
               onClick={() => {
@@ -188,7 +188,7 @@ function UploadPost() {
       <div>
         <label>내용 입력</label>
         <br />
-        <textarea name="" id="" cols="30" rows="5" onChange={(e) => setContent(e.target.value)}></textarea>
+        <textarea className="mx-auto" name="" id="" cols="30" rows="5" onChange={(e) => setContent(e.target.value)}></textarea>
       </div>
       <br />
 
