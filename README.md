@@ -52,7 +52,7 @@
 <table align="center">
     <tr align="center">
         <td style="min-width: 150px;">
-            <a href="https://github.com/doolysmile">
+            <a href="https://github.com/nickname">
               <img src="https://avatars.githubusercontent.com/u/97426151?v=4" width="200">
               <br />
               <b>nickname</b>
@@ -66,7 +66,7 @@
             </a> 
         </td>
         <td style="min-width: 150px;">
-            <a href="https://github.com/yhj0214">
+            <a href="https://github.com/nickname">
               <img src="https://avatars.githubusercontent.com/u/97426151?v=4" width="200">
               <br />
               <b>nickname</b>
