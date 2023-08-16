@@ -25,7 +25,6 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
     axios
       .get(`/mypage/info/${selectedId}`)
       .then((res) => {
-        console.log(res);
         if (res.data.success) {
           setData(res.data.response);
         } else {
