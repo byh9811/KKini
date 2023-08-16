@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
 import { Avatar } from "@mui/material";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import "../../css/comment.css";
 
 function CommentsPage({ comments, onCommentsChange, postId }) {
   const [comment, setComment] = useState(comments);
@@ -117,15 +117,15 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
   };
 
   return (
-    <CommentsContainer>
-      <CommentsList>
+    <div className="CommentsContainer">
+      <div className="CommentsList">
         {comments &&
           comments.map((item, index) => (
-            <Comment key={index}>
-              <CommentContent>
+            <div className="Comment" key={index}>
+              <div className="CommentContent">
                 <Avatar />
                 {item.text}
-              </CommentContent>
+              </div>
               <h3>{item.parents.contents}</h3>
               {/* <button onClick={() => handleReplyClick(item.parents.id)}>
                 답글 달기
@@ -138,11 +138,11 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
               </button>
               {item.replies &&
                 item.replies.map((reply, replyIndex) => (
-                  <Reply key={replyIndex}>
-                    <CommentContent>
+                  <div className="Reply" key={replyIndex}>
+                    <div className="CommentContent">
                       <Avatar />
                       {reply}
-                    </CommentContent>
+                    </div>
                     <button onClick={() => handleEditClick(replyIndex, index)}>
                       수정
                     </button>
@@ -151,79 +151,31 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
                     >
                       삭제
                     </button>
-                  </Reply>
+                  </div>
                 ))}
-            </Comment>
+            </div>
           ))}
-      </CommentsList>
-      <CommentForm onSubmit={handleCommentSubmit}>
-        <CommentInput
+      </div>
+      <div className="CommentForm" onSubmit={handleCommentSubmit}>
+        <input
+          className="CommentInput"
           type="text"
           value={comment}
           onChange={handleCommentChange}
           placeholder="댓글을 입력하세요..."
         />
-        <CommentButton type="submit">
+        <button className="CommentButton" type="submit">
           {editIndex !== null ? "수정하기" : "댓글 작성"}
-        </CommentButton>
-      </CommentForm>
+        </button>
+      </div>
       {replyToIndex !== null && (
         <div>
           답글 작성 중: {comments[replyToIndex].text}
           <button onClick={handleReplyCancel}>답글 취소</button>
         </div>
       )}
-    </CommentsContainer>
+    </div>
   );
 }
-
-const CommentsContainer = styled.div`
-  max-width: 550px;
-  margin: 30px auto;
-  padding: 10px;
-`;
-
-const CommentsList = styled.div`
-  margin-bottom: 20px;
-`;
-
-const Comment = styled.div`
-  padding: 10px;
-  border-bottom: 1px solid #f0f0f0;
-`;
-
-const CommentContent = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-`;
-
-const Reply = styled.div`
-  padding: 10px;
-  margin-left: 20px;
-  border-bottom: 1px solid #f0f0f0;
-`;
-
-const CommentForm = styled.form`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const CommentInput = styled.input`
-  width: 80%;
-  padding: 10px;
-  border: 1px solid #f0f0f0;
-  border-radius: 4px;
-`;
-
-const CommentButton = styled.button`
-  padding: 10px 15px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-`;
 
 export default CommentsPage;

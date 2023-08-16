@@ -1,0 +1,28 @@
+.drawer-container {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  height: 60%;
+  overflow-y: auto;
+  transition: bottom 0.3s;
+  background-color: white;
+  z-index: 2;
+  opacity: 1;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  border: 1px solid;
+  border-color: black;
+}
+
+.drawer-container::-webkit-scrollbar {
+  display: none;
+}
+
+.drawer-close {
+  height: 100px;
+  background-color: black;
+  color: white;
+}
