@@ -8,19 +8,20 @@ function N1Home() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    axios.get("/post", {
-      params: {
-        page: 0,
-      },
-    })
-    .then((response) => {
-      if (response.data.success) {
-        setPosts(response.data.response.content);
-      }
-    })
-    .catch((error) => {
-      console.error("Error fetching posts:", error);
-    });
+    axios
+      .get("/post", {
+        params: {
+          page: 0,
+        },
+      })
+      .then((response) => {
+        if (response.data.success) {
+          setPosts(response.data.response.content);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching posts:", error);
+      });
   }, []);
 
   const navigate = new useNavigate();
