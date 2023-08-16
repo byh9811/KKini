@@ -39,7 +39,7 @@ const ReqUserPostPart = ({ 내것 = 0, memid = 0 }) => {
             }}
             className={`${
               activeTab === item.tab ? "border-t border-black" : "opacity-60"
-            } flex items-center cursor-pointer py-2 text-sm mx-auto`}
+            } flex items-center cursor-pointer py-2 text-sm`}
           >
             <p style={{ marginRight: '12px' }}>{item.icon}</p> 
             <p className='ml-1'>{item.tab}</p>

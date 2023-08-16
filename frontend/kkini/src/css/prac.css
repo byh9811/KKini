@@ -54,31 +54,9 @@ body {
 }
 
 .grid {
-  /* width: 100%;
-  max-width: 60rem;
-  margin-left:auto;
-  margin-right: auto;
-  margin-bottom: auto;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  flex-direction: row;
-  flex-wrap: wrap; */
-
-  
-  /* width: 100%;
-  max-width: 100%;  
-  margin-left: auto;
-  margin-right: auto;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center; */
-
-
   width: 100%;
   max-width: 20rem;
-  margin-left: 50%;
+  margin-left: 20%;
   margin-right: auto;
   display: flex;
   flex-direction: row;
@@ -87,12 +65,7 @@ body {
 }
 
 .grid-block {
-  /* width: 20%;
-  min-height: 11.25rem;
-  padding: 0.5rem; */
-
-  
-  width: 40%; 
+  width: 70%; 
   padding: 0.5rem;  
 
 }
@@ -134,10 +107,7 @@ body {
 }
 
 .tile-img {
-  /* display: block;
-  max-width: 100%;
-  height: auto;
-  opacity: 1; */
+
   -webkit-transition-property: opacity;
   transition-property: opacity;
   -webkit-transition-duration: 0.125s;
