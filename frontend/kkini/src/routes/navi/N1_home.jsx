@@ -1,30 +1,43 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import axios from "axios";
 import Post from "../../components/home/Post.jsx";
+import { useInView } from "react-intersection-observer";
 
 function N1Home() {
   const [posts, setPosts] = useState([]);
+  const [ref, inView] = useInView();
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(0);
+
+  // 포스트 로딩
+  const getPosts = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get("/post", {
+        params: {
+          page: page,
+        },
+      });
+      setPosts((prevState) => [...prevState, ...response.data.response.content]);
+    } catch (error) {
+      console.error("포스트 가져오기 오류 : ", error);
+    }
+    setLoading(false);
+  }, [page]);
 
   useEffect(() => {
-    axios
-      .get("/post", {
-        params: {
-          page: 0,
-        },
-      })
-      .then((response) => {
-        if (response.data.success) {
-          setPosts(response.data.response.content);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching posts:", error);
-      });
-  }, []);
+    getPosts();
+  }, [getPosts]);
 
-  const navigate = new useNavigate();
+  useEffect(() => {
+    if (inView && !loading) {
+      setPage((prevState) => prevState + 1);
+    }
+  }, [inView, loading]);
+
+  const navigate = useNavigate();
 
   const goMake = () => {
     navigate("/home/make");
@@ -32,33 +45,36 @@ function N1Home() {
 
   return (
     <div>
-      {posts.length > 0 ? (
-        posts.map((post, index) => (
-          <Post
-            key={index}
-            index={index}
-            avgPrice={post.avgPrice}
-            commentCnt={post.commentCnt}
-            contents={post.contents}
-            createDateTime={post.createDateTime}
-            disLikeCnt={post.disLikeCnt}
-            postId={post.id}
-            postImage={post.imageList}
-            isScrap={post.isScrap}
-            likeCnt={post.likeCnt}
-            user={post.memberName}
-            myPrice={post.myPrice}
-            reaction={post.reaction}
-            recipeId={post.recipeId}
-            recipeName={post.recipeName}
-          />
-        ))
-      ) : (
+      {posts.length === 0 ? (
         <div>
-          <p>등록된 게시글이 없어요</p>
-          <p>게시글을 등록하러 가볼까요 ?</p>
-          <Button onClick={goMake}>등록하기</Button>
+          <p>등록된 글이 없어요</p>
+          <p>글을 등록하러 가 볼까요 ?</p>
+          <Button onClick={goMake}>업로드</Button>
         </div>
+      ) : (
+        posts.map((post, index) => (
+          <React.Fragment key={index}>
+            <Post
+              key={index}
+              index={index}
+              avgPrice={post.avgPrice}
+              commentCnt={post.commentCnt}
+              contents={post.contents}
+              createDateTime={post.createDateTime}
+              disLikeCnt={post.disLikeCnt}
+              postId={post.id}
+              postImage={post.imageList}
+              isScrap={post.isScrap}
+              likeCnt={post.likeCnt}
+              user={post.memberName}
+              myPrice={post.myPrice}
+              reaction={post.reaction}
+              recipeId={post.recipeId}
+              recipeName={post.recipeName}
+              ref={index === posts.length - 1 ? ref : null}
+            />
+          </React.Fragment>
+        ))
       )}
     </div>
   );
