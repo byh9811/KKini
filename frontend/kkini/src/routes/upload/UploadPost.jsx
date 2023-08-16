@@ -140,7 +140,7 @@ function UploadPost() {
             onDragOver={(e) => e.preventDefault()}
             onDrop={(e) => moveImage(e.dataTransfer.getData("index"), index)}
           >
-            {/* <img src={item.preview_URL} alt="Uploaded file" /> */}
+            <img src={item.preview_URL} alt="Uploaded file" />
             <div
               className="delete-button"
               onClick={() => {
