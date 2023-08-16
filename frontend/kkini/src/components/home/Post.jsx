@@ -170,8 +170,12 @@ const Post = forwardRef(
 
         {/* 내용 */}
         <div className="contents-text">
-          {contents}
-          {recipeId && <div onClick={() => handleRecipeClick(recipeId)}># {recipeName}</div>}
+          <h3>{contents}</h3>
+          {recipeId && (
+            <h4 style={{ cursor: "pointer" }} onClick={() => handleRecipeClick(recipeId)}>
+              # {recipeName}
+            </h4>
+          )}
           {recipeId !== null && <RecipesModal recipeId={recipeId} handleClose={handleCloseModal} show={showModal} />}
         </div>
 

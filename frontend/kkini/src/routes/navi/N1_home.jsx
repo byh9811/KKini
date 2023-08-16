@@ -11,7 +11,7 @@ function N1Home() {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
 
-  // 포스트 로딩
+  // 포스트 호출
   const getPosts = useCallback(async () => {
     setLoading(true);
     try {
@@ -22,15 +22,17 @@ function N1Home() {
       });
       setPosts((prevState) => [...prevState, ...response.data.response.content]);
     } catch (error) {
-      console.error("포스트 가져오기 오류 : ", error);
+      console.error("포스트 가져오기 오류 : " + error);
     }
     setLoading(false);
   }, [page]);
 
+  // 상태 관리
   useEffect(() => {
     getPosts();
   }, [getPosts]);
 
+  // 보고있으면서 로딩이 끝났으면
   useEffect(() => {
     if (inView && !loading) {
       setPage((prevState) => prevState + 1);
@@ -39,6 +41,7 @@ function N1Home() {
 
   const navigate = useNavigate();
 
+  // 만들러 가기
   const goMake = () => {
     navigate("/home/make");
   };

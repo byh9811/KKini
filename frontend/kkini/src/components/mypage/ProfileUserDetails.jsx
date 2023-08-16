@@ -126,7 +126,7 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
                   {isfollowing ? "팔로우 취소" : "팔로우"}
                 </Button>
               )}
-              {내것 === 1 ? <CiSettings size={20} onClick={handleShow}></CiSettings> : null}
+              {내것 === 1 ? <CiSettings style={{ cursor: "pointer" }} size={20} onClick={handleShow}></CiSettings> : null}
             </div>
             <div className="flex space-x-10">
               <FollowModal whichOne="follow" />

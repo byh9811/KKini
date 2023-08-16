@@ -13,7 +13,6 @@ function N5Mypage() {
     if (userId !== "") {
       setMine(0);
       setMemid(userId);
-      console.log(memid, "n5mypage");
     }
   }, [userId, mine]);
 
