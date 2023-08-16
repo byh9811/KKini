@@ -59,7 +59,7 @@ function Book() {
                 <a className="tile-link" href="#">
                   <img className="tile-img" src={item.image} alt="Image" />
                 </a>
-                <img className="svg" src="https://o.remove.bg/downloads/6a03de1c-0136-4b3f-a568-08802065548f/%EB%B0%B1%EC%A2%85-removebg-preview.png" alt="Description" style={generateRandomAnimation()} />
+                <img className="svg" src="img/누끼종원.png" alt="Description" style={generateRandomAnimation()} />
               </div>
             </div>
             // 이부분 src가 url이미지 라서 수정필요
