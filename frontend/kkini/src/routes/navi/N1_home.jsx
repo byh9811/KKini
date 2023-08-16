@@ -31,30 +31,28 @@ function N1Home() {
   };
 
   return (
-    <div className="timeline" style={{ padding: 0 }}>
+    <div>
       {posts.length > 0 ? (
-        <div className="timeline_posts" style={{ padding: 0 }}>
-          {posts.map((post, index) => (
-            <Post
-              key={index}
-              index={index}
-              avgPrice={post.avgPrice}
-              commentCnt={post.commentCnt}
-              contents={post.contents}
-              createDateTime={post.createDateTime}
-              disLikeCnt={post.disLikeCnt}
-              postId={post.id}
-              postImage={post.imageList}
-              isScrap={post.isScrap}
-              likeCnt={post.likeCnt}
-              user={post.memberName}
-              myPrice={post.myPrice}
-              reaction={post.reaction}
-              recipeId={post.recipeId}
-              recipeName={post.recipeName}
-            />
-          ))}
-        </div>
+        posts.map((post, index) => (
+          <Post
+            key={index}
+            index={index}
+            avgPrice={post.avgPrice}
+            commentCnt={post.commentCnt}
+            contents={post.contents}
+            createDateTime={post.createDateTime}
+            disLikeCnt={post.disLikeCnt}
+            postId={post.id}
+            postImage={post.imageList}
+            isScrap={post.isScrap}
+            likeCnt={post.likeCnt}
+            user={post.memberName}
+            myPrice={post.myPrice}
+            reaction={post.reaction}
+            recipeId={post.recipeId}
+            recipeName={post.recipeName}
+          />
+        ))
       ) : (
         <div>
           <p>등록된 게시글이 없어요</p>

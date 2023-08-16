@@ -19,8 +19,6 @@
 }
 
 .App {
-  max-width: 500px;
-  max-height: 1447px;
   margin: 0 auto; /* 화면 중앙에 위치하도록 설정 */
   overflow: hidden; /* 제한된 크기를 벗어나는 내용은 숨깁니다 */
 }
