@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import '../../css/recipe.css'
 
 const RecommendedFeed = () => {
   const [data, setData] = useState([]);
@@ -19,11 +20,14 @@ const RecommendedFeed = () => {
   }, []);
 
   return (
-    <div>
+    <div className='recipes-grid'>
       {
         data.map((item) => (
-          <div key={item.id}>
+          <div key={item.id} className='recipe-item'>
             <img src={item.imageList[0]} alt={`Image ${item.id}`} />
+            <div className="recipe-overlay">
+                <div>{item.writerName}</div>
+            </div>
           </div>
         ))
       }
