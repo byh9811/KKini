@@ -20,7 +20,7 @@ public class CollectionQueryServiceImpl implements CollectionQueryService {
     private final CollectionQueryRepository collectionQueryRepository;
 
     @Override
-    public CollectionListResponseDto getMyCollection(Long memberId) {
-        return collectionQueryRepository.findRandomCollection(memberId).orElseThrow(() -> new NotFoundException(Member.class, memberId));
+    public List<CollectionListResponseDto> getMyCollection(Long memberId) {
+        return collectionQueryRepository.findRandomCollection(memberId);
     }
 }

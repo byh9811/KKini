@@ -7,12 +7,18 @@ import ListItemText from "@mui/material/ListItemText";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { ImageListItem } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-function FollowerModal({ open, onClose, whichOne }) {
+function FollowerModal({ open, onClose, whichOne, id, onHandler }) {
   const { userId } = useParams();
   const selectedUserId = userId || "mypage";
-
+  const navigate = useNavigate();
   const [list, setList] = useState([]);
+
+  const goMypage = (followerId) => {
+    onClose();
+    navigate(`/home/info/${followerId}`);
+  };
 
   useEffect(() => {
     async function fetchFollowers() {
@@ -27,7 +33,7 @@ function FollowerModal({ open, onClose, whichOne }) {
     if (open) {
       fetchFollowers();
     }
-  }, [open, userId]);
+  }, [open, selectedUserId]);
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -35,7 +41,7 @@ function FollowerModal({ open, onClose, whichOne }) {
         <h2>{whichOne}s</h2>
         <List>
           {list.map((follower) => (
-            <ListItem key={follower.id}>
+            <ListItem key={follower.id} onClick={() => goMypage(follower.memberId)}>
               <img src={follower.image} />
               <ListItemText primary={follower.nickname} />
             </ListItem>

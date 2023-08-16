@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Post from "./Post.jsx";
+import { useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 function Timeline(props) {
+  const navigate = new useNavigate();
   const transformData = (data) => {
     return data.map((post) => ({
       user: post.memberName,
@@ -46,6 +49,9 @@ function Timeline(props) {
       return newPosts;
     });
   };
+  const goMake = () => {
+    navigate("/home/make");
+  };
   //서버상태도 업데이트해야함
 
   useEffect(() => {
@@ -73,6 +79,7 @@ function Timeline(props) {
               avgPrice={post.avgPrice}
               myPrice={post.myPrice}
               reaction={post.reaction}
+              recipeId={post.recipeId}
               recipeName={post.recipeName}
               toggleLike={() => toggleLike(index)} // 이 함수도 기존에 정의되어 있어야 합니다.
               postId={post.postId}
@@ -83,8 +90,8 @@ function Timeline(props) {
       ) : (
         <div>
           <p>등록된 게시글이 없어요</p>
-          <p>게시글을 등록하러 가볼까요</p>
-          <button>등록하기</button>
+          <p>게시글을 등록하러 가볼까요 ?</p>
+          <Button onClick={goMake}>등록하기</Button>
         </div>
       )}
     </div>

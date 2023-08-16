@@ -1,5 +1,4 @@
 import React, { forwardRef, useEffect, useState } from "react";
-import styled from "styled-components";
 import { Avatar } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ThumbDownOffAltRoundedIcon from "@mui/icons-material/ThumbDownOffAltRounded";
@@ -11,18 +10,37 @@ import { Modal, Button } from "react-bootstrap";
 import Drawer from "./Drawer";
 import axios from "axios";
 import ImageSwiper from "./ImageSwiper";
+import "../../css/posts.css";
+
+import RecipesModal from "../recipe/RecipesModal";
 
 const Post = forwardRef(
-  ({ user, postImage, createDateTime, likeCnt, disLikeCnt, commentCnt, contents, avgPrice, myPrice, reaction, recipeName, postId, isScrap }, ref) => {
+  (
+    {
+      user,
+      postImage,
+      createDateTime,
+      likeCnt,
+      disLikeCnt,
+      commentCnt,
+      contents,
+      avgPrice,
+      myPrice,
+      reaction,
+      recipeName,
+      recipeId,
+      postId,
+      isScrap,
+    },
+    ref
+  ) => {
     const [show, setShow] = useState(false);
     const [reactionState, setReaction] = useState(reaction);
     const [likeCntState, setLikeCnt] = useState(likeCnt);
     const [disLikeCntState, setDisLikeCnt] = useState(disLikeCnt);
-    const [commentCntState, setCommentCnt] = useState(commentCnt);
     const [isScrapState, setIsScrap] = useState(isScrap);
     const [avgPriceState, setAvgPrice] = useState(avgPrice);
     const [myPriceState, setMyPrice] = useState(myPrice);
-    const [priceModalShow, setPriceModalShow] = useState(false);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [day, setDay] = useState("");
 
@@ -37,22 +55,6 @@ const Post = forwardRef(
         setDay(`${now}일전`);
       }
     }, "");
-
-    // 모달
-    const style = {
-      position: "absolute",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      width: 400,
-      bgcolor: "background.paper",
-      border: "2px solid #000",
-      boxShadow: 24,
-      p: 4,
-    };
-
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
 
     const changeScrap = (postId) => {
       const scrapAction = isScrapState ? axios.delete : axios.post;
@@ -110,8 +112,21 @@ const Post = forwardRef(
       handleClose();
     };
 
+    const [showModal, setShowModal] = useState(false);
+    // const [selectedRecipeId, setSelectedRecipeId] = useState(null);
+
+    const handleRecipeClick = (recipeId) => {
+      // setSelectedRecipeId(recipeId);
+      setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+      // setSelectedRecipeId(null);
+      setShowModal(false);
+    };
+
     return (
-      <PostContainer ref={ref}>
+      <div className="post-container" ref={ref}>
         <Drawer
           isOpen={isDrawerOpen}
           postId={postId}
@@ -119,72 +134,78 @@ const Post = forwardRef(
             setIsDrawerOpen(false);
           }}
         />
-        <PostHeader>
-          <PostHeaderAuthor>
+
+        {/* 헤더 */}
+        <div className="post-header">
+          <div className="post-header-author">
             <Avatar className="m-2" />
             <div className="userInfo">
               <div>{user}</div>
               <span>{day}</span>
             </div>
-          </PostHeaderAuthor>
-        </PostHeader>
-        <Contentstext>
+          </div>
+        </div>
+
+        {/* 내용 */}
+        <div className="contents-text">
           {contents}
-          <b> #{recipeName}</b>
-        </Contentstext>
-        <div style={{ width: "20vw", height: "20vh" }}>
+          {recipeId && <div onClick={() => handleRecipeClick(recipeId)}># {recipeName}</div>}
+          {recipeId !== null && <RecipesModal recipeId={recipeId} handleClose={handleCloseModal} show={showModal} />}
+        </div>
+
+        {/* 이미지 */}
+        <div className="post-image">
           <ImageSwiper postImage={postImage} />
         </div>
 
-        <PostFooterIcons>
+        {/* 컨트롤러 */}
+        <div className="post-footer-icons">
           <div className="post__iconsMain">
             {/* 좋아요 인터페이스 */}
-            <PostIcon>
+            <div className="post-icon">
               <FavoriteBorderIcon style={{ color: reactionState === true ? "red" : "gray" }} onClick={() => handleIconClick(true)} />
-            </PostIcon>
+            </div>
 
             {/* 싫어요 인터페이스 */}
-            <PostIcon>
+            <div className="post-icon">
               <ThumbDownOffAltRoundedIcon style={{ color: reactionState === false ? "blue" : "gray" }} onClick={() => handleIconClick(false)} />
-            </PostIcon>
+            </div>
 
             {/* 댓글 인터페이스 : 댓글 열기 */}
-            <PostIcon>
+            <div className="post-icon">
               <ChatBubbleOutlineRoundedIcon
                 onClick={() => {
                   setIsDrawerOpen(true);
                 }}
               />
-            </PostIcon>
-
-            {/* 포스트 상태 표시 */}
-            <div>
-              <CountText>
-                <b>{likeCntState}</b>좋아요 <b>{disLikeCntState}</b>싫어요 <b>{commentCntState}</b>
-                개의 댓글
-              </CountText>
             </div>
-          </div>
 
-          <div className="post__iconSave">
             {/* 금액 인터페이스 */}
-            <PostIcon onClick={handleShow}>
+            <div className="post-icon" onClick={handleShow}>
               <LocalAtmRoundedIcon />
-              <div>
-                <CountText>{avgPriceState}</CountText>
-              </div>
-            </PostIcon>
+            </div>
 
             {/* 스크랩 인터페이스 */}
-            <PostIcon>
+            <div className="post-icon">
               {isScrapState ? (
                 <BookmarkIcon onClick={() => changeScrap(postId)} />
               ) : (
                 <BookmarkBorderRoundedIcon onClick={() => changeScrap(postId)} />
               )}
-            </PostIcon>
+            </div>
+
+            {/* 포스트 상태 표시 */}
+            <div>
+              <div className="count-text">
+                <b>{likeCntState}</b>좋아요 <b>{disLikeCntState}</b>싫어요 <b>{commentCnt}</b>
+                개의 댓글
+                {avgPriceState}
+              </div>
+            </div>
           </div>
-        </PostFooterIcons>
+
+          <div className="post__iconSave"></div>
+        </div>
 
         <Modal show={show} onHide={handleClose} animation={false}>
           <Modal.Header closeButton>
@@ -192,7 +213,11 @@ const Post = forwardRef(
           </Modal.Header>
           <Modal.Body>
             <p>얼마면 돼?</p>
-            <img src={postImage[0]} alt="" style={{ maxWidth: "100%", borderRadius: "6px" }} />
+
+            <div>
+              <ImageSwiper postImage={postImage} />
+            </div>
+            {/* <img src={postImage[0]} alt="" style={{ maxWidth: "100%", borderRadius: "6px" }} /> */}
             <div>
               <input
                 type="number"
@@ -214,74 +239,11 @@ const Post = forwardRef(
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
-        </Modal.Footer>
-      </Modal>
-      </PostContainer>
+          </Modal.Footer>
+        </Modal>
+      </div>
     );
   }
 );
 
 export default Post;
-
-const PostContainer = styled.div`
-  margin: 0px -20px 50px -20px;
-`;
-
-const PostHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 10px;
-`;
-
-const PostHeaderAuthor = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  font-weight: bolder;
-
-  > .userInfo {
-    margin-left: 5px;
-
-    > div {
-      color: black;
-      font-size: 13px;
-      margin: 0;
-    }
-
-    > span {
-      color: gray;
-      font-size: 10px;
-      margin: 0;
-    }
-  }
-`;
-
-const PostFooterIcons = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const PostIcon = styled.div`
-  display: inline-block;
-  padding: 7px;
-  font-size: 30px;
-  margin: 0px 10px auto;
-
-  &:hover {
-    cursor: pointer;
-  }
-`;
-
-const CountText = styled.span`
-  display: flex;
-  font-size: 10px;
-`;
-
-const Contentstext = styled.span`
-  display: flex;
-  font-size: 15px;
-`;

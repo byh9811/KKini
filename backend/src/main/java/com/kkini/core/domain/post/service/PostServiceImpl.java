@@ -1,5 +1,7 @@
 package com.kkini.core.domain.post.service;
 
+import com.kkini.core.domain.collection.entity.Collection;
+import com.kkini.core.domain.collection.repository.CollectionRepository;
 import com.kkini.core.domain.member.entity.Member;
 import com.kkini.core.domain.member.repository.MemberRepository;
 import com.kkini.core.domain.post.dto.request.PostRegisterRequestDto;
@@ -31,6 +33,7 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
     private final RecipeRepository recipeRepository;
+    private final CollectionRepository collectionRepository;
     private final S3Util s3Util;
 
     // 포스트 작성
@@ -40,6 +43,13 @@ public class PostServiceImpl implements PostService {
         Recipe recipe = null;
         if (dto.getRecipeId() != null) {
             recipe = recipeRepository.findById(dto.getRecipeId()).orElseThrow(() -> new NotFoundException(Recipe.class, dto.getRecipeId()));
+
+            Optional<Collection> optionalCollection = collectionRepository.findByMemberIdAndRecipeId(memberId, recipe.getId());
+            optionalCollection.ifPresent(collectionRepository::delete);
+            collectionRepository.save(Collection.builder()
+                    .member(writer)
+                    .recipe(recipe)
+                    .build());
         }
 
         Post post = postRepository.save(Post.builder()
