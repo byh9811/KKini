@@ -12,7 +12,6 @@ function RecipesDetail(props) {
     axios
       .get(`/recipe/${recipeId}`)
       .then((response) => {
-        console.log(response);
         setRecipeData(response.data.response);
       })
       .catch((error) => {

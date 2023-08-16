@@ -171,18 +171,8 @@ const Post = forwardRef(
         {/* 내용 */}
         <div className="contents-text">
           {contents}
-          {recipeId && (
-            <div onClick={() => handleRecipeClick(recipeId)}>
-              # {recipeName}
-            </div>
-          )}
-          {recipeId !== null && (
-            <RecipesModal
-              recipeId={recipeId}
-              handleClose={handleCloseModal}
-              show={showModal}
-            />
-          )}
+          {recipeId && <div onClick={() => handleRecipeClick(recipeId)}># {recipeName}</div>}
+          {recipeId !== null && <RecipesModal recipeId={recipeId} handleClose={handleCloseModal} show={showModal} />}
         </div>
 
         {/* 이미지 */}
@@ -218,15 +208,9 @@ const Post = forwardRef(
 
             <div className="post-icon">
               {reactionState === false ? (
-                <ThumbDownAltRoundedIcon
-                  style={{ color: "blue" }}
-                  onClick={() => handleIconClick(false)}
-                />
+                <ThumbDownAltRoundedIcon style={{ color: "blue" }} onClick={() => handleIconClick(false)} />
               ) : (
-                <ThumbDownOffAltRoundedIcon
-                  style={{ color: "blue" }}
-                  onClick={() => handleIconClick(false)}
-                />
+                <ThumbDownOffAltRoundedIcon style={{ color: "blue" }} onClick={() => handleIconClick(false)} />
               )}
             </div>
             {disLikeCntState}
@@ -255,9 +239,7 @@ const Post = forwardRef(
               {isScrapState ? (
                 <BookmarkIcon onClick={() => changeScrap(postId)} />
               ) : (
-                <BookmarkBorderRoundedIcon
-                  onClick={() => changeScrap(postId)}
-                />
+                <BookmarkBorderRoundedIcon onClick={() => changeScrap(postId)} />
               )}
             </div>
           </div>

@@ -16,7 +16,6 @@ const FeedComponent = (props) => {
         },
       })
       .then((response) => {
-        console.log(response);
         setData(response.data.response.content);
       })
       .catch((error) => {
