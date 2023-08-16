@@ -139,7 +139,8 @@ public class RecipeQueryRepository {
                         recipe.time,
                         recipe.difficulty,
                         recipe.ingredient,
-                        recipe.image
+                        recipe.image,
+                        recipe.steps
                         ))
                 .from(recipe)
                 .join(member).on(recipe.member.id.eq(member.id))
