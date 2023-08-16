@@ -127,12 +127,6 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
                 {item.text}
               </div>
               <h3>{item.parents.contents}</h3>
-              {/* <button onClick={() => handleReplyClick(item.parents.id)}>
-                답글 달기
-              </button>
-              <button onClick={() => handleEditClick(item.parents.id)}>
-                수정
-              </button> */}
               <button onClick={() => handleDeleteClick(item.parents.id)}>
                 삭제
               </button>
