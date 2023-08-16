@@ -48,7 +48,7 @@ function NavigationBar() {
         bottom: 0,
         left: 0,
         right: 0,
-        width: ["100%", "100%", 500], // 반응형으로 width 설정
+        width: ["100%", 500], // 반응형으로 width 설정
         margin: "0 auto",
         zIndex: 1,
         boxShadow: 'none',
