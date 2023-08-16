@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import '../../css/recipe.css'
 
 const FeedComponent = (props) => {
   const { 검색어 } = props;
@@ -25,10 +26,10 @@ const FeedComponent = (props) => {
     <div>
       {
         데이터
-        ? <div>
+        ? <div className='recipes-grid'>
             {
               데이터.map((item) => (
-                <div key={item.id}>
+                <div key={item.id} className='recipe-item'>
                   <img src={item.imageList[0]} alt={`Image ${item.id}`} />
                 </div>
               ))

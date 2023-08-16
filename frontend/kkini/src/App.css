@@ -5,33 +5,17 @@
   border: 1px none;
   display: block;
   flex-direction: column;
-  max-width: 500px;
-  min-height: 1080px;
+  width: 100%;  /* 기본 너비를 100%로 설정 */
+  max-width: 500px;  
+  min-height: 100vh;
   min-width: 320px;
   position: relative;
   margin: 0 auto;
   font-family: "omyu_pretty";
-  background-image: url("/public/img/images/02.jpg");
-  background-size: cover;
-  background-repeat: no-repeat; /* 이미지가 반복되지 않습니다. */
-  background-position: center; /* 이미지가 중앙에 위치하게 됩니다. */
-  background-attachment: fixed;
+  background: #ffffff;
 }
 
 :root {
   --vh: 100%;
   height: calc(var(--vh, 1vh) * 100);
-}
-
-/* Ethereal */
-mark {
-	background-color: transparent;
-	color: inherit;
-}
-
-input, select, textarea {
-	-moz-appearance: none;
-	-webkit-appearance: none;
-	-ms-appearance: none;
-	appearance: none;
 }

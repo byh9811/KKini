@@ -6,11 +6,7 @@ body {
   -moz-user-select: none;
   -ms-use-select: none;
   user-select: none;
-  background-image: url("/public/img/images/bg.jpg");
-  background-size: cover; /* 이미지가 컨테이너에 꽉 차게 표시됩니다. */
-  background-repeat: no-repeat; /* 이미지가 반복되지 않습니다. */
-  background-position: center; /* 이미지가 중앙에 위치하게 됩니다. */
-  background-attachment: fixed;
+  background: white;
 }
 
 @tailwind base;

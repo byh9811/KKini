@@ -1,5 +1,5 @@
 .recipe{
-    color: white;
+
 }
 
 input[type="text"], input[type="password"], input[type="email"], select {
@@ -22,7 +22,7 @@ input[type="text"], input[type="password"], input[type="email"], input[type="tel
     height: 2.5rem;
     margin: 0 auto;
     cursor: text;
-    color: rgba(255, 255, 255, 0.75);
+    /* color: rgba(255, 255, 255, 0.75); */
 }
 
 .recipes-grid {
@@ -80,5 +80,5 @@ input[type="email"]:focus,
 input[type="tel"]:focus, 
 select:focus, 
 textarea:focus {
-    border-color: #fedea6;;  /* 원하는 색상으로 변경 */
+    border-color: black;;  /* 원하는 색상으로 변경 */
 }

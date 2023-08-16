@@ -51,8 +51,10 @@ function NavigationBar() {
         width: ["100%", "100%", 500], // 반응형으로 width 설정
         margin: "0 auto",
         zIndex: 1,
-        backgroundColor: 'transparent',
-        boxShadow: 'none'
+        boxShadow: 'none',
+        // background: 'linear-gradient(10deg, #55465B 30%, #A69397 90%)',
+        // background: 'linear-gradient(5deg, #8380B7 30%, #9D646A 90%)',
+        background: 'white',
       }}
       value={value}
       onChange={handleChange}
