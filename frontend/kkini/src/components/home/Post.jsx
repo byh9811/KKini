@@ -1,7 +1,9 @@
 import React, { forwardRef, useEffect, useState } from "react";
 import { Avatar } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import ThumbDownOffAltRoundedIcon from "@mui/icons-material/ThumbDownOffAltRounded";
+import ThumbDownAltRoundedIcon from "@mui/icons-material/ThumbDownAltRounded";
 import ChatBubbleOutlineRoundedIcon from "@mui/icons-material/ChatBubbleOutlineRounded";
 import LocalAtmRoundedIcon from "@mui/icons-material/LocalAtmRounded";
 import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
@@ -71,19 +73,42 @@ const Post = forwardRef(
     };
 
     const handleIconClick = (type) => {
+      const oldReactionState = reactionState;
+
       axios
         .post(`/reaction`, {
           postId: postId,
           state: type,
         })
         .then((response) => {
-          setReaction(response.data.response);
-
           if (response.data.success) {
-            const cntUpdater = (prevCnt) => (type ? prevCnt + 1 : prevCnt - 1);
+            setReaction(response.data.response);
 
-            setLikeCnt(cntUpdater(likeCntState));
-            setDisLikeCnt(cntUpdater(disLikeCntState));
+            if (oldReactionState === null && type === true) {
+              setLikeCnt(likeCntState + 1);
+            }
+
+            if (oldReactionState === null && type === false) {
+              setDisLikeCnt(disLikeCntState + 1);
+            }
+
+            if (oldReactionState === true && type === false) {
+              setLikeCnt(likeCntState - 1);
+              setDisLikeCnt(disLikeCntState + 1);
+            }
+
+            if (oldReactionState === false && type === true) {
+              setLikeCnt(likeCntState + 1);
+              setDisLikeCnt(disLikeCntState - 1);
+            }
+
+            if (oldReactionState === true && type === true) {
+              setLikeCnt(likeCntState - 1);
+            }
+
+            if (oldReactionState === false && type === false) {
+              setDisLikeCnt(disLikeCntState - 1);
+            }
           } else {
             console.error("Error from server:", response.data.error.message);
           }
@@ -113,15 +138,12 @@ const Post = forwardRef(
     };
 
     const [showModal, setShowModal] = useState(false);
-    // const [selectedRecipeId, setSelectedRecipeId] = useState(null);
 
-    const handleRecipeClick = (recipeId) => {
-      // setSelectedRecipeId(recipeId);
+    const handleRecipeClick = () => {
       setShowModal(true);
     };
 
     const handleCloseModal = () => {
-      // setSelectedRecipeId(null);
       setShowModal(false);
     };
 
@@ -149,8 +171,18 @@ const Post = forwardRef(
         {/* 내용 */}
         <div className="contents-text">
           {contents}
-          {recipeId && <div onClick={() => handleRecipeClick(recipeId)}># {recipeName}</div>}
-          {recipeId !== null && <RecipesModal recipeId={recipeId} handleClose={handleCloseModal} show={showModal} />}
+          {recipeId && (
+            <div onClick={() => handleRecipeClick(recipeId)}>
+              # {recipeName}
+            </div>
+          )}
+          {recipeId !== null && (
+            <RecipesModal
+              recipeId={recipeId}
+              handleClose={handleCloseModal}
+              show={showModal}
+            />
+          )}
         </div>
 
         {/* 이미지 */}
@@ -160,18 +192,42 @@ const Post = forwardRef(
 
         {/* 컨트롤러 */}
         <div className="post-footer-icons">
-          <div className="post__iconsMain">
+          <div className="post-footer-icons-left">
             {/* 좋아요 인터페이스 */}
             <div className="post-icon">
-              <FavoriteBorderIcon style={{ color: reactionState === true ? "red" : "gray" }} onClick={() => handleIconClick(true)} />
+              {reactionState === true ? (
+                <FavoriteIcon
+                  style={{
+                    color: "red",
+                  }}
+                  onClick={() => handleIconClick(true)}
+                />
+              ) : (
+                <FavoriteBorderIcon
+                  style={{
+                    color: "red",
+                  }}
+                  onClick={() => handleIconClick(true)}
+                />
+              )}
             </div>
 
             {/* 싫어요 인터페이스 */}
             <div className="post-icon">
-              <ThumbDownOffAltRoundedIcon style={{ color: reactionState === false ? "blue" : "gray" }} onClick={() => handleIconClick(false)} />
+              {reactionState === false ? (
+                <ThumbDownAltRoundedIcon
+                  style={{ color: "blue" }}
+                  onClick={() => handleIconClick(false)}
+                />
+              ) : (
+                <ThumbDownOffAltRoundedIcon
+                  style={{ color: "blue" }}
+                  onClick={() => handleIconClick(false)}
+                />
+              )}
             </div>
 
-            {/* 댓글 인터페이스 : 댓글 열기 */}
+            {/* 댓글 인터페이스 */}
             <div className="post-icon">
               <ChatBubbleOutlineRoundedIcon
                 onClick={() => {
@@ -179,7 +235,9 @@ const Post = forwardRef(
                 }}
               />
             </div>
+          </div>
 
+          <div className="post-footer-icons-left">
             {/* 금액 인터페이스 */}
             <div className="post-icon" onClick={handleShow}>
               <LocalAtmRoundedIcon />
@@ -190,21 +248,22 @@ const Post = forwardRef(
               {isScrapState ? (
                 <BookmarkIcon onClick={() => changeScrap(postId)} />
               ) : (
-                <BookmarkBorderRoundedIcon onClick={() => changeScrap(postId)} />
+                <BookmarkBorderRoundedIcon
+                  onClick={() => changeScrap(postId)}
+                />
               )}
             </div>
-
-            {/* 포스트 상태 표시 */}
-            <div>
-              <div className="count-text">
-                <b>{likeCntState}</b>좋아요 <b>{disLikeCntState}</b>싫어요 <b>{commentCnt}</b>
-                개의 댓글
-                {avgPriceState}
-              </div>
-            </div>
           </div>
+        </div>
 
-          <div className="post__iconSave"></div>
+        {/* 포스트 상태 표시 */}
+        <div>
+          <div className="count-text">
+            <b>{likeCntState}</b>좋아요&nbsp;
+            <b>{disLikeCntState}</b>싫어요&nbsp;
+            <b>{commentCnt}</b>댓글&nbsp;
+            <b>{avgPriceState}</b>원
+          </div>
         </div>
 
         <Modal show={show} onHide={handleClose} animation={false}>
@@ -217,7 +276,7 @@ const Post = forwardRef(
             <div>
               <ImageSwiper postImage={postImage} />
             </div>
-            {/* <img src={postImage[0]} alt="" style={{ maxWidth: "100%", borderRadius: "6px" }} /> */}
+
             <div>
               <input
                 type="number"

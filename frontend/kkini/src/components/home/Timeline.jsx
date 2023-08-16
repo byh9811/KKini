@@ -24,7 +24,9 @@ function Timeline(props) {
     }));
   };
 
-  const [localPosts, setLocalPosts] = useState(transformData(props.posts.content || [])); // 0812 수정전
+  const [localPosts, setLocalPosts] = useState(
+    transformData(props.posts.content || [])
+  ); // 0812 수정전
 
   // const [localPosts, setLocalPosts] = useState(transformData(props.posts || []));
 
@@ -37,18 +39,18 @@ function Timeline(props) {
   // };
   //서버상태도 업데이트해야함
 
-  const toggleLike = (index) => {
-    setLocalPosts((prevPosts) => {
-      const newPosts = [...prevPosts];
-      if (newPosts[index].reaction) {
-        newPosts[index].likeCnt--;
-      } else {
-        newPosts[index].likeCnt++;
-      }
-      newPosts[index].reaction = !newPosts[index].reaction;
-      return newPosts;
-    });
-  };
+  // const toggleLike = (index) => {
+  //   setLocalPosts((prevPosts) => {
+  //     const newPosts = [...prevPosts];
+  //     if (newPosts[index].reaction) {
+  //       newPosts[index].likeCnt--;
+  //     } else {
+  //       newPosts[index].likeCnt++;
+  //     }
+  //     newPosts[index].reaction = !newPosts[index].reaction;
+  //     return newPosts;
+  //   });
+  // };
   const goMake = () => {
     navigate("/home/make");
   };
@@ -81,7 +83,7 @@ function Timeline(props) {
               reaction={post.reaction}
               recipeId={post.recipeId}
               recipeName={post.recipeName}
-              toggleLike={() => toggleLike(index)} // 이 함수도 기존에 정의되어 있어야 합니다.
+              // toggleLike={() => toggleLike(index)} // 이 함수도 기존에 정의되어 있어야 합니다.
               postId={post.postId}
               isScrap={post.isScrap}
             />

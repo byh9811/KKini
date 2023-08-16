@@ -1,32 +1,45 @@
 // Naver.js
-import React from "react";
-import styled, { css } from "styled-components";
-import Paper from "@mui/material/Paper";
+import React, { useEffect, useState } from "react";
+import styled from 'styled-components';
+import Paper from '@mui/material/Paper';
+import Loading from '../pages/Intro';
 
 const Naver = () => {
-  const NAVER_CLIENT_ID = process.env.REACT_APP_NAVER_API_KEY;
-  const NAVER_CALLBACK_URL = process.env.REACT_APP_NAVER_CALLBACK_URL; // 콜백 URL 수정
-  const STATE = "false";
-  const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&STATE=${STATE}&redirect_uri=${NAVER_CALLBACK_URL}`;
+    const [ready, setReady] = useState(true);
 
-  const NaverLogin = () => {
-    window.location.href = process.env.REACT_APP_LOGIN_URL;
-  };
+    useEffect(() => {
+        setTimeout(() => {
+            setReady(false);
+        }, 2000);
+    }, []); // 빈 dependency 배열을 추가하여 마운트될 때만 useEffect가 실행되도록 합니다.
 
-  return (
-    <div>
-      <div>
-        <Logo src="img/logo.png" alt="로고" className="mx-auto" />
-        <Title style={{ margin: "0 auto" }}>끼니에 어서오세요!</Title>
-      </div>
-      <Paper elevation={3} style={{ display: "contents" }}>
-        <NaverLoginBtn2 onClick={NaverLogin} className="mx-auto">
-          <NaverIcon alt="navericon" />
-          <BtnTitle>네이버 로그인</BtnTitle>
-        </NaverLoginBtn2>
-      </Paper>
-    </div>
-  );
+    const NAVER_CLIENT_ID = process.env.REACT_APP_NAVER_API_KEY;
+    const NAVER_CALLBACK_URL = process.env.REACT_APP_NAVER_CALLBACK_URL;
+    const STATE = "false";
+    const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&STATE=${STATE}&redirect_uri=${NAVER_CALLBACK_URL}`;
+
+    const NaverLogin = () => {
+        window.location.href = process.env.REACT_APP_LOGIN_URL;
+    };
+
+    if (ready) {
+        return <Loading />;
+    }
+
+    return (
+        <div>
+            <div>
+                <Logo src="img/logo.png" alt="로고" className="mx-auto" />
+                <Title style={{ margin: "0 auto" }}>끼니에 어서오세요!</Title>
+            </div>
+            <Paper elevation={3} style={{ display: "contents" }}>
+                <NaverLoginBtn2 onClick={NaverLogin} className="mx-auto">
+                    <NaverIcon alt="navericon" />
+                    <BtnTitle>네이버 로그인</BtnTitle>
+                </NaverLoginBtn2>
+            </Paper>
+        </div>
+    );
 };
 
 export default Naver;
