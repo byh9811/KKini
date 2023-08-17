@@ -170,7 +170,7 @@ const Post = forwardRef(
 
         {/* 내용 */}
         <div className="contents-text">
-          <h3>{contents}</h3>
+          <span style={{ fontSize: "20px" }}>{contents}</span>
           {recipeId && (
             <h4 style={{ cursor: "pointer" }} onClick={() => handleRecipeClick(recipeId)}>
               # {recipeName}
@@ -286,10 +286,10 @@ const Post = forwardRef(
           </Modal.Body>
           <Modal.Footer>
             <Button variant="primary" onClick={handleSave}>
-              Save Changes
+              저장하기
             </Button>
             <Button variant="secondary" onClick={handleClose}>
-              Close
+              닫기
             </Button>
           </Modal.Footer>
         </Modal>

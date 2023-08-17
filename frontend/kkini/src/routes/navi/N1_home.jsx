@@ -10,6 +10,7 @@ function N1Home() {
   const [ref, inView] = useInView();
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true); // 추가: 더 가져올 데이터 여부
 
   // 포스트 호출
   const getPosts = useCallback(async () => {
@@ -18,9 +19,17 @@ function N1Home() {
       const response = await axios.get("/post", {
         params: {
           page: page,
+          size: 5,
         },
       });
-      setPosts((prevState) => [...prevState, ...response.data.response.content]);
+
+      if (response.data.response.content.length > 0) {
+        setPosts((prevState) => [...prevState, ...response.data.response.content]);
+        setPage((prevState) => prevState + 1);
+      } else {
+        // 더 가져올 데이터가 없는 경우 hasMore를 false로 설정
+        setHasMore(false);
+      }
     } catch (error) {
       console.error("포스트 가져오기 오류 : " + error);
     }
@@ -30,14 +39,14 @@ function N1Home() {
   // 상태 관리
   useEffect(() => {
     getPosts();
-  }, [getPosts]);
+  }, []);
 
   // 보고있으면서 로딩이 끝났으면
   useEffect(() => {
-    if (inView && !loading) {
-      setPage((prevState) => prevState + 1);
+    if (inView && !loading && hasMore) {
+      getPosts();
     }
-  }, [inView, loading]);
+  }, [inView, loading, hasMore]);
 
   const navigate = useNavigate();
 
