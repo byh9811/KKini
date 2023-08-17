@@ -66,10 +66,10 @@
             </a> 
         </td>
         <td style="min-width: 150px;">
-            <a href="https://github.com/nickname">
-              <img src="https://avatars.githubusercontent.com/u/97426151?v=4" width="200">
+            <a href="https://github.com/seungtae1377">
+              <img src="https://avatars.githubusercontent.com/u/102017456?v=4" width="200">
               <br />
-              <b>nickname</b>
+              <b>seungtae1377</b>
             </a> 
         </td>
     </tr>
