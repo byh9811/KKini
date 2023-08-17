@@ -33,7 +33,7 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
           endpoint = `/comment/update/${editIndex}`;
           method = "PUT";
         } else {
-          endpoint = `/api/comment/`;
+          endpoint = `/comment/`;
           method = "POST";
           if (replyToIndex !== null) {
             data.parentsId = replyToIndex;
