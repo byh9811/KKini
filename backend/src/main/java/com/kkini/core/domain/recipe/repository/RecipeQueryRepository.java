@@ -82,7 +82,7 @@ public class RecipeQueryRepository {
                 .select(Projections.constructor(RecipeListMypageResponseDto.class,
                         recipe.id,
                         recipe.image,
-                        member.nickname
+                        recipe.name
                 ))
                 .from(recipe)
                 .join(member).on(recipe.member.id.eq(member.id))
