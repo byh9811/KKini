@@ -27,4 +27,4 @@ COPY . .
 RUN gradle bootJar
 
 #CMD ["java", "-jar", "-Dspring.profiles.active=dev core.jar"]
-ENTRYPOINT ["sh", "-c", "java -jar -Dspring.profiles.active=dev core.jar"]
+ENTRYPOINT ["sh", "-c", "java -jar -Dspring.profiles.active=dev build/libs/core.jar"]
