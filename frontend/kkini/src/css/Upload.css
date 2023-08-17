@@ -15,6 +15,15 @@
   padding: 0.5rem 1rem;
 }
 
+.btnn:hover {
+  color: white;
+  background-color: black;
+  border: 2px solid black;
+  border-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+}
+
+
 .uploader-wrapper .file-container {
   width: 80%;
   max-width: 400px;

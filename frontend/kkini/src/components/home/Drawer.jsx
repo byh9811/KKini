@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import axios from "axios";
 import CommentsPage from "./CommentPage";
 import "../../css/drawer.css";
+import { width } from "dom7";
 
 const Drawer = ({ isOpen, postId, onClose }) => {
   const ref = useRef();
@@ -42,6 +43,8 @@ const Drawer = ({ isOpen, postId, onClose }) => {
       className="drawer-container"
       style={{
         bottom: isOpen ? "0" : "-60%",
+        width: '100%',
+        maxWidth: '500px',
       }}
       isOpen={isOpen}
       ref={ref}

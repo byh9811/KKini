@@ -4,9 +4,14 @@ import { Button } from "react-bootstrap";
 import axios from "axios";
 
 const goWithdrawal = () => {
-  axios.delete("/mypage/withdrawal").then((res) => {
-    window.location.href = process.env.REACT_APP_BASE_URL + "/member/logout";
-  });
+  axios
+    .delete("/mypage/withdrawal")
+    .then(() => {
+      window.location.href = process.env.REACT_APP_BASE_URL + "/member/logout";
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 };
 
 function Withdrawal() {

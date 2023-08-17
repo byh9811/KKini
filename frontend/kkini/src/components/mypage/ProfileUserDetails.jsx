@@ -92,7 +92,7 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
   };
 
   const goLogout = () => {
-    window.location.href = "http://localhost:8080/api/member/logout";
+    window.location.href = process.env.REACT_APP_LOGOUT_URL;
   };
 
   const goOut = () => {

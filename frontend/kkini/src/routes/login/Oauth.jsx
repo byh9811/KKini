@@ -3,15 +3,16 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Paper from "@mui/material/Paper";
 import Loading from "../pages/Intro";
-import '../../css/intro.css'
+import "../../css/intro.css";
 
 const Oauth = () => {
+  // window.scrollTo(0, 0);
   const [ready, setReady] = useState(true);
 
   useEffect(() => {
     setTimeout(() => {
       setReady(false);
-    }, 6000);
+    }, 1500);
   }, []); // 빈 dependency 배열을 추가하여 마운트될 때만 useEffect가 실행되도록 합니다.
 
   const NaverLogin = () => {
@@ -23,10 +24,15 @@ const Oauth = () => {
   }
 
   return (
-    <div>
+    <div style={{
+          backgroundImage: 'url(/img/밥상.PNG)',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center'
+      }}>
       <div>
         <Logo src="img/logo2.png" alt="로고" className="pulse mx-auto" />
-        <Title style={{ margin: "0 auto", color: "black" }}>끼니에 어서오세요!</Title>
+        <Title style={{ margin: "0 auto", color: "white" }}>끼니에 어서오세요!</Title>
       </div>
       <Paper elevation={3} style={{ display: "contents" }}>
         <NaverLoginBtn2 onClick={NaverLogin} className="mx-auto">
@@ -47,7 +53,7 @@ const NaverLoginBtn2 = styled.button`
   height: 75px;
   background-color: #03c75a;
   border-radius: 6px;
-  margin-top: 50px;
+  margin-top: 100px;
   /* border: 1px solid slategray; */
 `;
 
@@ -72,12 +78,12 @@ const NaverBtnTitle = styled.span`
   margin: 0 auto;
   color: white;
   font-weight: 800;
-  font-size: 20px;
+  font-size: 25px;
   line-height: 24px;
 `;
 
 const Logo = styled.img`
-  margin-top: 100px;
+  margin-top: 150px;
   margin-bottom: 50px;
   width: 250px;
   height: 250px;
