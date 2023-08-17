@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import RecipesModal from '../recipe/RecipesModal';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import RecipesModal from "../recipe/RecipesModal";
+import "../../css/recipe.css";
 
 const RecipesComponent = (props) => {
   const { 검색어, 카테고리ID } = props;
   const [recipes, setRecipes] = useState([]);
-  console.log(recipes)
 
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -20,7 +20,6 @@ const RecipesComponent = (props) => {
         },
       })
       .then((response) => {
-        console.log(response.data.response.content);
         setRecipes(response.data.response.content);
       })
       .catch((error) => {
@@ -39,20 +38,18 @@ const RecipesComponent = (props) => {
   };
 
   return (
-    <div>
-      {
-        recipes.map((item) => (
-          <div key={item.id}>
-            <img src={item.recipeImage} alt={`Image ${item.id}`} onClick={() => handleRecipeClick(item)} />
-            {item.recipeName}
+    <div className="recipes-grid">
+      {recipes.map((item) => (
+        <div key={item.id} className="recipe-item">
+          <img src={item.recipeImage} alt={`Image ${item.id}`} onClick={() => handleRecipeClick(item)} />
+          <div className="recipe-overlay">
+            <div>{item.recipeName}</div>
             <br />
-            {item.writerName}
+            <div>{item.writerName}</div>
           </div>
-        ))
-      }
-      {selectedRecipe !== null && (
-        <RecipesModal recipeId={selectedRecipe.recipeId} handleClose={handleCloseModal} show={showModal} />
-      )}
+        </div>
+      ))}
+      {selectedRecipe !== null && <RecipesModal recipeId={selectedRecipe.recipeId} handleClose={handleCloseModal} show={showModal} />}
     </div>
   );
 };

@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { CiSettings } from "react-icons/ci";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import styled from "styled-components";
 import FollowModal from "./FollowModal";
-import { ListGroup, ListGroupItem } from "react-bootstrap";
-import { ListItemText } from "@mui/material";
-import { Label } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
@@ -25,7 +22,6 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
     axios
       .get(`/mypage/info/${selectedId}`)
       .then((res) => {
-        console.log(res);
         if (res.data.success) {
           setData(res.data.response);
         } else {
@@ -33,7 +29,6 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
         }
       })
       .catch((error) => {
-        console.error("Error fetching posts:", error);
         navigate("/error");
       });
     axios.get(`/follow/isFollow/${selectedId}`).then((res) => {
@@ -49,18 +44,14 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
       .then((res) => {
         setFollow(res.data.response);
       })
-      .catch((error) => {
-        console.error("Error fetching posts:", error);
-      });
+      .catch((error) => {});
     // 팔로워 수
     axios
       .get(`/follow/countFollower/${selectedId}`)
       .then((res) => {
         setFollower(res.data.response);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   }, [selectedId, isfollowing]);
 
   //  팔로우 신청
@@ -112,26 +103,32 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
     <div>
       <div className="py-10 w-full">
         <div className="flex items-center">
-          <div className="w-[15%]">
-            <img className="w-32 h-32 rounded-full" src={data.image} alt="프로필 이미지" />
+          <div className="w-[30%]">
+            <div className="w-32 h-32 rounded-full flex items-center justify-center overflow-hidden mx-auto">
+              <img className="w-full h-full object-cover" src={data.image} alt="프로필 이미지" />
+            </div>
           </div>
 
           <div className="space-y-5 text-xs">
             <div className="flex space-x-10 items-center">
-              <h4>{data.nickname}</h4>
+              <h4 className="my-auto pl-2">{data.nickname}</h4>
               {/* 팔로우 */}
               {내것 ? null : (
                 <Button variant="primary" onClick={isfollowing ? handleUnfollow : handleFollow}>
                   {isfollowing ? "팔로우 취소" : "팔로우"}
                 </Button>
               )}
-              {내것 === 1 ? <CiSettings size={20} onClick={handleShow}></CiSettings> : null}
+              {내것 === 1 ? <CiSettings style={{ cursor: "pointer" }} size={20} onClick={handleShow}></CiSettings> : null}
             </div>
             <div className="flex space-x-10">
               <FollowModal whichOne="follow" />
-              <p>{follow}</p>
+              <p className="my-auto" style={{ fontSize: "17px" }}>
+                {follow}
+              </p>
               <FollowModal whichOne="follower"></FollowModal>
-              <p>{follower}</p>
+              <p className="my-auto" style={{ fontSize: "17px" }}>
+                {follower}
+              </p>
             </div>
           </div>
         </div>
@@ -150,7 +147,7 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
           ) : (
             <p>연동이 되어 있지 않습니다</p>
           )}
-          <Info>
+          <Info className="mt-2">
             <h4>이름 : {data.name}</h4>
             <h4>닉네임 : {data.nickname}</h4>
             <h4>이메일 : {data.email}</h4>
@@ -160,7 +157,7 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
           <Button variant="info" onClick={goLogout}>
             로그아웃
           </Button>
-          <Button style={{ display: "block", textAlign: "right" }} variant="danger" onClick={goOut}>
+          <Button className="mt-2" style={{ display: "block", textAlign: "right" }} variant="danger" onClick={goOut}>
             회원탈퇴
           </Button>
         </CommentsContainer>

@@ -1,16 +1,17 @@
-import axios from 'axios';
-import store from '../store';  // 실제 스토어 파일 경로로 수정하세요.
+import axios from "axios";
+import store from "../store";
+import { useNavigate } from "react-router";
 
 // axios 객체 생성
 const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_NAVER_API_KEY,
-    headers: {
-      // "Content-type": "application/json",
-      'X-Custom-Header': 'foobar'
-    },
+  baseURL: process.env.REACT_APP_NAVER_API_KEY,
+  headers: {
+    // "Content-type": "application/json",
+    "X-Custom-Header": "foobar",
+  },
 });
 
-// 요청 인터셉터 추가. 
+// 요청 인터셉터 추가.
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = store.getState().jwt.value;
@@ -21,6 +22,23 @@ axiosInstance.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
+  }
+);
+
+// 응답 인터셉터 추가
+axiosInstance.interceptors.response.use(
+  (response) => {
+    console.log(response);
+    return response;
+  },
+  (error) => {
+    console.log(error);
+    if (error.response && error.response.status === 401) {
+      alert("재로그인을 해 주세요");
+      useNavigate("/login");
+    } else {
+      useNavigate("/error");
+    }
   }
 );
 

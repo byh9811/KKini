@@ -5,7 +5,7 @@ import axios from "axios";
 
 const goWithdrawal = () => {
   axios.delete("/mypage/withdrawal").then((res) => {
-    window.location.href = "http://localhost:8080/api/member/logout";
+    window.location.href = process.env.REACT_APP_BASE_URL + "/member/logout";
   });
 };
 

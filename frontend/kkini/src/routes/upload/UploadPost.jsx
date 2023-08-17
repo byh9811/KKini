@@ -80,7 +80,6 @@ function UploadPost() {
           },
         })
         .then((response) => {
-          console.log("업로드 성공:", response.data);
           navigate("/home/feed");
         })
         .catch((error) => {
@@ -110,11 +109,11 @@ function UploadPost() {
   }, []);
 
   return (
-    <div className="uploader-wrapper">
+    <div className="uploader-wrapper" style={{ padddingBottom: "56px" }}>
       <div>
         {fileList.length < 5 && (
           <div>
-            <label>이미지 선택</label>
+            <label style={{ marginRight: "20px" }}>이미지 선택</label>
             <input
               // id="fileInput"
               type="file"
@@ -125,7 +124,9 @@ function UploadPost() {
               ref={(refParam) => (inputRef = refParam)}
               style={{ display: "none" }}
             />
-            <button onClick={() => inputRef.click()}>사진 업로드</button>
+            <button className="btnn" onClick={() => inputRef.click()}>
+              사진 업로드
+            </button>
           </div>
         )}
       </div>
@@ -156,10 +157,14 @@ function UploadPost() {
       <div>
         <label>참고 음식</label>
         <Autocomplete
-          styled={{ width: "500px" }}
+          className="mt-2"
+          styled={{
+            width: "80%",
+            maxWidth: "400px",
+          }}
           disablePortal
           options={data}
-          sx={{ width: 300 }}
+          sx={{ width: 400 }}
           value={data.find((item) => item.recipeId === selectedRecipeId) || null}
           getOptionLabel={(option) => option.label}
           renderInput={(params) => <TextField {...params} label="Recipes" />}
@@ -188,12 +193,14 @@ function UploadPost() {
       <div>
         <label>내용 입력</label>
         <br />
-        <textarea name="" id="" cols="30" rows="5" onChange={(e) => setContent(e.target.value)}></textarea>
+        <textarea className="mx-auto mt-2" name="" id="" cols="30" rows="5" onChange={(e) => setContent(e.target.value)}></textarea>
       </div>
       <br />
 
       <div>
-        <button onClick={handleFileUpload}>파일 업로드</button>
+        <button className="btnn" onClick={handleFileUpload}>
+          파일 업로드
+        </button>
       </div>
     </div>
   );

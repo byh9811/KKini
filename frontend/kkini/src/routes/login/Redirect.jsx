@@ -14,8 +14,6 @@ const Redirect = ({ setIsLogIn }) => {
   const token = searchParams.get("token");
 
   useEffect(() => {
-    console.log(token);
-
     if (token) {
       setIsLogIn(true);
 
