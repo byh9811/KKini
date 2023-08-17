@@ -51,7 +51,7 @@ const FeedComponent = (props) => {
           ))}
         </div>
       ) : null}
-            {selectedPost !== null && <FeedModal selectedPost={selectedPost} handleClose={handleCloseModal} show={showModal} />}
+      {selectedPost !== null && <FeedModal selectedPost={selectedPost} handleClose={handleCloseModal} show={showModal} />}
     </div>
   );
 };
