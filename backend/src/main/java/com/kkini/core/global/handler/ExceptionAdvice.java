@@ -46,7 +46,7 @@ public class ExceptionAdvice {
     }
 
     @ExceptionHandler(JwtTokenException.class)
-    public ResponseEntity<?> handleJwtTokenException(JarException e){
+    public ResponseEntity<?> handleJwtTokenException(JwtTokenException e){
         return newResponse(e, HttpStatus.UNAUTHORIZED);
     }
 
