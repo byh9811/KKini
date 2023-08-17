@@ -24,10 +24,15 @@ const Oauth = () => {
   }
 
   return (
-    <div>
+    <div style={{
+          backgroundImage: 'url(/img/밥상.PNG)',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center'
+      }}>
       <div>
         <Logo src="img/logo2.png" alt="로고" className="pulse mx-auto" />
-        <Title style={{ margin: "0 auto", color: "black" }}>끼니에 어서오세요!</Title>
+        <Title style={{ margin: "0 auto", color: "white" }}>끼니에 어서오세요!</Title>
       </div>
       <Paper elevation={3} style={{ display: "contents" }}>
         <NaverLoginBtn2 onClick={NaverLogin} className="mx-auto">
@@ -48,7 +53,7 @@ const NaverLoginBtn2 = styled.button`
   height: 75px;
   background-color: #03c75a;
   border-radius: 6px;
-  margin-top: 50px;
+  margin-top: 100px;
   /* border: 1px solid slategray; */
 `;
 
