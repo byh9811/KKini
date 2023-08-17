@@ -81,7 +81,8 @@ public class RecipeQueryRepository {
         List<RecipeListMypageResponseDto> recipeList = jpaQueryFactory
                 .select(Projections.constructor(RecipeListMypageResponseDto.class,
                         recipe.id,
-                        recipe.image
+                        recipe.image,
+                        recipe.name
                 ))
                 .from(recipe)
                 .join(member).on(recipe.member.id.eq(member.id))
@@ -139,7 +140,8 @@ public class RecipeQueryRepository {
                         recipe.time,
                         recipe.difficulty,
                         recipe.ingredient,
-                        recipe.image
+                        recipe.image,
+                        recipe.steps
                         ))
                 .from(recipe)
                 .join(member).on(recipe.member.id.eq(member.id))

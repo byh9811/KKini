@@ -8,6 +8,7 @@ import com.kkini.core.domain.preference.entity.Preference;
 import com.kkini.core.domain.preference.repository.PreferenceRepository;
 import com.kkini.core.global.config.security.ExpireTime;
 import com.kkini.core.domain.oauth2.dto.UserResponseDto;
+import com.kkini.core.global.exception.JwtTokenException;
 import com.kkini.core.global.exception.NotFoundException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -150,6 +151,7 @@ public class JwtTokenProvider {
             log.info("Invalid JWT Token", e);
         } catch (ExpiredJwtException e) {
             log.info("Expired JWT Token", e);
+            throw  new JwtTokenException("JWT 토큰 만료");
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT Token", e);
         } catch (IllegalArgumentException e) {

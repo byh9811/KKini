@@ -17,4 +17,11 @@ public class ScrapListResponseDto {
 
     @Schema(description = "이미지")
     private String image;
+
+    @Schema(description = "포스트 좋아요 수")
+    private String likeCnt;
+
+    @Schema(description = "포스트 싫어요 수")
+    private String disLikeCnt;
+
 }
