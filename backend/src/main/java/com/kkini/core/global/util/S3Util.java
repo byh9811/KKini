@@ -4,10 +4,17 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import marvin.image.MarvinImage;
+import org.marvinproject.image.transform.scale.Scale;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -45,16 +52,19 @@ public class S3Util {
 
             // 파일이름변경
             String uploadFileName = getUuidFileName(originalFileName);
+            // ex) 구분(/년/월/일)/파일.확장자
+            String filePath = uploadFilePath + "/" + uploadFileName;
+            String fileFormat = multipartFile.getContentType().substring(multipartFile.getContentType().lastIndexOf("/") + 1); //파일 확장자명 추출
             String uploadFileUrl = "";
+
+            MultipartFile resizedImage = resizer(filePath, fileFormat, multipartFile, 400); //오늘의 핵심 메서드
 
             // 메타데이터 생성
             ObjectMetadata objectMetadata = new ObjectMetadata();
-            objectMetadata.setContentLength(multipartFile.getSize());
-            objectMetadata.setContentType(multipartFile.getContentType());
+            objectMetadata.setContentLength(resizedImage.getSize());
+            objectMetadata.setContentType(resizedImage.getContentType());
 
-            try (InputStream inputStream = multipartFile.getInputStream()) {
-                // ex) 구분(/년/월/일)/파일.확장자
-                String filePath = uploadFilePath + "/" + uploadFileName;
+            try (InputStream inputStream = resizedImage.getInputStream()) {
 
                 // S3에 폴더 및 파일 업로드
                 amazonS3Client.putObject(
@@ -141,6 +151,39 @@ public class S3Util {
         Date date = new Date();
         String str = sdf.format(date);
         return str.replace("-", "/");
+    }
+
+    public MultipartFile resizer(String fileName, String fileFormat, MultipartFile originalImage, int width) {
+
+        try {
+            BufferedImage image = ImageIO.read(originalImage.getInputStream());// MultipartFile -> BufferedImage Convert
+            log.warn("{} / {}", image.getHeight(), image.getWidth());
+
+            int originWidth = image.getWidth();
+            int originHeight = image.getHeight();
+
+            // origin 이미지가 400보다 작으면 패스
+            if(originWidth < width)
+                return originalImage;
+
+            MarvinImage imageMarvin = new MarvinImage(image);
+
+            Scale scale = new Scale();
+            scale.load();
+            scale.setAttribute("newWidth", width);
+            scale.setAttribute("newHeight", width * originHeight / originWidth);//비율유지를 위해 높이 유지
+            scale.process(imageMarvin.clone(), imageMarvin, null, null, false);
+
+            BufferedImage imageNoAlpha = imageMarvin.getBufferedImageNoAlpha();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(imageNoAlpha, fileFormat, baos);
+            baos.flush();
+
+            return new CustomMultipartFile(fileName,fileFormat,originalImage.getContentType(), baos.toByteArray());
+
+        } catch (IOException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "파일을 줄이는데 실패했습니다.");
+        }
     }
 
 }
