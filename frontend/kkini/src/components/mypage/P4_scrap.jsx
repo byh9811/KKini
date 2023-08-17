@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import '../../css/recipe.css'
+import "../../css/recipe.css";
 
 function P4Scrap() {
   window.scrollTo(0, 0);
@@ -20,13 +20,13 @@ function P4Scrap() {
   return (
     <div>
       {scrapList.length > 0 ? (
-        <div className='recipes-grid'>
+        <div className="recipes-grid">
           {scrapList.map((item) => (
-            <div key={item.id} className='recipe-item'>
+            <div key={item.id} className="recipe-item">
               <img src={item.image} alt={`Image ${item.id}`} />
               <div className="recipe-overlay">
                 <div>{item.memberName}</div>
-            </div>
+              </div>
             </div>
           ))}
         </div>

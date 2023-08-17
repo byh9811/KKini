@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { CiSettings } from "react-icons/ci";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import styled from "styled-components";
 import FollowModal from "./FollowModal";
-import { ListGroup, ListGroupItem } from "react-bootstrap";
-import { ListItemText } from "@mui/material";
-import { Label } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
@@ -125,9 +122,13 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
             </div>
             <div className="flex space-x-10">
               <FollowModal whichOne="follow" />
-              <p className="my-auto" style={{ fontSize: '17px' }}>{follow}</p>
+              <p className="my-auto" style={{ fontSize: "17px" }}>
+                {follow}
+              </p>
               <FollowModal whichOne="follower"></FollowModal>
-              <p className="my-auto" style={{ fontSize: '17px' }}>{follower}</p>
+              <p className="my-auto" style={{ fontSize: "17px" }}>
+                {follower}
+              </p>
             </div>
           </div>
         </div>

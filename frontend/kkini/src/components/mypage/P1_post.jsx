@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import '../../css/recipe.css'
+import "../../css/recipe.css";
 
 function P1Post() {
   window.scrollTo(0, 0);
@@ -26,11 +26,11 @@ function P1Post() {
       {postList.length > 0 ? (
         <div className="recipes-grid">
           {postList.map((item) => (
-            <div key={item.id} className='recipe-item'>
-              <img src={item.imageList[0]} alt={`Image ${item.id}`} />
+            <div key={item.id} className="recipe-item">
+              <img style={{ width: "100%" }} src={item.imageList[0]} alt={`Image ${item.id}`} />
               <div className="recipe-overlay">
                 <div>{item.memberName}</div>
-            </div>
+              </div>
             </div>
           ))}
         </div>
