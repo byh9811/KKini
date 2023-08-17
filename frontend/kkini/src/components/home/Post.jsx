@@ -123,6 +123,14 @@ const Post = forwardRef(
     const handleShow = () => setShow(true);
 
     const handleSave = () => {
+      if (myPriceState < 0) {
+        alert("아쉽게도 마이너스 금액으로는 평가가 불가능해요");
+        return;
+      }
+      if (myPriceState > 2100000000) {
+        alert("21억 이하의 숫자로만 평가가 가능해요");
+        return;
+      }
       axios
         .post(`/evaluation`, {
           postId: postId,

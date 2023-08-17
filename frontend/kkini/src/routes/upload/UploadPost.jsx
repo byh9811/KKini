@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "../../css/Upload.css";
-
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import axios from "axios";
-
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useNavigate } from "react-router-dom";
-import { Box } from "@mui/material";
 
 function UploadPost() {
   const [fileList, setFileList] = useState([]);
@@ -58,8 +55,8 @@ function UploadPost() {
 
       // 이미지
       for (let i = 0; i < fileList.length; i++) {
-        if (fileList[i].fileObject.size > 5000000) {
-          alert("5mb 이상 이미지는 업로드가 불가능해요");
+        if (fileList[i].fileObject.size > 1000000) {
+          alert("1mb 이상 이미지는 업로드가 불가능해요");
           return;
         }
         formData.append("files", fileList[i].fileObject);
@@ -109,7 +106,7 @@ function UploadPost() {
   }, []);
 
   return (
-    <div className="uploader-wrapper" style={{ padddingBottom: "56px" }}>
+    <div className="uploader-wrapper">
       <div>
         {fileList.length < 5 && (
           <div>
