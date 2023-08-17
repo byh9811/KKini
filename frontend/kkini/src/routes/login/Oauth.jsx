@@ -78,7 +78,7 @@ const NaverBtnTitle = styled.span`
 `;
 
 const Logo = styled.img`
-  margin-top: 250px;
+  margin-top: 150px;
   margin-bottom: 50px;
   width: 250px;
   height: 250px;

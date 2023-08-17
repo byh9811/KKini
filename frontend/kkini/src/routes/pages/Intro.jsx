@@ -4,7 +4,7 @@ import 'animate.css';
 
 export default function Intro() {
   return (
-    <div style={{ marginTop: "250px" }}>
+    <div style={{ marginTop: "150px" }}>
       <img className="animate__animated animate__bounceInDown logo my-auto mx-auto" src="img/logo2.png" alt="로고" />
     </div>
   );
