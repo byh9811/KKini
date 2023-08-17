@@ -44,12 +44,14 @@ function NavigationBar() {
   return (
     <BottomNavigation
       sx={{
+        borderWidth: "1px",
+        borderColor: "black",
         position: "fixed",
         bottom: 0,
         left: 0,
         right: 0,
-        width: '100%', // 반응형으로 width 설정
-        maxWidth: '500px',
+        width: "100%", // 반응형으로 width 설정
+        maxWidth: "500px",
         margin: "0 auto",
         zIndex: 1,
         boxShadow: "none",
@@ -59,35 +61,35 @@ function NavigationBar() {
       onChange={handleChange}
     >
       <BottomNavigationAction
-        style={{ color: value === 0 ? 'black' : 'gray' }}
+        style={{ color: value === 0 ? "black" : "gray" }}
         onClick={() => {
           navigate("/home/feed");
         }}
         icon={<HomeIcon />}
       />
       <BottomNavigationAction
-        style={{ color: value === 1 ? 'black' : 'gray' }}
+        style={{ color: value === 1 ? "black" : "gray" }}
         onClick={() => {
           navigate("/home/search");
         }}
         icon={<SearchIcon />}
       />
       <BottomNavigationAction
-        style={{ color: value === 2 ? 'black' : 'gray' }}
+        style={{ color: value === 2 ? "black" : "gray" }}
         onClick={() => {
           navigate("/home/make");
         }}
         icon={<AddTwoToneIcon />}
       />
       <BottomNavigationAction
-        style={{ color: value === 3 ? 'black' : 'gray' }}
+        style={{ color: value === 3 ? "black" : "gray" }}
         onClick={() => {
           navigate("/home/recipe");
         }}
         icon={<RestaurantMenuTwoToneIcon />}
       />
       <BottomNavigationAction
-        style={{ color: value === 4 ? 'black' : 'gray' }}
+        style={{ color: value === 4 ? "black" : "gray" }}
         onClick={() => {
           navigate("/home/info");
         }}

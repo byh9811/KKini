@@ -78,7 +78,7 @@ textarea {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgba(173, 148, 57, 0.5); /* 투명한 회색 배경 */
+  background-color: rgba(103, 103, 103, 0.5); /* 투명한 회색 배경 */
   opacity: 0; /* 초기 상태에서는 숨겨져 있음 */
   transition: transform 0.3s, opacity 0.3s; /* 부드러운 트랜지션 효과 */
   pointer-events: none;
