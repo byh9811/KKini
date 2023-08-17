@@ -2,18 +2,26 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import LocalDiningIcon from "@mui/icons-material/LocalDining";
+import CategoryIcon from "@mui/icons-material/Category";
 import { ListGroup, ListGroupItem } from "react-bootstrap";
+import EditNoteIcon from "@mui/icons-material/EditNote";
+import RiceBowlIcon from "@mui/icons-material/RiceBowl";
 
 function RecipesDetail(props) {
   const recipeId = props.recipeId;
   const [recipeData, setRecipeData] = useState(null);
+  const [tmp, setTmp] = useState("");
+
+  const divide = (steps) => {
+    setTmp(steps.split("\n"));
+  };
 
   useEffect(() => {
     axios
       .get(`/recipe/${recipeId}`)
       .then((response) => {
-        console.log(response);
         setRecipeData(response.data.response);
+        divide(response.data.response.steps);
       })
       .catch((error) => {
         console.error("Error fetching recipe details:", error);
@@ -28,14 +36,26 @@ function RecipesDetail(props) {
             <LocalDiningIcon />
             {recipeData.name}
           </h3>
-          <img style={{ maxHeight: "300px" }} src={recipeData.image} alt={`Image ${recipeData.recipeId}`} />
+          <img className="mx-auto p-2" style={{ maxHeight: "300px", borderRadius: "10px" }} src={recipeData.image} alt={`Image ${recipeData.recipeId}`} />
           <ListGroup style={{ listStyle: "none" }}>
-            <ListGroupItem>분류: {recipeData.categoryName}</ListGroupItem>
             <ListGroupItem>
-              <AccessTimeIcon></AccessTimeIcon>시간: {recipeData.time} 분
+              <CategoryIcon style={{ marginRight: "10px" }}></CategoryIcon>
+              {recipeData.categoryName}
             </ListGroupItem>
-            <ListGroupItem>재료: {recipeData.ingredient}</ListGroupItem>
-            <ListGroupItem>단계: {recipeData.steps}</ListGroupItem>
+            <ListGroupItem>
+              <AccessTimeIcon style={{ marginRight: "10px" }}></AccessTimeIcon>
+              {recipeData.time} 분
+            </ListGroupItem>
+            <ListGroupItem>
+              <RiceBowlIcon style={{ marginRight: "10px" }}></RiceBowlIcon>
+              {recipeData.ingredient}
+            </ListGroupItem>
+            <ListGroupItem>
+              <EditNoteIcon style={{ marginRight: "10px" }} />
+              {tmp.map((res) => (
+                <p>{res}</p>
+              ))}
+            </ListGroupItem>
           </ListGroup>
         </div>
       )}

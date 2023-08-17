@@ -48,47 +48,46 @@ function NavigationBar() {
         bottom: 0,
         left: 0,
         right: 0,
-        width: ["100%", 500], // 반응형으로 width 설정
+        width: '100%', // 반응형으로 width 설정
+        maxWidth: '500px',
         margin: "0 auto",
         zIndex: 1,
-        boxShadow: 'none',
-        // background: 'linear-gradient(10deg, #55465B 30%, #A69397 90%)',
-        // background: 'linear-gradient(5deg, #8380B7 30%, #9D646A 90%)',
-        background: 'white',
+        boxShadow: "none",
+        background: "white",
       }}
       value={value}
       onChange={handleChange}
     >
       <BottomNavigationAction
-        style={{ color: value === 0 ? '#726193' : 'inherit' }}
+        style={{ color: value === 0 ? 'black' : 'gray' }}
         onClick={() => {
           navigate("/home/feed");
         }}
         icon={<HomeIcon />}
       />
       <BottomNavigationAction
-        style={{ color: value === 1 ? '#e37b7c' : 'inherit' }}
+        style={{ color: value === 1 ? 'black' : 'gray' }}
         onClick={() => {
           navigate("/home/search");
         }}
         icon={<SearchIcon />}
       />
       <BottomNavigationAction
-        style={{ color: value === 2 ? '#ffe4b4' : 'inherit' }}
+        style={{ color: value === 2 ? 'black' : 'gray' }}
         onClick={() => {
           navigate("/home/make");
         }}
         icon={<AddTwoToneIcon />}
       />
       <BottomNavigationAction
-        style={{ color: value === 3 ? '#353865' : 'inherit' }}
+        style={{ color: value === 3 ? 'black' : 'gray' }}
         onClick={() => {
           navigate("/home/recipe");
         }}
         icon={<RestaurantMenuTwoToneIcon />}
       />
       <BottomNavigationAction
-        style={{ color: value === 4 ? '#e37b7c' : 'inherit' }}
+        style={{ color: value === 4 ? 'black' : 'gray' }}
         onClick={() => {
           navigate("/home/info");
         }}

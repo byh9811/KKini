@@ -46,10 +46,7 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
             onCommentsChange(); // 댓글 작성, 수정, 삭제 후 댓글 목록 다시 가져오기
           }
         } catch (error) {
-          console.error(
-            "Error posting comment:",
-            error.response ? error.response.data : error.message
-          );
+          console.error("Error posting comment:", error.response ? error.response.data : error.message);
         }
       };
 
@@ -59,19 +56,10 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
       setReplyToIndex(null);
       setSubmitTrigger(false);
     }
-  }, [
-    submitTrigger,
-    effectivePostId,
-    comment,
-    onCommentsChange,
-    editIndex,
-    replyToIndex,
-  ]);
+  }, [submitTrigger, effectivePostId, comment, onCommentsChange, editIndex, replyToIndex]);
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
-
-    console.log("!!!!");
 
     if (!effectivePostId) {
       return;
@@ -99,10 +87,7 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
         onCommentsChange(); // 댓글 삭제 후 댓글 목록 다시 가져오기
       }
     } catch (error) {
-      console.error(
-        "Error deleting comment:",
-        error.response ? error.response.data : error.message
-      );
+      console.error("Error deleting comment:", error.response ? error.response.data : error.message);
     }
   };
 
@@ -125,10 +110,7 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
                 <p>{item.parents.contents}</p>
 
                 {/* 삭제 */}
-                <button
-                  style={{ fontSize: "10px" }}
-                  onClick={() => handleDeleteClick(item.parents.id)}
-                >
+                <button style={{ fontSize: "10px" }} onClick={() => handleDeleteClick(item.parents.id)}>
                   삭제
                 </button>
               </div>
@@ -138,14 +120,7 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
 
       {/* 댓글 입력 */}
       <form className="CommentForm" onSubmit={handleCommentSubmit}>
-        <input
-          className="CommentInput"
-          type="text"
-          placeholder="댓글을 입력하세요..."
-          value={comment}
-          onChange={handleCommentChange}
-          required
-        />
+        <input className="CommentInput" type="text" placeholder="댓글을 입력하세요..." value={comment} onChange={handleCommentChange} required />
         <button className="CommentButton" type="submit">
           작성
         </button>

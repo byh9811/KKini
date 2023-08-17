@@ -41,7 +41,7 @@ function FollowerModal({ open, onClose, whichOne, id, onHandler }) {
         <h2>{whichOne}s</h2>
         <List>
           {list.map((follower) => (
-            <ListItem key={follower.id} onClick={() => goMypage(follower.memberId)}>
+            <ListItem style={{ cursor: "pointer" }} key={follower.id} onClick={() => goMypage(follower.memberId)}>
               <img src={follower.image} />
               <ListItemText primary={follower.nickname} />
             </ListItem>

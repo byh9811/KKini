@@ -11,14 +11,15 @@ input[type="text"], input[type="password"], input[type="email"], input[type="tel
     -ms-appearance: none;
     appearance: none;
     background: transparent;
-    border: solid 2px rgba(255, 255, 255, 0.25);
+    border: solid 2px lightgray;
     border-radius: 0.25rem;
     color: inherit;
     display: block;
     outline: 0;
     padding: 0 0.75rem;
     text-decoration: none;
-    width: 80%;
+    width: 400px;
+    max-width: 400px;
     height: 2.5rem;
     margin: 0 auto;
     cursor: text;
@@ -34,9 +35,11 @@ input[type="text"], input[type="password"], input[type="email"], input[type="tel
 
 .recipe-item {
     position: relative;
-    margin: auto;
+    margin: 23px auto;
     width: 80%;  /* 원하는 너비 */
-    height: 80%;  /* 원하는 높이 */
+    height: auto;  /* 원하는 높이 */
+    aspect-ratio: 1/1;
+    max-width: 200px;
     overflow: hidden;  /* 내용이 아이템 밖으로 나가지 않도록 */
     box-sizing: border-box;  /* 패딩과 보더가 크기에 포함되도록 */
     /* 필요한 경우 추가 스타일링 */

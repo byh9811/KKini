@@ -9,6 +9,7 @@
   flex-direction: row;
   align-items: center;
   margin-bottom: 10px;
+  padding-top: 20px;
 }
 
 .post-header-author {
@@ -40,6 +41,7 @@
   align-items: center;
   justify-content: space-between;
   margin-top: 20px;
+  padding-bottom: 20px;
 }
 
 .post-icon {

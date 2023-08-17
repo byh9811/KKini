@@ -170,19 +170,13 @@ const Post = forwardRef(
 
         {/* 내용 */}
         <div className="contents-text">
-          {contents}
+          <span style={{ fontSize: "20px" }}>{contents}</span>
           {recipeId && (
-            <div onClick={() => handleRecipeClick(recipeId)}>
+            <h4 style={{ cursor: "pointer" }} onClick={() => handleRecipeClick(recipeId)}>
               # {recipeName}
-            </div>
+            </h4>
           )}
-          {recipeId !== null && (
-            <RecipesModal
-              recipeId={recipeId}
-              handleClose={handleCloseModal}
-              show={showModal}
-            />
-          )}
+          {recipeId !== null && <RecipesModal recipeId={recipeId} handleClose={handleCloseModal} show={showModal} />}
         </div>
 
         {/* 이미지 */}
@@ -218,15 +212,9 @@ const Post = forwardRef(
 
             <div className="post-icon">
               {reactionState === false ? (
-                <ThumbDownAltRoundedIcon
-                  style={{ color: "blue" }}
-                  onClick={() => handleIconClick(false)}
-                />
+                <ThumbDownAltRoundedIcon style={{ color: "blue" }} onClick={() => handleIconClick(false)} />
               ) : (
-                <ThumbDownOffAltRoundedIcon
-                  style={{ color: "blue" }}
-                  onClick={() => handleIconClick(false)}
-                />
+                <ThumbDownOffAltRoundedIcon style={{ color: "blue" }} onClick={() => handleIconClick(false)} />
               )}
             </div>
             {disLikeCntState}
@@ -255,9 +243,7 @@ const Post = forwardRef(
               {isScrapState ? (
                 <BookmarkIcon onClick={() => changeScrap(postId)} />
               ) : (
-                <BookmarkBorderRoundedIcon
-                  onClick={() => changeScrap(postId)}
-                />
+                <BookmarkBorderRoundedIcon onClick={() => changeScrap(postId)} />
               )}
             </div>
           </div>
@@ -300,10 +286,10 @@ const Post = forwardRef(
           </Modal.Body>
           <Modal.Footer>
             <Button variant="primary" onClick={handleSave}>
-              Save Changes
+              저장하기
             </Button>
             <Button variant="secondary" onClick={handleClose}>
-              Close
+              닫기
             </Button>
           </Modal.Footer>
         </Modal>

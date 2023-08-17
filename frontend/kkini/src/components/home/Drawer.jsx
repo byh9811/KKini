@@ -35,8 +35,6 @@ const Drawer = ({ isOpen, postId, onClose }) => {
 
   useEffect(() => {
     fetchComments();
-    console.log("!!");
-    console.log(comments);
   }, []);
 
   return (
