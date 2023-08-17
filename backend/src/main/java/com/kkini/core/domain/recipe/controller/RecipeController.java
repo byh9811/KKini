@@ -58,7 +58,7 @@ public class RecipeController {
     @Parameters({
             @Parameter(name = "pageable", description = "페이지네이션 정보")
     })
-    @GetMapping("/{id}")
+    @GetMapping("/mypage/{id}")
     public Response<Page<RecipeListMypageResponseDto>> getRecipeList(
             @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable,
             @AuthenticationPrincipal UserPrincipal userPrincipal,
