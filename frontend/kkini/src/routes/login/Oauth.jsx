@@ -13,17 +13,8 @@ const Oauth = () => {
     }, 2000);
   }, []); // 빈 dependency 배열을 추가하여 마운트될 때만 useEffect가 실행되도록 합니다.
 
-  const NAVER_CLIENT_ID = process.env.REACT_APP_NAVER_API_KEY;
-  const NAVER_CALLBACK_URL = process.env.REACT_APP_NAVER_CALLBACK_URL;
-  const STATE = "false";
-  const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&STATE=${STATE}&redirect_uri=${NAVER_CALLBACK_URL}`;
-
   const NaverLogin = () => {
     window.location.href = process.env.REACT_APP_NAVER_LOGIN_URL;
-  };
-
-  const GoogleLogin = () => {
-    window.location.href = process.env.REACT_APP_GOOGLE_LOGIN_URL;
   };
 
   if (ready) {
@@ -42,11 +33,6 @@ const Oauth = () => {
           <NaverBtnTitle>네이버 로그인</NaverBtnTitle>
         </NaverLoginBtn2>
       </Paper>
-      <Paper elevation={3} style={{ display: "contents" }}>
-        <GoogleLoginBtn onClick={GoogleLogin} className="mx-auto">
-        <img src="img/btn_google.png" className="mx-auto" alt="" />
-        </GoogleLoginBtn>
-      </Paper>
     </div>
   );
 };
@@ -59,17 +45,6 @@ const NaverLoginBtn2 = styled.button`
   width: 323px;
   height: 75px;
   background-color: #03c75a;
-  border-radius: 6px;
-  margin-top: 50px;
-  /* border: 1px solid slategray; */
-`;
-
-const GoogleLoginBtn = styled.button`
-  display: flex;
-  align-items: center;
-  width: 327px;
-  height: 56px;
-  background-color: #ffffff;
   border-radius: 6px;
   margin-top: 50px;
   /* border: 1px solid slategray; */
@@ -95,13 +70,6 @@ const Title = styled.span`
 const NaverBtnTitle = styled.span`
   margin: 0 auto;
   color: white;
-  font-weight: 800;
-  font-size: 20px;
-  line-height: 24px;
-`;
-
-const GoogleBtnTitle = styled.span`
-  margin-left: 90px;
   font-weight: 800;
   font-size: 20px;
   line-height: 24px;

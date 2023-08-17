@@ -26,7 +26,6 @@ function Home({ onLogout }) {
 
   return (
     <div style={{ margin: "0 auto" }}>
-      <br />
       <Routes>
         <Route path="feed" element={<N1Home />} />
         <Route path="search" element={<N2Search />} />

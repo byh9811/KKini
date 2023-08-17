@@ -9,12 +9,12 @@ const AccountComponent = (props) => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/api/member/search/${검색어}?page=0&size=10&sort=string`)
+      .get(`/member/search/${검색어}?page=0&size=10&sort=string`)
       .then((response) => {
         setData(response.data.response.content);
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
+        navigate("/error");
       });
   }, [검색어]);
 
@@ -28,9 +28,11 @@ const AccountComponent = (props) => {
         <div>
           {데이터.map((item) => (
             <div key={item.id}>
-              <div onClick={() => goMypage(item.memberId)} style={{ cursor: "pointer" }}>
-                <img src={item.image} alt={`Image ${item.memberId}`} />
-                <p>{item.nickname}</p>
+              <div className="mb-5" onClick={() => goMypage(item.memberId)} style={{ cursor: "pointer" }}>
+                <img src={item.image} alt={`Image ${item.memberId}`} 
+                  className="rounded-circle inline mr-5"
+                />
+                <span className="my-auto">{item.nickname}</span>
               </div>
             </div>
           ))}

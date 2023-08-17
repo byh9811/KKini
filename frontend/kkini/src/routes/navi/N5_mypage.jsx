@@ -21,13 +21,7 @@ function N5Mypage() {
       {/* 프로필 */}
       <div className="w-full">
         <div className="">
-          <ProfileUserDetails
-            내것={mine}
-            memid={memid}
-            onclick={() => {
-              console.log(memid, "inline");
-            }}
-          ></ProfileUserDetails>
+          <ProfileUserDetails 내것={mine} memid={memid}></ProfileUserDetails>
         </div>
         <div>
           <ReqUserPostPart 내것={mine} memid={memid}></ReqUserPostPart>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../css/recipe.css";
 import FeedModal from "../feed/FeedModal";
+import { useParams } from "react-router";
 
 function P1Post() {
   window.scrollTo(0, 0);
@@ -19,10 +20,12 @@ function P1Post() {
     setSelectedPost(null);
     setShowModal(false);
   };
+  const id = useParams();
+  const selectedId = id.userId || "mypage";
 
   useEffect(() => {
     axios
-      .get("/post/mypage", {
+      .get(`/post/${selectedId}`, {
         params: {
           page: 0,
         },
@@ -48,7 +51,7 @@ function P1Post() {
                 onClick={() => handlePostClick(item)}
               />
               <div className="recipe-overlay">
-                <div>{item.memberName}</div>
+                <div>{item.nickname}</div>
               </div>
             </div>
           ))}

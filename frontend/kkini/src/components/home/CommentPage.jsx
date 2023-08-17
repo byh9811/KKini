@@ -30,10 +30,10 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
         let method;
 
         if (editIndex !== null) {
-          endpoint = `http://localhost:8080/api/comment/update/${editIndex}`;
+          endpoint = `/comment/update/${editIndex}`;
           method = "PUT";
         } else {
-          endpoint = `http://localhost:8080/api/comment/`;
+          endpoint = `/comment/`;
           method = "POST";
           if (replyToIndex !== null) {
             data.parentsId = replyToIndex;
@@ -70,16 +70,6 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
 
   const handleCommentChange = (e) => setComment(e.target.value);
 
-  // const handleEditClick = (commentIndex, replyIndex = null) => {
-  //   setEditIndex(commentIndex);
-  //   setReplyToIndex(replyIndex);
-  //   const targetCommentText =
-  //     replyIndex !== null
-  //       ? comments[replyIndex].replies[commentIndex]
-  //       : comments[commentIndex].text;
-  //   setComment(targetCommentText);
-  // };
-
   const handleDeleteClick = async (commentIndex) => {
     try {
       const response = await axios.delete(`/comment/${commentIndex}`);
@@ -104,7 +94,7 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
               {/* 댓글 */}
               <div className="CommentContent">
                 {/* 아이디 */}
-                <p style={{ fontWeight: "bold" }}>{item.parents.memberName}</p>
+                <p style={{ fontWeight: "bold" }}>{item.parents.nickname}</p>
 
                 {/* 내용 */}
                 <p>{item.parents.contents}</p>

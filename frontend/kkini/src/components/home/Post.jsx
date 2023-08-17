@@ -33,6 +33,7 @@ const Post = forwardRef(
       recipeId,
       postId,
       isScrap,
+      nickname,
     },
     ref
   ) => {
@@ -162,7 +163,7 @@ const Post = forwardRef(
           <div className="post-header-author">
             <Avatar className="m-2" />
             <div className="userInfo">
-              <div>{user}</div>
+              <div>{nickname}</div>
               <span>{day}</span>
             </div>
           </div>
@@ -248,16 +249,6 @@ const Post = forwardRef(
             </div>
           </div>
         </div>
-
-        {/* 포스트 상태 표시 */}
-        {/* <div>
-          <div className="count-text">
-            <b>{likeCntState}</b>좋아요&nbsp;&nbsp;&nbsp;
-            <b>{disLikeCntState}</b>싫어요&nbsp;&nbsp;&nbsp;
-            <b>{commentCnt}</b>댓글&nbsp;&nbsp;&nbsp;
-            <b>{avgPriceState}</b>원
-          </div>
-        </div> */}
 
         <Modal show={show} onHide={handleClose} animation={false}>
           <Modal.Header closeButton>
