@@ -29,6 +29,7 @@ fe-build:   # JOB 이름
     # JOB이 수행 될 branch 설정
     refs:
       - master
+      - cicd-build-branch
     # JOB이 수행될 폴더 경로 설정
     changes:
       - frontend/**/*
@@ -57,6 +58,7 @@ be-build:  # JOB 이름
     # JOB이 수행 될 branch 설정
     refs:
       - master
+      - cicd-build-branch
     # JOB이 수행될 폴더 경로 설정
     changes:
       - backend/**/*
@@ -93,13 +95,14 @@ fe-package:   # JOB 이름
     # JOB이 수행 될 branch 설정
     refs:
       - master
+      - cicd-build-branch
     # JOB이 수행될 폴더 경로 설정
     changes:
       - frontend/**/*
 
 be-package:  # JOB 이름
   # 사용될 이미지 설정
-  image: gradle:8.1.1-jdk11
+  image: docker:latest
   # stage 설정
   stage: package
   # tag 설정 (수행이 이루어질 GitLab-Runner tag 등록)
@@ -123,6 +126,7 @@ be-package:  # JOB 이름
     # JOB이 수행 될 branch 설정
     refs:
       - master
+      - cicd-build-branch
     # JOB이 수행될 폴더 경로 설정
     changes:
       - backend/**/*
@@ -151,6 +155,7 @@ fe-deploy:   # JOB 이름
     # JOB이 수행 될 branch 설정
     refs:
       - master
+      - cicd-build-branch
     # JOB이 수행될 폴더 경로 설정
     changes:
       - frontend/**/*
@@ -178,6 +183,7 @@ be-deploy:   # JOB 이름
     # JOB이 수행 될 branch 설정
     refs:
       - master
+      - cicd-build-branch
     # JOB이 수행될 폴더 경로 설정
     changes:
       - backend/**/*
