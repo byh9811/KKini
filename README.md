@@ -135,9 +135,8 @@
 
 </div>
 
-# Directory Structure
+# Directory Structure 📁
 ```
-
 +---backend
 |   +---.gradle
 |   |   +---8.1.1
@@ -319,5 +318,4 @@
 |               +---pages
 |               \---upload
 \---logs
-
 ```
