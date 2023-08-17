@@ -1,4 +1,7 @@
 # 공통 설정
+page-size:
+  post:
+    algorithm: 20
 
 --- # local 설정
 spring:
