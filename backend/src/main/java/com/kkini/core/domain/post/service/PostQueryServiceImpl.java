@@ -6,6 +6,7 @@ import com.kkini.core.domain.post.repository.PostRepository;
 import com.kkini.core.domain.preference.repository.PreferenceQueryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,44 +20,36 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostQueryServiceImpl implements PostQueryService {
 
-    private final int FEED = 1;
-    private final int MYPAGE = 2;
-    private final int SEARCH = 3;
-    private final int ALGORITHM = 4;
-    private final int[] feedCntArr = {7, 5, 4, 3, 1};
-
-    private final int PAGE_SIZE = 20;
-
     private final PostQueryRepository postQueryRepository;
     private final PreferenceQueryRepository preferenceQueryRepository;
     private final PostRepository postRepository;
 
-    // 피드 조회
+    @Value("${page-size.post.algorithm}")
+    private int PAGE_SIZE;
+    private final int[] feedCntArr = {7, 5, 4, 3, 1};
+
+    // 타임라인 조회
     @Override
     public Page<PostListResponseDto> getPostList(Pageable pageable, Long memberId) {
-        Page<PostListResponseDto> postList = postQueryRepository.findPostList(pageable, memberId, FEED, null, null);
-
-        return postList;
+        return postQueryRepository.findPostByTimeline(pageable, memberId);
     }
 
+    // 상세 조회
     @Override
     public PostListResponseDto getPostDetail(Long postId, Long memberId) {
         return postQueryRepository.findPostDetail(postId, memberId);
     }
-    // 마이 페이지 조회
+
+    // 내 포스트 조회
     @Override
     public Page<PostListResponseDto> getMyPagePostList(Pageable pageable, Long memberId) {
-        Page<PostListResponseDto> myPagePostList = postQueryRepository.findPostList(pageable, memberId, MYPAGE, null, null);
-
-        return myPagePostList;
+        return postQueryRepository.findPostByMypage(pageable, memberId);
     }
 
-    // 검색 조회
+    // 포스트 검색
     @Override
     public Page<PostListResponseDto> getSearchPostList(Pageable pageable, Long memberId, String search) {
-        Page<PostListResponseDto> myPagePostList = postQueryRepository.findPostList(pageable, memberId, SEARCH, search, null);
-
-        return myPagePostList;
+        return postQueryRepository.findPostBySearch(pageable, memberId, search);
     }
     
     // 알고리즘 조회
@@ -71,8 +64,6 @@ public class PostQueryServiceImpl implements PostQueryService {
             List<PostListResponseDto> content = postQueryRepository.findPostByAlgorithm(pageable, categoryId, memberId);
             postList.addAll(content);
         }
-
-        log.warn("{}", postList.size());
 
         // 페이지 계산을 위한 임시 Page: 수식으로 바꿀 수 있음
         PageImpl<PostListResponseDto> tempPage = new PageImpl<>(postList, PageRequest.of(page, PAGE_SIZE), postRepository.count());
