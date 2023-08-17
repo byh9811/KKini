@@ -94,7 +94,7 @@ function Book() {
     }
 
     return (
-        <div>
+        <div className='book'>
             <Confetti />
             {chunkedData.map((chunk, chunkIndex) => (
                 <div key={chunkIndex} className="grid image-grid">
