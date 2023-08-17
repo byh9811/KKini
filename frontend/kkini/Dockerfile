@@ -3,7 +3,7 @@ FROM  node:16.20.1
 
 # 환경변수 설정
 ENV REACT_APP_BASE_URL https://i9c210.p.ssafy.io/api
-ENV REACT_APP_LOGIN_URL https://i9c210.p.ssafy.io/api/oauth2/authorize/naver
+ENV REACT_APP_NAVER_LOGIN_URL https://i9c210.p.ssafy.io/api/oauth2/authorize/naver
 
 # Docker Container에서 작업이 이루어지는 위치
 WORKDIR /usr/src/app
