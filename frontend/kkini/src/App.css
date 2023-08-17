@@ -2,7 +2,8 @@
   text-align: center;
   align-items: flex-start;
   background-color: #ffffff;
-  border-width: 2px;
+  border-width: 1px;
+  border-color: black;
   display: block;
   flex-direction: column;
   width: 100%; /* 기본 너비를 100%로 설정 */
