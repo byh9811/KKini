@@ -28,9 +28,11 @@ axiosInstance.interceptors.request.use(
 // 응답 인터셉터 추가
 axiosInstance.interceptors.response.use(
   (response) => {
+    console.log(response);
     return response;
   },
   (error) => {
+    console.log(error);
     if (error.response && error.response.status === 401) {
       alert("재로그인을 해 주세요");
       useNavigate("/login");

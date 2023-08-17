@@ -36,7 +36,6 @@ function App() {
         <Route path="/redirect" element={<Redirect setIsLogIn={setIsLogIn} />} />
         <Route path="/login" element={<Oauth />} />
         <Route path="/withdrawal" element={<Withdrawal />} />
-        <Route path="/followlist/:userId?" element={<FollowList />} />
         <Route path="/book" element={<Book />} />
         <Route path="/home/*" element={<Home />}>
           <Route path="feed" element={<N1Home />} />
@@ -45,6 +44,7 @@ function App() {
           <Route path="recipe" element={<N4Recipe />} />
           <Route path="info" element={<N5Mypage />} />
           <Route path="info/:userId" element={<N5Mypage />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
         <Route path="/error" element={<NotFound />}></Route>
         <Route path="/*" element={<NotFound />} />
