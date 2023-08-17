@@ -1,6 +1,7 @@
 package com.kkini.core.domain.recipe.controller;
 
 import com.kkini.core.domain.oauth2.UserPrincipal;
+import com.kkini.core.domain.post.dto.response.PostListResponseDto;
 import com.kkini.core.domain.recipe.dto.request.RecipeRegisterRequestDto;
 import com.kkini.core.domain.recipe.dto.request.SearchConditionRequestDto;
 import com.kkini.core.domain.recipe.dto.response.RecipeAllListResponseDto;
@@ -57,10 +58,21 @@ public class RecipeController {
     @Parameters({
             @Parameter(name = "pageable", description = "페이지네이션 정보")
     })
-    @GetMapping("/mypage")
-    public Response<Page<RecipeListMypageResponseDto>> getRecipeList(@PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable,
-                                                                     @AuthenticationPrincipal UserPrincipal userPrincipal) {
-        return OK(recipeQueryService.getMyRecipeList(userPrincipal.getId(), pageable));
+    @GetMapping("/{id}")
+    public Response<Page<RecipeListMypageResponseDto>> getRecipeList(
+            @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable,
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PathVariable("id") String memberId)
+    {
+        Page<RecipeListMypageResponseDto> dtoPage;
+
+        if (memberId.equals("mypage")) {
+            dtoPage = recipeQueryService.getMyRecipeList(userPrincipal.getId(), pageable);
+        } else {
+            dtoPage = recipeQueryService.getMyRecipeList(Long.parseLong(memberId), pageable);
+        }
+
+        return OK(dtoPage);
     }
 
     @Operation(summary = "레시피 리스트 조회", description = "전체 레시피 리스트를 조회하는 API입니다.")
