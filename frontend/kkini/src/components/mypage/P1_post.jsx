@@ -1,10 +1,24 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../css/recipe.css";
+import FeedModal from "../feed/FeedModal";
 
 function P1Post() {
   window.scrollTo(0, 0);
   const [postList, setPostList] = useState([]);
+
+  const [selectedPost, setSelectedPost] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
+  const handlePostClick = (id) => {
+    setSelectedPost(id);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedPost(null);
+    setShowModal(false);
+  };
 
   useEffect(() => {
     axios
@@ -27,7 +41,12 @@ function P1Post() {
         <div className="recipes-grid">
           {postList.map((item) => (
             <div key={item.id} className="recipe-item">
-              <img style={{ width: "100%" }} src={item.imageList[0]} alt={`Image ${item.id}`} />
+              <img
+                style={{ width: "100%" }}
+                src={item.imageList[0]}
+                alt={`Image ${item.id}`}
+                onClick={() => handlePostClick(item)}
+              />
               <div className="recipe-overlay">
                 <div>{item.memberName}</div>
               </div>
@@ -36,6 +55,13 @@ function P1Post() {
         </div>
       ) : (
         <p>등록된 게시글이 없어요</p>
+      )}
+      {selectedPost !== null && (
+        <FeedModal
+          selectedPost={selectedPost}
+          handleClose={handleCloseModal}
+          show={showModal}
+        />
       )}
     </div>
   );

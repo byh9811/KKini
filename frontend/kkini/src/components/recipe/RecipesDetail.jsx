@@ -53,7 +53,7 @@ function RecipesDetail(props) {
             <ListGroupItem>
               <EditNoteIcon style={{ marginRight: "10px" }} />
               {tmp.map((res) => (
-                <p>{res}</p>
+                <p key={res}>{res}</p>
               ))}
             </ListGroupItem>
           </ListGroup>
