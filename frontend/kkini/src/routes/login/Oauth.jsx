@@ -6,12 +6,13 @@ import Loading from "../pages/Intro";
 import "../../css/intro.css";
 
 const Oauth = () => {
+  // window.scrollTo(0, 0);
   const [ready, setReady] = useState(true);
 
   useEffect(() => {
     setTimeout(() => {
       setReady(false);
-    }, 6000);
+    }, 1500);
   }, []); // 빈 dependency 배열을 추가하여 마운트될 때만 useEffect가 실행되도록 합니다.
 
   const NaverLogin = () => {
@@ -77,7 +78,7 @@ const NaverBtnTitle = styled.span`
 `;
 
 const Logo = styled.img`
-  margin-top: 100px;
+  margin-top: 250px;
   margin-bottom: 50px;
   width: 250px;
   height: 250px;
