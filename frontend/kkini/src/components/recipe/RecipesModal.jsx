@@ -11,7 +11,7 @@ function RecipesModal({ recipeId, handleClose, show }) {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
-          Close
+          닫기
         </Button>
       </Modal.Footer>
     </Modal>

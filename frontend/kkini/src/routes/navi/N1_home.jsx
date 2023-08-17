@@ -4,6 +4,7 @@ import { Button } from "react-bootstrap";
 import axios from "axios";
 import Post from "../../components/home/Post.jsx";
 import { useInView } from "react-intersection-observer";
+import Paper from "@mui/material/Paper";
 
 function N1Home() {
   const [posts, setPosts] = useState([]);
@@ -57,25 +58,27 @@ function N1Home() {
       ) : (
         posts.map((post, index) => (
           <React.Fragment key={index}>
-            <Post
-              key={index}
-              index={index}
-              avgPrice={post.avgPrice}
-              commentCnt={post.commentCnt}
-              contents={post.contents}
-              createDateTime={post.createDateTime}
-              disLikeCnt={post.disLikeCnt}
-              postId={post.id}
-              postImage={post.imageList}
-              isScrap={post.isScrap}
-              likeCnt={post.likeCnt}
-              user={post.memberName}
-              myPrice={post.myPrice}
-              reaction={post.reaction}
-              recipeId={post.recipeId}
-              recipeName={post.recipeName}
-              ref={index === posts.length - 1 ? ref : null}
-            />
+            <Paper elevation={3}>
+              <Post
+                key={index}
+                index={index}
+                avgPrice={post.avgPrice}
+                commentCnt={post.commentCnt}
+                contents={post.contents}
+                createDateTime={post.createDateTime}
+                disLikeCnt={post.disLikeCnt}
+                postId={post.id}
+                postImage={post.imageList}
+                isScrap={post.isScrap}
+                likeCnt={post.likeCnt}
+                user={post.memberName}
+                myPrice={post.myPrice}
+                reaction={post.reaction}
+                recipeId={post.recipeId}
+                recipeName={post.recipeName}
+                ref={index === posts.length - 1 ? ref : null}
+              />
+            </Paper>
           </React.Fragment>
         ))
       )}

@@ -7,7 +7,9 @@ function P3Book() {
 
   return (
     <div>
-        <img onClick={() => {navigate('/book')}} src="/img/도감버튼.png" alt="" />
+        <img className='mx-auto' onClick={() => {navigate('/book')}} src="/img/도감버튼.png" alt="" 
+          style={{ width: '300px'}}
+        />
     </div>
   );
 }
