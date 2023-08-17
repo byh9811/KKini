@@ -203,7 +203,7 @@ animation-duration: 5s;
 */
 @keyframes starWars {
 0% {
-  transform: translate3d(0,500px,0) rotateX(-60deg) scale(2);
+  transform: translate3d(0,315px,0) rotateX(-60deg) scale(2);
 }
 99.9% {
   transform: translate3d(0, -1000px, 0) rotateX(60deg) scale(.19);
