@@ -6,8 +6,10 @@ function ImageSwiper({ postImage }) {
   return (
     <Swiper pagination={true} className="mySwiper" style={{ width: "100%", height: "100%" }}>
       {postImage.map((link, index) => (
-        <SwiperSlide key={index} style={{ alignItems: "center" }}>
-          <img src={link} alt={`Image ${index}`} />
+        <SwiperSlide key={index}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%" }}>
+            <img src={link} alt={`포스트 이미지 ${index}`} />
+          </div>
         </SwiperSlide>
       ))}
     </Swiper>
