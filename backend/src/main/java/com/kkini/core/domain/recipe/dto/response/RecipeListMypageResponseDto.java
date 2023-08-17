@@ -14,4 +14,7 @@ public class RecipeListMypageResponseDto {
     @Schema(description = "레시피 대표 이미지")
     private String recipeImage;
 
+    @Schema(description = "작성 회원 닉네임")
+    private String nickname;
+
 }
