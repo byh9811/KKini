@@ -8,7 +8,7 @@ function ImageSwiper({ postImage }) {
       {postImage.map((link, index) => (
         <SwiperSlide key={index}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%" }}>
-            <img src={link} alt={`포스트 이미지 ${index}`} />
+            <img style={{ borderRadius: "2%" }} src={link} alt={`포스트 이미지 ${index}`} />
           </div>
         </SwiperSlide>
       ))}

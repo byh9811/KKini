@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../css/recipe.css";
 import FeedModal from "./../feed/FeedModal";
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ThumbDownOffAltRoundedIcon from "@mui/icons-material/ThumbDownOffAltRounded";
-import Loading from "../../routes/pages/Intro";
+import Loading from "../../routes/pages/Loading";
 
 const RecommendedFeed = () => {
   const [data, setData] = useState([]);
@@ -49,10 +49,14 @@ const RecommendedFeed = () => {
         <div key={item.id} className="recipe-item">
           <img src={item.imageList[0]} alt={`Image ${item.id}`} onClick={() => handlePostClick(item)} />
           <div className="recipe-overlay">
-            <div><FavoriteBorderIcon /> {item.likeCnt}</div>
-                <div><ThumbDownOffAltRoundedIcon /> {item.disLikeCnt}</div>
-                <div>{item.memberName}</div>
-              </div>
+            <div>
+              <FavoriteBorderIcon /> {item.likeCnt}
+            </div>
+            <div>
+              <ThumbDownOffAltRoundedIcon /> {item.disLikeCnt}
+            </div>
+            <div>{item.memberName}</div>
+          </div>
         </div>
       ))}
       {selectedPost !== null && <FeedModal selectedPost={selectedPost} handleClose={handleCloseModal} show={showModal} />}

@@ -22,7 +22,7 @@ public class CommentListResponseDto {
     private Long memberId;
 
     @Schema(description = "작성자 이름")
-    private String memberName;
+    private String nickname;
 
     @Schema(description = "작성자 프로필 이미지")
     private String memberImage;

@@ -3,7 +3,6 @@
   align-items: flex-start;
   background-color: #ffffff;
   border-width: 1px;
-  border-color: black;
   display: block;
   flex-direction: column;
   width: 100%; /* 기본 너비를 100%로 설정 */
@@ -14,7 +13,7 @@
   margin: 0 auto;
   font-family: "omyu_pretty";
   background: #ffffff;
-  padding-bottom: 180px;
+  padding-bottom: 500px;
 }
 
 :root {

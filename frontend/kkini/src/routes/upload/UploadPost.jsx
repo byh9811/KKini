@@ -109,7 +109,7 @@ function UploadPost() {
   }, []);
 
   return (
-    <div className="uploader-wrapper" style={{ padddingBottom: "56px" }}>
+    <div className="uploader-wrapper">
       <div>
         {fileList.length < 5 && (
           <div>

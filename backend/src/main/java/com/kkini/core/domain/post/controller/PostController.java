@@ -73,12 +73,21 @@ public class PostController {
 
     @Operation(summary = "포스트 목록 조회 : 마이페이지", description = "마이페이지 탭의 포스트를 조회한다.")
     @Parameter(name = "pageable", description = "페이지 정보")
-    @GetMapping("/mypage")
+    @GetMapping("/{id}")
     public Response<Page<PostListResponseDto>> getMyPagePostList(
             @PageableDefault(sort="modifyDateTime", direction = Sort.Direction.DESC) Pageable pageable,
-            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal
+            @Parameter(hidden = true) @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PathVariable("id") String memberId
     ) {
-        return OK(postQueryService.getMyPagePostList(pageable, userPrincipal.getId()));
+        Page<PostListResponseDto> dtoPage;
+
+        if (memberId.equals("mypage")) {
+            dtoPage = postQueryService.getMyPagePostList(pageable, userPrincipal.getId());
+        } else {
+            dtoPage = postQueryService.getMyPagePostList(pageable, Long.parseLong(memberId));
+        }
+
+        return OK(dtoPage);
     }
 
     @Operation(summary = "포스트 목록 조회 : 검색", description = "검색 탭의 검색 포스트를 조회한다.")
