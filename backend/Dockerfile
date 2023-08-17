@@ -22,5 +22,9 @@ ENV NAVER_CLIENT_ID $nav_id
 ARG nav_key
 ENV NAVER_CLIENT_SECRET $nav_key
 
+COPY . .
+
+RUN gradle bootJar
+
 #CMD ["java", "-jar", "-Dspring.profiles.active=dev core.jar"]
 ENTRYPOINT ["sh", "-c", "java -jar -Dspring.profiles.active=dev core.jar"]
