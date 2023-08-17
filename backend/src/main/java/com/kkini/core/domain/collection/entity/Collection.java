@@ -23,7 +23,7 @@ public class Collection extends BaseEntityWithCreatedTime {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Member member;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Recipe recipe;

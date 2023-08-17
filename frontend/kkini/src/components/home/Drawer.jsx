@@ -1,22 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import axios from "axios";
-import styled from "styled-components";
 import CommentsPage from "./CommentPage";
-
-const DrawerContainer = styled.div`
-  position: fixed;
-  bottom: ${({ isOpen }) => (isOpen ? "0" : "-30%")};
-  left: 50%;
-  transform: translateX(-50%);
-  width: 50%;
-  height: 30%;
-  overflow-y: auto; // 세로 스크롤을 자동으로 활성화
-  transition: bottom 0.3s;
-  background-color: #f5f5f5;
-  z-index: 1000;
-  opacity: 0.8; //투명도
-  border-radius: 10px;
-`;
+import "../../css/drawer.css";
 
 const Drawer = ({ isOpen, postId, onClose }) => {
   const ref = useRef();
@@ -50,19 +35,26 @@ const Drawer = ({ isOpen, postId, onClose }) => {
 
   useEffect(() => {
     fetchComments();
-    console.log("!!");
-    console.log(comments);
   }, []);
 
   return (
-    <DrawerContainer isOpen={isOpen} ref={ref}>
-      <button onClick={onClose}>닫기</button>
+    <div
+      className="drawer-container"
+      style={{
+        bottom: isOpen ? "0" : "-60%",
+      }}
+      isOpen={isOpen}
+      ref={ref}
+    >
+      <div className="drawer-close" onClick={onClose}>
+        <button>닫기</button>
+      </div>
       <CommentsPage
         postId={postId}
         comments={comments}
         onCommentsChange={fetchComments} // 이 부분이 정확한지 확인
       />
-    </DrawerContainer>
+    </div>
   );
 };
 

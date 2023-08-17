@@ -42,9 +42,9 @@ public class RecipeDetailResponseDto {
     private String image;
 
     @Schema(description = "조리 과정")
-    private List<String> steps;
+    private String steps;
 
-    public RecipeDetailResponseDto(Long recipeId, Long categoryId, String categoryName, Long writerId, String writerImage, String writerName, String name, int time, int difficulty, String ingredient, String image) {
+    public RecipeDetailResponseDto(Long recipeId, Long categoryId, String categoryName, Long writerId, String writerImage, String writerName, String name, int time, int difficulty, String ingredient, String image, String steps) {
         this.recipeId = recipeId;
         this.categoryId = categoryId;
         this.categoryName = categoryName;
@@ -56,5 +56,6 @@ public class RecipeDetailResponseDto {
         this.difficulty = difficulty;
         this.ingredient = ingredient;
         this.image = image;
+        this.steps = steps;
     }
 }

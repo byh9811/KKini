@@ -2,15 +2,19 @@
   text-align: center;
   align-items: flex-start;
   background-color: #ffffff;
-  border: 1px none;
+  border-width: 1px;
+  border-color: black;
   display: block;
   flex-direction: column;
+  width: 100%; /* 기본 너비를 100%로 설정 */
   max-width: 500px;
-  min-height: 1080px;
-  min-width: 320px;
+  min-height: 100vh;
+  min-width: 280px;
   position: relative;
   margin: 0 auto;
   font-family: "omyu_pretty";
+  background: #ffffff;
+  padding-bottom: 180px;
 }
 
 :root {

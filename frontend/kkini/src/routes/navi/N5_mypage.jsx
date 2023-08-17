@@ -1,36 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import { ProfileUserDetails } from '../../components/mypage/ProfileUserDetails';
-import ReqUserPostPart from '../../components/mypage/ReqUserPostPart';
-import { useParams } from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import { ProfileUserDetails } from "../../components/mypage/ProfileUserDetails";
+import ReqUserPostPart from "../../components/mypage/ReqUserPostPart";
+import { useParams } from "react-router-dom";
 
 function N5Mypage() {
   window.scrollTo(0, 0);
   const { userId = "" } = useParams();
-  const [ mine, setMine ] = useState(1);
-  const [ memid, setMemid ] = useState(userId || 'mypage');
+  const [mine, setMine] = useState(1);
+  const [memid, setMemid] = useState(userId || "mypage");
 
-  useEffect(()=> {
-    if ( userId !== "" ) {
+  useEffect(() => {
+    if (userId !== "") {
       setMine(0);
-      setMemid(userId)
-      // console.log('other')
-      console.log(memid, 'n5mypage')
-  }
-    // console.log('mypage')
-  // console.log(mine)
-
+      setMemid(userId);
+    }
   }, [userId, mine]);
-  
 
   return (
     <div>
       {/* 프로필 */}
-      <div className='w-full'>
-        <div className=''>        
-          <ProfileUserDetails 내것 = {mine} memid={ memid } onclick={()=>{console.log(memid, 'inline')}}></ProfileUserDetails>
+      <div className="w-full">
+        <div className="">
+          <ProfileUserDetails 내것={mine} memid={memid}></ProfileUserDetails>
         </div>
         <div>
-          <ReqUserPostPart 내것 = {mine} memid={ memid }></ReqUserPostPart>
+          <ReqUserPostPart 내것={mine} memid={memid}></ReqUserPostPart>
         </div>
       </div>
     </div>

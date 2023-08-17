@@ -76,7 +76,6 @@ function UploadRecipes() {
           },
         })
         .then((response) => {
-          console.log("업로드 성공:", response.data);
           navigate("/home/recipe");
         })
         .catch((error) => {
@@ -90,9 +89,11 @@ function UploadRecipes() {
   return (
     <div className="uploader-wrapper">
       <div>
-        <label>이미지 선택</label>
+        <label style={{ marginRight: "20px" }}>이미지 선택</label>
         <input type="file" accept="image/*" onChange={saveImage} onClick={(e) => (e.target.value = null)} style={{ display: "none" }} />
-        <button onClick={(e) => e.target.previousSibling.click()}>사진 업로드</button>
+        <button className="btnn" onClick={(e) => e.target.previousSibling.click()}>
+          사진 업로드
+        </button>
       </div>
 
       <div className="file-container">
@@ -109,7 +110,7 @@ function UploadRecipes() {
       <div>
         <label>카테고리</label>
         <br />
-        <select value={selectedCategory} onChange={(e) => setSelectedCategory(Number(e.target.value))}>
+        <select value={selectedCategory} onChange={(e) => setSelectedCategory(Number(e.target.value))} className="mx-auto">
           {categoryOptions.map((option) => (
             <option key={option.id} value={option.id}>
               {option.label}
@@ -146,19 +147,37 @@ function UploadRecipes() {
       <div>
         <label>필요 재료</label>
         <br />
-        <textarea name="" id="" cols="30" rows="5" value={materialValue} onChange={(e) => setMaterialValue(e.target.value)}></textarea>
+        <textarea
+          className="mx-auto"
+          name=""
+          id=""
+          cols="30"
+          rows="5"
+          value={materialValue}
+          onChange={(e) => setMaterialValue(e.target.value)}
+        ></textarea>
       </div>
       <br />
 
       <div>
         <label>내용 입력</label>
         <br />
-        <textarea name="" id="" cols="30" rows="5" value={contentValue} onChange={(e) => setContentValue(e.target.value)}></textarea>
+        <textarea
+          className="mx-auto"
+          name=""
+          id=""
+          cols="30"
+          rows="5"
+          value={contentValue}
+          onChange={(e) => setContentValue(e.target.value)}
+        ></textarea>
       </div>
       <br />
 
       <div>
-        <button onClick={handleFileUpload}>파일 업로드</button>
+        <button className="btnn" onClick={handleFileUpload} style={{ marginBottom: "60px" }}>
+          파일 업로드
+        </button>
       </div>
     </div>
   );

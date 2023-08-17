@@ -30,9 +30,7 @@ public class RecipeQueryServiceImpl implements RecipeQueryService {
 
     @Override
     public RecipeDetailResponseDto getRecipeDetail(Long recipeId) {
-        RecipeDetailResponseDto recipeDetailResponseDto = recipeQueryRepository.findRecipeDetailById(recipeId).orElseThrow(() -> new InvalidException(Recipe.class, recipeId));
-        recipeDetailResponseDto.setSteps(stepQueryRepository.findStepListByRecipeId(recipeId));
-        return recipeDetailResponseDto;
+        return recipeQueryRepository.findRecipeDetailById(recipeId).orElseThrow(() -> new InvalidException(Recipe.class, recipeId));
     }
 
     @Override

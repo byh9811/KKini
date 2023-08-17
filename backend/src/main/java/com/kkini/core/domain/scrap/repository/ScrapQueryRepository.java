@@ -34,7 +34,9 @@ public class ScrapQueryRepository {
                 .select(Projections.constructor(ScrapListResponseDto.class,
                         scrap.id,
                         scrap.post.id,
-                        postImage.image
+                        postImage.image,
+                        scrap.post.likeCnt,
+                        scrap.post.disLikeCnt
                 ))
                 .from(scrap)
                 .leftJoin(postImage).on(postImage.post.id.eq(scrap.post.id))
