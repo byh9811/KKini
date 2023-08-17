@@ -2,7 +2,7 @@
   text-align: center;
   align-items: flex-start;
   background-color: #ffffff;
-  border: 1px none;
+  border-width: 2px;
   display: block;
   flex-direction: column;
   width: 100%; /* 기본 너비를 100%로 설정 */
@@ -13,8 +13,7 @@
   margin: 0 auto;
   font-family: "omyu_pretty";
   background: #ffffff;
-  overflow-y: auto;
-  padding-bottom: 56px;
+  padding-bottom: 180px;
 }
 
 :root {

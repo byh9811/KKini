@@ -29,7 +29,7 @@ function App() {
   });
 
   return (
-    <Paper className="App">
+    <div className="App">
       <Routes>
         <Route path="/" element={isLogIn ? <Home /> : <Navigate to="/login" />} />
         <Route path="/redirect" element={<Redirect setIsLogIn={setIsLogIn} />} />
@@ -48,7 +48,7 @@ function App() {
         <Route path="/error" element={<NotFound />}></Route>
         <Route path="/*" element={<NotFound />} />
       </Routes>
-    </Paper>
+    </div>
   );
 }
 
