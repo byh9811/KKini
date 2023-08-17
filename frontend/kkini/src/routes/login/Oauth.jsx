@@ -25,7 +25,7 @@ const Oauth = () => {
   return (
     <div>
       <div>
-        <Logo src="img/logo2.png" alt="로고" className="blazingStar mx-auto" />
+        <Logo src="img/logo2.png" alt="로고" className="pulse mx-auto" />
         <Title style={{ margin: "0 auto", color: "black" }}>끼니에 어서오세요!</Title>
       </div>
       <Paper elevation={3} style={{ display: "contents" }}>
