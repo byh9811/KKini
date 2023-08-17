@@ -135,3 +135,189 @@
 
 </div>
 
+# Directory Structure
+```
+
++---backend
+|   +---.gradle
+|   |   +---8.1.1
+|   |   |   +---checksums
+|   |   |   +---dependencies-accessors
+|   |   |   +---executionHistory
+|   |   |   +---fileChanges
+|   |   |   +---fileHashes
+|   |   |   \---vcsMetadata
+|   |   +---buildOutputCleanup
+|   |   \---vcs-1
+|   +---logs
+|   \---src
+|       +---main
+|       |   +---java
+|       |   |   \---com
+|       |   |       \---kkini
+|       |   |           \---core
+|       |   |               +---domain
+|       |   |               |   +---badge
+|       |   |               |   |   +---controller
+|       |   |               |   |   +---dto
+|       |   |               |   |   |   \---response
+|       |   |               |   |   +---entity
+|       |   |               |   |   +---repository
+|       |   |               |   |   \---service
+|       |   |               |   +---category
+|       |   |               |   |   +---controller
+|       |   |               |   |   +---dto
+|       |   |               |   |   |   \---response
+|       |   |               |   |   +---entity
+|       |   |               |   |   +---repository
+|       |   |               |   |   \---service
+|       |   |               |   +---collection
+|       |   |               |   |   +---controller
+|       |   |               |   |   +---dto
+|       |   |               |   |   |   \---response
+|       |   |               |   |   +---entity
+|       |   |               |   |   +---repository
+|       |   |               |   |   \---service
+|       |   |               |   +---comment
+|       |   |               |   |   +---controller
+|       |   |               |   |   +---dto
+|       |   |               |   |   |   +---request
+|       |   |               |   |   |   \---response
+|       |   |               |   |   +---entity
+|       |   |               |   |   +---repository
+|       |   |               |   |   \---service
+|       |   |               |   +---evaluation
+|       |   |               |   |   +---controller
+|       |   |               |   |   +---dto
+|       |   |               |   |   |   \---request
+|       |   |               |   |   +---entity
+|       |   |               |   |   +---repository
+|       |   |               |   |   \---service
+|       |   |               |   +---follow
+|       |   |               |   |   +---controller
+|       |   |               |   |   +---dto
+|       |   |               |   |   |   +---request
+|       |   |               |   |   |   \---response
+|       |   |               |   |   +---entity
+|       |   |               |   |   +---repository
+|       |   |               |   |   \---service
+|       |   |               |   +---history
+|       |   |               |   |   +---controller
+|       |   |               |   |   +---dto
+|       |   |               |   |   |   \---response
+|       |   |               |   |   +---entity
+|       |   |               |   |   +---repository
+|       |   |               |   |   \---service
+|       |   |               |   +---member
+|       |   |               |   |   +---controller
+|       |   |               |   |   +---dto
+|       |   |               |   |   +---entity
+|       |   |               |   |   +---repository
+|       |   |               |   |   \---service
+|       |   |               |   +---mypage
+|       |   |               |   |   +---controller
+|       |   |               |   |   +---dto
+|       |   |               |   |   |   \---response
+|       |   |               |   |   +---repository
+|       |   |               |   |   \---service
+|       |   |               |   +---notification
+|       |   |               |   |   +---controller
+|       |   |               |   |   +---dto
+|       |   |               |   |   |   \---response
+|       |   |               |   |   \---entity
+|       |   |               |   +---oauth2
+|       |   |               |   |   +---dto
+|       |   |               |   |   +---enums
+|       |   |               |   |   +---handler
+|       |   |               |   |   +---jwt
+|       |   |               |   |   +---lib
+|       |   |               |   |   +---service
+|       |   |               |   |   \---userinfo
+|       |   |               |   +---own
+|       |   |               |   |   +---controller
+|       |   |               |   |   +---entity
+|       |   |               |   |   +---repository
+|       |   |               |   |   \---service
+|       |   |               |   +---post
+|       |   |               |   |   +---controller
+|       |   |               |   |   +---dto
+|       |   |               |   |   |   +---request
+|       |   |               |   |   |   \---response
+|       |   |               |   |   +---entity
+|       |   |               |   |   +---repository
+|       |   |               |   |   \---service
+|       |   |               |   +---postimage
+|       |   |               |   |   +---entity
+|       |   |               |   |   \---repository
+|       |   |               |   +---preference
+|       |   |               |   |   +---entity
+|       |   |               |   |   \---repository
+|       |   |               |   +---reaction
+|       |   |               |   |   +---controller
+|       |   |               |   |   +---dto
+|       |   |               |   |   |   \---request
+|       |   |               |   |   +---entity
+|       |   |               |   |   +---repository
+|       |   |               |   |   \---service
+|       |   |               |   +---recipe
+|       |   |               |   |   +---controller
+|       |   |               |   |   +---dto
+|       |   |               |   |   |   +---request
+|       |   |               |   |   |   \---response
+|       |   |               |   |   +---entity
+|       |   |               |   |   +---repository
+|       |   |               |   |   \---service
+|       |   |               |   +---scrap
+|       |   |               |   |   +---controller
+|       |   |               |   |   +---dto
+|       |   |               |   |   |   +---request
+|       |   |               |   |   |   \---response
+|       |   |               |   |   +---entity
+|       |   |               |   |   +---repository
+|       |   |               |   |   \---service
+|       |   |               |   \---step
+|       |   |               |       +---entity
+|       |   |               |       \---repository
+|       |   |               \---global
+|       |   |                   +---aspect
+|       |   |                   +---config
+|       |   |                   |   \---security
+|       |   |                   +---database
+|       |   |                   +---entity
+|       |   |                   +---exception
+|       |   |                   +---handler
+|       |   |                   +---response
+|       |   |                   \---util
+|       |   \---resources
+|       \---test
+|           \---java
+|               \---com
+|                   \---kkini
+|                       \---core
++---docs
++---exec
++---frontend
+|   \---kkini
+|       +---public
+|       |   +---icons
+|       |   \---img
+|       \---src
+|           +---apis
+|           |   +---api
+|           |   +---services
+|           |   \---utils
+|           +---components
+|           |   +---feed
+|           |   +---home
+|           |   +---mypage
+|           |   +---recipe
+|           |   \---search
+|           +---css
+|           \---routes
+|               +---login
+|               +---navi
+|               +---pages
+|               \---upload
+\---logs
+
+```
