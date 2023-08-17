@@ -36,7 +36,7 @@ function RecipesDetail(props) {
             <LocalDiningIcon />
             {recipeData.name}
           </h3>
-          <img style={{ maxHeight: "300px" }} src={recipeData.image} alt={`Image ${recipeData.recipeId}`} />
+          <img className="mx-auto p-2" style={{ maxHeight: "300px", borderRadius: "10px" }} src={recipeData.image} alt={`Image ${recipeData.recipeId}`} />
           <ListGroup style={{ listStyle: "none" }}>
             <ListGroupItem>
               <CategoryIcon style={{ marginRight: "10px" }}></CategoryIcon>
