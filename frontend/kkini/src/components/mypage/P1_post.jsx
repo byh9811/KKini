@@ -3,6 +3,8 @@ import axios from "axios";
 import "../../css/recipe.css";
 import FeedModal from "../feed/FeedModal";
 import { useParams } from "react-router";
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import ThumbDownOffAltRoundedIcon from "@mui/icons-material/ThumbDownOffAltRounded";
 
 function P1Post() {
   window.scrollTo(0, 0);
@@ -50,9 +52,12 @@ function P1Post() {
                 alt={`Image ${item.id}`}
                 onClick={() => handlePostClick(item)}
               />
-              <div className="recipe-overlay">
-                <div>{item.nickname}</div>
-              </div>
+               <div className="recipe-overlay">
+                
+                <div><FavoriteBorderIcon /> {item.likeCnt}</div>
+                <div><ThumbDownOffAltRoundedIcon /> {item.disLikeCnt}</div>
+                
+            </div>
             </div>
           ))}
         </div>

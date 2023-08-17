@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../../css/recipe.css";
 import FeedModal from "../feed/FeedModal";
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import ThumbDownOffAltRoundedIcon from "@mui/icons-material/ThumbDownOffAltRounded";
 
 const FeedComponent = (props) => {
   const { 검색어 } = props;
@@ -45,7 +47,9 @@ const FeedComponent = (props) => {
             <div key={item.id} className="recipe-item">
               <img src={item.imageList[0]} alt={`Image ${item.id}`} onClick={() => handlePostClick(item)} />
               <div className="recipe-overlay">
-                <div>{item.writerName}</div>
+              <div><FavoriteBorderIcon /> {item.likeCnt}</div>
+                <div><ThumbDownOffAltRoundedIcon /> {item.disLikeCnt}</div>
+                <div>{item.memberName}</div>
               </div>
             </div>
           ))}

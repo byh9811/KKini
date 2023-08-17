@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../css/recipe.css";
 import FeedModal from "../feed/FeedModal";
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import ThumbDownOffAltRoundedIcon from "@mui/icons-material/ThumbDownOffAltRounded";
 
 function P4Scrap() {
   window.scrollTo(0, 0);
@@ -54,7 +56,8 @@ function P4Scrap() {
                 onClick={() => handlePostClick(item)}
               />
               <div className="recipe-overlay">
-                <div>{item.memberName}</div>
+              <div><FavoriteBorderIcon /> {item.likeCnt}</div>
+                <div><ThumbDownOffAltRoundedIcon /> {item.disLikeCnt}</div>
               </div>
             </div>
           ))}
