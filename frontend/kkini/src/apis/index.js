@@ -1,6 +1,7 @@
 import axios from "axios";
 import store from "../store";
 import { useNavigate } from "react-router";
+// const navigate = useNavigate();
 
 // axios 객체 생성
 const axiosInstance = axios.create({
@@ -21,24 +22,23 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   (error) => {
-    return Promise.reject(error);
+    alert("재로그인을 해 주세요");
+    useNavigate("/login");
   }
 );
 
 // 응답 인터셉터 추가
 axiosInstance.interceptors.response.use(
   (response) => {
-    console.log(response);
     return response;
   },
   (error) => {
-    console.log(error);
-    if (error.response && error.response.status === 401) {
-      alert("재로그인을 해 주세요");
-      useNavigate("/login");
-    } else {
-      useNavigate("/error");
-    }
+    // if (error.response && error.response.data.status === 401) {
+    alert("재로그인을 해 주세요");
+    useNavigate("/login");
+    // } else {
+    //   useNavigate("/error");
+    // }
   }
 );
 

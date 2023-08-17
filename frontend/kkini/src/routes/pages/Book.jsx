@@ -45,12 +45,12 @@ function Confetti() {
     for (let i = 0; i < 150; i++) {
       newParticles.push({
         color: colors[Math.floor(Math.random() * colors.length)],
-        x: randomFromTo(0, window.innerWidth),
+        x: randomFromTo(0, 500),
         y: randomFromTo(-200, -50), // Start from above the screen
         angle: randomFromTo(0, 360),
         size: randomFromTo(5, 15),
         duration: randomFromTo(5, 10), // Random duration for falling animation
-        delay: randomFromTo(0, 5), // Random delay for staggered effect
+        delay: randomFromTo(0, 2), // Random delay for staggered effect
       });
     }
     setParticles(newParticles);
@@ -75,7 +75,7 @@ function Book() {
     const randomDelay = Math.floor(Math.random() * 1) - 10;
     const randomDegree = Math.floor(Math.random() * 360);
     const randomScale = Math.random() * 2 + 1.5;
-    const randomBlur = Math.floor(Math.random() * 10);
+    // const randomBlur = Math.floor(Math.random() * 10);
     const randomLeft = Math.floor(Math.random() * 120 - 20);
 
     return {
@@ -83,8 +83,8 @@ function Book() {
       animation: `raise ${randomDuration}s linear infinite`,
       animationDelay: `${randomDelay}s`,
       transform: `scale(${randomScale}) rotate(${randomDegree}deg)`,
-      zIndex: Math.floor(Math.random() * 3) - 7,
-      filter: `blur(${randomBlur}px)`,
+      zIndex: Math.floor(Math.random() * 3),
+      // filter: `blur(${randomBlur}px)`,
     };
   };
 
@@ -113,12 +113,12 @@ function Book() {
         <div key={chunkIndex} className="grid image-grid">
           {chunk.map((item, index) => (
             <div className="grid-block" key={item.id}>
-              <div className="tile">
-                <a className="tile-link" href="#">
-                  <img className="tile-img" src={item.image} alt="Image" />
-                </a>
-                <img className="svg" src="img/누끼종원.png" alt="Description" style={generateRandomAnimation()} />
-              </div>
+              {/* <div className="tile"> */}
+              <a className="tile-link" href="#">
+                <img className="tile-img" src={item.image} alt="Image" />
+              </a>
+              {/* <img className="svg" src="img/누끼종원.png" alt="Description" style={generateRandomAnimation()} /> */}
+              {/* </div> */}
             </div>
           ))}
         </div>
@@ -139,6 +139,19 @@ function Book() {
           </mask>
         </svg>
       </button>
+      <div class="hole">
+        {/* <!-- for (i = 0; i < 36; i++) --> */}
+
+        <div class="wall"></div>
+        {/* <!-- endfor -->
+  <!-- for (i = 0; i < 120; i++) --> */}
+        <div class="line">
+          <div class="line_1"></div>
+          <div class="line_2"></div>
+        </div>
+        {/* <!-- endfor --> */}
+        <div class="gradient"></div>
+      </div>
     </div>
   );
 }

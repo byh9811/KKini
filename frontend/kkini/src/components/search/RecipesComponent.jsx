@@ -25,7 +25,6 @@ const RecipesComponent = (props) => {
           page: page,
         },
       });
-      console.log(response);
       if (response.data.response.content.length > 0) {
         setRecipes((prevState) => [...prevState, ...response.data.response.content]);
         setPage((prevState) => prevState + 1);

@@ -28,7 +28,6 @@ const RecommendedFeed = () => {
           page: page,
         },
       });
-      console.log(response);
       if (response.data.response.content.length > 0) {
         setData((prevState) => [...prevState, ...response.data.response.content]);
         setPage((prevState) => prevState + 1);
