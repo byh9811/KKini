@@ -32,7 +32,6 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
         }
       })
       .catch((error) => {
-        console.error("Error fetching posts:", error);
         navigate("/error");
       });
     axios.get(`/follow/isFollow/${selectedId}`).then((res) => {
@@ -48,18 +47,14 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
       .then((res) => {
         setFollow(res.data.response);
       })
-      .catch((error) => {
-        console.error("Error fetching posts:", error);
-      });
+      .catch((error) => {});
     // 팔로워 수
     axios
       .get(`/follow/countFollower/${selectedId}`)
       .then((res) => {
         setFollower(res.data.response);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   }, [selectedId, isfollowing]);
 
   //  팔로우 신청
