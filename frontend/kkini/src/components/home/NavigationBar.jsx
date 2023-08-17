@@ -45,7 +45,6 @@ function NavigationBar() {
     <BottomNavigation
       sx={{
         borderWidth: "1px",
-        borderColor: "black",
         position: "fixed",
         bottom: 0,
         left: 0,
