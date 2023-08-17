@@ -18,17 +18,21 @@ const RecommendedFeed = () => {
   const [ref, inView] = useInView();
 
   const getAlgorithm = useCallback(async () => {
+    if (!hasMore || recipeLoading) {
+      return;
+    }
     setRecipeLoading(true);
-    setLoading(true);
     try {
       const response = await axios.get("/post/algorithm", {
         params: {
-          page: 0,
+          page: page,
         },
       });
+      console.log(response);
       if (response.data.response.content.length > 0) {
         setData((prevState) => [...prevState, ...response.data.response.content]);
         setPage((prevState) => prevState + 1);
+        setLoading(false);
       } else {
         setHasMore(false);
       }
@@ -36,7 +40,6 @@ const RecommendedFeed = () => {
       console.error("추천 알고리즘 가져오기 오류 : " + error);
     }
     setRecipeLoading(false);
-    setLoading(false);
   }, [page]);
 
   const handlePostClick = (id) => {

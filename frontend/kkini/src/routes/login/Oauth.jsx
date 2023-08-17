@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Paper from "@mui/material/Paper";
 import Loading from "../pages/Intro";
-import '../../css/intro.css'
+import "../../css/intro.css";
 
 const Oauth = () => {
   // window.scrollTo(0, 0);
@@ -73,7 +73,7 @@ const NaverBtnTitle = styled.span`
   margin: 0 auto;
   color: white;
   font-weight: 800;
-  font-size: 20px;
+  font-size: 25px;
   line-height: 24px;
 `;
 
