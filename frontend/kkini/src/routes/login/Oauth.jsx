@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Paper from "@mui/material/Paper";
 import Loading from "../pages/Intro";
+import '../../css/intro.css'
 
 const Oauth = () => {
   const [ready, setReady] = useState(true);
@@ -10,7 +11,7 @@ const Oauth = () => {
   useEffect(() => {
     setTimeout(() => {
       setReady(false);
-    }, 2000);
+    }, 6000);
   }, []); // 빈 dependency 배열을 추가하여 마운트될 때만 useEffect가 실행되도록 합니다.
 
   const NAVER_CLIENT_ID = process.env.REACT_APP_NAVER_API_KEY;
@@ -33,7 +34,7 @@ const Oauth = () => {
   return (
     <div>
       <div>
-        <Logo src="img/logo.png" alt="로고" className="mx-auto" />
+        <Logo src="img/logo2.png" alt="로고" className="blazingStar mx-auto" />
         <Title style={{ margin: "0 auto", color: "black" }}>끼니에 어서오세요!</Title>
       </div>
       <Paper elevation={3} style={{ display: "contents" }}>
