@@ -89,10 +89,10 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
           comments.map((item, index) => (
             <div className="Comment" key={index}>
               {/* 사진 */}
-              <Avatar className="m-2" />
+              <Avatar className="my-auto ml-3" />
 
               {/* 댓글 */}
-              <div className="CommentContent">
+              <div className="CommentContent my-auto ml-3">
                 {/* 아이디 */}
                 <p style={{ fontWeight: "bold" }}>{item.parents.nickname}</p>
 
@@ -100,7 +100,7 @@ function CommentsPage({ comments, onCommentsChange, postId }) {
                 <p>{item.parents.contents}</p>
 
                 {/* 삭제 */}
-                <button style={{ fontSize: "10px" }} onClick={() => handleDeleteClick(item.parents.id)}>
+                <button style={{ fontSize: "10px", marginBottom: '10px' }} onClick={() => handleDeleteClick(item.parents.id)}>
                   삭제
                 </button>
               </div>
