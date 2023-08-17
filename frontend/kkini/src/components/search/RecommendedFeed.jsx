@@ -4,6 +4,7 @@ import "../../css/recipe.css";
 import FeedModal from "./../feed/FeedModal";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ThumbDownOffAltRoundedIcon from "@mui/icons-material/ThumbDownOffAltRounded";
+import Loading from "../../routes/pages/Intro";
 
 const RecommendedFeed = () => {
   const [data, setData] = useState([]);
