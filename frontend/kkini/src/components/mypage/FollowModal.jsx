@@ -26,7 +26,7 @@ function FollowerModal({ open, onClose, whichOne, id, onHandler }) {
         const response = await axios.get(`/follow/${whichOne}List/${selectedUserId}`);
         setList(response.data.response.content);
       } catch (error) {
-        console.log(error);
+        navigate("/error");
       }
     }
 

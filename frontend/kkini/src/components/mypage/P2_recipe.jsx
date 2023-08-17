@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import RecipesModal from "../recipe/RecipesModal";
-import '../../css/recipe.css'
+import "../../css/recipe.css";
+import { useParams } from "react-router";
 
 function P2Recipe() {
   window.scrollTo(0, 0);
+  const id = useParams();
+  const selectedId = id.userId || "mypage";
 
   const [recipesList, setRecipesList] = useState([]);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
@@ -12,7 +15,7 @@ function P2Recipe() {
 
   useEffect(() => {
     axios
-      .get("/recipe/mypage", {
+      .get(`/recipe/mypage/${selectedId}`, {
         params: {
           page: 0,
         },
@@ -38,15 +41,15 @@ function P2Recipe() {
   return (
     <div>
       {recipesList.length > 0 ? (
-        <div className='recipes-grid'>
+        <div className="recipes-grid">
           {recipesList.map((item) => (
-            <div key={item.recipeId} className='recipe-item'>
+            <div key={item.recipeId} className="recipe-item">
               <img src={item.recipeImage} alt={`Image ${item.recipeId}`} onClick={() => handleRecipeClick(item)} />
               <div className="recipe-overlay">
                 <div>{item.recipeName}</div>
                 <br />
                 <div>{item.writerName}</div>
-            </div>
+              </div>
             </div>
           ))}
           {selectedRecipe !== null && <RecipesModal recipeId={selectedRecipe.recipeId} handleClose={handleCloseModal} show={showModal} />}

@@ -20,7 +20,6 @@ const RecipesComponent = (props) => {
         },
       })
       .then((response) => {
-        console.log(response.data.response.content);
         setRecipes(response.data.response.content);
       })
       .catch((error) => {

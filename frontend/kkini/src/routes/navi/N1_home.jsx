@@ -71,6 +71,7 @@ function N1Home() {
               <Post
                 key={index}
                 index={index}
+                nickname={post.nickname}
                 avgPrice={post.avgPrice}
                 commentCnt={post.commentCnt}
                 contents={post.contents}

@@ -80,7 +80,6 @@ function UploadPost() {
           },
         })
         .then((response) => {
-          console.log("업로드 성공:", response.data);
           navigate("/home/feed");
         })
         .catch((error) => {
@@ -110,11 +109,11 @@ function UploadPost() {
   }, []);
 
   return (
-    <div className="uploader-wrapper" style={{ padddingBottom: '56px' }}>
+    <div className="uploader-wrapper" style={{ padddingBottom: "56px" }}>
       <div>
         {fileList.length < 5 && (
           <div>
-            <label style={{ marginRight: '20px'}}>이미지 선택</label>
+            <label style={{ marginRight: "20px" }}>이미지 선택</label>
             <input
               // id="fileInput"
               type="file"
@@ -125,7 +124,9 @@ function UploadPost() {
               ref={(refParam) => (inputRef = refParam)}
               style={{ display: "none" }}
             />
-            <button className="btnn" onClick={() => inputRef.click()}>사진 업로드</button>
+            <button className="btnn" onClick={() => inputRef.click()}>
+              사진 업로드
+            </button>
           </div>
         )}
       </div>
@@ -158,8 +159,8 @@ function UploadPost() {
         <Autocomplete
           className="mt-2"
           styled={{
-            width: '80%',
-            maxWidth: '400px',
+            width: "80%",
+            maxWidth: "400px",
           }}
           disablePortal
           options={data}
@@ -197,7 +198,9 @@ function UploadPost() {
       <br />
 
       <div>
-        <button className="btnn" onClick={handleFileUpload}>파일 업로드</button>
+        <button className="btnn" onClick={handleFileUpload}>
+          파일 업로드
+        </button>
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../css/recipe.css";
-import FeedModal from './../feed/FeedModal';
+import FeedModal from "./../feed/FeedModal";
 
 const RecommendedFeed = () => {
   const [data, setData] = useState([]);
@@ -27,7 +27,6 @@ const RecommendedFeed = () => {
         },
       })
       .then((response) => {
-        console.log(response);
         setData(response.data.response.content);
       })
       .catch((error) => {

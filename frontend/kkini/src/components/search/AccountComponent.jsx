@@ -9,12 +9,12 @@ const AccountComponent = (props) => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/api/member/search/${검색어}?page=0&size=10&sort=string`)
+      .get(`/member/search/${검색어}?page=0&size=10&sort=string`)
       .then((response) => {
         setData(response.data.response.content);
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
+        navigate("/error");
       });
   }, [검색어]);
 

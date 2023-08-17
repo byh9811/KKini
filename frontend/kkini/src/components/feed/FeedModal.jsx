@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import Post from './../home/Post';
+import Post from "./../home/Post";
 
 function FeedModal({ selectedPost, handleClose, show }) {
   return (
@@ -17,7 +17,7 @@ function FeedModal({ selectedPost, handleClose, show }) {
           postImage={selectedPost.imageList}
           isScrap={selectedPost.isScrap}
           likeCnt={selectedPost.likeCnt}
-          user={selectedPost.memberName}
+          nickname={selectedPost.nickname}
           myPrice={selectedPost.myPrice}
           reaction={selectedPost.reaction}
           recipeId={selectedPost.recipeId}
