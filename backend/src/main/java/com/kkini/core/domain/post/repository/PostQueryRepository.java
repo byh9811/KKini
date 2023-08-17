@@ -186,7 +186,7 @@ public class PostQueryRepository {
                         evaluation.price,
                         member.id.eq(memberId).as("isMine"),
                         member.id,
-                        member.name,
+                        member.nickname,
                         member.image,
                         recipe.id,
                         recipe.name,
