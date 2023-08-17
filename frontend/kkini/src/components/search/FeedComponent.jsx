@@ -30,6 +30,9 @@ const FeedComponent = (props) => {
           {데이터.map((item) => (
             <div key={item.id} className="recipe-item">
               <img src={item.imageList[0]} alt={`Image ${item.id}`} />
+              <div className="recipe-overlay">
+                <div>{item.writerName}</div>
+              </div>
             </div>
           ))}
         </div>

@@ -19,6 +19,8 @@
 }
 
 .App {
+  max-width: 500px;
+  max-height: 1447px;
   margin: 0 auto; /* 화면 중앙에 위치하도록 설정 */
   overflow: hidden; /* 제한된 크기를 벗어나는 내용은 숨깁니다 */
 }
@@ -256,4 +258,34 @@ body {
         d: path("M 90 210 C 90 180 110 180 130 170 C 150 160 170 130 200 130 C 240 130 260 150 290 140 C 310 130 340 120 360 140 C 380 160 390 180 390 210 C 390 240 380 260 350 270 C 320 280 290 270 270 260 C 240 250 230 280 210 290 C 180 310 130 300 110 280 C 90 260 90 240 90 210");
         transform: rotate(5deg);
     }
+}
+/* @keyframes fall {
+  to {
+      transform: translateY(calc(100vh + 10px));
+  }
+} */
+
+@keyframes fall {
+  0% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 1;
+  }
+  100% {
+      transform: translateY(100vh) rotate(360deg);
+      opacity: 0;
+  }
+}
+
+.confetti-particle {
+  animation: fall 10s linear infinite;
+}
+
+/* .confetti-star {
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+} */
+
+@keyframes fall {
+  to {
+      transform: translateY(calc(100vh + 50px));
+  }
 }

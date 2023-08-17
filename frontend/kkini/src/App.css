@@ -8,11 +8,13 @@
   width: 100%;  /* 기본 너비를 100%로 설정 */
   max-width: 500px;  
   min-height: 100vh;
-  min-width: 320px;
+  min-width: 280px;
   position: relative;
   margin: 0 auto;
   font-family: "omyu_pretty";
   background: #ffffff;
+  overflow-y: auto;
+  padding-bottom: 56px;
 }
 
 :root {

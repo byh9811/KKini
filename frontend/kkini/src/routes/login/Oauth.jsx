@@ -34,7 +34,7 @@ const Oauth = () => {
     <div>
       <div>
         <Logo src="img/logo.png" alt="로고" className="mx-auto" />
-        <Title style={{ margin: "0 auto" }}>끼니에 어서오세요!</Title>
+        <Title style={{ margin: "0 auto", color: "black" }}>끼니에 어서오세요!</Title>
       </div>
       <Paper elevation={3} style={{ display: "contents" }}>
         <NaverLoginBtn2 onClick={NaverLogin} className="mx-auto">
@@ -44,8 +44,7 @@ const Oauth = () => {
       </Paper>
       <Paper elevation={3} style={{ display: "contents" }}>
         <GoogleLoginBtn onClick={GoogleLogin} className="mx-auto">
-          <NaverIcon alt="navericon" />
-          <GoogleBtnTitle>구글 로그인</GoogleBtnTitle>
+        <img src="img/btn_google.png" className="mx-auto" alt="" />
         </GoogleLoginBtn>
       </Paper>
     </div>
@@ -57,8 +56,8 @@ export default Oauth;
 const NaverLoginBtn2 = styled.button`
   display: flex;
   align-items: center;
-  width: 327px;
-  height: 56px;
+  width: 323px;
+  height: 75px;
   background-color: #03c75a;
   border-radius: 6px;
   margin-top: 50px;
@@ -78,8 +77,8 @@ const GoogleLoginBtn = styled.button`
 
 // 로그인 버튼 사용가이드 링크를 들어가면 이미지를 받아 이렇게 적용이 가능하다 !
 const NaverIcon = styled.div`
-  width: 30px;
-  height: 30px;
+  width: 60px;
+  height: 60px;
   margin-left: 10px;
   background: url("img/btnw.png") no-repeat center;
   background-size: 30px;
@@ -94,7 +93,7 @@ const Title = styled.span`
 `;
 
 const NaverBtnTitle = styled.span`
-  margin-left: 90px;
+  margin: 0 auto;
   color: white;
   font-weight: 800;
   font-size: 20px;

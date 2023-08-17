@@ -5,10 +5,20 @@
     align-items: center;
     /* height: calc(var(--vh, 1vh) * 100); */
     color: black;
+    width: 100%;
+    max-width: 500px;
+    overflow-y: auto;
   }
   
+  .btnn {
+    border: solid 2px black;
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+  }
+
   .uploader-wrapper .file-container {
-    width: 400px;
+    width: 80%;
+    max-width: 400px;
     height: 250px;
     padding: 16px;
     margin: 32px 0;
@@ -46,5 +56,9 @@
     cursor: pointer;
     opacity: 0;
     z-index: 0;
+  }
+  
+  label {
+    margin-bottom: 10px;
   }
   

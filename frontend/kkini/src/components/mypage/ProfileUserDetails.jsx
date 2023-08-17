@@ -114,7 +114,7 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
 
           <div className="space-y-5 text-xs">
             <div className="flex space-x-10 items-center">
-              <h4>{data.nickname}</h4>
+              <h4 className="my-auto pl-2">{data.nickname}</h4>
               {/* 팔로우 */}
               {내것 ? null : (
                 <Button variant="primary" onClick={isfollowing ? handleUnfollow : handleFollow}>
@@ -125,9 +125,9 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
             </div>
             <div className="flex space-x-10">
               <FollowModal whichOne="follow" />
-              <p className="my-auto">{follow}</p>
+              <p className="my-auto" style={{ fontSize: '17px' }}>{follow}</p>
               <FollowModal whichOne="follower"></FollowModal>
-              <p className="my-auto">{follower}</p>
+              <p className="my-auto" style={{ fontSize: '17px' }}>{follower}</p>
             </div>
           </div>
         </div>
@@ -146,7 +146,7 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
           ) : (
             <p>연동이 되어 있지 않습니다</p>
           )}
-          <Info>
+          <Info className="mt-2">
             <h4>이름 : {data.name}</h4>
             <h4>닉네임 : {data.nickname}</h4>
             <h4>이메일 : {data.email}</h4>
@@ -156,7 +156,7 @@ export const ProfileUserDetails = ({ 내것 = 0, memid = "" }) => {
           <Button variant="info" onClick={goLogout}>
             로그아웃
           </Button>
-          <Button style={{ display: "block", textAlign: "right" }} variant="danger" onClick={goOut}>
+          <Button className="mt-2" style={{ display: "block", textAlign: "right" }} variant="danger" onClick={goOut}>
             회원탈퇴
           </Button>
         </CommentsContainer>
