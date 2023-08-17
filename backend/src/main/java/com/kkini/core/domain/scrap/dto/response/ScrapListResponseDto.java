@@ -19,9 +19,9 @@ public class ScrapListResponseDto {
     private String image;
 
     @Schema(description = "포스트 좋아요 수")
-    private String likeCnt;
+    private int likeCnt;
 
     @Schema(description = "포스트 싫어요 수")
-    private String disLikeCnt;
+    private int disLikeCnt;
 
 }
