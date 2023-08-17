@@ -11,7 +11,6 @@ import N5Mypage from "./routes/navi/N5_mypage.jsx";
 import "tailwindcss/tailwind.css";
 import Oauth from "./routes/login/Oauth";
 import Withdrawal from "./routes/login/Withdrawal";
-import FollowList from "./components/mypage/FollowList";
 import NotFound from "./components/home/NotFound";
 
 import Book from "./routes/pages/Book";

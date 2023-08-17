@@ -8,7 +8,6 @@ import N4Recipe from "../navi/N4_recipe.jsx";
 import N5Mypage from "../navi/N5_mypage.jsx";
 import CommentsPage from "../../components/home/CommentPage.jsx";
 import Book from "./Book.jsx";
-import FollowList from "../../components/mypage/FollowList.jsx";
 
 function Home({ onLogout }) {
   //persisted state
