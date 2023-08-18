@@ -21,21 +21,21 @@
     <tr align="center">
         <td style="min-width: 150px;">
             <a href="https://github.com/nickname">
-              <img src="https://avatars.githubusercontent.com/u/97426151?v=4" width="200">
+              <img src="image/kim.png" width="200">
               <br />
               <b>nickname</b>
             </a>
         </td>
         <td style="min-width: 150px;">
             <a href="https://github.com/arctophile19">
-              <img src="https://avatars.githubusercontent.com/u/97426151?v=4" width="200">
+              <img src="image/park.png" width="200">
               <br />
               <b>arctophile19</b>
             </a> 
         </td>
         <td style="min-width: 150px;">
             <a href="https://github.com/seungtae1377">
-              <img src="https://avatars.githubusercontent.com/u/102017456?v=4" width="200">
+              <img src="image/lee.png" width="200">
               <br />
               <b>seungtae1377</b>
             </a> 
@@ -59,7 +59,7 @@
     <tr align="center">
         <td style="min-width: 150px;">
             <a href="https://github.com/imbeom35">
-              <img src="https://avatars.githubusercontent.com/u/97426151?v=4" width="200">
+              <img src="image/imbeom.png" width="200">
               <br />
               <b>imbeom35</b>
             </a> 
