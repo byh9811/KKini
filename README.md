@@ -59,7 +59,7 @@
     <tr align="center">
         <td style="min-width: 150px;">
             <a href="https://github.com/imbeom35">
-              <img src="image/imbeom.png" width="200">
+              <img src="https://avatars.githubusercontent.com/u/97426151?v=4" width="200">
               <br />
               <b>imbeom35</b>
             </a> 
@@ -95,34 +95,34 @@
 # 기능 소개 💡
 <div align="center">
 
-|                                                     로그인                                                      |
-|:------------------------------------------------------------------------------------------------------------:|
-| ![image (2)](https://github.com/byh9811/JobPreparation/assets/50614241/df0d12a7-0086-4b07-b2d5-3944f4387c05) |
+|            로그인            |
+|:-------------------------:|
+| ![login](image/login.png) |
 
-| 레시피 등록 |
-|:------:|
-| ![image (3)](https://github.com/byh9811/JobPreparation/assets/50614241/208d7b05-7109-4d59-af69-a8fcf5a5a73c) |
+|             레시피 등록              |
+|:-------------------------------:|
+| ![register](image/register.png) |
 
-| 금액 평가 |
-|:-----:|
-| ![image (4)](https://github.com/byh9811/JobPreparation/assets/50614241/b681fd36-3a02-4327-99fd-31a9aa8cda01) |
+|                금액 평가                |
+|:-----------------------------------:|
+| ![evaluation](image/evaluation.png) |
 
-| 추천 피드 |
-|:-----:|
-| ![image (5)](https://github.com/byh9811/JobPreparation/assets/50614241/8a2a08d9-99a9-47e8-9cc3-a6ddb9fc79ed) |
+|               추천 피드               |
+|:---------------------------------:|
+| ![recommend](image/recommend.png) |
 
-| 도감 |
-|:--:|
-| ![image (6)](https://github.com/byh9811/JobPreparation/assets/50614241/37baa58c-8dcc-4fe8-89a3-c519decb0be6) |
+|                 도감                  |
+|:-----------------------------------:|
+| ![collection](image/collection.png) |
 
 </div> 
 
 # 시스템 구조 🦴
 <div align="center">
 
-|                                              Service Architecture                                               |
-|:---------------------------------------------------------------------------------------------------------------:|
-| ![KKINI_아키텍쳐](https://github.com/Lets-Travel-Well/.github/assets/50614241/68710d2a-b753-4bd0-9407-50f8618561a2) |  
+|         Service Architecture          |
+|:-------------------------------------:|
+| ![KKINI_아키텍쳐](image/architecture.png) |  
 
 </div> 
 
