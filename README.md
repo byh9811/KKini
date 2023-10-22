@@ -1,6 +1,6 @@
 <div align="center">
 
-# [Kkini🍴](https://i9c210.p.ssafy.io/) 
+# Kkini🍴
 
 <img src="https://github.com/Lets-Travel-Well/.github/assets/50614241/d6ac95d0-0c98-4746-8fe2-ee7ca3f41030" alt="kkini_logo" width="200" height="200">
 
@@ -95,29 +95,17 @@
 # 기능 소개 💡
 <div align="center">
 
-|               로그인               |
-|:-------------------------------:|
-| ![login](image/네이버 로그인.gif) |
+|                           로그인                           |                         레시피 등록                          |
+|:-------------------------------------------------------:|:-------------------------------------------------------:|
+| <img src="image/네이버_로그인.gif" width="400" height="600"/> | <img src="image/레시피_업로드.gif" width="400" height="600"/> |
 
-|                레시피 등록                 |
-|:-------------------------------------:|
-| ![register_recipe](image/레시피 업로드.gif) |
+|                         포스트 등록                          |                        금액 평가                         |
+|:-------------------------------------------------------:|:----------------------------------------------------:|
+| <img src="image/포스트_업로드.gif" width="400" height="600"/> | <img src="image/금액평가.gif" width="400" height="600"/> |
 
-|               포스트 등록                |
-|:-----------------------------------:|
-| ![register_post](image/포스트 업로드.gif) |
-
-|               금액 평가               |
-|:---------------------------------:|
-|   ![evaluation](image/금액평가.gif)   |
-
-|               추천 피드               |
-|:---------------------------------:|
-| ![recommend](image/추천 피드.gif) |
-
-|               도감                |
-|:-------------------------------:|
-| ![collection](image/도감.gif) |
+|                         추천 피드                         |                         도감                          |
+|:-----------------------------------------------------:|:---------------------------------------------------:|
+| <img src="image/추천_피드.gif" width="400" height="600"/> | <img src="image/도감.gif" width="400" height="600"/>  |
 
 </div> 
 
@@ -138,188 +126,3 @@
 | ![KkiNi_ERD](https://github.com/Lets-Travel-Well/.github/assets/50614241/9ea91b9a-24a1-4ed7-ab4d-6b6e730f92fd) |  
 
 </div>
-
-# Directory Structure 📁
-```
-+---backend
-|   +---.gradle
-|   |   +---8.1.1
-|   |   |   +---checksums
-|   |   |   +---dependencies-accessors
-|   |   |   +---executionHistory
-|   |   |   +---fileChanges
-|   |   |   +---fileHashes
-|   |   |   \---vcsMetadata
-|   |   +---buildOutputCleanup
-|   |   \---vcs-1
-|   +---logs
-|   \---src
-|       +---main
-|       |   +---java
-|       |   |   \---com
-|       |   |       \---kkini
-|       |   |           \---core
-|       |   |               +---domain
-|       |   |               |   +---badge
-|       |   |               |   |   +---controller
-|       |   |               |   |   +---dto
-|       |   |               |   |   |   \---response
-|       |   |               |   |   +---entity
-|       |   |               |   |   +---repository
-|       |   |               |   |   \---service
-|       |   |               |   +---category
-|       |   |               |   |   +---controller
-|       |   |               |   |   +---dto
-|       |   |               |   |   |   \---response
-|       |   |               |   |   +---entity
-|       |   |               |   |   +---repository
-|       |   |               |   |   \---service
-|       |   |               |   +---collection
-|       |   |               |   |   +---controller
-|       |   |               |   |   +---dto
-|       |   |               |   |   |   \---response
-|       |   |               |   |   +---entity
-|       |   |               |   |   +---repository
-|       |   |               |   |   \---service
-|       |   |               |   +---comment
-|       |   |               |   |   +---controller
-|       |   |               |   |   +---dto
-|       |   |               |   |   |   +---request
-|       |   |               |   |   |   \---response
-|       |   |               |   |   +---entity
-|       |   |               |   |   +---repository
-|       |   |               |   |   \---service
-|       |   |               |   +---evaluation
-|       |   |               |   |   +---controller
-|       |   |               |   |   +---dto
-|       |   |               |   |   |   \---request
-|       |   |               |   |   +---entity
-|       |   |               |   |   +---repository
-|       |   |               |   |   \---service
-|       |   |               |   +---follow
-|       |   |               |   |   +---controller
-|       |   |               |   |   +---dto
-|       |   |               |   |   |   +---request
-|       |   |               |   |   |   \---response
-|       |   |               |   |   +---entity
-|       |   |               |   |   +---repository
-|       |   |               |   |   \---service
-|       |   |               |   +---history
-|       |   |               |   |   +---controller
-|       |   |               |   |   +---dto
-|       |   |               |   |   |   \---response
-|       |   |               |   |   +---entity
-|       |   |               |   |   +---repository
-|       |   |               |   |   \---service
-|       |   |               |   +---member
-|       |   |               |   |   +---controller
-|       |   |               |   |   +---dto
-|       |   |               |   |   +---entity
-|       |   |               |   |   +---repository
-|       |   |               |   |   \---service
-|       |   |               |   +---mypage
-|       |   |               |   |   +---controller
-|       |   |               |   |   +---dto
-|       |   |               |   |   |   \---response
-|       |   |               |   |   +---repository
-|       |   |               |   |   \---service
-|       |   |               |   +---notification
-|       |   |               |   |   +---controller
-|       |   |               |   |   +---dto
-|       |   |               |   |   |   \---response
-|       |   |               |   |   \---entity
-|       |   |               |   +---oauth2
-|       |   |               |   |   +---dto
-|       |   |               |   |   +---enums
-|       |   |               |   |   +---handler
-|       |   |               |   |   +---jwt
-|       |   |               |   |   +---lib
-|       |   |               |   |   +---service
-|       |   |               |   |   \---userinfo
-|       |   |               |   +---own
-|       |   |               |   |   +---controller
-|       |   |               |   |   +---entity
-|       |   |               |   |   +---repository
-|       |   |               |   |   \---service
-|       |   |               |   +---post
-|       |   |               |   |   +---controller
-|       |   |               |   |   +---dto
-|       |   |               |   |   |   +---request
-|       |   |               |   |   |   \---response
-|       |   |               |   |   +---entity
-|       |   |               |   |   +---repository
-|       |   |               |   |   \---service
-|       |   |               |   +---postimage
-|       |   |               |   |   +---entity
-|       |   |               |   |   \---repository
-|       |   |               |   +---preference
-|       |   |               |   |   +---entity
-|       |   |               |   |   \---repository
-|       |   |               |   +---reaction
-|       |   |               |   |   +---controller
-|       |   |               |   |   +---dto
-|       |   |               |   |   |   \---request
-|       |   |               |   |   +---entity
-|       |   |               |   |   +---repository
-|       |   |               |   |   \---service
-|       |   |               |   +---recipe
-|       |   |               |   |   +---controller
-|       |   |               |   |   +---dto
-|       |   |               |   |   |   +---request
-|       |   |               |   |   |   \---response
-|       |   |               |   |   +---entity
-|       |   |               |   |   +---repository
-|       |   |               |   |   \---service
-|       |   |               |   +---scrap
-|       |   |               |   |   +---controller
-|       |   |               |   |   +---dto
-|       |   |               |   |   |   +---request
-|       |   |               |   |   |   \---response
-|       |   |               |   |   +---entity
-|       |   |               |   |   +---repository
-|       |   |               |   |   \---service
-|       |   |               |   \---step
-|       |   |               |       +---entity
-|       |   |               |       \---repository
-|       |   |               \---global
-|       |   |                   +---aspect
-|       |   |                   +---config
-|       |   |                   |   \---security
-|       |   |                   +---database
-|       |   |                   +---entity
-|       |   |                   +---exception
-|       |   |                   +---handler
-|       |   |                   +---response
-|       |   |                   \---util
-|       |   \---resources
-|       \---test
-|           \---java
-|               \---com
-|                   \---kkini
-|                       \---core
-+---docs
-+---exec
-+---frontend
-|   \---kkini
-|       +---public
-|       |   +---icons
-|       |   \---img
-|       \---src
-|           +---apis
-|           |   +---api
-|           |   +---services
-|           |   \---utils
-|           +---components
-|           |   +---feed
-|           |   +---home
-|           |   +---mypage
-|           |   +---recipe
-|           |   \---search
-|           +---css
-|           \---routes
-|               +---login
-|               +---navi
-|               +---pages
-|               \---upload
-\---logs
-```
